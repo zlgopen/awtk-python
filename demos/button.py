@@ -3,14 +3,17 @@ from awtk import *
 def on_clicked(ctx, e):
     evt = TEvent.cast(e);
     btn = TWidget.cast(evt.target);
-    print('click:' + btn.name + ' in ' + ctx.name);
+    p = TPointerEvent.cast(e);
+
+    print('click at x=' + str(p.x) + " y=" + str(p.y));
+    print('click:' + btn.get_text() + ' in ' + ctx.name);
     TGlobal.quit()
 
     return TRet.OK;
 
 def application_init():
     win = TWindow.create_default()
-    btn = TButton.create(win, 10, 10, 128, 30);
+    btn = TButton.create(win, 0, 0, 0, 0);
 
     win.set_name("main");
     btn.set_name("close");

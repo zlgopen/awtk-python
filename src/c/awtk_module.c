@@ -4915,7 +4915,7 @@ pyobject_t wrap_widget_get_text(pyobject_t self, pyobject_t pyargs) {
   }
 
   ret = (const wchar_t*)widget_get_text(widget);
-  return PyLong_FromVoidPtr((void*)ret);
+  return Py_BuildValue("u", ret);
 }
 
 pyobject_t wrap_widget_set_name(pyobject_t self, pyobject_t pyargs) {
