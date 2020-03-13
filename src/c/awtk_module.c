@@ -171,7 +171,7 @@ pyobject_t wrap_event_t_get_prop_target(pyobject_t self, pyobject_t pyargs) {
     return NULL;
   }
 
-  return Py_BuildValue("i", obj->target);
+  return PyLong_FromVoidPtr((void*)obj->target);
 }
 
 pyobject_t wrap_rect_create(pyobject_t self, pyobject_t pyargs) {
@@ -1040,7 +1040,7 @@ pyobject_t wrap_object_get_prop_pointer(pyobject_t self, pyobject_t pyargs) {
   }
 
   ret = (void*)object_get_prop_pointer(obj, name);
-  return Py_BuildValue("i", ret);
+  return PyLong_FromVoidPtr((void*)ret);
 }
 
 pyobject_t wrap_object_get_prop_object(pyobject_t self, pyobject_t pyargs) {
@@ -1318,7 +1318,7 @@ pyobject_t wrap_object_get_prop_pointer_by_path(pyobject_t self, pyobject_t pyar
   }
 
   ret = (void*)object_get_prop_pointer_by_path(obj, path);
-  return Py_BuildValue("i", ret);
+  return PyLong_FromVoidPtr((void*)ret);
 }
 
 pyobject_t wrap_object_get_prop_object_by_path(pyobject_t self, pyobject_t pyargs) {
@@ -4915,7 +4915,7 @@ pyobject_t wrap_widget_get_text(pyobject_t self, pyobject_t pyargs) {
   }
 
   ret = (const wchar_t*)widget_get_text(widget);
-  return Py_BuildValue("i", ret);
+  return PyLong_FromVoidPtr((void*)ret);
 }
 
 pyobject_t wrap_widget_set_name(pyobject_t self, pyobject_t pyargs) {
@@ -15214,7 +15214,7 @@ pyobject_t wrap_timer_info_t_get_prop_ctx(pyobject_t self, pyobject_t pyargs) {
     return NULL;
   }
 
-  return Py_BuildValue("i", obj->ctx);
+  return PyLong_FromVoidPtr((void*)obj->ctx);
 }
 
 pyobject_t wrap_timer_info_t_get_prop_id(pyobject_t self, pyobject_t pyargs) {
@@ -15564,7 +15564,7 @@ pyobject_t wrap_idle_info_t_get_prop_ctx(pyobject_t self, pyobject_t pyargs) {
     return NULL;
   }
 
-  return Py_BuildValue("i", obj->ctx);
+  return PyLong_FromVoidPtr((void*)obj->ctx);
 }
 
 pyobject_t wrap_idle_info_t_get_prop_id(pyobject_t self, pyobject_t pyargs) {

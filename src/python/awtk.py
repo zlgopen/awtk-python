@@ -1,4 +1,11 @@
-﻿from awtk_native import *
+﻿
+from awtk_native import *
+
+def awtk_get_native_obj(obj):
+    if(isinstance(obj, int)) :
+        return obj;
+    else:
+        return obj.nativeObj;
 
 #
 # 事件基类。
@@ -20,7 +27,7 @@ class TEvent(object):
   #
   @classmethod
   def cast(cls, event): 
-    return  TEvent(event_cast(event.nativeObj));
+    return  TEvent(event_cast(awtk_get_native_obj(event)));
 
 
   #
@@ -46,7 +53,7 @@ class TEvent(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def destroy(self): 
-    return event_destroy(self.nativeObj);
+    return event_destroy(awtk_get_native_obj(self));
 
 
   #
@@ -115,7 +122,7 @@ class TRect(object):
   # @return rect对象。
   #
   def set(self, x, y, w, h): 
-    return  TRect(rect_set(self.nativeObj, x, y, w, h));
+    return  TRect(rect_set(awtk_get_native_obj(self), x, y, w, h));
 
 
   #
@@ -129,7 +136,7 @@ class TRect(object):
   #
   @classmethod
   def cast(cls, rect): 
-    return  TRect(rect_cast(rect.nativeObj));
+    return  TRect(rect_cast(awtk_get_native_obj(rect)));
 
 
   #
@@ -141,7 +148,7 @@ class TRect(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def destroy(self): 
-    return rect_destroy(self.nativeObj);
+    return rect_destroy(awtk_get_native_obj(self));
 
 
   #
@@ -227,7 +234,7 @@ class TEmitter(object):
   # @return 如果当前分发的回调函数返回RET_STOP，dispatch中断分发，并返回RET_STOP，否则返回RET_OK。
   #
   def dispatch(self, e): 
-    return emitter_dispatch(self.nativeObj, e.nativeObj);
+    return emitter_dispatch(awtk_get_native_obj(self), awtk_get_native_obj(e));
 
 
   #
@@ -240,7 +247,7 @@ class TEmitter(object):
   # @return 
   #
   def dispatch_simple_event(self, type): 
-    return emitter_dispatch_simple_event(self.nativeObj, type);
+    return emitter_dispatch_simple_event(awtk_get_native_obj(self), type);
 
 
   #
@@ -253,7 +260,7 @@ class TEmitter(object):
   # @return 返回id，用于emitter_off。
   #
   def on(self, type, on_event, ctx): 
-    return emitter_on(self.nativeObj, type, on_event, ctx);
+    return emitter_on(awtk_get_native_obj(self), type, on_event, ctx);
 
 
   #
@@ -264,7 +271,7 @@ class TEmitter(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def off(self, id): 
-    return emitter_off(self.nativeObj, id);
+    return emitter_off(awtk_get_native_obj(self), id);
 
 
   #
@@ -274,7 +281,7 @@ class TEmitter(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def enable(self): 
-    return emitter_enable(self.nativeObj);
+    return emitter_enable(awtk_get_native_obj(self));
 
 
   #
@@ -286,7 +293,7 @@ class TEmitter(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def disable(self): 
-    return emitter_disable(self.nativeObj);
+    return emitter_disable(awtk_get_native_obj(self));
 
 
   #
@@ -296,7 +303,7 @@ class TEmitter(object):
   # @return 回调函数个数。
   #
   def size(self): 
-    return emitter_size(self.nativeObj);
+    return emitter_size(awtk_get_native_obj(self));
 
 
   #
@@ -306,7 +313,7 @@ class TEmitter(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def destroy(self): 
-    return emitter_destroy(self.nativeObj);
+    return emitter_destroy(awtk_get_native_obj(self));
 
 
   #
@@ -320,7 +327,7 @@ class TEmitter(object):
   #
   @classmethod
   def cast(cls, emitter): 
-    return  TEmitter(emitter_cast(emitter.nativeObj));
+    return  TEmitter(emitter_cast(awtk_get_native_obj(emitter)));
 
 
 #
@@ -365,7 +372,7 @@ class TBitmap(object):
   # @return 返回一个像素占用的字节数。
   #
   def get_bpp(self): 
-    return bitmap_get_bpp(self.nativeObj);
+    return bitmap_get_bpp(awtk_get_native_obj(self));
 
 
   #
@@ -375,7 +382,7 @@ class TBitmap(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def destroy(self): 
-    return bitmap_destroy(self.nativeObj);
+    return bitmap_destroy(awtk_get_native_obj(self));
 
 
   #
@@ -454,7 +461,7 @@ class TValue(object):
   # @return value对象本身。
   #
   def set_bool(self, value): 
-    return  TValue(value_set_bool(self.nativeObj, value));
+    return  TValue(value_set_bool(awtk_get_native_obj(self), value));
 
 
   #
@@ -464,7 +471,7 @@ class TValue(object):
   # @return 值。
   #
   def bool(self): 
-    return value_bool(self.nativeObj);
+    return value_bool(awtk_get_native_obj(self));
 
 
   #
@@ -475,7 +482,7 @@ class TValue(object):
   # @return value对象本身。
   #
   def set_int8(self, value): 
-    return  TValue(value_set_int8(self.nativeObj, value));
+    return  TValue(value_set_int8(awtk_get_native_obj(self), value));
 
 
   #
@@ -485,7 +492,7 @@ class TValue(object):
   # @return 值。
   #
   def int8(self): 
-    return value_int8(self.nativeObj);
+    return value_int8(awtk_get_native_obj(self));
 
 
   #
@@ -496,7 +503,7 @@ class TValue(object):
   # @return value对象本身。
   #
   def set_uint8(self, value): 
-    return  TValue(value_set_uint8(self.nativeObj, value));
+    return  TValue(value_set_uint8(awtk_get_native_obj(self), value));
 
 
   #
@@ -506,7 +513,7 @@ class TValue(object):
   # @return 值。
   #
   def uint8(self): 
-    return value_uint8(self.nativeObj);
+    return value_uint8(awtk_get_native_obj(self));
 
 
   #
@@ -517,7 +524,7 @@ class TValue(object):
   # @return value对象本身。
   #
   def set_int16(self, value): 
-    return  TValue(value_set_int16(self.nativeObj, value));
+    return  TValue(value_set_int16(awtk_get_native_obj(self), value));
 
 
   #
@@ -527,7 +534,7 @@ class TValue(object):
   # @return 值。
   #
   def int16(self): 
-    return value_int16(self.nativeObj);
+    return value_int16(awtk_get_native_obj(self));
 
 
   #
@@ -538,7 +545,7 @@ class TValue(object):
   # @return value对象本身。
   #
   def set_uint16(self, value): 
-    return  TValue(value_set_uint16(self.nativeObj, value));
+    return  TValue(value_set_uint16(awtk_get_native_obj(self), value));
 
 
   #
@@ -548,7 +555,7 @@ class TValue(object):
   # @return 值。
   #
   def uint16(self): 
-    return value_uint16(self.nativeObj);
+    return value_uint16(awtk_get_native_obj(self));
 
 
   #
@@ -559,7 +566,7 @@ class TValue(object):
   # @return value对象本身。
   #
   def set_int32(self, value): 
-    return  TValue(value_set_int32(self.nativeObj, value));
+    return  TValue(value_set_int32(awtk_get_native_obj(self), value));
 
 
   #
@@ -569,7 +576,7 @@ class TValue(object):
   # @return 值。
   #
   def int32(self): 
-    return value_int32(self.nativeObj);
+    return value_int32(awtk_get_native_obj(self));
 
 
   #
@@ -580,7 +587,7 @@ class TValue(object):
   # @return value对象本身。
   #
   def set_uint32(self, value): 
-    return  TValue(value_set_uint32(self.nativeObj, value));
+    return  TValue(value_set_uint32(awtk_get_native_obj(self), value));
 
 
   #
@@ -591,7 +598,7 @@ class TValue(object):
   # @return value对象本身。
   #
   def set_int64(self, value): 
-    return  TValue(value_set_int64(self.nativeObj, value));
+    return  TValue(value_set_int64(awtk_get_native_obj(self), value));
 
 
   #
@@ -601,7 +608,7 @@ class TValue(object):
   # @return 值。
   #
   def int64(self): 
-    return value_int64(self.nativeObj);
+    return value_int64(awtk_get_native_obj(self));
 
 
   #
@@ -612,7 +619,7 @@ class TValue(object):
   # @return value对象本身。
   #
   def set_uint64(self, value): 
-    return  TValue(value_set_uint64(self.nativeObj, value));
+    return  TValue(value_set_uint64(awtk_get_native_obj(self), value));
 
 
   #
@@ -622,7 +629,7 @@ class TValue(object):
   # @return 值。
   #
   def uint64(self): 
-    return value_uint64(self.nativeObj);
+    return value_uint64(awtk_get_native_obj(self));
 
 
   #
@@ -633,7 +640,7 @@ class TValue(object):
   # @return value对象本身。
   #
   def set_float(self, value): 
-    return  TValue(value_set_float(self.nativeObj, value));
+    return  TValue(value_set_float(awtk_get_native_obj(self), value));
 
 
   #
@@ -643,7 +650,7 @@ class TValue(object):
   # @return 值。
   #
   def float32(self): 
-    return value_float32(self.nativeObj);
+    return value_float32(awtk_get_native_obj(self));
 
 
   #
@@ -654,7 +661,7 @@ class TValue(object):
   # @return value对象本身。
   #
   def set_float64(self, value): 
-    return  TValue(value_set_double(self.nativeObj, value));
+    return  TValue(value_set_double(awtk_get_native_obj(self), value));
 
 
   #
@@ -664,7 +671,7 @@ class TValue(object):
   # @return 值。
   #
   def float64(self): 
-    return value_double(self.nativeObj);
+    return value_double(awtk_get_native_obj(self));
 
 
   #
@@ -677,7 +684,7 @@ class TValue(object):
   # @return value对象本身。
   #
   def set_str(self, value): 
-    return  TValue(value_dup_str(self.nativeObj, value));
+    return  TValue(value_dup_str(awtk_get_native_obj(self), value));
 
 
   #
@@ -687,7 +694,7 @@ class TValue(object):
   # @return 值。
   #
   def str(self): 
-    return value_str(self.nativeObj);
+    return value_str(awtk_get_native_obj(self));
 
 
   #
@@ -697,7 +704,7 @@ class TValue(object):
   # @return 为空值返回TRUE，否则返回FALSE。
   #
   def is_null(self): 
-    return value_is_null(self.nativeObj);
+    return value_is_null(awtk_get_native_obj(self));
 
 
   #
@@ -708,7 +715,7 @@ class TValue(object):
   # @return value对象本身。
   #
   def set_int(self, value): 
-    return  TValue(value_set_int(self.nativeObj, value));
+    return  TValue(value_set_int(awtk_get_native_obj(self), value));
 
 
   #
@@ -719,7 +726,7 @@ class TValue(object):
   # @return value对象本身。
   #
   def set_object(self, value): 
-    return  TValue(value_set_object(self.nativeObj, value.nativeObj));
+    return  TValue(value_set_object(awtk_get_native_obj(self), awtk_get_native_obj(value)));
 
 
   #
@@ -729,7 +736,7 @@ class TValue(object):
   # @return 值。
   #
   def object(self): 
-    return  TObject(value_object(self.nativeObj));
+    return  TObject(value_object(awtk_get_native_obj(self)));
 
 
   #
@@ -740,7 +747,7 @@ class TValue(object):
   # @return value对象本身。
   #
   def set_token(self, value): 
-    return  TValue(value_set_token(self.nativeObj, value));
+    return  TValue(value_set_token(awtk_get_native_obj(self), value));
 
 
   #
@@ -750,7 +757,7 @@ class TValue(object):
   # @return 值。
   #
   def token(self): 
-    return value_token(self.nativeObj);
+    return value_token(awtk_get_native_obj(self));
 
 
   #
@@ -771,7 +778,7 @@ class TValue(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def destroy(self): 
-    return value_destroy(self.nativeObj);
+    return value_destroy(awtk_get_native_obj(self));
 
 
   #
@@ -781,7 +788,7 @@ class TValue(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def reset(self): 
-    return value_reset(self.nativeObj);
+    return value_reset(awtk_get_native_obj(self));
 
 
   #
@@ -795,7 +802,7 @@ class TValue(object):
   #
   @classmethod
   def cast(cls, value): 
-    return  TValue(value_cast(value.nativeObj));
+    return  TValue(value_cast(awtk_get_native_obj(value)));
 
 
 #
@@ -814,7 +821,7 @@ class TObject (TEmitter):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def unref(self): 
-    return object_unref(self.nativeObj);
+    return object_unref(awtk_get_native_obj(self));
 
 
   #
@@ -826,7 +833,7 @@ class TObject (TEmitter):
   #
   @classmethod
   def ref(cls, obj): 
-    return  TObject(object_ref(obj.nativeObj));
+    return  TObject(object_ref(awtk_get_native_obj(obj)));
 
 
   #
@@ -836,7 +843,7 @@ class TObject (TEmitter):
   # @return 返回对象的类型名称。
   #
   def get_type(self): 
-    return object_get_type(self.nativeObj);
+    return object_get_type(awtk_get_native_obj(self));
 
 
   #
@@ -846,7 +853,7 @@ class TObject (TEmitter):
   # @return 返回对象的描述信息。
   #
   def get_desc(self): 
-    return object_get_desc(self.nativeObj);
+    return object_get_desc(awtk_get_native_obj(self));
 
 
   #
@@ -856,7 +863,7 @@ class TObject (TEmitter):
   # @return 返回对象占用内存的大小。
   #
   def get_size(self): 
-    return object_get_size(self.nativeObj);
+    return object_get_size(awtk_get_native_obj(self));
 
 
   #
@@ -866,7 +873,7 @@ class TObject (TEmitter):
   # @return 返回TRUE表示是集合，否则不是。
   #
   def is_collection(self): 
-    return object_is_collection(self.nativeObj);
+    return object_is_collection(awtk_get_native_obj(self));
 
 
   #
@@ -877,7 +884,7 @@ class TObject (TEmitter):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_name(self, name): 
-    return object_set_name(self.nativeObj, name);
+    return object_set_name(awtk_get_native_obj(self), name);
 
 
   #
@@ -888,7 +895,7 @@ class TObject (TEmitter):
   # @return 返回比较结果。
   #
   def compare(self, other): 
-    return object_compare(self.nativeObj, other.nativeObj);
+    return object_compare(awtk_get_native_obj(self), awtk_get_native_obj(other));
 
 
   #
@@ -900,7 +907,7 @@ class TObject (TEmitter):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def get_prop(self, name, v): 
-    return object_get_prop(self.nativeObj, name, v.nativeObj);
+    return object_get_prop(awtk_get_native_obj(self), name, awtk_get_native_obj(v));
 
 
   #
@@ -911,7 +918,7 @@ class TObject (TEmitter):
   # @return 返回指定属性的字符串类型的值。
   #
   def get_prop_str(self, name): 
-    return object_get_prop_str(self.nativeObj, name);
+    return object_get_prop_str(awtk_get_native_obj(self), name);
 
 
   #
@@ -922,7 +929,7 @@ class TObject (TEmitter):
   # @return 返回指定属性的指针类型的值。
   #
   def get_prop_pointer(self, name): 
-    return object_get_prop_pointer(self.nativeObj, name);
+    return object_get_prop_pointer(awtk_get_native_obj(self), name);
 
 
   #
@@ -933,7 +940,7 @@ class TObject (TEmitter):
   # @return 返回指定属性的object类型的值。
   #
   def get_prop_object(self, name): 
-    return  TObject(object_get_prop_object(self.nativeObj, name));
+    return  TObject(object_get_prop_object(awtk_get_native_obj(self), name));
 
 
   #
@@ -945,7 +952,7 @@ class TObject (TEmitter):
   # @return 返回指定属性的整数类型的值。
   #
   def get_prop_int(self, name, defval): 
-    return object_get_prop_int(self.nativeObj, name, defval);
+    return object_get_prop_int(awtk_get_native_obj(self), name, defval);
 
 
   #
@@ -957,7 +964,7 @@ class TObject (TEmitter):
   # @return 返回指定属性的bool类型的值。
   #
   def get_prop_bool(self, name, defval): 
-    return object_get_prop_bool(self.nativeObj, name, defval);
+    return object_get_prop_bool(awtk_get_native_obj(self), name, defval);
 
 
   #
@@ -969,7 +976,7 @@ class TObject (TEmitter):
   # @return 返回指定属性的浮点数类型的值。
   #
   def get_prop_float(self, name, defval): 
-    return object_get_prop_float(self.nativeObj, name, defval);
+    return object_get_prop_float(awtk_get_native_obj(self), name, defval);
 
 
   #
@@ -980,7 +987,7 @@ class TObject (TEmitter):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def remove_prop(self, name): 
-    return object_remove_prop(self.nativeObj, name);
+    return object_remove_prop(awtk_get_native_obj(self), name);
 
 
   #
@@ -992,7 +999,7 @@ class TObject (TEmitter):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_prop(self, name, value): 
-    return object_set_prop(self.nativeObj, name, value.nativeObj);
+    return object_set_prop(awtk_get_native_obj(self), name, awtk_get_native_obj(value));
 
 
   #
@@ -1004,7 +1011,7 @@ class TObject (TEmitter):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_prop_str(self, name, value): 
-    return object_set_prop_str(self.nativeObj, name, value);
+    return object_set_prop_str(awtk_get_native_obj(self), name, value);
 
 
   #
@@ -1016,7 +1023,7 @@ class TObject (TEmitter):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_prop_object(self, name, value): 
-    return object_set_prop_object(self.nativeObj, name, value.nativeObj);
+    return object_set_prop_object(awtk_get_native_obj(self), name, awtk_get_native_obj(value));
 
 
   #
@@ -1028,7 +1035,7 @@ class TObject (TEmitter):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_prop_int(self, name, value): 
-    return object_set_prop_int(self.nativeObj, name, value);
+    return object_set_prop_int(awtk_get_native_obj(self), name, value);
 
 
   #
@@ -1040,7 +1047,7 @@ class TObject (TEmitter):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_prop_bool(self, name, value): 
-    return object_set_prop_bool(self.nativeObj, name, value);
+    return object_set_prop_bool(awtk_get_native_obj(self), name, value);
 
 
   #
@@ -1052,7 +1059,7 @@ class TObject (TEmitter):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_prop_float(self, name, value): 
-    return object_set_prop_float(self.nativeObj, name, value);
+    return object_set_prop_float(awtk_get_native_obj(self), name, value);
 
 
   #
@@ -1064,7 +1071,7 @@ class TObject (TEmitter):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def copy_prop(self, src, name): 
-    return object_copy_prop(self.nativeObj, src.nativeObj, name);
+    return object_copy_prop(awtk_get_native_obj(self), awtk_get_native_obj(src), name);
 
 
   #
@@ -1075,7 +1082,7 @@ class TObject (TEmitter):
   # @return 返回TRUE表示存在，否则表示不存在。
   #
   def has_prop(self, name): 
-    return object_has_prop(self.nativeObj, name);
+    return object_has_prop(awtk_get_native_obj(self), name);
 
 
   #
@@ -1087,7 +1094,7 @@ class TObject (TEmitter):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def eval(self, expr, v): 
-    return object_eval(self.nativeObj, expr, v.nativeObj);
+    return object_eval(awtk_get_native_obj(self), expr, awtk_get_native_obj(v));
 
 
   #
@@ -1099,7 +1106,7 @@ class TObject (TEmitter):
   # @return 返回TRUE表示可以执行，否则表示不可以执行。
   #
   def can_exec(self, name, args): 
-    return object_can_exec(self.nativeObj, name, args);
+    return object_can_exec(awtk_get_native_obj(self), name, args);
 
 
   #
@@ -1111,7 +1118,7 @@ class TObject (TEmitter):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def execute(self, name, args): 
-    return object_exec(self.nativeObj, name, args);
+    return object_exec(awtk_get_native_obj(self), name, args);
 
 
   #
@@ -1121,7 +1128,7 @@ class TObject (TEmitter):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def notify_changed(self): 
-    return object_notify_changed(self.nativeObj);
+    return object_notify_changed(awtk_get_native_obj(self));
 
 
   #
@@ -1132,7 +1139,7 @@ class TObject (TEmitter):
   # @return 返回指定属性的字符串类型的值。
   #
   def get_prop_str_by_path(self, path): 
-    return object_get_prop_str_by_path(self.nativeObj, path);
+    return object_get_prop_str_by_path(awtk_get_native_obj(self), path);
 
 
   #
@@ -1143,7 +1150,7 @@ class TObject (TEmitter):
   # @return 返回指定属性的指针类型的值。
   #
   def get_prop_pointer_by_path(self, path): 
-    return object_get_prop_pointer_by_path(self.nativeObj, path);
+    return object_get_prop_pointer_by_path(awtk_get_native_obj(self), path);
 
 
   #
@@ -1154,7 +1161,7 @@ class TObject (TEmitter):
   # @return 返回指定属性的object类型的值。
   #
   def get_prop_object_by_path(self, path): 
-    return  TObject(object_get_prop_object_by_path(self.nativeObj, path));
+    return  TObject(object_get_prop_object_by_path(awtk_get_native_obj(self), path));
 
 
   #
@@ -1166,7 +1173,7 @@ class TObject (TEmitter):
   # @return 返回指定属性的整数类型的值。
   #
   def get_prop_int_by_path(self, path, defval): 
-    return object_get_prop_int_by_path(self.nativeObj, path, defval);
+    return object_get_prop_int_by_path(awtk_get_native_obj(self), path, defval);
 
 
   #
@@ -1178,7 +1185,7 @@ class TObject (TEmitter):
   # @return 返回指定属性的bool类型的值。
   #
   def get_prop_bool_by_path(self, path, defval): 
-    return object_get_prop_bool_by_path(self.nativeObj, path, defval);
+    return object_get_prop_bool_by_path(awtk_get_native_obj(self), path, defval);
 
 
   #
@@ -1190,7 +1197,7 @@ class TObject (TEmitter):
   # @return 返回指定属性的浮点数类型的值。
   #
   def get_prop_float_by_path(self, path, defval): 
-    return object_get_prop_float_by_path(self.nativeObj, path, defval);
+    return object_get_prop_float_by_path(awtk_get_native_obj(self), path, defval);
 
 
   #
@@ -1834,7 +1841,7 @@ class TFontManager(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def unload_font(self, name, size): 
-    return font_manager_unload_font(self.nativeObj, name, size);
+    return font_manager_unload_font(awtk_get_native_obj(self), name, size);
 
 
   #
@@ -1844,7 +1851,7 @@ class TFontManager(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def unload_all(self): 
-    return font_manager_unload_all(self.nativeObj);
+    return font_manager_unload_all(awtk_get_native_obj(self));
 
 
 #
@@ -1939,7 +1946,7 @@ class TImageManager(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def get_bitmap(self, name, image): 
-    return image_manager_get_bitmap(self.nativeObj, name, image.nativeObj);
+    return image_manager_get_bitmap(awtk_get_native_obj(self), name, awtk_get_native_obj(image));
 
 
   #
@@ -1950,7 +1957,7 @@ class TImageManager(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def preload(self, name): 
-    return image_manager_preload(self.nativeObj, name);
+    return image_manager_preload(awtk_get_native_obj(self), name);
 
 
 #
@@ -2186,7 +2193,7 @@ class TInputMethod(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def commit_text(self, text): 
-    return input_method_commit_text(self.nativeObj, text);
+    return input_method_commit_text(awtk_get_native_obj(self), text);
 
 
   #
@@ -2197,7 +2204,7 @@ class TInputMethod(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def dispatch_key(self, key): 
-    return input_method_dispatch_key(self.nativeObj, key);
+    return input_method_dispatch_key(awtk_get_native_obj(self), key);
 
 
   #
@@ -3031,7 +3038,7 @@ class TLocaleInfo(object):
   # @return 返回翻译之后的字符串。
   #
   def tr(self, text): 
-    return locale_info_tr(self.nativeObj, text);
+    return locale_info_tr(awtk_get_native_obj(self), text);
 
 
   #
@@ -3043,7 +3050,7 @@ class TLocaleInfo(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def change(self, language, country): 
-    return locale_info_change(self.nativeObj, language, country);
+    return locale_info_change(awtk_get_native_obj(self), language, country);
 
 
   #
@@ -3054,7 +3061,7 @@ class TLocaleInfo(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def off(self, id): 
-    return locale_info_off(self.nativeObj, id);
+    return locale_info_off(awtk_get_native_obj(self), id);
 
 
 #
@@ -3289,7 +3296,7 @@ class TStyle(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def notify_widget_state_changed(self, widget): 
-    return style_notify_widget_state_changed(self.nativeObj, widget.nativeObj);
+    return style_notify_widget_state_changed(awtk_get_native_obj(self), awtk_get_native_obj(widget));
 
 
   #
@@ -3299,7 +3306,7 @@ class TStyle(object):
   # @return 返回是否有效。
   #
   def is_valid(self): 
-    return style_is_valid(self.nativeObj);
+    return style_is_valid(awtk_get_native_obj(self));
 
 
   #
@@ -3311,7 +3318,7 @@ class TStyle(object):
   # @return 返回整数格式的值。
   #
   def get_int(self, name, defval): 
-    return style_get_int(self.nativeObj, name, defval);
+    return style_get_int(awtk_get_native_obj(self), name, defval);
 
 
   #
@@ -3323,7 +3330,7 @@ class TStyle(object):
   # @return 返回字符串格式的值。
   #
   def get_str(self, name, defval): 
-    return style_get_str(self.nativeObj, name, defval);
+    return style_get_str(awtk_get_native_obj(self), name, defval);
 
 
   #
@@ -3336,7 +3343,7 @@ class TStyle(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set(self, state, name, value): 
-    return style_set(self.nativeObj, state, name, value.nativeObj);
+    return style_set(awtk_get_native_obj(self), state, name, awtk_get_native_obj(value));
 
 
   #
@@ -3346,7 +3353,7 @@ class TStyle(object):
   # @return 返回TRUE表示是，否则表示不是。
   #
   def is_mutable(self): 
-    return style_is_mutable(self.nativeObj);
+    return style_is_mutable(awtk_get_native_obj(self));
 
 
 #
@@ -3669,7 +3676,7 @@ class TVgcanvas(object):
   #
   @classmethod
   def cast(cls, vg): 
-    return  TVgcanvas(vgcanvas_cast(vg.nativeObj));
+    return  TVgcanvas(vgcanvas_cast(awtk_get_native_obj(vg)));
 
 
   #
@@ -3679,7 +3686,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def flush(self): 
-    return vgcanvas_flush(self.nativeObj);
+    return vgcanvas_flush(awtk_get_native_obj(self));
 
 
   #
@@ -3689,7 +3696,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def begin_path(self): 
-    return vgcanvas_begin_path(self.nativeObj);
+    return vgcanvas_begin_path(awtk_get_native_obj(self));
 
 
   #
@@ -3701,7 +3708,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def move_to(self, x, y): 
-    return vgcanvas_move_to(self.nativeObj, x, y);
+    return vgcanvas_move_to(awtk_get_native_obj(self), x, y);
 
 
   #
@@ -3713,7 +3720,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def line_to(self, x, y): 
-    return vgcanvas_line_to(self.nativeObj, x, y);
+    return vgcanvas_line_to(awtk_get_native_obj(self), x, y);
 
 
   #
@@ -3727,7 +3734,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def quad_to(self, cpx, cpy, x, y): 
-    return vgcanvas_quad_to(self.nativeObj, cpx, cpy, x, y);
+    return vgcanvas_quad_to(awtk_get_native_obj(self), cpx, cpy, x, y);
 
 
   #
@@ -3743,7 +3750,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def bezier_to(self, cp1x, cp1y, cp2x, cp2y, x, y): 
-    return vgcanvas_bezier_to(self.nativeObj, cp1x, cp1y, cp2x, cp2y, x, y);
+    return vgcanvas_bezier_to(awtk_get_native_obj(self), cp1x, cp1y, cp2x, cp2y, x, y);
 
 
   #
@@ -3758,7 +3765,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def arc_to(self, x1, y1, x2, y2, r): 
-    return vgcanvas_arc_to(self.nativeObj, x1, y1, x2, y2, r);
+    return vgcanvas_arc_to(awtk_get_native_obj(self), x1, y1, x2, y2, r);
 
 
   #
@@ -3774,7 +3781,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def arc(self, x, y, r, start_angle, end_angle, ccw): 
-    return vgcanvas_arc(self.nativeObj, x, y, r, start_angle, end_angle, ccw);
+    return vgcanvas_arc(awtk_get_native_obj(self), x, y, r, start_angle, end_angle, ccw);
 
 
   #
@@ -3786,7 +3793,7 @@ class TVgcanvas(object):
   # @return 返回TRUE表示在，否则表示不在。
   #
   def is_point_in_path(self, x, y): 
-    return vgcanvas_is_point_in_path(self.nativeObj, x, y);
+    return vgcanvas_is_point_in_path(awtk_get_native_obj(self), x, y);
 
 
   #
@@ -3800,7 +3807,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def rect(self, x, y, w, h): 
-    return vgcanvas_rect(self.nativeObj, x, y, w, h);
+    return vgcanvas_rect(awtk_get_native_obj(self), x, y, w, h);
 
 
   #
@@ -3815,7 +3822,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def rounded_rect(self, x, y, w, h, r): 
-    return vgcanvas_rounded_rect(self.nativeObj, x, y, w, h, r);
+    return vgcanvas_rounded_rect(awtk_get_native_obj(self), x, y, w, h, r);
 
 
   #
@@ -3829,7 +3836,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def ellipse(self, x, y, rx, ry): 
-    return vgcanvas_ellipse(self.nativeObj, x, y, rx, ry);
+    return vgcanvas_ellipse(awtk_get_native_obj(self), x, y, rx, ry);
 
 
   #
@@ -3841,7 +3848,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def close_path(self): 
-    return vgcanvas_close_path(self.nativeObj);
+    return vgcanvas_close_path(awtk_get_native_obj(self));
 
 
   #
@@ -3854,7 +3861,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def path_winding(self, dir): 
-    return vgcanvas_path_winding(self.nativeObj, dir);
+    return vgcanvas_path_winding(awtk_get_native_obj(self), dir);
 
 
   #
@@ -3865,7 +3872,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def rotate(self, rad): 
-    return vgcanvas_rotate(self.nativeObj, rad);
+    return vgcanvas_rotate(awtk_get_native_obj(self), rad);
 
 
   #
@@ -3877,7 +3884,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def scale(self, x, y): 
-    return vgcanvas_scale(self.nativeObj, x, y);
+    return vgcanvas_scale(awtk_get_native_obj(self), x, y);
 
 
   #
@@ -3889,7 +3896,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def translate(self, x, y): 
-    return vgcanvas_translate(self.nativeObj, x, y);
+    return vgcanvas_translate(awtk_get_native_obj(self), x, y);
 
 
   #
@@ -3905,7 +3912,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def transform(self, a, b, c, d, e, f): 
-    return vgcanvas_transform(self.nativeObj, a, b, c, d, e, f);
+    return vgcanvas_transform(awtk_get_native_obj(self), a, b, c, d, e, f);
 
 
   #
@@ -3921,7 +3928,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_transform(self, a, b, c, d, e, f): 
-    return vgcanvas_set_transform(self.nativeObj, a, b, c, d, e, f);
+    return vgcanvas_set_transform(awtk_get_native_obj(self), a, b, c, d, e, f);
 
 
   #
@@ -3935,7 +3942,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def clip_rect(self, x, y, w, h): 
-    return vgcanvas_clip_rect(self.nativeObj, x, y, w, h);
+    return vgcanvas_clip_rect(awtk_get_native_obj(self), x, y, w, h);
 
 
   #
@@ -3962,7 +3969,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def intersect_clip_rect(self, x, y, w, h): 
-    return vgcanvas_intersect_clip_rect(self.nativeObj, x, y, w, h);
+    return vgcanvas_intersect_clip_rect(awtk_get_native_obj(self), x, y, w, h);
 
 
   #
@@ -3972,7 +3979,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def fill(self): 
-    return vgcanvas_fill(self.nativeObj);
+    return vgcanvas_fill(awtk_get_native_obj(self));
 
 
   #
@@ -3982,7 +3989,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def stroke(self): 
-    return vgcanvas_stroke(self.nativeObj);
+    return vgcanvas_stroke(awtk_get_native_obj(self));
 
 
   #
@@ -3995,7 +4002,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def paint(self, stroke, img): 
-    return vgcanvas_paint(self.nativeObj, stroke, img.nativeObj);
+    return vgcanvas_paint(awtk_get_native_obj(self), stroke, awtk_get_native_obj(img));
 
 
   #
@@ -4006,7 +4013,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_font(self, font): 
-    return vgcanvas_set_font(self.nativeObj, font);
+    return vgcanvas_set_font(awtk_get_native_obj(self), font);
 
 
   #
@@ -4017,7 +4024,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_font_size(self, font): 
-    return vgcanvas_set_font_size(self.nativeObj, font);
+    return vgcanvas_set_font_size(awtk_get_native_obj(self), font);
 
 
   #
@@ -4028,7 +4035,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_text_align(self, value): 
-    return vgcanvas_set_text_align(self.nativeObj, value);
+    return vgcanvas_set_text_align(awtk_get_native_obj(self), value);
 
 
   #
@@ -4039,7 +4046,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_text_baseline(self, value): 
-    return vgcanvas_set_text_baseline(self.nativeObj, value);
+    return vgcanvas_set_text_baseline(awtk_get_native_obj(self), value);
 
 
   #
@@ -4053,7 +4060,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def fill_text(self, text, x, y, max_width): 
-    return vgcanvas_fill_text(self.nativeObj, text, x, y, max_width);
+    return vgcanvas_fill_text(awtk_get_native_obj(self), text, x, y, max_width);
 
 
   #
@@ -4064,7 +4071,7 @@ class TVgcanvas(object):
   # @return 返回text的宽度。
   #
   def measure_text(self, text): 
-    return vgcanvas_measure_text(self.nativeObj, text);
+    return vgcanvas_measure_text(awtk_get_native_obj(self), text);
 
 
   #
@@ -4083,7 +4090,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def draw_image(self, img, sx, sy, sw, sh, dx, dy, dw, dh): 
-    return vgcanvas_draw_image(self.nativeObj, img.nativeObj, sx, sy, sw, sh, dx, dy, dw, dh);
+    return vgcanvas_draw_image(awtk_get_native_obj(self), awtk_get_native_obj(img), sx, sy, sw, sh, dx, dy, dw, dh);
 
 
   #
@@ -4104,7 +4111,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def draw_icon(self, img, sx, sy, sw, sh, dx, dy, dw, dh): 
-    return vgcanvas_draw_icon(self.nativeObj, img.nativeObj, sx, sy, sw, sh, dx, dy, dw, dh);
+    return vgcanvas_draw_icon(awtk_get_native_obj(self), awtk_get_native_obj(img), sx, sy, sw, sh, dx, dy, dw, dh);
 
 
   #
@@ -4115,7 +4122,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_antialias(self, value): 
-    return vgcanvas_set_antialias(self.nativeObj, value);
+    return vgcanvas_set_antialias(awtk_get_native_obj(self), value);
 
 
   #
@@ -4126,7 +4133,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_global_alpha(self, alpha): 
-    return vgcanvas_set_global_alpha(self.nativeObj, alpha);
+    return vgcanvas_set_global_alpha(awtk_get_native_obj(self), alpha);
 
 
   #
@@ -4137,7 +4144,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_line_width(self, value): 
-    return vgcanvas_set_line_width(self.nativeObj, value);
+    return vgcanvas_set_line_width(awtk_get_native_obj(self), value);
 
 
   #
@@ -4148,7 +4155,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_fill_color(self, color): 
-    return vgcanvas_set_fill_color_str(self.nativeObj, color);
+    return vgcanvas_set_fill_color_str(awtk_get_native_obj(self), color);
 
 
   #
@@ -4159,7 +4166,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_stroke_color(self, color): 
-    return vgcanvas_set_stroke_color_str(self.nativeObj, color);
+    return vgcanvas_set_stroke_color_str(awtk_get_native_obj(self), color);
 
 
   #
@@ -4170,7 +4177,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_line_cap(self, value): 
-    return vgcanvas_set_line_cap(self.nativeObj, value);
+    return vgcanvas_set_line_cap(awtk_get_native_obj(self), value);
 
 
   #
@@ -4181,7 +4188,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_line_join(self, value): 
-    return vgcanvas_set_line_join(self.nativeObj, value);
+    return vgcanvas_set_line_join(awtk_get_native_obj(self), value);
 
 
   #
@@ -4192,7 +4199,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_miter_limit(self, value): 
-    return vgcanvas_set_miter_limit(self.nativeObj, value);
+    return vgcanvas_set_miter_limit(awtk_get_native_obj(self), value);
 
 
   #
@@ -4204,7 +4211,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def save(self): 
-    return vgcanvas_save(self.nativeObj);
+    return vgcanvas_save(awtk_get_native_obj(self));
 
 
   #
@@ -4216,7 +4223,7 @@ class TVgcanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def restore(self): 
-    return vgcanvas_restore(self.nativeObj);
+    return vgcanvas_restore(awtk_get_native_obj(self));
 
 
   #
@@ -5693,7 +5700,7 @@ class TWidget(object):
   # @return 子控件的个数。
   #
   def count_children(self): 
-    return widget_count_children(self.nativeObj);
+    return widget_count_children(awtk_get_native_obj(self));
 
 
   #
@@ -5704,7 +5711,7 @@ class TWidget(object):
   # @return 子控件。
   #
   def get_child(self, index): 
-    return  TWidget(widget_get_child(self.nativeObj, index));
+    return  TWidget(widget_get_child(awtk_get_native_obj(self), index));
 
 
   #
@@ -5714,7 +5721,7 @@ class TWidget(object):
   # @return 原生窗口对象。
   #
   def get_native_window(self): 
-    return  TNativeWindow(widget_get_native_window(self.nativeObj));
+    return  TNativeWindow(widget_get_native_window(awtk_get_native_obj(self)));
 
 
   #
@@ -5724,7 +5731,7 @@ class TWidget(object):
   # @return 在父控件中的索引编号。
   #
   def index_of(self): 
-    return widget_index_of(self.nativeObj);
+    return widget_index_of(awtk_get_native_obj(self));
 
 
   #
@@ -5734,7 +5741,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def close_window(self): 
-    return widget_close_window(self.nativeObj);
+    return widget_close_window(awtk_get_native_obj(self));
 
 
   #
@@ -5746,7 +5753,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def move(self, x, y): 
-    return widget_move(self.nativeObj, x, y);
+    return widget_move(awtk_get_native_obj(self), x, y);
 
 
   #
@@ -5758,7 +5765,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def resize(self, w, h): 
-    return widget_resize(self.nativeObj, w, h);
+    return widget_resize(awtk_get_native_obj(self), w, h);
 
 
   #
@@ -5772,7 +5779,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def move_resize(self, x, y, w, h): 
-    return widget_move_resize(self.nativeObj, x, y, w, h);
+    return widget_move_resize(awtk_get_native_obj(self), x, y, w, h);
 
 
   #
@@ -5784,7 +5791,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_value(self, value): 
-    return widget_set_value(self.nativeObj, value);
+    return widget_set_value(awtk_get_native_obj(self), value);
 
 
   #
@@ -5797,7 +5804,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def animate_value_to(self, value, duration): 
-    return widget_animate_value_to(self.nativeObj, value, duration);
+    return widget_animate_value_to(awtk_get_native_obj(self), value, duration);
 
 
   #
@@ -5809,7 +5816,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def add_value(self, delta): 
-    return widget_add_value(self.nativeObj, delta);
+    return widget_add_value(awtk_get_native_obj(self), delta);
 
 
   #
@@ -5820,7 +5827,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def use_style(self, style): 
-    return widget_use_style(self.nativeObj, style);
+    return widget_use_style(awtk_get_native_obj(self), style);
 
 
   #
@@ -5832,7 +5839,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_text(self, text): 
-    return widget_set_text_utf8(self.nativeObj, text);
+    return widget_set_text_utf8(awtk_get_native_obj(self), text);
 
 
   #
@@ -5843,7 +5850,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_tr_text(self, text): 
-    return widget_set_tr_text(self.nativeObj, text);
+    return widget_set_tr_text(awtk_get_native_obj(self), text);
 
 
   #
@@ -5853,7 +5860,7 @@ class TWidget(object):
   # @return 返回值。
   #
   def get_value(self): 
-    return widget_get_value(self.nativeObj);
+    return widget_get_value(awtk_get_native_obj(self));
 
 
   #
@@ -5864,7 +5871,7 @@ class TWidget(object):
   # @return 返回文本。
   #
   def get_text(self): 
-    return widget_get_text(self.nativeObj);
+    return widget_get_text(awtk_get_native_obj(self));
 
 
   #
@@ -5875,7 +5882,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_name(self, name): 
-    return widget_set_name(self.nativeObj, name);
+    return widget_set_name(awtk_get_native_obj(self), name);
 
 
   #
@@ -5888,7 +5895,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_theme(self, name): 
-    return widget_set_theme(self.nativeObj, name);
+    return widget_set_theme(awtk_get_native_obj(self), name);
 
 
   #
@@ -5899,7 +5906,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_pointer_cursor(self, cursor): 
-    return widget_set_pointer_cursor(self.nativeObj, cursor);
+    return widget_set_pointer_cursor(awtk_get_native_obj(self), cursor);
 
 
   #
@@ -5911,7 +5918,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_animation(self, animation): 
-    return widget_set_animation(self.nativeObj, animation);
+    return widget_set_animation(awtk_get_native_obj(self), animation);
 
 
   #
@@ -5926,7 +5933,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def create_animator(self, animation): 
-    return widget_create_animator(self.nativeObj, animation);
+    return widget_create_animator(awtk_get_native_obj(self), animation);
 
 
   #
@@ -5942,7 +5949,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def start_animator(self, name): 
-    return widget_start_animator(self.nativeObj, name);
+    return widget_start_animator(awtk_get_native_obj(self), name);
 
 
   #
@@ -5959,7 +5966,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_animator_time_scale(self, name, time_scale): 
-    return widget_set_animator_time_scale(self.nativeObj, name, time_scale);
+    return widget_set_animator_time_scale(awtk_get_native_obj(self), name, time_scale);
 
 
   #
@@ -5975,7 +5982,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def pause_animator(self, name): 
-    return widget_pause_animator(self.nativeObj, name);
+    return widget_pause_animator(awtk_get_native_obj(self), name);
 
 
   #
@@ -5991,7 +5998,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def stop_animator(self, name): 
-    return widget_stop_animator(self.nativeObj, name);
+    return widget_stop_animator(awtk_get_native_obj(self), name);
 
 
   #
@@ -6007,7 +6014,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def destroy_animator(self, name): 
-    return widget_destroy_animator(self.nativeObj, name);
+    return widget_destroy_animator(awtk_get_native_obj(self), name);
 
 
   #
@@ -6018,7 +6025,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_enable(self, enable): 
-    return widget_set_enable(self.nativeObj, enable);
+    return widget_set_enable(awtk_get_native_obj(self), enable);
 
 
   #
@@ -6029,7 +6036,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_feedback(self, feedback): 
-    return widget_set_feedback(self.nativeObj, feedback);
+    return widget_set_feedback(awtk_get_native_obj(self), feedback);
 
 
   #
@@ -6041,7 +6048,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_floating(self, floating): 
-    return widget_set_floating(self.nativeObj, floating);
+    return widget_set_floating(awtk_get_native_obj(self), floating);
 
 
   #
@@ -6052,7 +6059,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_focused(self, focused): 
-    return widget_set_focused(self.nativeObj, focused);
+    return widget_set_focused(awtk_get_native_obj(self), focused);
 
 
   #
@@ -6063,7 +6070,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_focusable(self, focusable): 
-    return widget_set_focusable(self.nativeObj, focusable);
+    return widget_set_focusable(awtk_get_native_obj(self), focusable);
 
 
   #
@@ -6074,7 +6081,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_state(self, state): 
-    return widget_set_state(self.nativeObj, state);
+    return widget_set_state(awtk_get_native_obj(self), state);
 
 
   #
@@ -6087,7 +6094,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_opacity(self, opacity): 
-    return widget_set_opacity(self.nativeObj, opacity);
+    return widget_set_opacity(awtk_get_native_obj(self), opacity);
 
 
   #
@@ -6098,7 +6105,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_dirty_rect_tolerance(self, dirty_rect_tolerance): 
-    return widget_set_dirty_rect_tolerance(self.nativeObj, dirty_rect_tolerance);
+    return widget_set_dirty_rect_tolerance(awtk_get_native_obj(self), dirty_rect_tolerance);
 
 
   #
@@ -6108,7 +6115,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def destroy_children(self): 
-    return widget_destroy_children(self.nativeObj);
+    return widget_destroy_children(awtk_get_native_obj(self));
 
 
   #
@@ -6119,7 +6126,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def add_child(self, child): 
-    return widget_add_child(self.nativeObj, child.nativeObj);
+    return widget_add_child(awtk_get_native_obj(self), awtk_get_native_obj(child));
 
 
   #
@@ -6130,7 +6137,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def remove_child(self, child): 
-    return widget_remove_child(self.nativeObj, child.nativeObj);
+    return widget_remove_child(awtk_get_native_obj(self), awtk_get_native_obj(child));
 
 
   #
@@ -6142,7 +6149,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def insert_child(self, index, child): 
-    return widget_insert_child(self.nativeObj, index, child.nativeObj);
+    return widget_insert_child(awtk_get_native_obj(self), index, awtk_get_native_obj(child));
 
 
   #
@@ -6153,7 +6160,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def restack(self, index): 
-    return widget_restack(self.nativeObj, index);
+    return widget_restack(awtk_get_native_obj(self), index);
 
 
   #
@@ -6164,7 +6171,7 @@ class TWidget(object):
   # @return 子控件或NULL。
   #
   def child(self, name): 
-    return  TWidget(widget_child(self.nativeObj, name));
+    return  TWidget(widget_child(awtk_get_native_obj(self), name));
 
 
   #
@@ -6176,7 +6183,7 @@ class TWidget(object):
   # @return 子控件或NULL。
   #
   def lookup(self, name, recursive): 
-    return  TWidget(widget_lookup(self.nativeObj, name, recursive));
+    return  TWidget(widget_lookup(awtk_get_native_obj(self), name, recursive));
 
 
   #
@@ -6188,7 +6195,7 @@ class TWidget(object):
   # @return 子控件或NULL。
   #
   def lookup_by_type(self, type, recursive): 
-    return  TWidget(widget_lookup_by_type(self.nativeObj, type, recursive));
+    return  TWidget(widget_lookup_by_type(awtk_get_native_obj(self), type, recursive));
 
 
   #
@@ -6200,7 +6207,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_visible(self, visible, recursive): 
-    return widget_set_visible(self.nativeObj, visible, recursive);
+    return widget_set_visible(awtk_get_native_obj(self), visible, recursive);
 
 
   #
@@ -6211,7 +6218,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_visible_only(self, visible): 
-    return widget_set_visible_only(self.nativeObj, visible);
+    return widget_set_visible_only(awtk_get_native_obj(self), visible);
 
 
   #
@@ -6222,7 +6229,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_sensitive(self, sensitive): 
-    return widget_set_sensitive(self.nativeObj, sensitive);
+    return widget_set_sensitive(awtk_get_native_obj(self), sensitive);
 
 
   #
@@ -6237,8 +6244,8 @@ class TWidget(object):
   #
   # @return 返回id，用于widget_off。
   #
-  def on(self, type, on_event, ctx = None): 
-    return widget_on(self.nativeObj, type, on_event, ctx);
+  def on(self, type, on_event, ctx): 
+    return widget_on(awtk_get_native_obj(self), type, on_event, ctx);
 
 
   #
@@ -6249,7 +6256,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def off(self, id): 
-    return widget_off(self.nativeObj, id);
+    return widget_off(awtk_get_native_obj(self), id);
 
 
   #
@@ -6260,7 +6267,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def invalidate_force(self, r): 
-    return widget_invalidate_force(self.nativeObj, r.nativeObj);
+    return widget_invalidate_force(awtk_get_native_obj(self), awtk_get_native_obj(r));
 
 
   #
@@ -6272,7 +6279,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_prop_str(self, name, v): 
-    return widget_set_prop_str(self.nativeObj, name, v);
+    return widget_set_prop_str(awtk_get_native_obj(self), name, v);
 
 
   #
@@ -6284,7 +6291,7 @@ class TWidget(object):
   # @return 返回属性的值。
   #
   def get_prop_str(self, name, defval): 
-    return widget_get_prop_str(self.nativeObj, name, defval);
+    return widget_get_prop_str(awtk_get_native_obj(self), name, defval);
 
 
   #
@@ -6296,7 +6303,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_prop_int(self, name, v): 
-    return widget_set_prop_int(self.nativeObj, name, v);
+    return widget_set_prop_int(awtk_get_native_obj(self), name, v);
 
 
   #
@@ -6308,7 +6315,7 @@ class TWidget(object):
   # @return 返回属性的值。
   #
   def get_prop_int(self, name, defval): 
-    return widget_get_prop_int(self.nativeObj, name, defval);
+    return widget_get_prop_int(awtk_get_native_obj(self), name, defval);
 
 
   #
@@ -6320,7 +6327,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_prop_bool(self, name, v): 
-    return widget_set_prop_bool(self.nativeObj, name, v);
+    return widget_set_prop_bool(awtk_get_native_obj(self), name, v);
 
 
   #
@@ -6332,7 +6339,7 @@ class TWidget(object):
   # @return 返回属性的值。
   #
   def get_prop_bool(self, name, defval): 
-    return widget_get_prop_bool(self.nativeObj, name, defval);
+    return widget_get_prop_bool(awtk_get_native_obj(self), name, defval);
 
 
   #
@@ -6342,7 +6349,7 @@ class TWidget(object):
   # @return 返回当前控件所在的窗口是否已经打开。
   #
   def is_window_opened(self): 
-    return widget_is_window_opened(self.nativeObj);
+    return widget_is_window_opened(awtk_get_native_obj(self));
 
 
   #
@@ -6352,7 +6359,7 @@ class TWidget(object):
   # @return 返回当前控件是否是窗口。
   #
   def is_window(self): 
-    return widget_is_window(self.nativeObj);
+    return widget_is_window(awtk_get_native_obj(self));
 
 
   #
@@ -6362,7 +6369,7 @@ class TWidget(object):
   # @return 返回当前控件是否是设计窗口。
   #
   def is_designing_window(self): 
-    return widget_is_designing_window(self.nativeObj);
+    return widget_is_designing_window(awtk_get_native_obj(self));
 
 
   #
@@ -6372,7 +6379,7 @@ class TWidget(object):
   # @return 返回当前控件是否是窗口管理器。
   #
   def is_window_manager(self): 
-    return widget_is_window_manager(self.nativeObj);
+    return widget_is_window_manager(awtk_get_native_obj(self));
 
 
   #
@@ -6384,7 +6391,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def foreach(self, visit, ctx): 
-    return widget_foreach(self.nativeObj, visit, ctx);
+    return widget_foreach(awtk_get_native_obj(self), visit, ctx);
 
 
   #
@@ -6394,7 +6401,7 @@ class TWidget(object):
   # @return 窗口对象。
   #
   def get_window(self): 
-    return  TWidget(widget_get_window(self.nativeObj));
+    return  TWidget(widget_get_window(awtk_get_native_obj(self)));
 
 
   #
@@ -6404,7 +6411,7 @@ class TWidget(object):
   # @return 窗口管理器对象。
   #
   def get_window_manager(self): 
-    return  TWidget(widget_get_window_manager(self.nativeObj));
+    return  TWidget(widget_get_window_manager(awtk_get_native_obj(self)));
 
 
   #
@@ -6414,7 +6421,7 @@ class TWidget(object):
   # @return 返回类型名。
   #
   def get_type(self): 
-    return widget_get_type(self.nativeObj);
+    return widget_get_type(awtk_get_native_obj(self));
 
 
   #
@@ -6425,7 +6432,7 @@ class TWidget(object):
   # @return 返回clone的对象。
   #
   def clone(self, parent): 
-    return  TWidget(widget_clone(self.nativeObj, parent.nativeObj));
+    return  TWidget(widget_clone(awtk_get_native_obj(self), awtk_get_native_obj(parent)));
 
 
   #
@@ -6436,7 +6443,7 @@ class TWidget(object):
   # @return 返回TRUE表示相同，否则表示不同。
   #
   def equal(self, other): 
-    return widget_equal(self.nativeObj, other.nativeObj);
+    return widget_equal(awtk_get_native_obj(self), awtk_get_native_obj(other));
 
 
   #
@@ -6448,7 +6455,7 @@ class TWidget(object):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TWidget(widget_cast(widget.nativeObj));
+    return  TWidget(widget_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -6460,7 +6467,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def destroy(self): 
-    return widget_destroy(self.nativeObj);
+    return widget_destroy(awtk_get_native_obj(self));
 
 
   #
@@ -6470,7 +6477,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def unref(self): 
-    return widget_unref(self.nativeObj);
+    return widget_unref(awtk_get_native_obj(self));
 
 
   #
@@ -6480,7 +6487,7 @@ class TWidget(object):
   # @return 返回FALSE表示不是，否则表示是。
   #
   def is_system_bar(self): 
-    return widget_is_system_bar(self.nativeObj);
+    return widget_is_system_bar(awtk_get_native_obj(self));
 
 
   #
@@ -6490,7 +6497,7 @@ class TWidget(object):
   # @return 返回FALSE表示不是，否则表示是。
   #
   def is_normal_window(self): 
-    return widget_is_normal_window(self.nativeObj);
+    return widget_is_normal_window(awtk_get_native_obj(self));
 
 
   #
@@ -6500,7 +6507,7 @@ class TWidget(object):
   # @return 返回FALSE表示不是，否则表示是。
   #
   def is_dialog(self): 
-    return widget_is_dialog(self.nativeObj);
+    return widget_is_dialog(awtk_get_native_obj(self));
 
 
   #
@@ -6510,7 +6517,7 @@ class TWidget(object):
   # @return 返回FALSE表示不是，否则表示是。
   #
   def is_popup(self): 
-    return widget_is_popup(self.nativeObj);
+    return widget_is_popup(awtk_get_native_obj(self));
 
 
   #
@@ -6520,7 +6527,7 @@ class TWidget(object):
   # @return 返回FALSE表示不是，否则表示是。
   #
   def is_opened_popup(self): 
-    return widget_is_opened_popup(self.nativeObj);
+    return widget_is_opened_popup(awtk_get_native_obj(self));
 
 
   #
@@ -6530,7 +6537,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def layout(self): 
-    return widget_layout(self.nativeObj);
+    return widget_layout(awtk_get_native_obj(self));
 
 
   #
@@ -6541,7 +6548,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_self_layout(self, params): 
-    return widget_set_self_layout(self.nativeObj, params);
+    return widget_set_self_layout(awtk_get_native_obj(self), params);
 
 
   #
@@ -6552,7 +6559,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_children_layout(self, params): 
-    return widget_set_children_layout(self.nativeObj, params);
+    return widget_set_children_layout(awtk_get_native_obj(self), params);
 
 
   #
@@ -6566,7 +6573,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_self_layout_params(self, x, y, w, h): 
-    return widget_set_self_layout_params(self.nativeObj, x, y, w, h);
+    return widget_set_self_layout_params(awtk_get_native_obj(self), x, y, w, h);
 
 
   #
@@ -6578,7 +6585,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_style_int(self, state_and_name, value): 
-    return widget_set_style_int(self.nativeObj, state_and_name, value);
+    return widget_set_style_int(awtk_get_native_obj(self), state_and_name, value);
 
 
   #
@@ -6590,7 +6597,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_style_str(self, state_and_name, value): 
-    return widget_set_style_str(self.nativeObj, state_and_name, value);
+    return widget_set_style_str(awtk_get_native_obj(self), state_and_name, value);
 
 
   #
@@ -6602,7 +6609,7 @@ class TWidget(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_style_color(self, state_and_name, value): 
-    return widget_set_style_color(self.nativeObj, state_and_name, value);
+    return widget_set_style_color(awtk_get_native_obj(self), state_and_name, value);
 
 
   #
@@ -7132,7 +7139,7 @@ class TCanvas(object):
   # @return 返回画布的宽度。
   #
   def get_width(self): 
-    return canvas_get_width(self.nativeObj);
+    return canvas_get_width(awtk_get_native_obj(self));
 
 
   #
@@ -7142,7 +7149,7 @@ class TCanvas(object):
   # @return 返回画布的高度。
   #
   def get_height(self): 
-    return canvas_get_height(self.nativeObj);
+    return canvas_get_height(awtk_get_native_obj(self));
 
 
   #
@@ -7153,7 +7160,7 @@ class TCanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def get_clip_rect(self, r): 
-    return canvas_get_clip_rect(self.nativeObj, r.nativeObj);
+    return canvas_get_clip_rect(awtk_get_native_obj(self), awtk_get_native_obj(r));
 
 
   #
@@ -7164,7 +7171,7 @@ class TCanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_clip_rect(self, r): 
-    return canvas_set_clip_rect(self.nativeObj, r.nativeObj);
+    return canvas_set_clip_rect(awtk_get_native_obj(self), awtk_get_native_obj(r));
 
 
   #
@@ -7176,7 +7183,7 @@ class TCanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_clip_rect_ex(self, r, translate): 
-    return canvas_set_clip_rect_ex(self.nativeObj, r.nativeObj, translate);
+    return canvas_set_clip_rect_ex(awtk_get_native_obj(self), awtk_get_native_obj(r), translate);
 
 
   #
@@ -7189,7 +7196,7 @@ class TCanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_fill_color(self, color): 
-    return canvas_set_fill_color_str(self.nativeObj, color);
+    return canvas_set_fill_color_str(awtk_get_native_obj(self), color);
 
 
   #
@@ -7202,7 +7209,7 @@ class TCanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_text_color(self, color): 
-    return canvas_set_text_color_str(self.nativeObj, color);
+    return canvas_set_text_color_str(awtk_get_native_obj(self), color);
 
 
   #
@@ -7215,7 +7222,7 @@ class TCanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_stroke_color(self, color): 
-    return canvas_set_stroke_color_str(self.nativeObj, color);
+    return canvas_set_stroke_color_str(awtk_get_native_obj(self), color);
 
 
   #
@@ -7226,7 +7233,7 @@ class TCanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_global_alpha(self, alpha): 
-    return canvas_set_global_alpha(self.nativeObj, alpha);
+    return canvas_set_global_alpha(awtk_get_native_obj(self), alpha);
 
 
   #
@@ -7238,7 +7245,7 @@ class TCanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def translate(self, dx, dy): 
-    return canvas_translate(self.nativeObj, dx, dy);
+    return canvas_translate(awtk_get_native_obj(self), dx, dy);
 
 
   #
@@ -7250,7 +7257,7 @@ class TCanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def untranslate(self, dx, dy): 
-    return canvas_untranslate(self.nativeObj, dx, dy);
+    return canvas_untranslate(awtk_get_native_obj(self), dx, dy);
 
 
   #
@@ -7263,7 +7270,7 @@ class TCanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def draw_vline(self, x, y, h): 
-    return canvas_draw_vline(self.nativeObj, x, y, h);
+    return canvas_draw_vline(awtk_get_native_obj(self), x, y, h);
 
 
   #
@@ -7276,7 +7283,7 @@ class TCanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def draw_hline(self, x, y, w): 
-    return canvas_draw_hline(self.nativeObj, x, y, w);
+    return canvas_draw_hline(awtk_get_native_obj(self), x, y, w);
 
 
   #
@@ -7290,7 +7297,7 @@ class TCanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def fill_rect(self, x, y, w, h): 
-    return canvas_fill_rect(self.nativeObj, x, y, w, h);
+    return canvas_fill_rect(awtk_get_native_obj(self), x, y, w, h);
 
 
   #
@@ -7304,7 +7311,7 @@ class TCanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def stroke_rect(self, x, y, w, h): 
-    return canvas_stroke_rect(self.nativeObj, x, y, w, h);
+    return canvas_stroke_rect(awtk_get_native_obj(self), x, y, w, h);
 
 
   #
@@ -7316,7 +7323,7 @@ class TCanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_font(self, name, size): 
-    return canvas_set_font(self.nativeObj, name, size);
+    return canvas_set_font(awtk_get_native_obj(self), name, size);
 
 
   #
@@ -7329,7 +7336,7 @@ class TCanvas(object):
   # @return 返回文本所占的宽度。
   #
   def measure_text(self, str): 
-    return canvas_measure_utf8(self.nativeObj, str);
+    return canvas_measure_utf8(awtk_get_native_obj(self), str);
 
 
   #
@@ -7344,7 +7351,7 @@ class TCanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def draw_text(self, str, x, y): 
-    return canvas_draw_utf8(self.nativeObj, str, x, y);
+    return canvas_draw_utf8(awtk_get_native_obj(self), str, x, y);
 
 
   #
@@ -7358,7 +7365,7 @@ class TCanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def draw_text_in_rect(self, str, r): 
-    return canvas_draw_utf8_in_rect(self.nativeObj, str, r.nativeObj);
+    return canvas_draw_utf8_in_rect(awtk_get_native_obj(self), str, awtk_get_native_obj(r));
 
 
   #
@@ -7371,7 +7378,7 @@ class TCanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def draw_icon(self, img, cx, cy): 
-    return canvas_draw_icon(self.nativeObj, img.nativeObj, cx, cy);
+    return canvas_draw_icon(awtk_get_native_obj(self), awtk_get_native_obj(img), cx, cy);
 
 
   #
@@ -7384,7 +7391,7 @@ class TCanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def draw_image(self, img, src, dst): 
-    return canvas_draw_image(self.nativeObj, img.nativeObj, src.nativeObj, dst.nativeObj);
+    return canvas_draw_image(awtk_get_native_obj(self), awtk_get_native_obj(img), awtk_get_native_obj(src), awtk_get_native_obj(dst));
 
 
   #
@@ -7397,7 +7404,7 @@ class TCanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def draw_image_ex(self, img, draw_type, dst): 
-    return canvas_draw_image_ex(self.nativeObj, img.nativeObj, draw_type, dst.nativeObj);
+    return canvas_draw_image_ex(awtk_get_native_obj(self), awtk_get_native_obj(img), draw_type, awtk_get_native_obj(dst));
 
 
   #
@@ -7407,7 +7414,7 @@ class TCanvas(object):
   # @return 返回vgcanvas对象。
   #
   def get_vgcanvas(self): 
-    return  TVgcanvas(canvas_get_vgcanvas(self.nativeObj));
+    return  TVgcanvas(canvas_get_vgcanvas(awtk_get_native_obj(self)));
 
 
   #
@@ -7419,7 +7426,7 @@ class TCanvas(object):
   #
   @classmethod
   def cast(cls, c): 
-    return  TCanvas(canvas_cast(c.nativeObj));
+    return  TCanvas(canvas_cast(awtk_get_native_obj(c)));
 
 
   #
@@ -7429,7 +7436,7 @@ class TCanvas(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def reset(self): 
-    return canvas_reset(self.nativeObj);
+    return canvas_reset(awtk_get_native_obj(self));
 
 
   #
@@ -7510,7 +7517,7 @@ class TNamedValue(object):
   #
   @classmethod
   def cast(cls, nv): 
-    return  TNamedValue(named_value_cast(nv.nativeObj));
+    return  TNamedValue(named_value_cast(awtk_get_native_obj(nv)));
 
 
   #
@@ -7521,7 +7528,7 @@ class TNamedValue(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_name(self, name): 
-    return named_value_set_name(self.nativeObj, name);
+    return named_value_set_name(awtk_get_native_obj(self), name);
 
 
   #
@@ -7532,7 +7539,7 @@ class TNamedValue(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_value(self, value): 
-    return named_value_set_value(self.nativeObj, value.nativeObj);
+    return named_value_set_value(awtk_get_native_obj(self), awtk_get_native_obj(value));
 
 
   #
@@ -7542,7 +7549,7 @@ class TNamedValue(object):
   # @return 返回值对象。
   #
   def get_value(self): 
-    return  TValue(named_value_get_value(self.nativeObj));
+    return  TValue(named_value_get_value(awtk_get_native_obj(self)));
 
 
   #
@@ -7552,7 +7559,7 @@ class TNamedValue(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def destroy(self): 
-    return named_value_destroy(self.nativeObj);
+    return named_value_destroy(awtk_get_native_obj(self));
 
 
   #
@@ -8460,7 +8467,7 @@ class TDateTime(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set(self): 
-    return date_time_set(self.nativeObj);
+    return date_time_set(awtk_get_native_obj(self));
 
 
   #
@@ -8471,7 +8478,7 @@ class TDateTime(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def from_time(self, time): 
-    return date_time_from_time(self.nativeObj, time);
+    return date_time_from_time(awtk_get_native_obj(self), time);
 
 
   #
@@ -8481,7 +8488,7 @@ class TDateTime(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def destroy(self): 
-    return date_time_destroy(self.nativeObj);
+    return date_time_destroy(awtk_get_native_obj(self));
 
 
   #
@@ -8583,7 +8590,7 @@ class TColor(object):
   # @return color对象。
   #
   def from_str(self, str): 
-    return  TColor(color_from_str(self.nativeObj, str));
+    return  TColor(color_from_str(awtk_get_native_obj(self), str));
 
 
   #
@@ -8595,7 +8602,7 @@ class TColor(object):
   # @return 返回红色通道的值。
   #
   def r(self): 
-    return color_r(self.nativeObj);
+    return color_r(awtk_get_native_obj(self));
 
 
   #
@@ -8607,7 +8614,7 @@ class TColor(object):
   # @return 返回绿色通道的值。
   #
   def g(self): 
-    return color_g(self.nativeObj);
+    return color_g(awtk_get_native_obj(self));
 
 
   #
@@ -8619,7 +8626,7 @@ class TColor(object):
   # @return 返回蓝色通道的值。
   #
   def b(self): 
-    return color_b(self.nativeObj);
+    return color_b(awtk_get_native_obj(self));
 
 
   #
@@ -8631,7 +8638,7 @@ class TColor(object):
   # @return 返回alpha通道的值。
   #
   def a(self): 
-    return color_a(self.nativeObj);
+    return color_a(awtk_get_native_obj(self));
 
 
   #
@@ -8645,7 +8652,7 @@ class TColor(object):
   #
   @classmethod
   def cast(cls, color): 
-    return  TColor(color_cast(color.nativeObj));
+    return  TColor(color_cast(awtk_get_native_obj(color)));
 
 
   #
@@ -8656,7 +8663,7 @@ class TColor(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def destroy(self): 
-    return color_destroy(self.nativeObj);
+    return color_destroy(awtk_get_native_obj(self));
 
 
   #
@@ -8853,7 +8860,7 @@ class TAssetsManager(object):
   # @return 返回资源。
   #
   def ref(self, type, name): 
-    return  TAssetInfo(assets_manager_ref(self.nativeObj, type, name));
+    return  TAssetInfo(assets_manager_ref(awtk_get_native_obj(self), type, name));
 
 
   #
@@ -8864,7 +8871,7 @@ class TAssetsManager(object):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def unref(self, info): 
-    return assets_manager_unref(self.nativeObj, info.nativeObj);
+    return assets_manager_unref(awtk_get_native_obj(self), awtk_get_native_obj(info));
 
 
 #
@@ -8886,7 +8893,7 @@ class TStyleMutable (TStyle):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_name(self, name): 
-    return style_mutable_set_name(self.nativeObj, name);
+    return style_mutable_set_name(awtk_get_native_obj(self), name);
 
 
   #
@@ -8899,7 +8906,7 @@ class TStyleMutable (TStyle):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_int(self, state, name, val): 
-    return style_mutable_set_int(self.nativeObj, state, name, val);
+    return style_mutable_set_int(awtk_get_native_obj(self), state, name, val);
 
 
   #
@@ -8911,7 +8918,7 @@ class TStyleMutable (TStyle):
   #
   @classmethod
   def cast(cls, s): 
-    return  TStyleMutable(style_mutable_cast(s.nativeObj));
+    return  TStyleMutable(style_mutable_cast(awtk_get_native_obj(s)));
 
 
   #
@@ -8926,7 +8933,7 @@ class TStyleMutable (TStyle):
   #
   @classmethod
   def create(cls, widget, default_style): 
-    return  TStyleMutable(style_mutable_create(widget.nativeObj, default_style.nativeObj));
+    return  TStyleMutable(style_mutable_create(awtk_get_native_obj(widget), awtk_get_native_obj(default_style)));
 
 
   #
@@ -8992,7 +8999,7 @@ class TColorPicker (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TColorPicker(color_picker_create(parent.nativeObj, x, y, w, h));
+    return  TColorPicker(color_picker_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -9003,7 +9010,7 @@ class TColorPicker (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_color(self, color): 
-    return color_picker_set_color(self.nativeObj, color);
+    return color_picker_set_color(awtk_get_native_obj(self), color);
 
 
   #
@@ -9015,7 +9022,7 @@ class TColorPicker (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TColorPicker(color_picker_cast(widget.nativeObj));
+    return  TColorPicker(color_picker_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -9069,7 +9076,7 @@ class TTimeClock (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TTimeClock(time_clock_create(parent.nativeObj, x, y, w, h));
+    return  TTimeClock(time_clock_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -9081,7 +9088,7 @@ class TTimeClock (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TTimeClock(time_clock_cast(widget.nativeObj));
+    return  TTimeClock(time_clock_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -9092,7 +9099,7 @@ class TTimeClock (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_hour(self, hour): 
-    return time_clock_set_hour(self.nativeObj, hour);
+    return time_clock_set_hour(awtk_get_native_obj(self), hour);
 
 
   #
@@ -9103,7 +9110,7 @@ class TTimeClock (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_minute(self, minute): 
-    return time_clock_set_minute(self.nativeObj, minute);
+    return time_clock_set_minute(awtk_get_native_obj(self), minute);
 
 
   #
@@ -9114,7 +9121,7 @@ class TTimeClock (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_second(self, second): 
-    return time_clock_set_second(self.nativeObj, second);
+    return time_clock_set_second(awtk_get_native_obj(self), second);
 
 
   #
@@ -9125,7 +9132,7 @@ class TTimeClock (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_hour_image(self, hour): 
-    return time_clock_set_hour_image(self.nativeObj, hour);
+    return time_clock_set_hour_image(awtk_get_native_obj(self), hour);
 
 
   #
@@ -9136,7 +9143,7 @@ class TTimeClock (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_minute_image(self, minute_image): 
-    return time_clock_set_minute_image(self.nativeObj, minute_image);
+    return time_clock_set_minute_image(awtk_get_native_obj(self), minute_image);
 
 
   #
@@ -9147,7 +9154,7 @@ class TTimeClock (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_second_image(self, second_image): 
-    return time_clock_set_second_image(self.nativeObj, second_image);
+    return time_clock_set_second_image(awtk_get_native_obj(self), second_image);
 
 
   #
@@ -9158,7 +9165,7 @@ class TTimeClock (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_bg_image(self, bg_image): 
-    return time_clock_set_bg_image(self.nativeObj, bg_image);
+    return time_clock_set_bg_image(awtk_get_native_obj(self), bg_image);
 
 
   #
@@ -9169,7 +9176,7 @@ class TTimeClock (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_image(self, image): 
-    return time_clock_set_image(self.nativeObj, image);
+    return time_clock_set_image(awtk_get_native_obj(self), image);
 
 
   #
@@ -9182,7 +9189,7 @@ class TTimeClock (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_hour_anchor(self, anchor_x, anchor_y): 
-    return time_clock_set_hour_anchor(self.nativeObj, anchor_x, anchor_y);
+    return time_clock_set_hour_anchor(awtk_get_native_obj(self), anchor_x, anchor_y);
 
 
   #
@@ -9195,7 +9202,7 @@ class TTimeClock (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_minute_anchor(self, anchor_x, anchor_y): 
-    return time_clock_set_minute_anchor(self.nativeObj, anchor_x, anchor_y);
+    return time_clock_set_minute_anchor(awtk_get_native_obj(self), anchor_x, anchor_y);
 
 
   #
@@ -9208,7 +9215,7 @@ class TTimeClock (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_second_anchor(self, anchor_x, anchor_y): 
-    return time_clock_set_second_anchor(self.nativeObj, anchor_x, anchor_y);
+    return time_clock_set_second_anchor(awtk_get_native_obj(self), anchor_x, anchor_y);
 
 
   #
@@ -9421,7 +9428,7 @@ class TTextSelector (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TTextSelector(text_selector_create(parent.nativeObj, x, y, w, h));
+    return  TTextSelector(text_selector_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -9433,7 +9440,7 @@ class TTextSelector (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TTextSelector(text_selector_cast(widget.nativeObj));
+    return  TTextSelector(text_selector_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -9443,7 +9450,7 @@ class TTextSelector (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def reset_options(self): 
-    return text_selector_reset_options(self.nativeObj);
+    return text_selector_reset_options(awtk_get_native_obj(self));
 
 
   #
@@ -9453,7 +9460,7 @@ class TTextSelector (TWidget):
   # @return 返回选项个数。
   #
   def count_options(self): 
-    return text_selector_count_options(self.nativeObj);
+    return text_selector_count_options(awtk_get_native_obj(self));
 
 
   #
@@ -9465,7 +9472,7 @@ class TTextSelector (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def append_option(self, value, text): 
-    return text_selector_append_option(self.nativeObj, value, text);
+    return text_selector_append_option(awtk_get_native_obj(self), value, text);
 
 
   #
@@ -9476,7 +9483,7 @@ class TTextSelector (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_options(self, options): 
-    return text_selector_set_options(self.nativeObj, options);
+    return text_selector_set_options(awtk_get_native_obj(self), options);
 
 
   #
@@ -9489,7 +9496,7 @@ class TTextSelector (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_range_options(self, start, nr, step): 
-    return text_selector_set_range_options(self.nativeObj, start, nr, step);
+    return text_selector_set_range_options(awtk_get_native_obj(self), start, nr, step);
 
 
   #
@@ -9499,7 +9506,7 @@ class TTextSelector (TWidget):
   # @return 返回值。
   #
   def get_value(self): 
-    return text_selector_get_value(self.nativeObj);
+    return text_selector_get_value(awtk_get_native_obj(self));
 
 
   #
@@ -9510,7 +9517,7 @@ class TTextSelector (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_value(self, value): 
-    return text_selector_set_value(self.nativeObj, value);
+    return text_selector_set_value(awtk_get_native_obj(self), value);
 
 
   #
@@ -9520,7 +9527,7 @@ class TTextSelector (TWidget):
   # @return 返回文本。
   #
   def get_text_value(self): 
-    return text_selector_get_text(self.nativeObj);
+    return text_selector_get_text(awtk_get_native_obj(self));
 
 
   #
@@ -9531,7 +9538,7 @@ class TTextSelector (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_text(self, text): 
-    return text_selector_set_text(self.nativeObj, text);
+    return text_selector_set_text(awtk_get_native_obj(self), text);
 
 
   #
@@ -9542,7 +9549,7 @@ class TTextSelector (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_selected_index(self, index): 
-    return text_selector_set_selected_index(self.nativeObj, index);
+    return text_selector_set_selected_index(awtk_get_native_obj(self), index);
 
 
   #
@@ -9553,7 +9560,7 @@ class TTextSelector (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_visible_nr(self, visible_nr): 
-    return text_selector_set_visible_nr(self.nativeObj, visible_nr);
+    return text_selector_set_visible_nr(awtk_get_native_obj(self), visible_nr);
 
 
   #
@@ -9647,7 +9654,7 @@ class TSwitch (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TSwitch(switch_create(parent.nativeObj, x, y, w, h));
+    return  TSwitch(switch_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -9658,7 +9665,7 @@ class TSwitch (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_value(self, value): 
-    return switch_set_value(self.nativeObj, value);
+    return switch_set_value(awtk_get_native_obj(self), value);
 
 
   #
@@ -9670,7 +9677,7 @@ class TSwitch (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TSwitch(switch_cast(widget.nativeObj));
+    return  TSwitch(switch_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -9713,7 +9720,7 @@ class TPropChangeEvent (TEvent):
   #
   @classmethod
   def cast(cls, event): 
-    return  TPropChangeEvent(prop_change_event_cast(event.nativeObj));
+    return  TPropChangeEvent(prop_change_event_cast(awtk_get_native_obj(event)));
 
 
   #
@@ -9752,7 +9759,7 @@ class TProgressEvent (TEvent):
   #
   @classmethod
   def cast(cls, event): 
-    return  TProgressEvent(progress_event_cast(event.nativeObj));
+    return  TProgressEvent(progress_event_cast(awtk_get_native_obj(event)));
 
 
   #
@@ -9782,7 +9789,7 @@ class TDoneEvent (TEvent):
   #
   @classmethod
   def cast(cls, event): 
-    return  TDoneEvent(done_event_cast(event.nativeObj));
+    return  TDoneEvent(done_event_cast(awtk_get_native_obj(event)));
 
 
   #
@@ -9812,7 +9819,7 @@ class TErrorEvent (TEvent):
   #
   @classmethod
   def cast(cls, event): 
-    return  TErrorEvent(error_event_cast(event.nativeObj));
+    return  TErrorEvent(error_event_cast(awtk_get_native_obj(event)));
 
 
   #
@@ -9876,7 +9883,7 @@ class TView (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TView(view_create(parent.nativeObj, x, y, w, h));
+    return  TView(view_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -9888,7 +9895,7 @@ class TView (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TView(view_cast(widget.nativeObj));
+    return  TView(view_cast(awtk_get_native_obj(widget)));
 
 
 #
@@ -9953,7 +9960,7 @@ class TSlideView (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TSlideView(slide_view_create(parent.nativeObj, x, y, w, h));
+    return  TSlideView(slide_view_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -9965,7 +9972,7 @@ class TSlideView (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TSlideView(slide_view_cast(widget.nativeObj));
+    return  TSlideView(slide_view_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -9976,7 +9983,7 @@ class TSlideView (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_auto_play(self, auto_play): 
-    return slide_view_set_auto_play(self.nativeObj, auto_play);
+    return slide_view_set_auto_play(awtk_get_native_obj(self), auto_play);
 
 
   #
@@ -9987,7 +9994,7 @@ class TSlideView (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_active(self, index): 
-    return slide_view_set_active(self.nativeObj, index);
+    return slide_view_set_active(awtk_get_native_obj(self), index);
 
 
   #
@@ -9998,7 +10005,7 @@ class TSlideView (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_vertical(self, vertical): 
-    return slide_view_set_vertical(self.nativeObj, vertical);
+    return slide_view_set_vertical(awtk_get_native_obj(self), vertical);
 
 
   #
@@ -10020,7 +10027,7 @@ class TSlideView (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_anim_hint(self, anim_hint): 
-    return slide_view_set_anim_hint(self.nativeObj, anim_hint);
+    return slide_view_set_anim_hint(awtk_get_native_obj(self), anim_hint);
 
 
   #
@@ -10031,7 +10038,7 @@ class TSlideView (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_loop(self, loop): 
-    return slide_view_set_loop(self.nativeObj, loop);
+    return slide_view_set_loop(awtk_get_native_obj(self), loop);
 
 
   #
@@ -10139,7 +10146,7 @@ class TSlideIndicator (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TSlideIndicator(slide_indicator_create(parent.nativeObj, x, y, w, h));
+    return  TSlideIndicator(slide_indicator_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -10155,7 +10162,7 @@ class TSlideIndicator (TWidget):
   #
   @classmethod
   def create_linear(cls, parent, x, y, w, h): 
-    return  TSlideIndicator(slide_indicator_create_linear(parent.nativeObj, x, y, w, h));
+    return  TSlideIndicator(slide_indicator_create_linear(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -10171,7 +10178,7 @@ class TSlideIndicator (TWidget):
   #
   @classmethod
   def create_arc(cls, parent, x, y, w, h): 
-    return  TSlideIndicator(slide_indicator_create_arc(parent.nativeObj, x, y, w, h));
+    return  TSlideIndicator(slide_indicator_create_arc(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -10183,7 +10190,7 @@ class TSlideIndicator (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TSlideIndicator(slide_indicator_cast(widget.nativeObj));
+    return  TSlideIndicator(slide_indicator_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -10194,7 +10201,7 @@ class TSlideIndicator (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_value(self, value): 
-    return slide_indicator_set_value(self.nativeObj, value);
+    return slide_indicator_set_value(awtk_get_native_obj(self), value);
 
 
   #
@@ -10205,7 +10212,7 @@ class TSlideIndicator (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_max(self, max): 
-    return slide_indicator_set_max(self.nativeObj, max);
+    return slide_indicator_set_max(awtk_get_native_obj(self), max);
 
 
   #
@@ -10216,7 +10223,7 @@ class TSlideIndicator (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_default_paint(self, default_paint): 
-    return slide_indicator_set_default_paint(self.nativeObj, default_paint);
+    return slide_indicator_set_default_paint(awtk_get_native_obj(self), default_paint);
 
 
   #
@@ -10227,7 +10234,7 @@ class TSlideIndicator (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_auto_hide(self, auto_hide): 
-    return slide_indicator_set_auto_hide(self.nativeObj, auto_hide);
+    return slide_indicator_set_auto_hide(awtk_get_native_obj(self), auto_hide);
 
 
   #
@@ -10238,7 +10245,7 @@ class TSlideIndicator (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_margin(self, margin): 
-    return slide_indicator_set_margin(self.nativeObj, margin);
+    return slide_indicator_set_margin(awtk_get_native_obj(self), margin);
 
 
   #
@@ -10249,7 +10256,7 @@ class TSlideIndicator (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_spacing(self, spacing): 
-    return slide_indicator_set_spacing(self.nativeObj, spacing);
+    return slide_indicator_set_spacing(awtk_get_native_obj(self), spacing);
 
 
   #
@@ -10260,7 +10267,7 @@ class TSlideIndicator (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_size(self, size): 
-    return slide_indicator_set_size(self.nativeObj, size);
+    return slide_indicator_set_size(awtk_get_native_obj(self), size);
 
 
   #
@@ -10272,7 +10279,7 @@ class TSlideIndicator (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_anchor(self, anchor_x, anchor_y): 
-    return slide_indicator_set_anchor(self.nativeObj, anchor_x, anchor_y);
+    return slide_indicator_set_anchor(awtk_get_native_obj(self), anchor_x, anchor_y);
 
 
   #
@@ -10283,7 +10290,7 @@ class TSlideIndicator (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_indicated_target(self, indicated_target): 
-    return slide_indicator_set_indicated_target(self.nativeObj, indicated_target);
+    return slide_indicator_set_indicated_target(awtk_get_native_obj(self), indicated_target);
 
 
   #
@@ -10472,7 +10479,7 @@ class TSlideMenu (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TSlideMenu(slide_menu_create(parent.nativeObj, x, y, w, h));
+    return  TSlideMenu(slide_menu_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -10484,7 +10491,7 @@ class TSlideMenu (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TSlideMenu(slide_menu_cast(widget.nativeObj));
+    return  TSlideMenu(slide_menu_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -10495,7 +10502,7 @@ class TSlideMenu (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_value(self, value): 
-    return slide_menu_set_value(self.nativeObj, value);
+    return slide_menu_set_value(awtk_get_native_obj(self), value);
 
 
   #
@@ -10506,7 +10513,7 @@ class TSlideMenu (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_align_v(self, align_v): 
-    return slide_menu_set_align_v(self.nativeObj, align_v);
+    return slide_menu_set_align_v(awtk_get_native_obj(self), align_v);
 
 
   #
@@ -10517,7 +10524,7 @@ class TSlideMenu (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_min_scale(self, min_scale): 
-    return slide_menu_set_min_scale(self.nativeObj, min_scale);
+    return slide_menu_set_min_scale(awtk_get_native_obj(self), min_scale);
 
 
   #
@@ -10609,7 +10616,7 @@ class TScrollView (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TScrollView(scroll_view_create(parent.nativeObj, x, y, w, h));
+    return  TScrollView(scroll_view_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -10621,7 +10628,7 @@ class TScrollView (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TScrollView(scroll_view_cast(widget.nativeObj));
+    return  TScrollView(scroll_view_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -10632,7 +10639,7 @@ class TScrollView (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_virtual_w(self, w): 
-    return scroll_view_set_virtual_w(self.nativeObj, w);
+    return scroll_view_set_virtual_w(awtk_get_native_obj(self), w);
 
 
   #
@@ -10643,7 +10650,7 @@ class TScrollView (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_virtual_h(self, h): 
-    return scroll_view_set_virtual_h(self.nativeObj, h);
+    return scroll_view_set_virtual_h(awtk_get_native_obj(self), h);
 
 
   #
@@ -10654,7 +10661,7 @@ class TScrollView (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_xslidable(self, xslidable): 
-    return scroll_view_set_xslidable(self.nativeObj, xslidable);
+    return scroll_view_set_xslidable(awtk_get_native_obj(self), xslidable);
 
 
   #
@@ -10665,7 +10672,7 @@ class TScrollView (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_yslidable(self, yslidable): 
-    return scroll_view_set_yslidable(self.nativeObj, yslidable);
+    return scroll_view_set_yslidable(awtk_get_native_obj(self), yslidable);
 
 
   #
@@ -10677,7 +10684,7 @@ class TScrollView (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_offset(self, xoffset, yoffset): 
-    return scroll_view_set_offset(self.nativeObj, xoffset, yoffset);
+    return scroll_view_set_offset(awtk_get_native_obj(self), xoffset, yoffset);
 
 
   #
@@ -10689,7 +10696,7 @@ class TScrollView (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_speed_scale(self, xspeed_scale, yspeed_scale): 
-    return scroll_view_set_speed_scale(self.nativeObj, xspeed_scale, yspeed_scale);
+    return scroll_view_set_speed_scale(awtk_get_native_obj(self), xspeed_scale, yspeed_scale);
 
 
   #
@@ -10702,7 +10709,7 @@ class TScrollView (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def scroll_to(self, xoffset_end, yoffset_end, duration): 
-    return scroll_view_scroll_to(self.nativeObj, xoffset_end, yoffset_end, duration);
+    return scroll_view_scroll_to(awtk_get_native_obj(self), xoffset_end, yoffset_end, duration);
 
 
   #
@@ -10715,7 +10722,7 @@ class TScrollView (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def scroll_delta_to(self, xoffset_delta, yoffset_delta, duration): 
-    return scroll_view_scroll_delta_to(self.nativeObj, xoffset_delta, yoffset_delta, duration);
+    return scroll_view_scroll_delta_to(awtk_get_native_obj(self), xoffset_delta, yoffset_delta, duration);
 
 
   #
@@ -10862,7 +10869,7 @@ class TScrollBar (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TScrollBar(scroll_bar_create(parent.nativeObj, x, y, w, h));
+    return  TScrollBar(scroll_bar_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -10874,7 +10881,7 @@ class TScrollBar (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TScrollBar(scroll_bar_cast(widget.nativeObj));
+    return  TScrollBar(scroll_bar_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -10890,7 +10897,7 @@ class TScrollBar (TWidget):
   #
   @classmethod
   def create_mobile(cls, parent, x, y, w, h): 
-    return  TScrollBar(scroll_bar_create_mobile(parent.nativeObj, x, y, w, h));
+    return  TScrollBar(scroll_bar_create_mobile(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -10906,7 +10913,7 @@ class TScrollBar (TWidget):
   #
   @classmethod
   def create_desktop(cls, parent, x, y, w, h): 
-    return  TScrollBar(scroll_bar_create_desktop(parent.nativeObj, x, y, w, h));
+    return  TScrollBar(scroll_bar_create_desktop(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -10918,7 +10925,7 @@ class TScrollBar (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_params(self, virtual_size, row): 
-    return scroll_bar_set_params(self.nativeObj, virtual_size, row);
+    return scroll_bar_set_params(awtk_get_native_obj(self), virtual_size, row);
 
 
   #
@@ -10930,7 +10937,7 @@ class TScrollBar (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def scroll_to(self, value, duration): 
-    return scroll_bar_scroll_to(self.nativeObj, value, duration);
+    return scroll_bar_scroll_to(awtk_get_native_obj(self), value, duration);
 
 
   #
@@ -10941,7 +10948,7 @@ class TScrollBar (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_value(self, value): 
-    return scroll_bar_set_value(self.nativeObj, value);
+    return scroll_bar_set_value(awtk_get_native_obj(self), value);
 
 
   #
@@ -10952,7 +10959,7 @@ class TScrollBar (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def add_delta(self, delta): 
-    return scroll_bar_add_delta(self.nativeObj, delta);
+    return scroll_bar_add_delta(awtk_get_native_obj(self), delta);
 
 
   #
@@ -10963,7 +10970,7 @@ class TScrollBar (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def scroll_delta(self, delta): 
-    return scroll_bar_scroll_delta(self.nativeObj, delta);
+    return scroll_bar_scroll_delta(awtk_get_native_obj(self), delta);
 
 
   #
@@ -10974,7 +10981,7 @@ class TScrollBar (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_value_only(self, value): 
-    return scroll_bar_set_value_only(self.nativeObj, value);
+    return scroll_bar_set_value_only(awtk_get_native_obj(self), value);
 
 
   #
@@ -10984,7 +10991,7 @@ class TScrollBar (TWidget):
   # @return 返回TRUE表示是mobile风格的，否则表示不是mobile风格的。
   #
   def is_mobile(self): 
-    return scroll_bar_is_mobile(self.nativeObj);
+    return scroll_bar_is_mobile(awtk_get_native_obj(self));
 
 
   #
@@ -11074,7 +11081,7 @@ class TTabControl (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TTabControl(tab_control_create(parent.nativeObj, x, y, w, h));
+    return  TTabControl(tab_control_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -11086,7 +11093,7 @@ class TTabControl (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TTabControl(tab_control_cast(widget.nativeObj));
+    return  TTabControl(tab_control_cast(awtk_get_native_obj(widget)));
 
 
 #
@@ -11153,7 +11160,7 @@ class TListView (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TListView(list_view_create(parent.nativeObj, x, y, w, h));
+    return  TListView(list_view_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -11164,7 +11171,7 @@ class TListView (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_item_height(self, item_height): 
-    return list_view_set_item_height(self.nativeObj, item_height);
+    return list_view_set_item_height(awtk_get_native_obj(self), item_height);
 
 
   #
@@ -11175,7 +11182,7 @@ class TListView (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_default_item_height(self, default_item_height): 
-    return list_view_set_default_item_height(self.nativeObj, default_item_height);
+    return list_view_set_default_item_height(awtk_get_native_obj(self), default_item_height);
 
 
   #
@@ -11186,7 +11193,7 @@ class TListView (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_auto_hide_scroll_bar(self, auto_hide_scroll_bar): 
-    return list_view_set_auto_hide_scroll_bar(self.nativeObj, auto_hide_scroll_bar);
+    return list_view_set_auto_hide_scroll_bar(awtk_get_native_obj(self), auto_hide_scroll_bar);
 
 
   #
@@ -11198,7 +11205,7 @@ class TListView (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TListView(list_view_cast(widget.nativeObj));
+    return  TListView(list_view_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -11208,7 +11215,7 @@ class TListView (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def reinit(self): 
-    return list_view_reinit(self.nativeObj);
+    return list_view_reinit(awtk_get_native_obj(self));
 
 
   #
@@ -11299,7 +11306,7 @@ class TListViewH (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TListViewH(list_view_h_create(parent.nativeObj, x, y, w, h));
+    return  TListViewH(list_view_h_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -11310,7 +11317,7 @@ class TListViewH (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_item_width(self, item_width): 
-    return list_view_h_set_item_width(self.nativeObj, item_width);
+    return list_view_h_set_item_width(awtk_get_native_obj(self), item_width);
 
 
   #
@@ -11321,7 +11328,7 @@ class TListViewH (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_spacing(self, spacing): 
-    return list_view_h_set_spacing(self.nativeObj, spacing);
+    return list_view_h_set_spacing(awtk_get_native_obj(self), spacing);
 
 
   #
@@ -11333,7 +11340,7 @@ class TListViewH (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TListViewH(list_view_h_cast(widget.nativeObj));
+    return  TListViewH(list_view_h_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -11441,7 +11448,7 @@ class TTabButton (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TTabButton(tab_button_create(parent.nativeObj, x, y, w, h));
+    return  TTabButton(tab_button_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -11453,7 +11460,7 @@ class TTabButton (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TTabButton(tab_button_cast(widget.nativeObj));
+    return  TTabButton(tab_button_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -11464,7 +11471,7 @@ class TTabButton (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_value(self, value): 
-    return tab_button_set_value(self.nativeObj, value);
+    return tab_button_set_value(awtk_get_native_obj(self), value);
 
 
   #
@@ -11475,7 +11482,7 @@ class TTabButton (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_icon(self, name): 
-    return tab_button_set_icon(self.nativeObj, name);
+    return tab_button_set_icon(awtk_get_native_obj(self), name);
 
 
   #
@@ -11486,7 +11493,7 @@ class TTabButton (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_active_icon(self, name): 
-    return tab_button_set_active_icon(self.nativeObj, name);
+    return tab_button_set_active_icon(awtk_get_native_obj(self), name);
 
 
   #
@@ -11497,7 +11504,7 @@ class TTabButton (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_load_ui(self, name): 
-    return tab_button_set_load_ui(self.nativeObj, name);
+    return tab_button_set_load_ui(awtk_get_native_obj(self), name);
 
 
   #
@@ -11602,7 +11609,7 @@ class TTabButtonGroup (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TTabButtonGroup(tab_button_group_create(parent.nativeObj, x, y, w, h));
+    return  TTabButtonGroup(tab_button_group_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -11613,7 +11620,7 @@ class TTabButtonGroup (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_compact(self, compact): 
-    return tab_button_group_set_compact(self.nativeObj, compact);
+    return tab_button_group_set_compact(awtk_get_native_obj(self), compact);
 
 
   #
@@ -11624,7 +11631,7 @@ class TTabButtonGroup (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_scrollable(self, scrollable): 
-    return tab_button_group_set_scrollable(self.nativeObj, scrollable);
+    return tab_button_group_set_scrollable(awtk_get_native_obj(self), scrollable);
 
 
   #
@@ -11636,7 +11643,7 @@ class TTabButtonGroup (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TTabButtonGroup(tab_button_group_cast(widget.nativeObj));
+    return  TTabButtonGroup(tab_button_group_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -11730,7 +11737,7 @@ class TListItem (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TListItem(list_item_create(parent.nativeObj, x, y, w, h));
+    return  TListItem(list_item_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -11742,7 +11749,7 @@ class TListItem (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TListItem(list_item_cast(widget.nativeObj));
+    return  TListItem(list_item_cast(awtk_get_native_obj(widget)));
 
 
 #
@@ -11791,7 +11798,7 @@ class THscrollLabel (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  THscrollLabel(hscroll_label_create(parent.nativeObj, x, y, w, h));
+    return  THscrollLabel(hscroll_label_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -11802,7 +11809,7 @@ class THscrollLabel (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_lull(self, lull): 
-    return hscroll_label_set_lull(self.nativeObj, lull);
+    return hscroll_label_set_lull(awtk_get_native_obj(self), lull);
 
 
   #
@@ -11813,7 +11820,7 @@ class THscrollLabel (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_duration(self, duration): 
-    return hscroll_label_set_duration(self.nativeObj, duration);
+    return hscroll_label_set_duration(awtk_get_native_obj(self), duration);
 
 
   #
@@ -11824,7 +11831,7 @@ class THscrollLabel (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_only_focus(self, only_focus): 
-    return hscroll_label_set_only_focus(self.nativeObj, only_focus);
+    return hscroll_label_set_only_focus(awtk_get_native_obj(self), only_focus);
 
 
   #
@@ -11835,7 +11842,7 @@ class THscrollLabel (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_only_parent_focus(self, only_parent_focus): 
-    return hscroll_label_set_only_parent_focus(self.nativeObj, only_parent_focus);
+    return hscroll_label_set_only_parent_focus(awtk_get_native_obj(self), only_parent_focus);
 
 
   #
@@ -11846,7 +11853,7 @@ class THscrollLabel (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_loop(self, loop): 
-    return hscroll_label_set_loop(self.nativeObj, loop);
+    return hscroll_label_set_loop(awtk_get_native_obj(self), loop);
 
 
   #
@@ -11857,7 +11864,7 @@ class THscrollLabel (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_yoyo(self, yoyo): 
-    return hscroll_label_set_yoyo(self.nativeObj, yoyo);
+    return hscroll_label_set_yoyo(awtk_get_native_obj(self), yoyo);
 
 
   #
@@ -11868,7 +11875,7 @@ class THscrollLabel (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_ellipses(self, ellipses): 
-    return hscroll_label_set_ellipses(self.nativeObj, ellipses);
+    return hscroll_label_set_ellipses(awtk_get_native_obj(self), ellipses);
 
 
   #
@@ -11879,7 +11886,7 @@ class THscrollLabel (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_xoffset(self, xoffset): 
-    return hscroll_label_set_xoffset(self.nativeObj, xoffset);
+    return hscroll_label_set_xoffset(awtk_get_native_obj(self), xoffset);
 
 
   #
@@ -11889,7 +11896,7 @@ class THscrollLabel (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def start(self): 
-    return hscroll_label_start(self.nativeObj);
+    return hscroll_label_start(awtk_get_native_obj(self));
 
 
   #
@@ -11899,7 +11906,7 @@ class THscrollLabel (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def stop(self): 
-    return hscroll_label_stop(self.nativeObj);
+    return hscroll_label_stop(awtk_get_native_obj(self));
 
 
   #
@@ -11911,7 +11918,7 @@ class THscrollLabel (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  THscrollLabel(hscroll_label_cast(widget.nativeObj));
+    return  THscrollLabel(hscroll_label_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -12085,7 +12092,7 @@ class TRichText (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TRichText(rich_text_create(parent.nativeObj, x, y, w, h));
+    return  TRichText(rich_text_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -12096,7 +12103,7 @@ class TRichText (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_text(self, text): 
-    return rich_text_set_text(self.nativeObj, text);
+    return rich_text_set_text(awtk_get_native_obj(self), text);
 
 
   #
@@ -12108,7 +12115,7 @@ class TRichText (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TRichText(rich_text_cast(widget.nativeObj));
+    return  TRichText(rich_text_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -12181,7 +12188,7 @@ class TProgressCircle (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TProgressCircle(progress_circle_create(parent.nativeObj, x, y, w, h));
+    return  TProgressCircle(progress_circle_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -12193,7 +12200,7 @@ class TProgressCircle (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TProgressCircle(progress_circle_cast(widget.nativeObj));
+    return  TProgressCircle(progress_circle_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -12204,7 +12211,7 @@ class TProgressCircle (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_value(self, value): 
-    return progress_circle_set_value(self.nativeObj, value);
+    return progress_circle_set_value(awtk_get_native_obj(self), value);
 
 
   #
@@ -12215,7 +12222,7 @@ class TProgressCircle (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_max(self, max): 
-    return progress_circle_set_max(self.nativeObj, max);
+    return progress_circle_set_max(awtk_get_native_obj(self), max);
 
 
   #
@@ -12226,7 +12233,7 @@ class TProgressCircle (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_line_width(self, line_width): 
-    return progress_circle_set_line_width(self.nativeObj, line_width);
+    return progress_circle_set_line_width(awtk_get_native_obj(self), line_width);
 
 
   #
@@ -12237,7 +12244,7 @@ class TProgressCircle (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_start_angle(self, start_angle): 
-    return progress_circle_set_start_angle(self.nativeObj, start_angle);
+    return progress_circle_set_start_angle(awtk_get_native_obj(self), start_angle);
 
 
   #
@@ -12248,7 +12255,7 @@ class TProgressCircle (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_unit(self, unit): 
-    return progress_circle_set_unit(self.nativeObj, unit);
+    return progress_circle_set_unit(awtk_get_native_obj(self), unit);
 
 
   #
@@ -12259,7 +12266,7 @@ class TProgressCircle (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_show_text(self, show_text): 
-    return progress_circle_set_show_text(self.nativeObj, show_text);
+    return progress_circle_set_show_text(awtk_get_native_obj(self), show_text);
 
 
   #
@@ -12270,7 +12277,7 @@ class TProgressCircle (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_counter_clock_wise(self, counter_clock_wise): 
-    return progress_circle_set_counter_clock_wise(self.nativeObj, counter_clock_wise);
+    return progress_circle_set_counter_clock_wise(awtk_get_native_obj(self), counter_clock_wise);
 
 
   #
@@ -12419,7 +12426,7 @@ class TSlider (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TSlider(slider_create(parent.nativeObj, x, y, w, h));
+    return  TSlider(slider_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -12431,7 +12438,7 @@ class TSlider (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TSlider(slider_cast(widget.nativeObj));
+    return  TSlider(slider_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -12442,7 +12449,7 @@ class TSlider (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_value(self, value): 
-    return slider_set_value(self.nativeObj, value);
+    return slider_set_value(awtk_get_native_obj(self), value);
 
 
   #
@@ -12453,7 +12460,7 @@ class TSlider (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_min(self, min): 
-    return slider_set_min(self.nativeObj, min);
+    return slider_set_min(awtk_get_native_obj(self), min);
 
 
   #
@@ -12464,7 +12471,7 @@ class TSlider (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_max(self, max): 
-    return slider_set_max(self.nativeObj, max);
+    return slider_set_max(awtk_get_native_obj(self), max);
 
 
   #
@@ -12475,7 +12482,7 @@ class TSlider (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_step(self, step): 
-    return slider_set_step(self.nativeObj, step);
+    return slider_set_step(awtk_get_native_obj(self), step);
 
 
   #
@@ -12486,7 +12493,7 @@ class TSlider (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_bar_size(self, bar_size): 
-    return slider_set_bar_size(self.nativeObj, bar_size);
+    return slider_set_bar_size(awtk_get_native_obj(self), bar_size);
 
 
   #
@@ -12497,7 +12504,7 @@ class TSlider (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_vertical(self, vertical): 
-    return slider_set_vertical(self.nativeObj, vertical);
+    return slider_set_vertical(awtk_get_native_obj(self), vertical);
 
 
   #
@@ -12646,7 +12653,7 @@ class TMledit (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TMledit(mledit_create(parent.nativeObj, x, y, w, h));
+    return  TMledit(mledit_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -12657,7 +12664,7 @@ class TMledit (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_readonly(self, readonly): 
-    return mledit_set_readonly(self.nativeObj, readonly);
+    return mledit_set_readonly(awtk_get_native_obj(self), readonly);
 
 
   #
@@ -12668,7 +12675,7 @@ class TMledit (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_focus(self, focus): 
-    return mledit_set_focus(self.nativeObj, focus);
+    return mledit_set_focus(awtk_get_native_obj(self), focus);
 
 
   #
@@ -12679,7 +12686,7 @@ class TMledit (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_wrap_word(self, wrap_word): 
-    return mledit_set_wrap_word(self.nativeObj, wrap_word);
+    return mledit_set_wrap_word(awtk_get_native_obj(self), wrap_word);
 
 
   #
@@ -12690,7 +12697,7 @@ class TMledit (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_max_lines(self, max_lines): 
-    return mledit_set_max_lines(self.nativeObj, max_lines);
+    return mledit_set_max_lines(awtk_get_native_obj(self), max_lines);
 
 
   #
@@ -12701,7 +12708,7 @@ class TMledit (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_input_tips(self, tips): 
-    return mledit_set_input_tips(self.nativeObj, tips);
+    return mledit_set_input_tips(awtk_get_native_obj(self), tips);
 
 
   #
@@ -12712,7 +12719,7 @@ class TMledit (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_cursor(self, cursor): 
-    return mledit_set_cursor(self.nativeObj, cursor);
+    return mledit_set_cursor(awtk_get_native_obj(self), cursor);
 
 
   #
@@ -12723,7 +12730,7 @@ class TMledit (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_scroll_line(self, scroll_line): 
-    return mledit_set_scroll_line(self.nativeObj, scroll_line);
+    return mledit_set_scroll_line(awtk_get_native_obj(self), scroll_line);
 
 
   #
@@ -12735,7 +12742,7 @@ class TMledit (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TMledit(mledit_cast(widget.nativeObj));
+    return  TMledit(mledit_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -12882,7 +12889,7 @@ class TRow (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TRow(row_create(parent.nativeObj, x, y, w, h));
+    return  TRow(row_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -12894,7 +12901,7 @@ class TRow (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TRow(row_cast(widget.nativeObj));
+    return  TRow(row_cast(awtk_get_native_obj(widget)));
 
 
 #
@@ -12951,7 +12958,7 @@ class TProgressBar (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TProgressBar(progress_bar_create(parent.nativeObj, x, y, w, h));
+    return  TProgressBar(progress_bar_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -12963,7 +12970,7 @@ class TProgressBar (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TProgressBar(progress_bar_cast(widget.nativeObj));
+    return  TProgressBar(progress_bar_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -12974,7 +12981,7 @@ class TProgressBar (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_value(self, value): 
-    return progress_bar_set_value(self.nativeObj, value);
+    return progress_bar_set_value(awtk_get_native_obj(self), value);
 
 
   #
@@ -12985,7 +12992,7 @@ class TProgressBar (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_max(self, max): 
-    return progress_bar_set_max(self.nativeObj, max);
+    return progress_bar_set_max(awtk_get_native_obj(self), max);
 
 
   #
@@ -12996,7 +13003,7 @@ class TProgressBar (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_vertical(self, vertical): 
-    return progress_bar_set_vertical(self.nativeObj, vertical);
+    return progress_bar_set_vertical(awtk_get_native_obj(self), vertical);
 
 
   #
@@ -13007,7 +13014,7 @@ class TProgressBar (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_show_text(self, show_text): 
-    return progress_bar_set_show_text(self.nativeObj, show_text);
+    return progress_bar_set_show_text(awtk_get_native_obj(self), show_text);
 
 
   #
@@ -13019,7 +13026,7 @@ class TProgressBar (TWidget):
   # @return 返回百分比。
   #
   def get_percent(self): 
-    return progress_bar_get_percent(self.nativeObj);
+    return progress_bar_get_percent(awtk_get_native_obj(self));
 
 
   #
@@ -13125,7 +13132,7 @@ class TLineNumber (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TLineNumber(line_number_create(parent.nativeObj, x, y, w, h));
+    return  TLineNumber(line_number_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -13136,7 +13143,7 @@ class TLineNumber (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_top_margin(self, top_margin): 
-    return line_number_set_top_margin(self.nativeObj, top_margin);
+    return line_number_set_top_margin(awtk_get_native_obj(self), top_margin);
 
 
   #
@@ -13147,7 +13154,7 @@ class TLineNumber (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_bottom_margin(self, bottom_margin): 
-    return line_number_set_bottom_margin(self.nativeObj, bottom_margin);
+    return line_number_set_bottom_margin(awtk_get_native_obj(self), bottom_margin);
 
 
   #
@@ -13158,7 +13165,7 @@ class TLineNumber (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_line_height(self, line_height): 
-    return line_number_set_line_height(self.nativeObj, line_height);
+    return line_number_set_line_height(awtk_get_native_obj(self), line_height);
 
 
   #
@@ -13169,7 +13176,7 @@ class TLineNumber (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_yoffset(self, yoffset): 
-    return line_number_set_yoffset(self.nativeObj, yoffset);
+    return line_number_set_yoffset(awtk_get_native_obj(self), yoffset);
 
 
   #
@@ -13181,7 +13188,7 @@ class TLineNumber (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TLineNumber(line_number_cast(widget.nativeObj));
+    return  TLineNumber(line_number_cast(awtk_get_native_obj(widget)));
 
 
 #
@@ -13228,7 +13235,7 @@ class TPages (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TPages(pages_create(parent.nativeObj, x, y, w, h));
+    return  TPages(pages_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -13240,7 +13247,7 @@ class TPages (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TPages(pages_cast(widget.nativeObj));
+    return  TPages(pages_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -13251,7 +13258,7 @@ class TPages (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_active(self, index): 
-    return pages_set_active(self.nativeObj, index);
+    return pages_set_active(awtk_get_native_obj(self), index);
 
 
   #
@@ -13262,7 +13269,7 @@ class TPages (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_active_by_name(self, name): 
-    return pages_set_active_by_name(self.nativeObj, name);
+    return pages_set_active_by_name(awtk_get_native_obj(self), name);
 
 
   #
@@ -13334,7 +13341,7 @@ class TOverlay (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TOverlay(overlay_create(parent.nativeObj, x, y, w, h));
+    return  TOverlay(overlay_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -13346,7 +13353,7 @@ class TOverlay (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TOverlay(overlay_cast(widget.nativeObj));
+    return  TOverlay(overlay_cast(awtk_get_native_obj(widget)));
 
 
 #
@@ -13388,7 +13395,7 @@ class TCandidates (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TCandidates(candidates_cast(widget.nativeObj));
+    return  TCandidates(candidates_cast(awtk_get_native_obj(widget)));
 
 
 #
@@ -13440,7 +13447,7 @@ class TImageValue (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TImageValue(image_value_create(parent.nativeObj, x, y, w, h));
+    return  TImageValue(image_value_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -13451,7 +13458,7 @@ class TImageValue (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_image(self, image): 
-    return image_value_set_image(self.nativeObj, image);
+    return image_value_set_image(awtk_get_native_obj(self), image);
 
 
   #
@@ -13462,7 +13469,7 @@ class TImageValue (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_format(self, format): 
-    return image_value_set_format(self.nativeObj, format);
+    return image_value_set_format(awtk_get_native_obj(self), format);
 
 
   #
@@ -13473,7 +13480,7 @@ class TImageValue (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_value(self, value): 
-    return image_value_set_value(self.nativeObj, value);
+    return image_value_set_value(awtk_get_native_obj(self), value);
 
 
   #
@@ -13485,7 +13492,7 @@ class TImageValue (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TImageValue(image_value_cast(widget.nativeObj));
+    return  TImageValue(image_value_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -13572,7 +13579,7 @@ class TImageAnimation (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TImageAnimation(image_animation_create(parent.nativeObj, x, y, w, h));
+    return  TImageAnimation(image_animation_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -13583,7 +13590,7 @@ class TImageAnimation (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_loop(self, loop): 
-    return image_animation_set_loop(self.nativeObj, loop);
+    return image_animation_set_loop(awtk_get_native_obj(self), loop);
 
 
   #
@@ -13594,7 +13601,7 @@ class TImageAnimation (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_image(self, image): 
-    return image_animation_set_image(self.nativeObj, image);
+    return image_animation_set_image(awtk_get_native_obj(self), image);
 
 
   #
@@ -13605,7 +13612,7 @@ class TImageAnimation (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_interval(self, interval): 
-    return image_animation_set_interval(self.nativeObj, interval);
+    return image_animation_set_interval(awtk_get_native_obj(self), interval);
 
 
   #
@@ -13616,7 +13623,7 @@ class TImageAnimation (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_delay(self, delay): 
-    return image_animation_set_delay(self.nativeObj, delay);
+    return image_animation_set_delay(awtk_get_native_obj(self), delay);
 
 
   #
@@ -13627,7 +13634,7 @@ class TImageAnimation (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_auto_play(self, auto_play): 
-    return image_animation_set_auto_play(self.nativeObj, auto_play);
+    return image_animation_set_auto_play(awtk_get_native_obj(self), auto_play);
 
 
   #
@@ -13639,7 +13646,7 @@ class TImageAnimation (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_sequence(self, sequence): 
-    return image_animation_set_sequence(self.nativeObj, sequence);
+    return image_animation_set_sequence(awtk_get_native_obj(self), sequence);
 
 
   #
@@ -13654,7 +13661,7 @@ class TImageAnimation (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_range_sequence(self, start_index, end_index): 
-    return image_animation_set_range_sequence(self.nativeObj, start_index, end_index);
+    return image_animation_set_range_sequence(awtk_get_native_obj(self), start_index, end_index);
 
 
   #
@@ -13664,7 +13671,7 @@ class TImageAnimation (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def play(self): 
-    return image_animation_play(self.nativeObj);
+    return image_animation_play(awtk_get_native_obj(self));
 
 
   #
@@ -13674,7 +13681,7 @@ class TImageAnimation (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def stop(self): 
-    return image_animation_stop(self.nativeObj);
+    return image_animation_stop(awtk_get_native_obj(self));
 
 
   #
@@ -13684,7 +13691,7 @@ class TImageAnimation (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def pause(self): 
-    return image_animation_pause(self.nativeObj);
+    return image_animation_pause(awtk_get_native_obj(self));
 
 
   #
@@ -13694,7 +13701,7 @@ class TImageAnimation (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def next(self): 
-    return image_animation_next(self.nativeObj);
+    return image_animation_next(awtk_get_native_obj(self));
 
 
   #
@@ -13712,7 +13719,7 @@ class TImageAnimation (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_format(self, format): 
-    return image_animation_set_format(self.nativeObj, format);
+    return image_animation_set_format(awtk_get_native_obj(self), format);
 
 
   #
@@ -13723,7 +13730,7 @@ class TImageAnimation (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_unload_after_paint(self, unload_after_paint): 
-    return image_animation_set_unload_after_paint(self.nativeObj, unload_after_paint);
+    return image_animation_set_unload_after_paint(awtk_get_native_obj(self), unload_after_paint);
 
 
   #
@@ -13735,7 +13742,7 @@ class TImageAnimation (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TImageAnimation(image_animation_cast(widget.nativeObj));
+    return  TImageAnimation(image_animation_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -13912,7 +13919,7 @@ class TGuage (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TGuage(guage_create(parent.nativeObj, x, y, w, h));
+    return  TGuage(guage_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -13924,7 +13931,7 @@ class TGuage (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TGuage(guage_cast(widget.nativeObj));
+    return  TGuage(guage_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -13935,7 +13942,7 @@ class TGuage (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_image(self, name): 
-    return guage_set_image(self.nativeObj, name);
+    return guage_set_image(awtk_get_native_obj(self), name);
 
 
   #
@@ -13949,7 +13956,7 @@ class TGuage (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_draw_type(self, draw_type): 
-    return guage_set_draw_type(self.nativeObj, draw_type);
+    return guage_set_draw_type(awtk_get_native_obj(self), draw_type);
 
 
   #
@@ -14020,7 +14027,7 @@ class TGuagePointer (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TGuagePointer(guage_pointer_create(parent.nativeObj, x, y, w, h));
+    return  TGuagePointer(guage_pointer_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -14032,7 +14039,7 @@ class TGuagePointer (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TGuagePointer(guage_pointer_cast(widget.nativeObj));
+    return  TGuagePointer(guage_pointer_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -14043,7 +14050,7 @@ class TGuagePointer (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_angle(self, angle): 
-    return guage_pointer_set_angle(self.nativeObj, angle);
+    return guage_pointer_set_angle(awtk_get_native_obj(self), angle);
 
 
   #
@@ -14054,7 +14061,7 @@ class TGuagePointer (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_image(self, image): 
-    return guage_pointer_set_image(self.nativeObj, image);
+    return guage_pointer_set_image(awtk_get_native_obj(self), image);
 
 
   #
@@ -14066,7 +14073,7 @@ class TGuagePointer (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_anchor(self, anchor_x, anchor_y): 
-    return guage_pointer_set_anchor(self.nativeObj, anchor_x, anchor_y);
+    return guage_pointer_set_anchor(awtk_get_native_obj(self), anchor_x, anchor_y);
 
 
   #
@@ -14172,7 +14179,7 @@ class TLabel (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TLabel(label_create(parent.nativeObj, x, y, w, h));
+    return  TLabel(label_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -14183,7 +14190,7 @@ class TLabel (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_length(self, length): 
-    return label_set_length(self.nativeObj, length);
+    return label_set_length(awtk_get_native_obj(self), length);
 
 
   #
@@ -14197,7 +14204,7 @@ class TLabel (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def resize_to_content(self, min_w, max_w, min_h, max_h): 
-    return label_resize_to_content(self.nativeObj, min_w, max_w, min_h, max_h);
+    return label_resize_to_content(awtk_get_native_obj(self), min_w, max_w, min_h, max_h);
 
 
   #
@@ -14209,7 +14216,7 @@ class TLabel (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TLabel(label_cast(widget.nativeObj));
+    return  TLabel(label_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -14254,7 +14261,7 @@ class TFileChooser (TEmitter):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_init_dir(self, init_dir): 
-    return file_chooser_set_init_dir(self.nativeObj, init_dir);
+    return file_chooser_set_init_dir(awtk_get_native_obj(self), init_dir);
 
 
   #
@@ -14265,7 +14272,7 @@ class TFileChooser (TEmitter):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_filter(self, filter): 
-    return file_chooser_set_filter(self.nativeObj, filter);
+    return file_chooser_set_filter(awtk_get_native_obj(self), filter);
 
 
   #
@@ -14277,7 +14284,7 @@ class TFileChooser (TEmitter):
   #
   @classmethod
   def cast(cls, chooser): 
-    return  TFileChooser(file_chooser_cast(chooser.nativeObj));
+    return  TFileChooser(file_chooser_cast(awtk_get_native_obj(chooser)));
 
 
   #
@@ -14287,7 +14294,7 @@ class TFileChooser (TEmitter):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def choose_file_for_save(self): 
-    return file_chooser_choose_file_for_save(self.nativeObj);
+    return file_chooser_choose_file_for_save(awtk_get_native_obj(self));
 
 
   #
@@ -14297,7 +14304,7 @@ class TFileChooser (TEmitter):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def choose_file_for_open(self): 
-    return file_chooser_choose_file_for_open(self.nativeObj);
+    return file_chooser_choose_file_for_open(awtk_get_native_obj(self));
 
 
   #
@@ -14307,7 +14314,7 @@ class TFileChooser (TEmitter):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def choose_folder(self): 
-    return file_chooser_choose_folder(self.nativeObj);
+    return file_chooser_choose_folder(awtk_get_native_obj(self));
 
 
   #
@@ -14317,7 +14324,7 @@ class TFileChooser (TEmitter):
   # @return 返回选择的目录。
   #
   def get_dir(self): 
-    return file_chooser_get_dir(self.nativeObj);
+    return file_chooser_get_dir(awtk_get_native_obj(self));
 
 
   #
@@ -14327,7 +14334,7 @@ class TFileChooser (TEmitter):
   # @return 返回选择的文件名。
   #
   def get_filename(self): 
-    return file_chooser_get_filename(self.nativeObj);
+    return file_chooser_get_filename(awtk_get_native_obj(self));
 
 
   #
@@ -14337,7 +14344,7 @@ class TFileChooser (TEmitter):
   # @return 返回用户是否取消了选择。
   #
   def is_aborted(self): 
-    return file_chooser_is_aborted(self.nativeObj);
+    return file_chooser_is_aborted(awtk_get_native_obj(self));
 
 
 #
@@ -14396,7 +14403,7 @@ class TFileBrowserView (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TFileBrowserView(file_browser_view_create(parent.nativeObj, x, y, w, h));
+    return  TFileBrowserView(file_browser_view_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -14408,7 +14415,7 @@ class TFileBrowserView (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TFileBrowserView(file_browser_view_cast(widget.nativeObj));
+    return  TFileBrowserView(file_browser_view_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -14419,7 +14426,7 @@ class TFileBrowserView (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_init_dir(self, init_dir): 
-    return file_browser_view_set_init_dir(self.nativeObj, init_dir);
+    return file_browser_view_set_init_dir(awtk_get_native_obj(self), init_dir);
 
 
   #
@@ -14430,7 +14437,7 @@ class TFileBrowserView (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_ignore_hidden_files(self, ignore_hidden_files): 
-    return file_browser_view_set_ignore_hidden_files(self.nativeObj, ignore_hidden_files);
+    return file_browser_view_set_ignore_hidden_files(awtk_get_native_obj(self), ignore_hidden_files);
 
 
   #
@@ -14441,7 +14448,7 @@ class TFileBrowserView (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_sort_ascending(self, sort_ascending): 
-    return file_browser_view_set_sort_ascending(self.nativeObj, sort_ascending);
+    return file_browser_view_set_sort_ascending(awtk_get_native_obj(self), sort_ascending);
 
 
   #
@@ -14452,7 +14459,7 @@ class TFileBrowserView (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_show_check_button(self, show_check_button): 
-    return file_browser_view_set_show_check_button(self.nativeObj, show_check_button);
+    return file_browser_view_set_show_check_button(awtk_get_native_obj(self), show_check_button);
 
 
   #
@@ -14463,7 +14470,7 @@ class TFileBrowserView (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_sort_by(self, sort_by): 
-    return file_browser_view_set_sort_by(self.nativeObj, sort_by);
+    return file_browser_view_set_sort_by(awtk_get_native_obj(self), sort_by);
 
 
   #
@@ -14473,7 +14480,7 @@ class TFileBrowserView (TWidget):
   # @return 返回当前路径。
   #
   def get_cwd(self): 
-    return file_browser_view_get_cwd(self.nativeObj);
+    return file_browser_view_get_cwd(awtk_get_native_obj(self));
 
 
   #
@@ -14484,7 +14491,7 @@ class TFileBrowserView (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def create_dir(self, name): 
-    return file_browser_view_create_dir(self.nativeObj, name);
+    return file_browser_view_create_dir(awtk_get_native_obj(self), name);
 
 
   #
@@ -14497,7 +14504,7 @@ class TFileBrowserView (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def create_file(self, name, data, size): 
-    return file_browser_view_create_file(self.nativeObj, name, data, size);
+    return file_browser_view_create_file(awtk_get_native_obj(self), name, data, size);
 
 
   #
@@ -14613,7 +14620,7 @@ class TDraggable (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TDraggable(draggable_create(parent.nativeObj, x, y, w, h));
+    return  TDraggable(draggable_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -14625,7 +14632,7 @@ class TDraggable (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TDraggable(draggable_cast(widget.nativeObj));
+    return  TDraggable(draggable_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -14636,7 +14643,7 @@ class TDraggable (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_top(self, top): 
-    return draggable_set_top(self.nativeObj, top);
+    return draggable_set_top(awtk_get_native_obj(self), top);
 
 
   #
@@ -14647,7 +14654,7 @@ class TDraggable (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_bottom(self, bottom): 
-    return draggable_set_bottom(self.nativeObj, bottom);
+    return draggable_set_bottom(awtk_get_native_obj(self), bottom);
 
 
   #
@@ -14658,7 +14665,7 @@ class TDraggable (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_left(self, left): 
-    return draggable_set_left(self.nativeObj, left);
+    return draggable_set_left(awtk_get_native_obj(self), left);
 
 
   #
@@ -14669,7 +14676,7 @@ class TDraggable (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_right(self, right): 
-    return draggable_set_right(self.nativeObj, right);
+    return draggable_set_right(awtk_get_native_obj(self), right);
 
 
   #
@@ -14680,7 +14687,7 @@ class TDraggable (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_vertical_only(self, vertical_only): 
-    return draggable_set_vertical_only(self.nativeObj, vertical_only);
+    return draggable_set_vertical_only(awtk_get_native_obj(self), vertical_only);
 
 
   #
@@ -14691,7 +14698,7 @@ class TDraggable (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_horizontal_only(self, horizontal_only): 
-    return draggable_set_horizontal_only(self.nativeObj, horizontal_only);
+    return draggable_set_horizontal_only(awtk_get_native_obj(self), horizontal_only);
 
 
   #
@@ -14703,7 +14710,7 @@ class TDraggable (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_drag_window(self, drag_window): 
-    return draggable_set_drag_window(self.nativeObj, drag_window);
+    return draggable_set_drag_window(awtk_get_native_obj(self), drag_window);
 
 
   #
@@ -14818,7 +14825,7 @@ class TColorComponent (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TColorComponent(color_component_cast(widget.nativeObj));
+    return  TColorComponent(color_component_cast(awtk_get_native_obj(widget)));
 
 
 #
@@ -14874,7 +14881,7 @@ class TCanvasWidget (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TCanvasWidget(canvas_widget_create(parent.nativeObj, x, y, w, h));
+    return  TCanvasWidget(canvas_widget_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -14886,7 +14893,7 @@ class TCanvasWidget (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TCanvasWidget(canvas_widget_cast(widget.nativeObj));
+    return  TCanvasWidget(canvas_widget_cast(awtk_get_native_obj(widget)));
 
 
 #
@@ -14937,7 +14944,7 @@ class TGroupBox (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TGroupBox(group_box_create(parent.nativeObj, x, y, w, h));
+    return  TGroupBox(group_box_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -14949,7 +14956,7 @@ class TGroupBox (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TGroupBox(group_box_cast(widget.nativeObj));
+    return  TGroupBox(group_box_cast(awtk_get_native_obj(widget)));
 
 
 #
@@ -14999,7 +15006,7 @@ class TGrid (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TGrid(grid_create(parent.nativeObj, x, y, w, h));
+    return  TGrid(grid_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -15011,7 +15018,7 @@ class TGrid (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TGrid(grid_cast(widget.nativeObj));
+    return  TGrid(grid_cast(awtk_get_native_obj(widget)));
 
 
 #
@@ -15043,7 +15050,7 @@ class TWindowManager (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TWindowManager(window_manager_cast(widget.nativeObj));
+    return  TWindowManager(window_manager_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -15053,7 +15060,7 @@ class TWindowManager (TWidget):
   # @return 返回窗口对象。
   #
   def get_top_main_window(self): 
-    return  TWidget(window_manager_get_top_main_window(self.nativeObj));
+    return  TWidget(window_manager_get_top_main_window(awtk_get_native_obj(self)));
 
 
   #
@@ -15063,7 +15070,7 @@ class TWindowManager (TWidget):
   # @return 返回窗口对象。
   #
   def get_top_window(self): 
-    return  TWidget(window_manager_get_top_window(self.nativeObj));
+    return  TWidget(window_manager_get_top_window(awtk_get_native_obj(self)));
 
 
   #
@@ -15073,7 +15080,7 @@ class TWindowManager (TWidget):
   # @return 返回窗口对象。
   #
   def get_prev_window(self): 
-    return  TWidget(window_manager_get_prev_window(self.nativeObj));
+    return  TWidget(window_manager_get_prev_window(awtk_get_native_obj(self)));
 
 
   #
@@ -15083,7 +15090,7 @@ class TWindowManager (TWidget):
   # @return 返回指针当前的X坐标。
   #
   def get_pointer_x(self): 
-    return window_manager_get_pointer_x(self.nativeObj);
+    return window_manager_get_pointer_x(awtk_get_native_obj(self));
 
 
   #
@@ -15093,7 +15100,7 @@ class TWindowManager (TWidget):
   # @return 返回指针当前的X坐标。
   #
   def get_pointer_y(self): 
-    return window_manager_get_pointer_y(self.nativeObj);
+    return window_manager_get_pointer_y(awtk_get_native_obj(self));
 
 
   #
@@ -15103,7 +15110,7 @@ class TWindowManager (TWidget):
   # @return 返回指针当前是否按下。
   #
   def get_pointer_pressed(self): 
-    return window_manager_get_pointer_pressed(self.nativeObj);
+    return window_manager_get_pointer_pressed(awtk_get_native_obj(self));
 
 
   #
@@ -15113,7 +15120,7 @@ class TWindowManager (TWidget):
   # @return 返回TRUE表示正在播放，FALSE表示没有播放。
   #
   def is_animating(self): 
-    return window_manager_is_animating(self.nativeObj);
+    return window_manager_is_animating(awtk_get_native_obj(self));
 
 
   #
@@ -15124,7 +15131,7 @@ class TWindowManager (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_show_fps(self, show_fps): 
-    return window_manager_set_show_fps(self.nativeObj, show_fps);
+    return window_manager_set_show_fps(awtk_get_native_obj(self), show_fps);
 
 
   #
@@ -15135,7 +15142,7 @@ class TWindowManager (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_screen_saver_time(self, screen_saver_time): 
-    return window_manager_set_screen_saver_time(self.nativeObj, screen_saver_time);
+    return window_manager_set_screen_saver_time(awtk_get_native_obj(self), screen_saver_time);
 
 
   #
@@ -15146,7 +15153,7 @@ class TWindowManager (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_cursor(self, cursor): 
-    return window_manager_set_cursor(self.nativeObj, cursor);
+    return window_manager_set_cursor(awtk_get_native_obj(self), cursor);
 
 
   #
@@ -15158,7 +15165,7 @@ class TWindowManager (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def back(self): 
-    return window_manager_back(self.nativeObj);
+    return window_manager_back(awtk_get_native_obj(self));
 
 
   #
@@ -15170,7 +15177,7 @@ class TWindowManager (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def back_to_home(self): 
-    return window_manager_back_to_home(self.nativeObj);
+    return window_manager_back_to_home(awtk_get_native_obj(self));
 
 
   #
@@ -15183,7 +15190,7 @@ class TWindowManager (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def back_to(self, target): 
-    return window_manager_back_to(self.nativeObj, target);
+    return window_manager_back_to(awtk_get_native_obj(self), target);
 
 
   #
@@ -15195,7 +15202,7 @@ class TWindowManager (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def resize(self, w, h): 
-    return window_manager_resize(self.nativeObj, w, h);
+    return window_manager_resize(awtk_get_native_obj(self), w, h);
 
 
 #
@@ -15222,7 +15229,7 @@ class TWindowBase (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TWindowBase(window_base_cast(widget.nativeObj));
+    return  TWindowBase(window_base_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -15396,7 +15403,7 @@ class TGridItem (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TGridItem(grid_item_create(parent.nativeObj, x, y, w, h));
+    return  TGridItem(grid_item_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -15408,7 +15415,7 @@ class TGridItem (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TGridItem(grid_item_cast(widget.nativeObj));
+    return  TGridItem(grid_item_cast(awtk_get_native_obj(widget)));
 
 
 #
@@ -15482,7 +15489,7 @@ class TEdit (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TEdit(edit_create(parent.nativeObj, x, y, w, h));
+    return  TEdit(edit_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -15494,7 +15501,7 @@ class TEdit (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TEdit(edit_cast(widget.nativeObj));
+    return  TEdit(edit_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -15504,7 +15511,7 @@ class TEdit (TWidget):
   # @return 返回int的值。
   #
   def get_int(self): 
-    return edit_get_int(self.nativeObj);
+    return edit_get_int(awtk_get_native_obj(self));
 
 
   #
@@ -15514,7 +15521,7 @@ class TEdit (TWidget):
   # @return 返回double的值。
   #
   def get_double(self): 
-    return edit_get_double(self.nativeObj);
+    return edit_get_double(awtk_get_native_obj(self));
 
 
   #
@@ -15525,7 +15532,7 @@ class TEdit (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_int(self, value): 
-    return edit_set_int(self.nativeObj, value);
+    return edit_set_int(awtk_get_native_obj(self), value);
 
 
   #
@@ -15536,7 +15543,7 @@ class TEdit (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_double(self, value): 
-    return edit_set_double(self.nativeObj, value);
+    return edit_set_double(awtk_get_native_obj(self), value);
 
 
   #
@@ -15548,7 +15555,7 @@ class TEdit (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_text_limit(self, min, max): 
-    return edit_set_text_limit(self.nativeObj, min, max);
+    return edit_set_text_limit(awtk_get_native_obj(self), min, max);
 
 
   #
@@ -15561,7 +15568,7 @@ class TEdit (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_int_limit(self, min, max, step): 
-    return edit_set_int_limit(self.nativeObj, min, max, step);
+    return edit_set_int_limit(awtk_get_native_obj(self), min, max, step);
 
 
   #
@@ -15574,7 +15581,7 @@ class TEdit (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_float_limit(self, min, max, step): 
-    return edit_set_float_limit(self.nativeObj, min, max, step);
+    return edit_set_float_limit(awtk_get_native_obj(self), min, max, step);
 
 
   #
@@ -15585,7 +15592,7 @@ class TEdit (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_readonly(self, readonly): 
-    return edit_set_readonly(self.nativeObj, readonly);
+    return edit_set_readonly(awtk_get_native_obj(self), readonly);
 
 
   #
@@ -15596,7 +15603,7 @@ class TEdit (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_auto_fix(self, auto_fix): 
-    return edit_set_auto_fix(self.nativeObj, auto_fix);
+    return edit_set_auto_fix(awtk_get_native_obj(self), auto_fix);
 
 
   #
@@ -15607,7 +15614,7 @@ class TEdit (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_select_none_when_focused(self, select_none_when_focused): 
-    return edit_set_select_none_when_focused(self.nativeObj, select_none_when_focused);
+    return edit_set_select_none_when_focused(awtk_get_native_obj(self), select_none_when_focused);
 
 
   #
@@ -15618,7 +15625,7 @@ class TEdit (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_open_im_when_focused(self, open_im_when_focused): 
-    return edit_set_open_im_when_focused(self.nativeObj, open_im_when_focused);
+    return edit_set_open_im_when_focused(awtk_get_native_obj(self), open_im_when_focused);
 
 
   #
@@ -15629,7 +15636,7 @@ class TEdit (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_input_type(self, type): 
-    return edit_set_input_type(self.nativeObj, type);
+    return edit_set_input_type(awtk_get_native_obj(self), type);
 
 
   #
@@ -15640,7 +15647,7 @@ class TEdit (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_input_tips(self, tips): 
-    return edit_set_input_tips(self.nativeObj, tips);
+    return edit_set_input_tips(awtk_get_native_obj(self), tips);
 
 
   #
@@ -15651,7 +15658,7 @@ class TEdit (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_password_visible(self, password_visible): 
-    return edit_set_password_visible(self.nativeObj, password_visible);
+    return edit_set_password_visible(awtk_get_native_obj(self), password_visible);
 
 
   #
@@ -15662,7 +15669,7 @@ class TEdit (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_focus(self, focus): 
-    return edit_set_focus(self.nativeObj, focus);
+    return edit_set_focus(awtk_get_native_obj(self), focus);
 
 
   #
@@ -15673,7 +15680,7 @@ class TEdit (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_cursor(self, cursor): 
-    return edit_set_cursor(self.nativeObj, cursor);
+    return edit_set_cursor(awtk_get_native_obj(self), cursor);
 
 
   #
@@ -15864,7 +15871,7 @@ class TImageBase (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_image(self, name): 
-    return image_base_set_image(self.nativeObj, name);
+    return image_base_set_image(awtk_get_native_obj(self), name);
 
 
   #
@@ -15875,7 +15882,7 @@ class TImageBase (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_rotation(self, rotation): 
-    return image_base_set_rotation(self.nativeObj, rotation);
+    return image_base_set_rotation(awtk_get_native_obj(self), rotation);
 
 
   #
@@ -15887,7 +15894,7 @@ class TImageBase (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_scale(self, scale_x, scale_y): 
-    return image_base_set_scale(self.nativeObj, scale_x, scale_y);
+    return image_base_set_scale(awtk_get_native_obj(self), scale_x, scale_y);
 
 
   #
@@ -15899,7 +15906,7 @@ class TImageBase (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_anchor(self, anchor_x, anchor_y): 
-    return image_base_set_anchor(self.nativeObj, anchor_x, anchor_y);
+    return image_base_set_anchor(awtk_get_native_obj(self), anchor_x, anchor_y);
 
 
   #
@@ -15910,7 +15917,7 @@ class TImageBase (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_selected(self, selected): 
-    return image_base_set_selected(self.nativeObj, selected);
+    return image_base_set_selected(awtk_get_native_obj(self), selected);
 
 
   #
@@ -15921,7 +15928,7 @@ class TImageBase (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_selectable(self, selectable): 
-    return image_base_set_selectable(self.nativeObj, selectable);
+    return image_base_set_selectable(awtk_get_native_obj(self), selectable);
 
 
   #
@@ -15932,7 +15939,7 @@ class TImageBase (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_clickable(self, clickable): 
-    return image_base_set_clickable(self.nativeObj, clickable);
+    return image_base_set_clickable(awtk_get_native_obj(self), clickable);
 
 
   #
@@ -15944,7 +15951,7 @@ class TImageBase (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TImageBase(image_base_cast(widget.nativeObj));
+    return  TImageBase(image_base_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -16066,7 +16073,7 @@ class TWindowEvent (TEvent):
   #
   @classmethod
   def cast(cls, event): 
-    return  TWindowEvent(window_event_cast(event.nativeObj));
+    return  TWindowEvent(window_event_cast(awtk_get_native_obj(event)));
 
 
   #
@@ -16096,7 +16103,7 @@ class TPaintEvent (TEvent):
   #
   @classmethod
   def cast(cls, event): 
-    return  TPaintEvent(paint_event_cast(event.nativeObj));
+    return  TPaintEvent(paint_event_cast(awtk_get_native_obj(event)));
 
 
   #
@@ -16126,7 +16133,7 @@ class TKeyEvent (TEvent):
   #
   @classmethod
   def cast(cls, event): 
-    return  TKeyEvent(key_event_cast(event.nativeObj));
+    return  TKeyEvent(key_event_cast(awtk_get_native_obj(event)));
 
 
   #
@@ -16266,7 +16273,7 @@ class TPointerEvent (TEvent):
   #
   @classmethod
   def cast(cls, event): 
-    return  TPointerEvent(pointer_event_cast(event.nativeObj));
+    return  TPointerEvent(pointer_event_cast(awtk_get_native_obj(event)));
 
 
   #
@@ -16368,7 +16375,7 @@ class TOrientationEvent (TEvent):
   #
   @classmethod
   def cast(cls, event): 
-    return  TOrientationEvent(orientation_event_cast(event.nativeObj));
+    return  TOrientationEvent(orientation_event_cast(awtk_get_native_obj(event)));
 
 
   #
@@ -16398,7 +16405,7 @@ class TWheelEvent (TEvent):
   #
   @classmethod
   def cast(cls, event): 
-    return  TWheelEvent(wheel_event_cast(event.nativeObj));
+    return  TWheelEvent(wheel_event_cast(awtk_get_native_obj(event)));
 
 
   #
@@ -16486,7 +16493,7 @@ class TAppBar (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TAppBar(app_bar_create(parent.nativeObj, x, y, w, h));
+    return  TAppBar(app_bar_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -16498,7 +16505,7 @@ class TAppBar (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TAppBar(app_bar_cast(widget.nativeObj));
+    return  TAppBar(app_bar_cast(awtk_get_native_obj(widget)));
 
 
 #
@@ -16548,7 +16555,7 @@ class TButtonGroup (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TButtonGroup(button_group_create(parent.nativeObj, x, y, w, h));
+    return  TButtonGroup(button_group_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -16560,7 +16567,7 @@ class TButtonGroup (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TButtonGroup(button_group_cast(widget.nativeObj));
+    return  TButtonGroup(button_group_cast(awtk_get_native_obj(widget)));
 
 
 #
@@ -16623,7 +16630,7 @@ class TButton (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TButton(button_create(parent.nativeObj, x, y, w, h));
+    return  TButton(button_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -16635,7 +16642,7 @@ class TButton (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TButton(button_cast(widget.nativeObj));
+    return  TButton(button_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -16646,7 +16653,7 @@ class TButton (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_repeat(self, repeat): 
-    return button_set_repeat(self.nativeObj, repeat);
+    return button_set_repeat(awtk_get_native_obj(self), repeat);
 
 
   #
@@ -16657,7 +16664,7 @@ class TButton (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_enable_long_press(self, enable_long_press): 
-    return button_set_enable_long_press(self.nativeObj, enable_long_press);
+    return button_set_enable_long_press(awtk_get_native_obj(self), enable_long_press);
 
 
   #
@@ -16715,7 +16722,7 @@ class TDragger (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TDragger(dragger_create(parent.nativeObj, x, y, w, h));
+    return  TDragger(dragger_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -16727,7 +16734,7 @@ class TDragger (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TDragger(dragger_cast(widget.nativeObj));
+    return  TDragger(dragger_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -16741,7 +16748,7 @@ class TDragger (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_range(self, x_min, y_min, x_max, y_max): 
-    return dragger_set_range(self.nativeObj, x_min, y_min, x_max, y_max);
+    return dragger_set_range(awtk_get_native_obj(self), x_min, y_min, x_max, y_max);
 
 
   #
@@ -16845,7 +16852,7 @@ class TCheckButton (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TCheckButton(check_button_create(parent.nativeObj, x, y, w, h));
+    return  TCheckButton(check_button_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -16861,7 +16868,7 @@ class TCheckButton (TWidget):
   #
   @classmethod
   def create_radio(cls, parent, x, y, w, h): 
-    return  TCheckButton(check_button_create_radio(parent.nativeObj, x, y, w, h));
+    return  TCheckButton(check_button_create_radio(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -16872,7 +16879,7 @@ class TCheckButton (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_value(self, value): 
-    return check_button_set_value(self.nativeObj, value);
+    return check_button_set_value(awtk_get_native_obj(self), value);
 
 
   #
@@ -16884,7 +16891,7 @@ class TCheckButton (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TCheckButton(check_button_cast(widget.nativeObj));
+    return  TCheckButton(check_button_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -16946,7 +16953,7 @@ class TClipView (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TClipView(clip_view_create(parent.nativeObj, x, y, w, h));
+    return  TClipView(clip_view_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -16958,7 +16965,7 @@ class TClipView (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TClipView(clip_view_cast(widget.nativeObj));
+    return  TClipView(clip_view_cast(awtk_get_native_obj(widget)));
 
 
 #
@@ -17002,7 +17009,7 @@ class TColorTile (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TColorTile(color_tile_create(parent.nativeObj, x, y, w, h));
+    return  TColorTile(color_tile_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -17014,7 +17021,7 @@ class TColorTile (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TColorTile(color_tile_cast(widget.nativeObj));
+    return  TColorTile(color_tile_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -17025,7 +17032,7 @@ class TColorTile (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_bg_color(self, color): 
-    return color_tile_set_bg_color(self.nativeObj, color);
+    return color_tile_set_bg_color(awtk_get_native_obj(self), color);
 
 
   #
@@ -17097,7 +17104,7 @@ class TColumn (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TColumn(column_create(parent.nativeObj, x, y, w, h));
+    return  TColumn(column_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -17109,7 +17116,7 @@ class TColumn (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TColumn(column_cast(widget.nativeObj));
+    return  TColumn(column_cast(awtk_get_native_obj(widget)));
 
 
 #
@@ -17136,7 +17143,7 @@ class TComboBoxItem (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TComboBoxItem(combo_box_item_create(parent.nativeObj, x, y, w, h));
+    return  TComboBoxItem(combo_box_item_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -17148,7 +17155,7 @@ class TComboBoxItem (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TComboBoxItem(combo_box_item_cast(widget.nativeObj));
+    return  TComboBoxItem(combo_box_item_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -17159,7 +17166,7 @@ class TComboBoxItem (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_checked(self, checked): 
-    return combo_box_item_set_checked(self.nativeObj, checked);
+    return combo_box_item_set_checked(awtk_get_native_obj(self), checked);
 
 
   #
@@ -17170,7 +17177,7 @@ class TComboBoxItem (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_value(self, value): 
-    return combo_box_item_set_value(self.nativeObj, value);
+    return combo_box_item_set_value(awtk_get_native_obj(self), value);
 
 
   #
@@ -17249,7 +17256,7 @@ class TDigitClock (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TDigitClock(digit_clock_create(parent.nativeObj, x, y, w, h));
+    return  TDigitClock(digit_clock_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -17261,7 +17268,7 @@ class TDigitClock (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TDigitClock(digit_clock_cast(widget.nativeObj));
+    return  TDigitClock(digit_clock_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -17272,7 +17279,7 @@ class TDigitClock (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_format(self, format): 
-    return digit_clock_set_format(self.nativeObj, format);
+    return digit_clock_set_format(awtk_get_native_obj(self), format);
 
 
   #
@@ -17353,7 +17360,7 @@ class TDialogClient (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TDialogClient(dialog_client_create(parent.nativeObj, x, y, w, h));
+    return  TDialogClient(dialog_client_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -17365,7 +17372,7 @@ class TDialogClient (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TDialogClient(dialog_client_cast(widget.nativeObj));
+    return  TDialogClient(dialog_client_cast(awtk_get_native_obj(widget)));
 
 
 #
@@ -17411,7 +17418,7 @@ class TDialogTitle (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TDialogTitle(dialog_title_create(parent.nativeObj, x, y, w, h));
+    return  TDialogTitle(dialog_title_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -17423,7 +17430,7 @@ class TDialogTitle (TWidget):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TDialogTitle(dialog_title_cast(widget.nativeObj));
+    return  TDialogTitle(dialog_title_cast(awtk_get_native_obj(widget)));
 
 
 #
@@ -17455,7 +17462,7 @@ class TObjectDefault (TObject):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def unref(self): 
-    return object_default_unref(self.nativeObj);
+    return object_default_unref(awtk_get_native_obj(self));
 
 
   #
@@ -17465,7 +17472,7 @@ class TObjectDefault (TObject):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def clear_props(self): 
-    return object_default_clear_props(self.nativeObj);
+    return object_default_clear_props(awtk_get_native_obj(self));
 
 
   #
@@ -17601,7 +17608,7 @@ class TComboBox (TEdit):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TComboBox(combo_box_create(parent.nativeObj, x, y, w, h));
+    return  TComboBox(combo_box_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -17613,7 +17620,7 @@ class TComboBox (TEdit):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TComboBox(combo_box_cast(widget.nativeObj));
+    return  TComboBox(combo_box_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -17624,7 +17631,7 @@ class TComboBox (TEdit):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_open_window(self, open_window): 
-    return combo_box_set_open_window(self.nativeObj, open_window);
+    return combo_box_set_open_window(awtk_get_native_obj(self), open_window);
 
 
   #
@@ -17634,7 +17641,7 @@ class TComboBox (TEdit):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def reset_options(self): 
-    return combo_box_reset_options(self.nativeObj);
+    return combo_box_reset_options(awtk_get_native_obj(self));
 
 
   #
@@ -17644,7 +17651,7 @@ class TComboBox (TEdit):
   # @return 返回选项个数。
   #
   def count_options(self): 
-    return combo_box_count_options(self.nativeObj);
+    return combo_box_count_options(awtk_get_native_obj(self));
 
 
   #
@@ -17655,7 +17662,7 @@ class TComboBox (TEdit):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_selected_index(self, index): 
-    return combo_box_set_selected_index(self.nativeObj, index);
+    return combo_box_set_selected_index(awtk_get_native_obj(self), index);
 
 
   #
@@ -17666,7 +17673,7 @@ class TComboBox (TEdit):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_localize_options(self, localize_options): 
-    return combo_box_set_localize_options(self.nativeObj, localize_options);
+    return combo_box_set_localize_options(awtk_get_native_obj(self), localize_options);
 
 
   #
@@ -17677,7 +17684,7 @@ class TComboBox (TEdit):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_value(self, value): 
-    return combo_box_set_value(self.nativeObj, value);
+    return combo_box_set_value(awtk_get_native_obj(self), value);
 
 
   #
@@ -17688,7 +17695,7 @@ class TComboBox (TEdit):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_item_height(self, item_height): 
-    return combo_box_set_item_height(self.nativeObj, item_height);
+    return combo_box_set_item_height(awtk_get_native_obj(self), item_height);
 
 
   #
@@ -17700,7 +17707,7 @@ class TComboBox (TEdit):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def append_option(self, value, text): 
-    return combo_box_append_option(self.nativeObj, value, text);
+    return combo_box_append_option(awtk_get_native_obj(self), value, text);
 
 
   #
@@ -17711,7 +17718,7 @@ class TComboBox (TEdit):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_options(self, options): 
-    return combo_box_set_options(self.nativeObj, options);
+    return combo_box_set_options(awtk_get_native_obj(self), options);
 
 
   #
@@ -17721,7 +17728,7 @@ class TComboBox (TEdit):
   # @return 返回值。
   #
   def get_value(self): 
-    return combo_box_get_value(self.nativeObj);
+    return combo_box_get_value(awtk_get_native_obj(self));
 
 
   #
@@ -17731,7 +17738,7 @@ class TComboBox (TEdit):
   # @return 返回文本。
   #
   def get_text_value(self): 
-    return combo_box_get_text(self.nativeObj);
+    return combo_box_get_text(awtk_get_native_obj(self));
 
 
   #
@@ -17831,7 +17838,7 @@ class TNativeWindow (TObject):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def move(self, x, y, force): 
-    return native_window_move(self.nativeObj, x, y, force);
+    return native_window_move(awtk_get_native_obj(self), x, y, force);
 
 
   #
@@ -17844,7 +17851,7 @@ class TNativeWindow (TObject):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def resize(self, w, h, force): 
-    return native_window_resize(self.nativeObj, w, h, force);
+    return native_window_resize(awtk_get_native_obj(self), w, h, force);
 
 
   #
@@ -17854,7 +17861,7 @@ class TNativeWindow (TObject):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def minimize(self): 
-    return native_window_minimize(self.nativeObj);
+    return native_window_minimize(awtk_get_native_obj(self));
 
 
   #
@@ -17864,7 +17871,7 @@ class TNativeWindow (TObject):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def maximize(self): 
-    return native_window_maximize(self.nativeObj);
+    return native_window_maximize(awtk_get_native_obj(self));
 
 
   #
@@ -17874,7 +17881,7 @@ class TNativeWindow (TObject):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def restore(self): 
-    return native_window_restore(self.nativeObj);
+    return native_window_restore(awtk_get_native_obj(self));
 
 
   #
@@ -17884,7 +17891,7 @@ class TNativeWindow (TObject):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def center(self): 
-    return native_window_center(self.nativeObj);
+    return native_window_center(awtk_get_native_obj(self));
 
 
   #
@@ -17895,7 +17902,7 @@ class TNativeWindow (TObject):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def show_border(self, show): 
-    return native_window_show_border(self.nativeObj, show);
+    return native_window_show_border(awtk_get_native_obj(self), show);
 
 
   #
@@ -17906,7 +17913,7 @@ class TNativeWindow (TObject):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_fullscreen(self, fullscreen): 
-    return native_window_set_fullscreen(self.nativeObj, fullscreen);
+    return native_window_set_fullscreen(awtk_get_native_obj(self), fullscreen);
 
 
 #
@@ -17965,7 +17972,7 @@ class TWindow (TWindowBase):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TWindow(window_create(parent.nativeObj, x, y, w, h));
+    return  TWindow(window_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -17989,7 +17996,7 @@ class TWindow (TWindowBase):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_fullscreen(self, fullscreen): 
-    return window_set_fullscreen(self.nativeObj, fullscreen);
+    return window_set_fullscreen(awtk_get_native_obj(self), fullscreen);
 
 
   #
@@ -18014,7 +18021,7 @@ class TWindow (TWindowBase):
   #
   @classmethod
   def open_and_close(cls, name, to_close): 
-    return  TWindow(window_open_and_close(name, to_close.nativeObj));
+    return  TWindow(window_open_and_close(name, awtk_get_native_obj(to_close)));
 
 
   #
@@ -18024,7 +18031,7 @@ class TWindow (TWindowBase):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def close(self): 
-    return window_close(self.nativeObj);
+    return window_close(awtk_get_native_obj(self));
 
 
   #
@@ -18034,7 +18041,7 @@ class TWindow (TWindowBase):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def close_force(self): 
-    return window_close_force(self.nativeObj);
+    return window_close_force(awtk_get_native_obj(self));
 
 
   #
@@ -18046,7 +18053,7 @@ class TWindow (TWindowBase):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TWindow(window_cast(widget.nativeObj));
+    return  TWindow(window_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -18082,7 +18089,7 @@ class TTimerInfo (TObject):
   #
   @classmethod
   def cast(cls, timer): 
-    return  TTimerInfo(timer_info_cast(timer.nativeObj));
+    return  TTimerInfo(timer_info_cast(awtk_get_native_obj(timer)));
 
 
   #
@@ -18188,7 +18195,7 @@ class TImage (TImageBase):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TImage(image_create(parent.nativeObj, x, y, w, h));
+    return  TImage(image_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -18199,7 +18206,7 @@ class TImage (TImageBase):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_draw_type(self, draw_type): 
-    return image_set_draw_type(self.nativeObj, draw_type);
+    return image_set_draw_type(awtk_get_native_obj(self), draw_type);
 
 
   #
@@ -18211,7 +18218,7 @@ class TImage (TImageBase):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TImage(image_cast(widget.nativeObj));
+    return  TImage(image_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -18287,7 +18294,7 @@ class TGifImage (TImageBase):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TGifImage(gif_image_create(parent.nativeObj, x, y, w, h));
+    return  TGifImage(gif_image_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -18299,7 +18306,7 @@ class TGifImage (TImageBase):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TGifImage(gif_image_cast(widget.nativeObj));
+    return  TGifImage(gif_image_cast(awtk_get_native_obj(widget)));
 
 
 #
@@ -18380,7 +18387,7 @@ class TKeyboard (TWindowBase):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TKeyboard(keyboard_create(parent.nativeObj, x, y, w, h));
+    return  TKeyboard(keyboard_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -18392,7 +18399,7 @@ class TKeyboard (TWindowBase):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TKeyboard(keyboard_cast(widget.nativeObj));
+    return  TKeyboard(keyboard_cast(awtk_get_native_obj(widget)));
 
 
 #
@@ -18458,7 +18465,7 @@ class TPopup (TWindowBase):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TPopup(popup_create(parent.nativeObj, x, y, w, h));
+    return  TPopup(popup_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -18470,7 +18477,7 @@ class TPopup (TWindowBase):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TPopup(popup_cast(widget.nativeObj));
+    return  TPopup(popup_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -18481,7 +18488,7 @@ class TPopup (TWindowBase):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_close_when_click(self, close_when_click): 
-    return popup_set_close_when_click(self.nativeObj, close_when_click);
+    return popup_set_close_when_click(awtk_get_native_obj(self), close_when_click);
 
 
   #
@@ -18492,7 +18499,7 @@ class TPopup (TWindowBase):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_close_when_click_outside(self, close_when_click_outside): 
-    return popup_set_close_when_click_outside(self.nativeObj, close_when_click_outside);
+    return popup_set_close_when_click_outside(awtk_get_native_obj(self), close_when_click_outside);
 
 
   #
@@ -18557,7 +18564,7 @@ class TCalibrationWin (TWindowBase):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TCalibrationWin(calibration_win_cast(widget.nativeObj));
+    return  TCalibrationWin(calibration_win_cast(awtk_get_native_obj(widget)));
 
 
 #
@@ -18592,7 +18599,7 @@ class TObjectArray (TObject):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def unref(self): 
-    return object_array_unref(self.nativeObj);
+    return object_array_unref(awtk_get_native_obj(self));
 
 
   #
@@ -18602,7 +18609,7 @@ class TObjectArray (TObject):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def clear_props(self): 
-    return object_array_clear_props(self.nativeObj);
+    return object_array_clear_props(awtk_get_native_obj(self));
 
 
   #
@@ -18716,7 +18723,7 @@ class TSpinBox (TEdit):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TSpinBox(spin_box_create(parent.nativeObj, x, y, w, h));
+    return  TSpinBox(spin_box_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -18728,7 +18735,7 @@ class TSpinBox (TEdit):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TSpinBox(spin_box_cast(widget.nativeObj));
+    return  TSpinBox(spin_box_cast(awtk_get_native_obj(widget)));
 
 
 #
@@ -18798,7 +18805,7 @@ class TSystemBar (TWindowBase):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TSystemBar(system_bar_create(parent.nativeObj, x, y, w, h));
+    return  TSystemBar(system_bar_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -18810,7 +18817,7 @@ class TSystemBar (TWindowBase):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TSystemBar(system_bar_cast(widget.nativeObj));
+    return  TSystemBar(system_bar_cast(awtk_get_native_obj(widget)));
 
 
 #
@@ -18831,7 +18838,7 @@ class TIdleInfo (TObject):
   #
   @classmethod
   def cast(cls, idle): 
-    return  TIdleInfo(idle_info_cast(idle.nativeObj));
+    return  TIdleInfo(idle_info_cast(awtk_get_native_obj(idle)));
 
 
   #
@@ -18908,7 +18915,7 @@ class TSvgImage (TImageBase):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TSvgImage(svg_image_create(parent.nativeObj, x, y, w, h));
+    return  TSvgImage(svg_image_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -18921,7 +18928,7 @@ class TSvgImage (TImageBase):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_image(self, name): 
-    return svg_image_set_image(self.nativeObj, name);
+    return svg_image_set_image(awtk_get_native_obj(self), name);
 
 
   #
@@ -18933,7 +18940,7 @@ class TSvgImage (TImageBase):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TSvgImage(svg_image_cast(widget.nativeObj));
+    return  TSvgImage(svg_image_cast(awtk_get_native_obj(widget)));
 
 
 #
@@ -19025,7 +19032,7 @@ class TDialog (TWindowBase):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TDialog(dialog_create(parent.nativeObj, x, y, w, h));
+    return  TDialog(dialog_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -19041,7 +19048,7 @@ class TDialog (TWindowBase):
   #
   @classmethod
   def create_simple(cls, parent, x, y, w, h): 
-    return  TDialog(dialog_create_simple(parent.nativeObj, x, y, w, h));
+    return  TDialog(dialog_create_simple(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
@@ -19053,7 +19060,7 @@ class TDialog (TWindowBase):
   #
   @classmethod
   def cast(cls, widget): 
-    return  TDialog(dialog_cast(widget.nativeObj));
+    return  TDialog(dialog_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -19063,7 +19070,7 @@ class TDialog (TWindowBase):
   # @return title对象。
   #
   def get_title(self): 
-    return  TWidget(dialog_get_title(self.nativeObj));
+    return  TWidget(dialog_get_title(awtk_get_native_obj(self)));
 
 
   #
@@ -19073,7 +19080,7 @@ class TDialog (TWindowBase):
   # @return client对象。
   #
   def get_client(self): 
-    return  TWidget(dialog_get_client(self.nativeObj));
+    return  TWidget(dialog_get_client(awtk_get_native_obj(self)));
 
 
   #
@@ -19098,7 +19105,7 @@ class TDialog (TWindowBase):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_title(self, title): 
-    return dialog_set_title(self.nativeObj, title);
+    return dialog_set_title(awtk_get_native_obj(self), title);
 
 
   #
@@ -19110,7 +19117,7 @@ class TDialog (TWindowBase):
   # @return 返回退出吗。
   #
   def modal(self): 
-    return dialog_modal(self.nativeObj);
+    return dialog_modal(awtk_get_native_obj(self));
 
 
   #
@@ -19123,7 +19130,7 @@ class TDialog (TWindowBase):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def quit(self, code): 
-    return dialog_quit(self.nativeObj, code);
+    return dialog_quit(awtk_get_native_obj(self), code);
 
 
   #
@@ -19133,7 +19140,7 @@ class TDialog (TWindowBase):
   # @return 返回TRUE表示已经退出，否则表示没有。
   #
   def is_quited(self): 
-    return dialog_is_quited(self.nativeObj);
+    return dialog_is_quited(awtk_get_native_obj(self));
 
 
   #
@@ -19143,7 +19150,7 @@ class TDialog (TWindowBase):
   # @return 返回TRUE表示是模态对话框，否则表示不是。
   #
   def is_modal(self): 
-    return dialog_is_modal(self.nativeObj);
+    return dialog_is_modal(awtk_get_native_obj(self));
 
 
   #
@@ -19239,5 +19246,5 @@ class TComboBoxEx (TComboBox):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TComboBoxEx(combo_box_ex_create(parent.nativeObj, x, y, w, h));
+    return  TComboBoxEx(combo_box_ex_create(awtk_get_native_obj(parent), x, y, w, h));
 
