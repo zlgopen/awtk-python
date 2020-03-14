@@ -21,6 +21,7 @@ def application_init():
     btn.set_self_layout_params("center", "middle", "50%", "30");
     btn.on(TEventType.CLICK, on_clicked, win);
 
+    print(win.lookup("close", 100).name)
     win.layout();
 
 application_init()
