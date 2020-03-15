@@ -1,10 +1,10 @@
 from awtk import *
 
-def on_clicked(ctx, e):
+def on_clicked(win, e):
     TGlobal.quit();
     return TRet.OK;
 
-def on_edit_changed(ctx, e):
+def on_edit_changed(win, e):
     evt = TEvent.cast(e);
     edit = TWidget.cast(evt.target);
     print("text changed:" + edit.get_text());

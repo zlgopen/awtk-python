@@ -59,13 +59,13 @@ scons
 ```python
 from awtk import *
 
-def on_clicked(ctx, e): 
+def on_clicked(win, e): 
     evt = TEvent.cast(e);
     btn = TWidget.cast(evt.target);
     p = TPointerEvent.cast(e);
 
     print('click at x=' + str(p.x) + " y=" + str(p.y));
-    print('click:' + btn.get_text() + ' in ' + ctx.name);
+    print('click:' + btn.get_text() + ' in ' + win.name);
     TGlobal.quit()
 
     return TRet.OK;
