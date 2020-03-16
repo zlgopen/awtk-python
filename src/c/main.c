@@ -15,7 +15,7 @@ sys.path.insert(0, AWTK_PYTHON_ROOT);\n\
 \n\
 ";
 
-ret_t assets_init(void);
+ret_t assets_init(const char* theme);
 static wchar_t *program = NULL;
 PyMODINIT_FUNC PyInit_awtk_native(void);
 
@@ -56,41 +56,29 @@ static ret_t python_deinit(void) {
   return TRUE;
 }
 
-int main(int argc, char *argv[]) {
-  int w = 320;
-  int h = 480;
-  const char *app_name = NULL;
-  const char *script_file = NULL;
+const char* script_file = NULL;
 
-  if(argc < 2) {
-    log_debug("Usage: %s script [w] [h]\n", argv[0]);
+static ret_t on_cmd_line(int argc, char* argv[]) {
+  script_file = argc == 2 ? argv[1] : "./demos/button.py";
 
-    return 0;
-  }
+  return RET_OK;
+}
 
-  app_name = argv[0];
-  script_file = argv[1];
-
-  if(argc > 2) {
-    w = atoi(argv[2]);
-  }
-  
-  if(argc > 3) {
-    h = atoi(argv[3]);
-  }
-
-  tk_init(w, h, APP_SIMULATOR, "AWTK-PY", NULL);
-
-  assets_init();
-  tk_ext_widgets_init();
-
-  python_init(app_name);
+static ret_t application_init() {
+  python_init("awtkRun");
   python_run(script_file);
 
-  tk_run();
+  return RET_OK;
+}
 
+static ret_t application_exit() {
   python_deinit();
 
-  return 0;
+  return RET_OK;
 }
+
+#define APP_NAME "AWTK-Python"
+#define ON_CMD_LINE on_cmd_line
+
+#include "awtk_main.inc"
 
