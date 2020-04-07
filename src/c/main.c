@@ -15,7 +15,6 @@ sys.path.insert(0, AWTK_PYTHON_ROOT);\n\
 \n\
 ";
 
-ret_t assets_init(const char* theme);
 static wchar_t *program = NULL;
 PyMODINIT_FUNC PyInit_awtk_native(void);
 
