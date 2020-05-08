@@ -11,7 +11,7 @@ CWD=os.getcwd()\n\
 AWTK_PYTHON_ROOT=os.path.normpath(os.path.join(CWD, 'src/python'));\n\
 \n\
 sys.path.insert(0, CWD);\n\
-sys.path.insert(0, './');\n\
+sys.path.insert(0, './demos');\n\
 sys.path.insert(0, AWTK_PYTHON_ROOT);\n\
 \n\
 ";

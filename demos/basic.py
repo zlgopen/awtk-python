@@ -1,4 +1,8 @@
 from awtk import *
+sys.path.insert(0, './demos')
+
+import foobar
+print(foobar.add(100, 200))
 
 def on_close_clicked(ctx, e):
     TGlobal.quit()
