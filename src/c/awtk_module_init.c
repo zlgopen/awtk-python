@@ -38,7 +38,7 @@ static struct PyModuleDef moduledef = {PyModuleDef_HEAD_INIT,
 
 #define INITERROR return NULL
 
-AWTK_API PyMODINIT_FUNC PyInit_awtk_native(void)
+PyMODINIT_FUNC PyInit_awtk_native(void)
 
 #else
 #define INITERROR return

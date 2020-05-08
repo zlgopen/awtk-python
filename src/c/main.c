@@ -11,6 +11,7 @@ CWD=os.getcwd()\n\
 AWTK_PYTHON_ROOT=os.path.normpath(os.path.join(CWD, 'src/python'));\n\
 \n\
 sys.path.insert(0, CWD);\n\
+sys.path.insert(0, './');\n\
 sys.path.insert(0, AWTK_PYTHON_ROOT);\n\
 \n\
 ";
@@ -34,14 +35,15 @@ static ret_t python_init(const char *app_name) {
 }
 
 static ret_t python_run(const char *script_file) {
-  FILE *fp = NULL;
-  fp = fopen(script_file, "r");
-  return_value_if_fail(fp != NULL, RET_BAD_PARAMS);
+  uint32_t size = 0;
+  char* content = file_read(script_file, &size);
+
+  return_value_if_fail(content != NULL, RET_BAD_PARAMS);
 
   PyRun_SimpleString(s_bootstrap_scripts);
-  PyRun_AnyFile(fp, script_file);
+  PyRun_SimpleString(content);
 
-  fclose(fp);
+  TKMEM_FREE(content);
 
   return RET_OK;
 }
