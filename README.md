@@ -2,6 +2,8 @@
 
 ZLG 开源 GUI 引擎 [awtk](https://github.com/zlgopen/awtk) 针对 Python [Python](https://python.org) 的绑定。
 
+>推荐：本项目目前不支持调试器，需要调试器的朋友请使用 [CUITzhaoqi/awtk-python](https://github.com/CUITzhaoqi/awtk-python)
+
 ## 准备
 
 > 请先安装 Python [Python](https://python.org)
@@ -35,7 +37,7 @@ scons
 ./bin/awtkRun demos/button.py
 ```
 
-## 更新绑定(由本项目的维护人员完成)
+## 更新绑定（由本项目的维护人员完成）
 
 ```
 ./sync.sh
@@ -47,12 +49,11 @@ scons
 
 * [AWTK 脚本绑定原理](https://github.com/zlgopen/awtk/blob/master/docs/script_binding.md)
 
-
 > 本文以 Linux/MacOS 为例，Windows 可能会微妙差异，请酌情处理。
 
 ## 注意事项
 
-* 编译 PC 版本，请把 src/c/main.c 中的APP\_SIMULATOR 改成 APP\_DESKTOP，并重新编译。
+* 编译 PC 版本，请把 src/c/main.c 中的 APP\_SIMULATOR 改成 APP\_DESKTOP，并重新编译。
 
 ## sample
 
@@ -84,4 +85,3 @@ def application_init():
 
 application_init()
 ```
-
