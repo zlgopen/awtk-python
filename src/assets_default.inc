@@ -164,7 +164,9 @@
 #include "assets/default/inc/ui/scroll_view_v.data"
 #include "assets/default/inc/xml/test.data"
 #include "assets/default/inc/data/com_zlg_app_json.data"
+#include "assets/default/inc/data/gpinyin_dat.data"
 #include "assets/default/inc/data/test_dat.data"
+#include "assets/default/inc/data/suggest_words_zh_cn_dat.data"
 #include "assets/default/inc/data/test_json.data"
 #include "assets/default/inc/data/a_b_c_any.data"
 #ifdef WITH_STB_IMAGE
@@ -198,6 +200,7 @@
 #include "assets/default/inc/images/me_active.res"
 #include "assets/default/inc/images/file.res"
 #include "assets/default/inc/images/arrow_up_n.res"
+#include "assets/default/inc/images/cursor_hand.res"
 #include "assets/default/inc/images/left_on.res"
 #include "assets/default/inc/images/num_1.res"
 #include "assets/default/inc/images/battery_1.res"
@@ -266,6 +269,7 @@
 #include "assets/default/inc/images/red_btn_o.res"
 #include "assets/default/inc/images/slider_drag.res"
 #include "assets/default/inc/images/bg_portrait_1.res"
+#include "assets/default/inc/images/cursor_text.res"
 #include "assets/default/inc/images/unchecked.res"
 #include "assets/default/inc/images/red_btn_n.res"
 #include "assets/default/inc/images/arrow_down_p.res"
@@ -381,6 +385,7 @@
 #include "assets/default/inc/images/contact.data"
 #include "assets/default/inc/images/bricks.data"
 #include "assets/default/inc/images/dialog_title.data"
+#include "assets/default/inc/images/cursor_hand.data"
 #include "assets/default/inc/images/ani7.data"
 #include "assets/default/inc/images/play_p.data"
 #include "assets/default/inc/images/battery_5.data"
@@ -431,6 +436,7 @@
 #include "assets/default/inc/images/flag_US.data"
 #include "assets/default/inc/images/msg.data"
 #include "assets/default/inc/images/num_7.data"
+#include "assets/default/inc/images/cursor_text.data"
 #include "assets/default/inc/images/3.data"
 #include "assets/default/inc/images/arrow_left_n.data"
 #include "assets/default/inc/images/edit_clear_p.data"
@@ -637,7 +643,9 @@ ret_t assets_init_default(void) {
   assets_manager_add(am, ui_scroll_view_v);
   assets_manager_add(am, xml_test);
   assets_manager_add(am, data_com_zlg_app_json);
+  assets_manager_add(am, data_gpinyin_dat);
   assets_manager_add(am, data_test_dat);
+  assets_manager_add(am, data_suggest_words_zh_cn_dat);
   assets_manager_add(am, data_test_json);
   assets_manager_add(am, data_a_b_c_any);
   assets_manager_add(am, image_arrow_right_o);
@@ -719,6 +727,7 @@ ret_t assets_init_default(void) {
   assets_manager_add(am, image_contact);
   assets_manager_add(am, image_bricks);
   assets_manager_add(am, image_dialog_title);
+  assets_manager_add(am, image_cursor_hand);
   assets_manager_add(am, image_ani7);
   assets_manager_add(am, image_play_p);
   assets_manager_add(am, image_battery_5);
@@ -769,6 +778,7 @@ ret_t assets_init_default(void) {
   assets_manager_add(am, image_flag_US);
   assets_manager_add(am, image_msg);
   assets_manager_add(am, image_num_7);
+  assets_manager_add(am, image_cursor_text);
   assets_manager_add(am, image_3);
   assets_manager_add(am, image_arrow_left_n);
   assets_manager_add(am, image_edit_clear_p);
