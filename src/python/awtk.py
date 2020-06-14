@@ -1813,6 +1813,24 @@ class TEventType:
   WIDGET_REMOVE_CHILD = EVT_WIDGET_REMOVE_CHILD();
 
   #
+  # scroll view开始滚动(event_t)。
+  #
+  #
+  SCROLL_START = EVT_SCROLL_START();
+
+  #
+  # scroll view滚动(event_t)。
+  #
+  #
+  SCROLL = EVT_SCROLL();
+
+  #
+  # scroll view结束滚动(event_t)。
+  #
+  #
+  SCROLL_END = EVT_SCROLL_END();
+
+  #
   # event queue其它请求编号起始值。
   #
   #
@@ -7272,31 +7290,6 @@ class TAppConf(object):
   @classmethod
   def save(cls): 
     return app_conf_save();
-
-
-  #
-  # 注册配置变化事件。
-  # 
-  # @param on_event 事件处理函数。
-  # @param ctx 事件处理函数上下文。
-  #
-  # @return 返回id，用于app_conf_off_changed。
-  #
-  @classmethod
-  def on_changed(cls, on_event, ctx): 
-    return app_conf_on_changed(on_event, ctx);
-
-
-  #
-  # 注销配置变化事件。
-  # 
-  # @param id app_conf_on_changed返回的ID。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  @classmethod
-  def off_changed(cls, id): 
-    return app_conf_off_changed(id);
 
 
   #
@@ -15076,6 +15069,70 @@ class TButtonGroup (TWidget):
 
 
 #
+# app_bar控件。
+#
+#一个简单的容器控件，一般在窗口的顶部，用于显示本窗口的状态和信息。
+#
+#它本身不提供布局功能，仅提供具有语义的标签，让xml更具有可读性。
+#子控件的布局可用layout\_children属性指定。
+#请参考[布局参数](https://github.com/zlgopen/awtk/blob/master/docs/layout.md)。
+#
+#app\_bar\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于app\_bar\_t控件。
+#
+#在xml中使用"app\_bar"标签创建app\_bar。如：
+#
+#```xml
+#<app_bar x="0" y="0" w="100%" h="30"
+#<label x="0" y="0" w="100%" h="100%" text="Basic Controls" />
+#</app_bar>
+#```
+#
+#在c代码中使用函数app\_bar\_create创建app\_bar。如：
+#
+#
+#可用通过style来设置控件的显示风格，如背景颜色等。如：
+#
+#```xml
+#<style name="default" border_color="#a0a0a0">
+#<normal     bg_color="#f0f0f0" />
+#</style>
+#```
+#
+#
+class TAppBar (TWidget):
+  def __init__(self, nativeObj):
+    super(TAppBar, self).__init__(nativeObj)
+
+
+  #
+  # 创建app_bar对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+    return  TAppBar(app_bar_create(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 转换为app_bar对象(供脚本语言使用)。
+  # 
+  # @param widget app_bar对象。
+  #
+  # @return app_bar对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TAppBar(app_bar_cast(awtk_get_native_obj(widget)));
+
+
+#
 # 图文混排控件，实现简单的图文混排。
 #
 #rich\_text\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于rich\_text\_t控件。
@@ -15178,67 +15235,33 @@ class TRichText (TWidget):
 
 
 #
-# app_bar控件。
-#
-#一个简单的容器控件，一般在窗口的顶部，用于显示本窗口的状态和信息。
-#
-#它本身不提供布局功能，仅提供具有语义的标签，让xml更具有可读性。
-#子控件的布局可用layout\_children属性指定。
-#请参考[布局参数](https://github.com/zlgopen/awtk/blob/master/docs/layout.md)。
-#
-#app\_bar\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于app\_bar\_t控件。
-#
-#在xml中使用"app\_bar"标签创建app\_bar。如：
-#
-#```xml
-#<app_bar x="0" y="0" w="100%" h="30"
-#<label x="0" y="0" w="100%" h="100%" text="Basic Controls" />
-#</app_bar>
-#```
-#
-#在c代码中使用函数app\_bar\_create创建app\_bar。如：
+# 滚轮事件。
 #
 #
-#可用通过style来设置控件的显示风格，如背景颜色等。如：
-#
-#```xml
-#<style name="default" border_color="#a0a0a0">
-#<normal     bg_color="#f0f0f0" />
-#</style>
-#```
-#
-#
-class TAppBar (TWidget):
+class TOrientationEvent (TEvent):
   def __init__(self, nativeObj):
-    super(TAppBar, self).__init__(nativeObj)
+    super(TOrientationEvent, self).__init__(nativeObj)
 
 
   #
-  # 创建app_bar对象
+  # 把event对象转orientation_event_t对象，主要给脚本语言使用。
   # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
+  # @param event event对象。
   #
-  # @return 对象。
+  # @return event对象。
   #
   @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TAppBar(app_bar_create(awtk_get_native_obj(parent), x, y, w, h));
+  def cast(cls, event): 
+    return  TOrientationEvent(orientation_event_cast(awtk_get_native_obj(event)));
 
 
   #
-  # 转换为app_bar对象(供脚本语言使用)。
-  # 
-  # @param widget app_bar对象。
+  # 屏幕方向。
   #
-  # @return app_bar对象。
   #
-  @classmethod
-  def cast(cls, widget): 
-    return  TAppBar(app_bar_cast(awtk_get_native_obj(widget)));
+  @property
+  def orientation(self):
+    return orientation_event_t_get_prop_orientation(self.nativeObj);
 
 
 #
@@ -15559,16 +15582,16 @@ class TProgressCircle (TWidget):
 
 
 #
-# 滚轮事件。
+# 指针事件。
 #
 #
-class TOrientationEvent (TEvent):
+class TPointerEvent (TEvent):
   def __init__(self, nativeObj):
-    super(TOrientationEvent, self).__init__(nativeObj)
+    super(TPointerEvent, self).__init__(nativeObj)
 
 
   #
-  # 把event对象转orientation_event_t对象，主要给脚本语言使用。
+  # 把event对象转pointer_event_t对象，主要给脚本语言使用。
   # 
   # @param event event对象。
   #
@@ -15576,16 +15599,88 @@ class TOrientationEvent (TEvent):
   #
   @classmethod
   def cast(cls, event): 
-    return  TOrientationEvent(orientation_event_cast(awtk_get_native_obj(event)));
+    return  TPointerEvent(pointer_event_cast(awtk_get_native_obj(event)));
 
 
   #
-  # 屏幕方向。
+  # x坐标。
   #
   #
   @property
-  def orientation(self):
-    return orientation_event_t_get_prop_orientation(self.nativeObj);
+  def x(self):
+    return pointer_event_t_get_prop_x(self.nativeObj);
+
+
+  #
+  # y坐标。
+  #
+  #
+  @property
+  def y(self):
+    return pointer_event_t_get_prop_y(self.nativeObj);
+
+
+  #
+  # button。
+  #
+  #
+  @property
+  def button(self):
+    return pointer_event_t_get_prop_button(self.nativeObj);
+
+
+  #
+  # 指针是否按下。
+  #
+  #
+  @property
+  def pressed(self):
+    return pointer_event_t_get_prop_pressed(self.nativeObj);
+
+
+  #
+  # alt键是否按下。
+  #
+  #
+  @property
+  def alt(self):
+    return pointer_event_t_get_prop_alt(self.nativeObj);
+
+
+  #
+  # ctrl键是否按下。
+  #
+  #
+  @property
+  def ctrl(self):
+    return pointer_event_t_get_prop_ctrl(self.nativeObj);
+
+
+  #
+  # cmd键是否按下。
+  #
+  #
+  @property
+  def cmd(self):
+    return pointer_event_t_get_prop_cmd(self.nativeObj);
+
+
+  #
+  # menu键是否按下。
+  #
+  #
+  @property
+  def menu(self):
+    return pointer_event_t_get_prop_menu(self.nativeObj);
+
+
+  #
+  # shift键是否按下。
+  #
+  #
+  @property
+  def shift(self):
+    return pointer_event_t_get_prop_shift(self.nativeObj);
 
 
 #
@@ -16061,16 +16156,16 @@ class TLangIndicator (TWidget):
 
 
 #
-# 指针事件。
+# 按键事件。
 #
 #
-class TPointerEvent (TEvent):
+class TKeyEvent (TEvent):
   def __init__(self, nativeObj):
-    super(TPointerEvent, self).__init__(nativeObj)
+    super(TKeyEvent, self).__init__(nativeObj)
 
 
   #
-  # 把event对象转pointer_event_t对象，主要给脚本语言使用。
+  # 把event对象转key_event_t对象，主要给脚本语言使用。
   # 
   # @param event event对象。
   #
@@ -16078,43 +16173,16 @@ class TPointerEvent (TEvent):
   #
   @classmethod
   def cast(cls, event): 
-    return  TPointerEvent(pointer_event_cast(awtk_get_native_obj(event)));
+    return  TKeyEvent(key_event_cast(awtk_get_native_obj(event)));
 
 
   #
-  # x坐标。
+  # 键值。
   #
   #
   @property
-  def x(self):
-    return pointer_event_t_get_prop_x(self.nativeObj);
-
-
-  #
-  # y坐标。
-  #
-  #
-  @property
-  def y(self):
-    return pointer_event_t_get_prop_y(self.nativeObj);
-
-
-  #
-  # button。
-  #
-  #
-  @property
-  def button(self):
-    return pointer_event_t_get_prop_button(self.nativeObj);
-
-
-  #
-  # 指针是否按下。
-  #
-  #
-  @property
-  def pressed(self):
-    return pointer_event_t_get_prop_pressed(self.nativeObj);
+  def key(self):
+    return key_event_t_get_prop_key(self.nativeObj);
 
 
   #
@@ -16123,34 +16191,53 @@ class TPointerEvent (TEvent):
   #
   @property
   def alt(self):
-    return pointer_event_t_get_prop_alt(self.nativeObj);
+    return key_event_t_get_prop_alt(self.nativeObj);
 
 
   #
-  # ctrl键是否按下。
+  # left alt键是否按下。
+  #
+  #
+  @property
+  def lalt(self):
+    return key_event_t_get_prop_lalt(self.nativeObj);
+
+
+  #
+  # right alt键是否按下。
+  #
+  #
+  @property
+  def ralt(self):
+    return key_event_t_get_prop_ralt(self.nativeObj);
+
+
+  #
+  # right alt键是否按下。
+  #ctrl键是否按下。
   #
   #
   @property
   def ctrl(self):
-    return pointer_event_t_get_prop_ctrl(self.nativeObj);
+    return key_event_t_get_prop_ctrl(self.nativeObj);
 
 
   #
-  # cmd键是否按下。
+  # left ctrl键是否按下。
   #
   #
   @property
-  def cmd(self):
-    return pointer_event_t_get_prop_cmd(self.nativeObj);
+  def lctrl(self):
+    return key_event_t_get_prop_lctrl(self.nativeObj);
 
 
   #
-  # menu键是否按下。
+  # right ctrl键是否按下。
   #
   #
   @property
-  def menu(self):
-    return pointer_event_t_get_prop_menu(self.nativeObj);
+  def rctrl(self):
+    return key_event_t_get_prop_rctrl(self.nativeObj);
 
 
   #
@@ -16159,7 +16246,53 @@ class TPointerEvent (TEvent):
   #
   @property
   def shift(self):
-    return pointer_event_t_get_prop_shift(self.nativeObj);
+    return key_event_t_get_prop_shift(self.nativeObj);
+
+
+  #
+  # left shift键是否按下。
+  #
+  #
+  @property
+  def lshift(self):
+    return key_event_t_get_prop_lshift(self.nativeObj);
+
+
+  #
+  # right shift键是否按下。
+  #
+  #
+  @property
+  def rshift(self):
+    return key_event_t_get_prop_rshift(self.nativeObj);
+
+
+  #
+  # left shift键是否按下。
+  #cmd/win键是否按下。
+  #
+  #
+  @property
+  def cmd(self):
+    return key_event_t_get_prop_cmd(self.nativeObj);
+
+
+  #
+  # menu键是否按下。
+  #
+  #
+  @property
+  def menu(self):
+    return key_event_t_get_prop_menu(self.nativeObj);
+
+
+  #
+  # capslock键是否按下。
+  #
+  #
+  @property
+  def capslock(self):
+    return key_event_t_get_prop_capslock(self.nativeObj);
 
 
 #
@@ -17102,146 +17235,6 @@ class TGuagePointer (TWidget):
   @property
   def anchor_y(self):
     return guage_pointer_t_get_prop_anchor_y(self.nativeObj);
-
-
-#
-# 按键事件。
-#
-#
-class TKeyEvent (TEvent):
-  def __init__(self, nativeObj):
-    super(TKeyEvent, self).__init__(nativeObj)
-
-
-  #
-  # 把event对象转key_event_t对象，主要给脚本语言使用。
-  # 
-  # @param event event对象。
-  #
-  # @return event对象。
-  #
-  @classmethod
-  def cast(cls, event): 
-    return  TKeyEvent(key_event_cast(awtk_get_native_obj(event)));
-
-
-  #
-  # 键值。
-  #
-  #
-  @property
-  def key(self):
-    return key_event_t_get_prop_key(self.nativeObj);
-
-
-  #
-  # alt键是否按下。
-  #
-  #
-  @property
-  def alt(self):
-    return key_event_t_get_prop_alt(self.nativeObj);
-
-
-  #
-  # left alt键是否按下。
-  #
-  #
-  @property
-  def lalt(self):
-    return key_event_t_get_prop_lalt(self.nativeObj);
-
-
-  #
-  # right alt键是否按下。
-  #
-  #
-  @property
-  def ralt(self):
-    return key_event_t_get_prop_ralt(self.nativeObj);
-
-
-  #
-  # right alt键是否按下。
-  #ctrl键是否按下。
-  #
-  #
-  @property
-  def ctrl(self):
-    return key_event_t_get_prop_ctrl(self.nativeObj);
-
-
-  #
-  # left ctrl键是否按下。
-  #
-  #
-  @property
-  def lctrl(self):
-    return key_event_t_get_prop_lctrl(self.nativeObj);
-
-
-  #
-  # right ctrl键是否按下。
-  #
-  #
-  @property
-  def rctrl(self):
-    return key_event_t_get_prop_rctrl(self.nativeObj);
-
-
-  #
-  # shift键是否按下。
-  #
-  #
-  @property
-  def shift(self):
-    return key_event_t_get_prop_shift(self.nativeObj);
-
-
-  #
-  # left shift键是否按下。
-  #
-  #
-  @property
-  def lshift(self):
-    return key_event_t_get_prop_lshift(self.nativeObj);
-
-
-  #
-  # right shift键是否按下。
-  #
-  #
-  @property
-  def rshift(self):
-    return key_event_t_get_prop_rshift(self.nativeObj);
-
-
-  #
-  # left shift键是否按下。
-  #cmd/win键是否按下。
-  #
-  #
-  @property
-  def cmd(self):
-    return key_event_t_get_prop_cmd(self.nativeObj);
-
-
-  #
-  # menu键是否按下。
-  #
-  #
-  @property
-  def menu(self):
-    return key_event_t_get_prop_menu(self.nativeObj);
-
-
-  #
-  # capslock键是否按下。
-  #
-  #
-  @property
-  def capslock(self):
-    return key_event_t_get_prop_capslock(self.nativeObj);
 
 
 #
@@ -18456,6 +18449,45 @@ class TStyleMutable (TStyle):
 
 
 #
+# 电阻屏校准窗口。
+#
+#calibration\_win\_t是[window\_base\_t](window_base_t.md)的子类控件，
+#window\_base\_t的函数均适用于calibration\_win\_t控件。
+#
+#在xml中使用"calibration\_win"标签创建电阻屏校准窗口。如：
+#
+#```xml
+#<calibration_win name="cali" w="100%" h="100%" text="Please click the center of cross">
+#</calibration_win>
+#```
+#
+#> 更多用法请参考：
+#[window.xml](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/calibration_win.xml)
+#
+#在c代码中使用函数calibration\_win\_create创建窗口。如：
+#
+#
+#通过calibration\_win\_set\_on\_done注册回调函数，用于保存校准数据。
+#
+#
+class TCalibrationWin (TWindowBase):
+  def __init__(self, nativeObj):
+    super(TCalibrationWin, self).__init__(nativeObj)
+
+
+  #
+  # 转换为calibration_win对象(供脚本语言使用)。
+  # 
+  # @param widget calibration_win对象。
+  #
+  # @return calibration_win对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TCalibrationWin(calibration_win_cast(awtk_get_native_obj(widget)));
+
+
+#
 # 原生窗口。
 #
 #
@@ -18953,45 +18985,6 @@ class TObjectArray (TObject):
   @property
   def props_size(self):
     return object_array_t_get_prop_props_size(self.nativeObj);
-
-
-#
-# 电阻屏校准窗口。
-#
-#calibration\_win\_t是[window\_base\_t](window_base_t.md)的子类控件，
-#window\_base\_t的函数均适用于calibration\_win\_t控件。
-#
-#在xml中使用"calibration\_win"标签创建电阻屏校准窗口。如：
-#
-#```xml
-#<calibration_win name="cali" w="100%" h="100%" text="Please click the center of cross">
-#</calibration_win>
-#```
-#
-#> 更多用法请参考：
-#[window.xml](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/calibration_win.xml)
-#
-#在c代码中使用函数calibration\_win\_create创建窗口。如：
-#
-#
-#通过calibration\_win\_set\_on\_done注册回调函数，用于保存校准数据。
-#
-#
-class TCalibrationWin (TWindowBase):
-  def __init__(self, nativeObj):
-    super(TCalibrationWin, self).__init__(nativeObj)
-
-
-  #
-  # 转换为calibration_win对象(供脚本语言使用)。
-  # 
-  # @param widget calibration_win对象。
-  #
-  # @return calibration_win对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TCalibrationWin(calibration_win_cast(awtk_get_native_obj(widget)));
 
 
 #
