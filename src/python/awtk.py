@@ -7293,6 +7293,17 @@ class TAppConf(object):
 
 
   #
+  # 重新加载配置(内存中的配置丢失)。
+  # 
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  @classmethod
+  def reload(cls): 
+    return app_conf_reload();
+
+
+  #
   # 释放conf对象。
   # 
   #
@@ -9417,50 +9428,36 @@ class TAssetType:
   DATA = ASSET_TYPE_DATA();
 
 #
-# 文件管理/浏览/选择控件。
+# 仪表指针控件。
 #
-#file\_browser\_view\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于file\_browser\_view\_t控件。
+#仪表指针就是一张旋转的图片，图片可以是普通图片也可以是SVG图片。
 #
-#考虑到文件浏览器界面呈现的多样性，界面呈现工作完全有子控件来完成。
+#在嵌入式平台上，对于旋转的图片，SVG图片的效率比位图高数倍，所以推荐使用SVG图片。
 #
-#file\_browser\_view\_t负责关联文件/文件夹数据到子控件上，子控件需要特定的规范命名。
+#guage\_pointer\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于guage\_pointer\_t控件。
 #
-#* 名为 "cwd" 的子控件用于显示当前路径。
+#在xml中使用"guage\_pointer"标签创建仪表指针控件。如：
 #
-#* 名为 "selected_file" 的子控件用于显示当前选择的文件。
+#```xml
+#<guage_pointer x="c" y="50" w="24" h="140" value="-128" image="guage_pointer" />
+#```
 #
-#* 名为 "file" 的子控件用于显示文件项的模板控件。
+#> 更多用法请参考：
+#[guage.xml](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/guage.xml)
 #
-#* 名为 "folder" 的子控件用于显示文件夹项的模板控件。
-#
-#* 名为 "return_up" 的子控件用于返回上一级文件夹的模板控件。
-#
-#* 名为 "container" 的子控件为容器控件，通常是scrollview。
-#
-#* 名为 "name" 的子控件用于显示文件和文件夹的名称(放在列表项目内)。
-#
-#* 名为 "size" 的子控件用于显示文件和文件夹的大小(放在列表项目内)。
-#
-#* 名为 "mtime" 的子控件用于显示文件和文件夹的修改时间(放在列表项目内)。
-#
-#* 名为 "ctime" 的子控件用于显示文件和文件夹的创建时间(放在列表项目内)。
-#
-#* 名为 "icon" 的子控件用于显示文件和文件夹的图标(放在列表项目内)。
-#
-#* 类型为 "check_button" 的子控件用于选择(放在列表项目内)。
-#
-#完整示例请参考：
-#
-#https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/file_chooser_for_open.xml
+#在c代码中使用函数guage\_pointer\_create创建仪表指针控件。如：
 #
 #
-class TFileBrowserView (TWidget):
+#> 创建之后，需要用guage\_pointer\_set\_image设置仪表指针图片。
+#
+#
+class TGuagePointer (TWidget):
   def __init__(self, nativeObj):
-    super(TFileBrowserView, self).__init__(nativeObj)
+    super(TGuagePointer, self).__init__(nativeObj)
 
 
   #
-  # 创建file_browser_view对象
+  # 创建guage_pointer对象
   # 
   # @param parent 父控件
   # @param x x坐标
@@ -9472,208 +9469,99 @@ class TFileBrowserView (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TFileBrowserView(file_browser_view_create(awtk_get_native_obj(parent), x, y, w, h));
+    return  TGuagePointer(guage_pointer_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
-  # 转换为file_browser_view对象(供脚本语言使用)。
+  # 转换为guage_pointer对象(供脚本语言使用)。
   # 
-  # @param widget file_browser_view对象。
+  # @param widget guage_pointer对象。
   #
-  # @return file_browser_view对象。
+  # @return guage_pointer对象。
   #
   @classmethod
   def cast(cls, widget): 
-    return  TFileBrowserView(file_browser_view_cast(awtk_get_native_obj(widget)));
+    return  TGuagePointer(guage_pointer_cast(awtk_get_native_obj(widget)));
 
 
   #
-  # 设置 初始文件夹。
+  # 设置指针角度。12点钟方向为0度，顺时钟方向为正，单位为度。
   # 
-  # @param init_dir 初始文件夹。
+  # @param angle 指针角度。
   #
   # @return 返回RET_OK表示成功，否则表示失败。
   #
-  def set_init_dir(self, init_dir): 
-    return file_browser_view_set_init_dir(awtk_get_native_obj(self), init_dir);
+  def set_angle(self, angle): 
+    return guage_pointer_set_angle(awtk_get_native_obj(self), angle);
 
 
   #
-  # 设置 过滤规则。
-  #> files_only 表示只列出文件，dir_only 表示只列出目录，其它表示只列出满足扩展名文件集合(如：.jpg.png.gif)。
+  # 设置指针的图片。
   # 
-  # @param filter 过滤规则。
+  # @param image 指针的图片。
   #
   # @return 返回RET_OK表示成功，否则表示失败。
   #
-  def set_filter(self, filter): 
-    return file_browser_view_set_filter(awtk_get_native_obj(self), filter);
+  def set_image(self, image): 
+    return guage_pointer_set_image(awtk_get_native_obj(self), image);
 
 
   #
-  # 重新加载。
+  # 设置指针的旋转锚点。
   # 
+  # @param anchor_x 指针的锚点坐标x。(后面加上px为像素点，不加px为相对百分比坐标)
+  # @param anchor_y 指针的锚点坐标y。(后面加上px为像素点，不加px为相对百分比坐标)
   #
   # @return 返回RET_OK表示成功，否则表示失败。
   #
-  def reload(self): 
-    return file_browser_view_reload(awtk_get_native_obj(self));
+  def set_anchor(self, anchor_x, anchor_y): 
+    return guage_pointer_set_anchor(awtk_get_native_obj(self), anchor_x, anchor_y);
 
 
   #
-  # 设置 忽略隐藏文件。
-  # 
-  # @param ignore_hidden_files 忽略隐藏文件。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_ignore_hidden_files(self, ignore_hidden_files): 
-    return file_browser_view_set_ignore_hidden_files(awtk_get_native_obj(self), ignore_hidden_files);
-
-
-  #
-  # 设置 是否为升序排序。
-  # 
-  # @param sort_ascending 是否为升序排序。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_sort_ascending(self, sort_ascending): 
-    return file_browser_view_set_sort_ascending(awtk_get_native_obj(self), sort_ascending);
-
-
-  #
-  # 设置 是否显示checkbutton。
-  # 
-  # @param show_check_button 是否显示checkbutton。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_show_check_button(self, show_check_button): 
-    return file_browser_view_set_show_check_button(awtk_get_native_obj(self), show_check_button);
-
-
-  #
-  # 设置 排序方式。可选值(name, size, mtime, type)。
-  # 
-  # @param sort_by 排序方式。可选值(name, size, mtime, type)。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_sort_by(self, sort_by): 
-    return file_browser_view_set_sort_by(awtk_get_native_obj(self), sort_by);
-
-
-  #
-  # 获取当前路径。
-  # 
-  #
-  # @return 返回当前路径。
-  #
-  def get_cwd(self): 
-    return file_browser_view_get_cwd(awtk_get_native_obj(self));
-
-
-  #
-  # 在当前文件夹创建子文件夹。
-  # 
-  # @param name 子文件夹名。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def create_dir(self, name): 
-    return file_browser_view_create_dir(awtk_get_native_obj(self), name);
-
-
-  #
-  # 在当前文件夹创建文件。
-  # 
-  # @param name 文件名。
-  # @param data 数据。
-  # @param size 数据长度。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def create_file(self, name, data, size): 
-    return file_browser_view_create_file(awtk_get_native_obj(self), name, data, size);
-
-
-  #
-  # 初始文件夹。
+  # 指针角度。12点钟方向为0度，顺时钟方向为正，单位为度。
   #
   #
   @property
-  def init_dir(self):
-    return file_browser_view_t_get_prop_init_dir(self.nativeObj);
+  def angle(self):
+    return guage_pointer_t_get_prop_angle(self.nativeObj);
 
-  @init_dir.setter
-  def init_dir(self, v):
-   this.set_init_dir(v);
-
-
-  #
-  # 过滤规则。
-  #
-  #
-  @property
-  def filter(self):
-    return file_browser_view_t_get_prop_filter(self.nativeObj);
-
-  @filter.setter
-  def filter(self, v):
-   this.set_filter(v);
+  @angle.setter
+  def angle(self, v):
+   this.set_angle(v);
 
 
   #
-  # 是否忽略隐藏文件。
+  # 指针图片。
+  #
+  #图片须垂直向上，图片的中心点为旋转方向。
   #
   #
   @property
-  def ignore_hidden_files(self):
-    return file_browser_view_t_get_prop_ignore_hidden_files(self.nativeObj);
+  def image(self):
+    return guage_pointer_t_get_prop_image(self.nativeObj);
 
-  @ignore_hidden_files.setter
-  def ignore_hidden_files(self, v):
-   this.set_ignore_hidden_files(v);
-
-
-  #
-  # 是否为升序排序。
-  #
-  #
-  @property
-  def sort_ascending(self):
-    return file_browser_view_t_get_prop_sort_ascending(self.nativeObj);
-
-  @sort_ascending.setter
-  def sort_ascending(self, v):
-   this.set_sort_ascending(v);
+  @image.setter
+  def image(self, v):
+   this.set_image(v);
 
 
   #
-  # 是否显示checkbutton。
+  # 图片旋转锚点x坐标。(后面加上px为像素点，不加px为相对百分比坐标0.0f到1.0f)
   #
   #
   @property
-  def show_check_button(self):
-    return file_browser_view_t_get_prop_show_check_button(self.nativeObj);
-
-  @show_check_button.setter
-  def show_check_button(self, v):
-   this.set_show_check_button(v);
+  def anchor_x(self):
+    return guage_pointer_t_get_prop_anchor_x(self.nativeObj);
 
 
   #
-  # 排序方式。可选值(name, size, mtime, type)。
+  # 图片旋转锚点x坐标。(后面加上px为像素点，不加px为相对百分比坐标0.0f到1.0f)
   #
   #
   @property
-  def sort_by(self):
-    return file_browser_view_t_get_prop_sort_by(self.nativeObj);
-
-  @sort_by.setter
-  def sort_by(self, v):
-   this.set_sort_by(v);
+  def anchor_y(self):
+    return guage_pointer_t_get_prop_anchor_y(self.nativeObj);
 
 
 #
@@ -12840,6 +12728,95 @@ class TColumn (TWidget):
 
 
 #
+# 色块控件。
+#
+#用来显示一个颜色块，它通过属性而不是主题来设置颜色，方便在运行时动态改变颜色。
+#
+#可以使用value属性访问背景颜色的颜色值。
+#
+#color\_tile\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于color\_tile\_t控件。
+#
+#在xml中使用"color_tile"标签创建色块控件。如：
+#
+#```xml
+#<color_tile x="c" y="m" w="80" h="30" bg_color="green" />
+#```
+#
+#> 更多用法请参考：
+#[color_tile](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/color_picker_rgb.xml)
+#
+#在c代码中使用函数color_tile\_create创建色块控件。如：
+#
+#> 创建之后，用color\_tile\_set\_bg\_color设置背景颜色。
+#
+#
+class TColorTile (TWidget):
+  def __init__(self, nativeObj):
+    super(TColorTile, self).__init__(nativeObj)
+
+
+  #
+  # 创建color_tile对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+    return  TColorTile(color_tile_create(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 转换为color_tile对象(供脚本语言使用)。
+  # 
+  # @param widget color_tile对象。
+  #
+  # @return color_tile对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TColorTile(color_tile_cast(awtk_get_native_obj(widget)));
+
+
+  #
+  # 设置背景颜色。
+  # 
+  # @param color 背景颜色。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_bg_color(self, color): 
+    return color_tile_set_bg_color(awtk_get_native_obj(self), color);
+
+
+  #
+  # 背景颜色。
+  #
+  #
+  @property
+  def bg_color(self):
+    return color_tile_t_get_prop_bg_color(self.nativeObj);
+
+  @bg_color.setter
+  def bg_color(self, v):
+   this.set_bg_color(v);
+
+
+  #
+  # 边框颜色。
+  #
+  #
+  @property
+  def border_color(self):
+    return color_tile_t_get_prop_border_color(self.nativeObj);
+
+
+#
 # 滑动视图。
 #
 #滑动视图可以管理多个页面，并通过滑动来切换当前页面。也可以管理多张图片，让它们自动切换。
@@ -13035,95 +13012,6 @@ class TSlideView (TWidget):
   @anim_hint.setter
   def anim_hint(self, v):
    this.set_anim_hint(v);
-
-
-#
-# 色块控件。
-#
-#用来显示一个颜色块，它通过属性而不是主题来设置颜色，方便在运行时动态改变颜色。
-#
-#可以使用value属性访问背景颜色的颜色值。
-#
-#color\_tile\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于color\_tile\_t控件。
-#
-#在xml中使用"color_tile"标签创建色块控件。如：
-#
-#```xml
-#<color_tile x="c" y="m" w="80" h="30" bg_color="green" />
-#```
-#
-#> 更多用法请参考：
-#[color_tile](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/color_picker_rgb.xml)
-#
-#在c代码中使用函数color_tile\_create创建色块控件。如：
-#
-#> 创建之后，用color\_tile\_set\_bg\_color设置背景颜色。
-#
-#
-class TColorTile (TWidget):
-  def __init__(self, nativeObj):
-    super(TColorTile, self).__init__(nativeObj)
-
-
-  #
-  # 创建color_tile对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TColorTile(color_tile_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 转换为color_tile对象(供脚本语言使用)。
-  # 
-  # @param widget color_tile对象。
-  #
-  # @return color_tile对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TColorTile(color_tile_cast(awtk_get_native_obj(widget)));
-
-
-  #
-  # 设置背景颜色。
-  # 
-  # @param color 背景颜色。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_bg_color(self, color): 
-    return color_tile_set_bg_color(awtk_get_native_obj(self), color);
-
-
-  #
-  # 背景颜色。
-  #
-  #
-  @property
-  def bg_color(self):
-    return color_tile_t_get_prop_bg_color(self.nativeObj);
-
-  @bg_color.setter
-  def bg_color(self, v):
-   this.set_bg_color(v);
-
-
-  #
-  # 边框颜色。
-  #
-  #
-  @property
-  def border_color(self):
-    return color_tile_t_get_prop_border_color(self.nativeObj);
 
 
 #
@@ -13446,6 +13334,187 @@ class TSlideIndicator (TWidget):
 
 
 #
+# 一个裁剪子控件的容器控件。
+#
+#它本身不提供布局功能，仅提供具有语义的标签，让xml更具有可读性。
+#子控件的布局可用layout\_children属性指定。
+#请参考[布局参数](https://github.com/zlgopen/awtk/blob/master/docs/layout.md)。
+#
+#clip\_view\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于clip\_view\_t控件。
+#
+#在xml中使用"clip_view"标签创建clip_view，在clip_view控件下的所有子控件都会被裁剪。如下button控件会被裁剪，无法画出clip_view控件 ：
+#
+#```xml
+#<clip_view x="0" y="0" w="100" h="100">
+#<button x="50" y="10" w="100" h="50" />
+#</clip_view>
+#```
+#
+#备注：在clip_view控件下的所有子控件都会被裁剪，如果子控件本身会设置裁剪区的话，在子控件中计算裁剪区的交集，具体请参考scroll_view控件的scroll_view_on_paint_children函数。
+#
+#可用通过style来设置控件的显示风格，如背景颜色等。如：
+#
+#```xml
+#<style name="default" border_color="#a0a0a0">
+#<normal     bg_color="#f0f0f0" />
+#</style>
+#```
+#
+#
+class TClipView (TWidget):
+  def __init__(self, nativeObj):
+    super(TClipView, self).__init__(nativeObj)
+
+
+  #
+  # 创建clip_view对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+    return  TClipView(clip_view_create(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 转换为clip_view对象(供脚本语言使用)。
+  # 
+  # @param widget clip_view对象。
+  #
+  # @return clip_view对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TClipView(clip_view_cast(awtk_get_native_obj(widget)));
+
+
+#
+# 勾选按钮控件(单选/多选)。
+#
+#check\_button\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于check\_button\_t控件。
+#
+#在xml中使用"check_button"标签创建多选按钮控件。如：
+#
+#```xml
+#<check_button name="c1" text="Book"/>
+#```
+#
+#在xml中使用"radio_button"标签创建单选按钮控件。如：
+#
+#```xml
+#<radio_button name="r1" text="Book"/>
+#```
+#
+#> 更多用法请参考：
+#[button.xml](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/basic.xml)
+#
+#在c代码中使用函数check\_button\_create创建多选按钮控件。如：
+#
+#
+#在c代码中使用函数check\_button\_create\_radio创建单选按钮控件。如：
+#
+#
+#> 完整示例请参考：
+#[button demo](https://github.com/zlgopen/awtk-c-demos/blob/master/demos/check_button.c)
+#
+#可用通过style来设置控件的显示风格，如字体的大小和颜色等等。如：
+#
+#```xml
+#<style name="default" icon_at="left">
+#<normal  icon="unchecked" />
+#<pressed icon="unchecked" />
+#<over    icon="unchecked" text_color="green"/>
+#<normal_of_checked icon="checked" text_color="blue"/>
+#<pressed_of_checked icon="checked" text_color="blue"/>
+#<over_of_checked icon="checked" text_color="green"/>
+#</style>
+#```
+#
+#> 更多用法请参考：
+#[theme
+#default](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/styles/default.xml#L227)
+#
+#
+class TCheckButton (TWidget):
+  def __init__(self, nativeObj):
+    super(TCheckButton, self).__init__(nativeObj)
+
+
+  #
+  # 创建多选按钮对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return widget对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+    return  TCheckButton(check_button_create(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 创建单选按钮对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return widget对象。
+  #
+  @classmethod
+  def create_radio(cls, parent, x, y, w, h): 
+    return  TCheckButton(check_button_create_radio(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 设置控件的值。
+  # 
+  # @param value 值(勾选为TRUE，非勾选为FALSE)。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_value(self, value): 
+    return check_button_set_value(awtk_get_native_obj(self), value);
+
+
+  #
+  # 转换check_button对象(供脚本语言使用)。
+  # 
+  # @param widget check_button对象。
+  #
+  # @return check_button对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TCheckButton(check_button_cast(awtk_get_native_obj(widget)));
+
+
+  #
+  # 值(勾选为TRUE，非勾选为FALSE)。
+  #
+  #
+  @property
+  def value(self):
+    return check_button_t_get_prop_value(self.nativeObj);
+
+  @value.setter
+  def value(self, v):
+   this.set_value(v);
+
+
+#
 # 左右滑动菜单控件。
 #
 #一般用一组按钮作为子控件，通过左右滑动改变当前的项。除了当菜单使用外，也可以用来切换页面。
@@ -13594,187 +13663,6 @@ class TSlideMenu (TWidget):
   @min_scale.setter
   def min_scale(self, v):
    this.set_min_scale(v);
-
-
-#
-# 一个裁剪子控件的容器控件。
-#
-#它本身不提供布局功能，仅提供具有语义的标签，让xml更具有可读性。
-#子控件的布局可用layout\_children属性指定。
-#请参考[布局参数](https://github.com/zlgopen/awtk/blob/master/docs/layout.md)。
-#
-#clip\_view\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于clip\_view\_t控件。
-#
-#在xml中使用"clip_view"标签创建clip_view，在clip_view控件下的所有子控件都会被裁剪。如下button控件会被裁剪，无法画出clip_view控件 ：
-#
-#```xml
-#<clip_view x="0" y="0" w="100" h="100">
-#<button x="50" y="10" w="100" h="50" />
-#</clip_view>
-#```
-#
-#备注：在clip_view控件下的所有子控件都会被裁剪，如果子控件本身会设置裁剪区的话，在子控件中计算裁剪区的交集，具体请参考scroll_view控件的scroll_view_on_paint_children函数。
-#
-#可用通过style来设置控件的显示风格，如背景颜色等。如：
-#
-#```xml
-#<style name="default" border_color="#a0a0a0">
-#<normal     bg_color="#f0f0f0" />
-#</style>
-#```
-#
-#
-class TClipView (TWidget):
-  def __init__(self, nativeObj):
-    super(TClipView, self).__init__(nativeObj)
-
-
-  #
-  # 创建clip_view对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TClipView(clip_view_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 转换为clip_view对象(供脚本语言使用)。
-  # 
-  # @param widget clip_view对象。
-  #
-  # @return clip_view对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TClipView(clip_view_cast(awtk_get_native_obj(widget)));
-
-
-#
-# 勾选按钮控件(单选/多选)。
-#
-#check\_button\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于check\_button\_t控件。
-#
-#在xml中使用"check_button"标签创建多选按钮控件。如：
-#
-#```xml
-#<check_button name="c1" text="Book"/>
-#```
-#
-#在xml中使用"radio_button"标签创建单选按钮控件。如：
-#
-#```xml
-#<radio_button name="r1" text="Book"/>
-#```
-#
-#> 更多用法请参考：
-#[button.xml](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/basic.xml)
-#
-#在c代码中使用函数check\_button\_create创建多选按钮控件。如：
-#
-#
-#在c代码中使用函数check\_button\_create\_radio创建单选按钮控件。如：
-#
-#
-#> 完整示例请参考：
-#[button demo](https://github.com/zlgopen/awtk-c-demos/blob/master/demos/check_button.c)
-#
-#可用通过style来设置控件的显示风格，如字体的大小和颜色等等。如：
-#
-#```xml
-#<style name="default" icon_at="left">
-#<normal  icon="unchecked" />
-#<pressed icon="unchecked" />
-#<over    icon="unchecked" text_color="green"/>
-#<normal_of_checked icon="checked" text_color="blue"/>
-#<pressed_of_checked icon="checked" text_color="blue"/>
-#<over_of_checked icon="checked" text_color="green"/>
-#</style>
-#```
-#
-#> 更多用法请参考：
-#[theme
-#default](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/styles/default.xml#L227)
-#
-#
-class TCheckButton (TWidget):
-  def __init__(self, nativeObj):
-    super(TCheckButton, self).__init__(nativeObj)
-
-
-  #
-  # 创建多选按钮对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TCheckButton(check_button_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 创建单选按钮对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def create_radio(cls, parent, x, y, w, h): 
-    return  TCheckButton(check_button_create_radio(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 设置控件的值。
-  # 
-  # @param value 值(勾选为TRUE，非勾选为FALSE)。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_value(self, value): 
-    return check_button_set_value(awtk_get_native_obj(self), value);
-
-
-  #
-  # 转换check_button对象(供脚本语言使用)。
-  # 
-  # @param widget check_button对象。
-  #
-  # @return check_button对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TCheckButton(check_button_cast(awtk_get_native_obj(widget)));
-
-
-  #
-  # 值(勾选为TRUE，非勾选为FALSE)。
-  #
-  #
-  @property
-  def value(self):
-    return check_button_t_get_prop_value(self.nativeObj);
-
-  @value.setter
-  def value(self, v):
-   this.set_value(v);
 
 
 #
@@ -17101,143 +16989,6 @@ class TGuage (TWidget):
 
 
 #
-# 仪表指针控件。
-#
-#仪表指针就是一张旋转的图片，图片可以是普通图片也可以是SVG图片。
-#
-#在嵌入式平台上，对于旋转的图片，SVG图片的效率比位图高数倍，所以推荐使用SVG图片。
-#
-#guage\_pointer\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于guage\_pointer\_t控件。
-#
-#在xml中使用"guage\_pointer"标签创建仪表指针控件。如：
-#
-#```xml
-#<guage_pointer x="c" y="50" w="24" h="140" value="-128" image="guage_pointer" />
-#```
-#
-#> 更多用法请参考：
-#[guage.xml](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/guage.xml)
-#
-#在c代码中使用函数guage\_pointer\_create创建仪表指针控件。如：
-#
-#
-#> 创建之后，需要用guage\_pointer\_set\_image设置仪表指针图片。
-#
-#
-class TGuagePointer (TWidget):
-  def __init__(self, nativeObj):
-    super(TGuagePointer, self).__init__(nativeObj)
-
-
-  #
-  # 创建guage_pointer对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TGuagePointer(guage_pointer_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 转换为guage_pointer对象(供脚本语言使用)。
-  # 
-  # @param widget guage_pointer对象。
-  #
-  # @return guage_pointer对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TGuagePointer(guage_pointer_cast(awtk_get_native_obj(widget)));
-
-
-  #
-  # 设置指针角度。12点钟方向为0度，顺时钟方向为正，单位为度。
-  # 
-  # @param angle 指针角度。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_angle(self, angle): 
-    return guage_pointer_set_angle(awtk_get_native_obj(self), angle);
-
-
-  #
-  # 设置指针的图片。
-  # 
-  # @param image 指针的图片。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_image(self, image): 
-    return guage_pointer_set_image(awtk_get_native_obj(self), image);
-
-
-  #
-  # 设置指针的旋转锚点。
-  # 
-  # @param anchor_x 指针的锚点坐标x。(后面加上px为像素点，不加px为相对百分比坐标)
-  # @param anchor_y 指针的锚点坐标y。(后面加上px为像素点，不加px为相对百分比坐标)
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_anchor(self, anchor_x, anchor_y): 
-    return guage_pointer_set_anchor(awtk_get_native_obj(self), anchor_x, anchor_y);
-
-
-  #
-  # 指针角度。12点钟方向为0度，顺时钟方向为正，单位为度。
-  #
-  #
-  @property
-  def angle(self):
-    return guage_pointer_t_get_prop_angle(self.nativeObj);
-
-  @angle.setter
-  def angle(self, v):
-   this.set_angle(v);
-
-
-  #
-  # 指针图片。
-  #
-  #图片须垂直向上，图片的中心点为旋转方向。
-  #
-  #
-  @property
-  def image(self):
-    return guage_pointer_t_get_prop_image(self.nativeObj);
-
-  @image.setter
-  def image(self, v):
-   this.set_image(v);
-
-
-  #
-  # 图片旋转锚点x坐标。(后面加上px为像素点，不加px为相对百分比坐标0.0f到1.0f)
-  #
-  #
-  @property
-  def anchor_x(self):
-    return guage_pointer_t_get_prop_anchor_x(self.nativeObj);
-
-
-  #
-  # 图片旋转锚点x坐标。(后面加上px为像素点，不加px为相对百分比坐标0.0f到1.0f)
-  #
-  #
-  @property
-  def anchor_y(self):
-    return guage_pointer_t_get_prop_anchor_y(self.nativeObj);
-
-
-#
 # 文件/目录选择器
 #
 #
@@ -17350,6 +17101,266 @@ class TFileChooser (TEmitter):
   #
   def is_aborted(self): 
     return file_chooser_is_aborted(awtk_get_native_obj(self));
+
+
+#
+# 文件管理/浏览/选择控件。
+#
+#file\_browser\_view\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于file\_browser\_view\_t控件。
+#
+#考虑到文件浏览器界面呈现的多样性，界面呈现工作完全有子控件来完成。
+#
+#file\_browser\_view\_t负责关联文件/文件夹数据到子控件上，子控件需要特定的规范命名。
+#
+#* 名为 "cwd" 的子控件用于显示当前路径。
+#
+#* 名为 "selected_file" 的子控件用于显示当前选择的文件。
+#
+#* 名为 "file" 的子控件用于显示文件项的模板控件。
+#
+#* 名为 "folder" 的子控件用于显示文件夹项的模板控件。
+#
+#* 名为 "return_up" 的子控件用于返回上一级文件夹的模板控件。
+#
+#* 名为 "container" 的子控件为容器控件，通常是scrollview。
+#
+#* 名为 "name" 的子控件用于显示文件和文件夹的名称(放在列表项目内)。
+#
+#* 名为 "size" 的子控件用于显示文件和文件夹的大小(放在列表项目内)。
+#
+#* 名为 "mtime" 的子控件用于显示文件和文件夹的修改时间(放在列表项目内)。
+#
+#* 名为 "ctime" 的子控件用于显示文件和文件夹的创建时间(放在列表项目内)。
+#
+#* 名为 "icon" 的子控件用于显示文件和文件夹的图标(放在列表项目内)。
+#
+#* 类型为 "check_button" 的子控件用于选择(放在列表项目内)。
+#
+#完整示例请参考：
+#
+#https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/file_chooser_for_open.xml
+#
+#
+class TFileBrowserView (TWidget):
+  def __init__(self, nativeObj):
+    super(TFileBrowserView, self).__init__(nativeObj)
+
+
+  #
+  # 创建file_browser_view对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+    return  TFileBrowserView(file_browser_view_create(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 转换为file_browser_view对象(供脚本语言使用)。
+  # 
+  # @param widget file_browser_view对象。
+  #
+  # @return file_browser_view对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TFileBrowserView(file_browser_view_cast(awtk_get_native_obj(widget)));
+
+
+  #
+  # 设置 初始文件夹。
+  # 
+  # @param init_dir 初始文件夹。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_init_dir(self, init_dir): 
+    return file_browser_view_set_init_dir(awtk_get_native_obj(self), init_dir);
+
+
+  #
+  # 设置 过滤规则。
+  #> files_only 表示只列出文件，dir_only 表示只列出目录，其它表示只列出满足扩展名文件集合(如：.jpg.png.gif)。
+  # 
+  # @param filter 过滤规则。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_filter(self, filter): 
+    return file_browser_view_set_filter(awtk_get_native_obj(self), filter);
+
+
+  #
+  # 重新加载。
+  # 
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def reload(self): 
+    return file_browser_view_reload(awtk_get_native_obj(self));
+
+
+  #
+  # 设置 忽略隐藏文件。
+  # 
+  # @param ignore_hidden_files 忽略隐藏文件。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_ignore_hidden_files(self, ignore_hidden_files): 
+    return file_browser_view_set_ignore_hidden_files(awtk_get_native_obj(self), ignore_hidden_files);
+
+
+  #
+  # 设置 是否为升序排序。
+  # 
+  # @param sort_ascending 是否为升序排序。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_sort_ascending(self, sort_ascending): 
+    return file_browser_view_set_sort_ascending(awtk_get_native_obj(self), sort_ascending);
+
+
+  #
+  # 设置 是否显示checkbutton。
+  # 
+  # @param show_check_button 是否显示checkbutton。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_show_check_button(self, show_check_button): 
+    return file_browser_view_set_show_check_button(awtk_get_native_obj(self), show_check_button);
+
+
+  #
+  # 设置 排序方式。可选值(name, size, mtime, type)。
+  # 
+  # @param sort_by 排序方式。可选值(name, size, mtime, type)。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_sort_by(self, sort_by): 
+    return file_browser_view_set_sort_by(awtk_get_native_obj(self), sort_by);
+
+
+  #
+  # 获取当前路径。
+  # 
+  #
+  # @return 返回当前路径。
+  #
+  def get_cwd(self): 
+    return file_browser_view_get_cwd(awtk_get_native_obj(self));
+
+
+  #
+  # 在当前文件夹创建子文件夹。
+  # 
+  # @param name 子文件夹名。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def create_dir(self, name): 
+    return file_browser_view_create_dir(awtk_get_native_obj(self), name);
+
+
+  #
+  # 在当前文件夹创建文件。
+  # 
+  # @param name 文件名。
+  # @param data 数据。
+  # @param size 数据长度。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def create_file(self, name, data, size): 
+    return file_browser_view_create_file(awtk_get_native_obj(self), name, data, size);
+
+
+  #
+  # 初始文件夹。
+  #
+  #
+  @property
+  def init_dir(self):
+    return file_browser_view_t_get_prop_init_dir(self.nativeObj);
+
+  @init_dir.setter
+  def init_dir(self, v):
+   this.set_init_dir(v);
+
+
+  #
+  # 过滤规则。
+  #
+  #
+  @property
+  def filter(self):
+    return file_browser_view_t_get_prop_filter(self.nativeObj);
+
+  @filter.setter
+  def filter(self, v):
+   this.set_filter(v);
+
+
+  #
+  # 是否忽略隐藏文件。
+  #
+  #
+  @property
+  def ignore_hidden_files(self):
+    return file_browser_view_t_get_prop_ignore_hidden_files(self.nativeObj);
+
+  @ignore_hidden_files.setter
+  def ignore_hidden_files(self, v):
+   this.set_ignore_hidden_files(v);
+
+
+  #
+  # 是否为升序排序。
+  #
+  #
+  @property
+  def sort_ascending(self):
+    return file_browser_view_t_get_prop_sort_ascending(self.nativeObj);
+
+  @sort_ascending.setter
+  def sort_ascending(self, v):
+   this.set_sort_ascending(v);
+
+
+  #
+  # 是否显示checkbutton。
+  #
+  #
+  @property
+  def show_check_button(self):
+    return file_browser_view_t_get_prop_show_check_button(self.nativeObj);
+
+  @show_check_button.setter
+  def show_check_button(self, v):
+   this.set_show_check_button(v);
+
+
+  #
+  # 排序方式。可选值(name, size, mtime, type)。
+  #
+  #
+  @property
+  def sort_by(self):
+    return file_browser_view_t_get_prop_sort_by(self.nativeObj);
+
+  @sort_by.setter
+  def sort_by(self, v):
+   this.set_sort_by(v);
 
 
 #
@@ -18154,7 +18165,7 @@ class TWindowManager (TWidget):
   #
   # 设置屏保时间。
   # 
-  # @param screen_saver_time 屏保时间(单位毫秒)。
+  # @param screen_saver_time 屏保时间(单位毫秒), 为0关闭屏保。
   #
   # @return 返回RET_OK表示成功，否则表示失败。
   #
