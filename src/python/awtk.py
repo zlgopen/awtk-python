@@ -8145,6 +8145,52 @@ class TCanvas(object):
 
 
 #
+# 对象常见命令定义
+#
+#
+class TObjectCmd: 
+
+  #
+  # 保存命令
+  #
+  #
+  SAVE = OBJECT_CMD_SAVE();
+
+  #
+  # 重新加载命令
+  #
+  #
+  RELOAD = OBJECT_CMD_RELOAD();
+
+  #
+  # 和前一个属性交换位置
+  #>参数为属性的名称或路径。
+  #
+  #
+  MOVE_UP = OBJECT_CMD_MOVE_UP();
+
+  #
+  # 和后一个属性交换位置
+  #>参数为属性的名称或路径。
+  #
+  #
+  MOVE_DOWN = OBJECT_CMD_MOVE_DOWN();
+
+  #
+  # 删除属性。
+  #>参数为属性的名称或路径。
+  #
+  #
+  REMOVE = OBJECT_CMD_REMOVE();
+
+  #
+  # 清除全部属性。
+  #>参数为属性的名称或路径。
+  #
+  #
+  CLEAR = OBJECT_CMD_CLEAR();
+
+#
 # 命名的值。
 #
 #
@@ -9428,36 +9474,47 @@ class TAssetType:
   DATA = ASSET_TYPE_DATA();
 
 #
-# 仪表指针控件。
+# 画布控件。
 #
-#仪表指针就是一张旋转的图片，图片可以是普通图片也可以是SVG图片。
+#画布控件让开发者可以自己在控件上绘制需要的内容。
 #
-#在嵌入式平台上，对于旋转的图片，SVG图片的效率比位图高数倍，所以推荐使用SVG图片。
+#canvas\_widget\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于canvas\_widget\_t控件。
 #
-#guage\_pointer\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于guage\_pointer\_t控件。
-#
-#在xml中使用"guage\_pointer"标签创建仪表指针控件。如：
+#在xml中使用"canvas"标签创建画布控件。如：
 #
 #```xml
-#<guage_pointer x="c" y="50" w="24" h="140" value="-128" image="guage_pointer" />
+#<canvas name="paint_vgcanvas" x="0" y="0" w="100%" h="100%" />
 #```
 #
 #> 更多用法请参考：
-#[guage.xml](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/guage.xml)
+#[canvas_widget.xml](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/vgcanvas.xml)
 #
-#在c代码中使用函数guage\_pointer\_create创建仪表指针控件。如：
-#
-#
-#> 创建之后，需要用guage\_pointer\_set\_image设置仪表指针图片。
+#在c代码中使用函数canvas\_widget\_create创建画布控件。如：
 #
 #
-class TGuagePointer (TWidget):
+#> 创建之后，需要用widget\_on注册EVT\_PAINT事件，并在EVT\_PAINT事件处理函数中绘制。
+#
+#
+#绘制时，可以通过canvas接口去绘制，也可以通过vgcanvas接口去绘制。
+#先从evt获取canvas对象，再通过canvas\_get\_vgcanvas从canvas中获取vgcanvas对象。
+#
+#
+#> 完整示例请参考：
+#[canvas demo](https://github.com/zlgopen/awtk-c-demos/blob/master/demos/canvas.c)
+#
+#参考：
+#
+#* [canvas接口描述](canvas_t.md)
+#* [vgcanvas接口描述](vgcanvas_t.md)
+#
+#
+class TCanvasWidget (TWidget):
   def __init__(self, nativeObj):
-    super(TGuagePointer, self).__init__(nativeObj)
+    super(TCanvasWidget, self).__init__(nativeObj)
 
 
   #
-  # 创建guage_pointer对象
+  # 创建canvas_widget对象
   # 
   # @param parent 父控件
   # @param x x坐标
@@ -9469,77 +9526,120 @@ class TGuagePointer (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TGuagePointer(guage_pointer_create(awtk_get_native_obj(parent), x, y, w, h));
+    return  TCanvasWidget(canvas_widget_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
-  # 转换为guage_pointer对象(供脚本语言使用)。
+  # 转换为canvas_widget对象(供脚本语言使用)。
   # 
-  # @param widget guage_pointer对象。
+  # @param widget canvas_widget对象。
   #
-  # @return guage_pointer对象。
+  # @return canvas_widget对象。
   #
   @classmethod
   def cast(cls, widget): 
-    return  TGuagePointer(guage_pointer_cast(awtk_get_native_obj(widget)));
+    return  TCanvasWidget(canvas_widget_cast(awtk_get_native_obj(widget)));
+
+
+#
+# 表盘控件。
+#
+#表盘控件就是一张图片。
+#
+#guage\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于guage\_t控件。
+#
+#在xml中使用"guage"标签创建表盘控件。如：
+#
+#```xml
+#<guage x="c" y="10" w="240" h="240" image="guage_bg"
+#```
+#
+#> 更多用法请参考：
+#[guage.xml](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/guage.xml)
+#
+#在c代码中使用函数guage\_create创建表盘控件。如：
+#
+#
+#可用通过style来设置控件的显示风格，如背景和边框等。如：
+#
+#```xml
+#<guage>
+#<style name="border">
+#<normal border_color="#000000" bg_color="#e0e0e0" text_color="black"/>
+#</style>
+#</guage>
+#```
+#
+#> 更多用法请参考：
+#[theme
+#default](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/styles/default.xml)
+#
+#
+class TGuage (TWidget):
+  def __init__(self, nativeObj):
+    super(TGuage, self).__init__(nativeObj)
 
 
   #
-  # 设置指针角度。12点钟方向为0度，顺时钟方向为正，单位为度。
+  # 创建guage对象
   # 
-  # @param angle 指针角度。
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+    return  TGuage(guage_create(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 转换为guage对象(供脚本语言使用)。
+  # 
+  # @param widget guage对象。
+  #
+  # @return guage对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TGuage(guage_cast(awtk_get_native_obj(widget)));
+
+
+  #
+  # 设置背景图片的名称。
+  # 
+  # @param name 图片名称，该图片必须存在于资源管理器。
   #
   # @return 返回RET_OK表示成功，否则表示失败。
   #
-  def set_angle(self, angle): 
-    return guage_pointer_set_angle(awtk_get_native_obj(self), angle);
+  def set_image(self, name): 
+    return guage_set_image(awtk_get_native_obj(self), name);
 
 
   #
-  # 设置指针的图片。
+  # 设置图片的显示方式。
+  #
+  #> 绘制方式的属性值和枚举值:
+  #[image\_draw\_type\_name\_value](https://github.com/zlgopen/awtk/blob/master/src/base/enums.c#L98)
   # 
-  # @param image 指针的图片。
+  # @param draw_type 显示方式。
   #
   # @return 返回RET_OK表示成功，否则表示失败。
   #
-  def set_image(self, image): 
-    return guage_pointer_set_image(awtk_get_native_obj(self), image);
+  def set_draw_type(self, draw_type): 
+    return guage_set_draw_type(awtk_get_native_obj(self), draw_type);
 
 
   #
-  # 设置指针的旋转锚点。
-  # 
-  # @param anchor_x 指针的锚点坐标x。(后面加上px为像素点，不加px为相对百分比坐标)
-  # @param anchor_y 指针的锚点坐标y。(后面加上px为像素点，不加px为相对百分比坐标)
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_anchor(self, anchor_x, anchor_y): 
-    return guage_pointer_set_anchor(awtk_get_native_obj(self), anchor_x, anchor_y);
-
-
-  #
-  # 指针角度。12点钟方向为0度，顺时钟方向为正，单位为度。
-  #
-  #
-  @property
-  def angle(self):
-    return guage_pointer_t_get_prop_angle(self.nativeObj);
-
-  @angle.setter
-  def angle(self, v):
-   this.set_angle(v);
-
-
-  #
-  # 指针图片。
-  #
-  #图片须垂直向上，图片的中心点为旋转方向。
+  # 背景图片。
   #
   #
   @property
   def image(self):
-    return guage_pointer_t_get_prop_image(self.nativeObj);
+    return guage_t_get_prop_image(self.nativeObj);
 
   @image.setter
   def image(self, v):
@@ -9547,2316 +9647,16 @@ class TGuagePointer (TWidget):
 
 
   #
-  # 图片旋转锚点x坐标。(后面加上px为像素点，不加px为相对百分比坐标0.0f到1.0f)
+  # 图片的绘制方式。
   #
   #
   @property
-  def anchor_x(self):
-    return guage_pointer_t_get_prop_anchor_x(self.nativeObj);
-
-
-  #
-  # 图片旋转锚点x坐标。(后面加上px为像素点，不加px为相对百分比坐标0.0f到1.0f)
-  #
-  #
-  @property
-  def anchor_y(self):
-    return guage_pointer_t_get_prop_anchor_y(self.nativeObj);
-
-
-#
-# 滚轮事件。
-#
-#
-class TWheelEvent (TEvent):
-  def __init__(self, nativeObj):
-    super(TWheelEvent, self).__init__(nativeObj)
-
-
-  #
-  # 把event对象转wheel_event_t对象，主要给脚本语言使用。
-  # 
-  # @param event event对象。
-  #
-  # @return event对象。
-  #
-  @classmethod
-  def cast(cls, event): 
-    return  TWheelEvent(wheel_event_cast(awtk_get_native_obj(event)));
-
-
-  #
-  # 滚轮的y值。
-  #
-  #
-  @property
-  def dy(self):
-    return wheel_event_t_get_prop_dy(self.nativeObj);
-
-
-  #
-  # alt键是否按下。
-  #
-  #
-  @property
-  def alt(self):
-    return wheel_event_t_get_prop_alt(self.nativeObj);
-
-
-  #
-  # ctrl键是否按下。
-  #
-  #
-  @property
-  def ctrl(self):
-    return wheel_event_t_get_prop_ctrl(self.nativeObj);
-
-
-  #
-  # shift键是否按下。
-  #
-  #
-  @property
-  def shift(self):
-    return wheel_event_t_get_prop_shift(self.nativeObj);
-
-
-#
-# 一个通用的容器控件。
-#
-#它本身不提供布局功能，仅提供具有语义的标签，让xml更具有可读性。
-#子控件的布局可用layout\_children属性指定。
-#请参考[布局参数](https://github.com/zlgopen/awtk/blob/master/docs/layout.md)。
-#
-#view\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于view\_t控件。
-#
-#在xml中使用"view"标签创建view。如：
-#
-#```xml
-#<view x="0" y="0" w="100%" h="100%" children_layout="default(c=2,r=2,m=5,s=5)">
-#</view>
-#```
-#
-#可用通过style来设置控件的显示风格，如背景颜色等。如：
-#
-#```xml
-#<style name="default" border_color="#a0a0a0">
-#<normal     bg_color="#f0f0f0" />
-#</style>
-#```
-#
-#
-class TView (TWidget):
-  def __init__(self, nativeObj):
-    super(TView, self).__init__(nativeObj)
-
-
-  #
-  # 创建view对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TView(view_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 设置缺省获得焦点的子控件(可用控件名或类型)。
-  # 
-  # @param default_focused_child 缺省获得焦点的子控件(可用控件名或类型)。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_default_focused_child(self, default_focused_child): 
-    return view_set_default_focused_child(awtk_get_native_obj(self), default_focused_child);
-
-
-  #
-  # 转换为view对象(供脚本语言使用)。
-  # 
-  # @param widget view对象。
-  #
-  # @return view对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TView(view_cast(awtk_get_native_obj(widget)));
-
-
-  #
-  # 缺省获得焦点的子控件(可用控件名或类型)。
-  #
-  #> view作为pages/slideview的直接子控件才需要设置。
-  #> 正常情况下，一个窗口只能指定一个初始焦点。
-  #> 但是对于pages/slideview来说，可能希望每一个页面都有一个初始焦点，此时可用default\_focused\_child来指定。
-  #
-  #
-  @property
-  def default_focused_child(self):
-    return view_t_get_prop_default_focused_child(self.nativeObj);
-
-  @default_focused_child.setter
-  def default_focused_child(self, v):
-   this.set_default_focused_child(v);
-
-
-#
-# 标签控件。
-#
-#它本身不提供布局功能，仅提供具有语义的标签，让xml更具有可读性。
-#
-#标签控件通常会包含一个pages控件和一个tab\_button\_group控件。
-#
-#
-#
-#tab\_control\_t是[widget\_t](widget_t.md)的子类控件，
-#widget\_t的函数均适用于tab\_control\_t控件。
-#
-#在xml中使用"tab\_control"标签创建标签控件。如：
-#
-#```xml
-#<tab_control x="0" y="0" w="100%" h="100%"
-#<pages x="c" y="20" w="90%" h="-60" value="1">
-#...
-#</pages>
-#<tab_button_group>
-#...
-#</tab_button_group>
-#</tab_control>
-#```
-#
-#> 更多用法请参考：
-#[tab control](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/)
-#
-#
-class TTabControl (TWidget):
-  def __init__(self, nativeObj):
-    super(TTabControl, self).__init__(nativeObj)
-
-
-  #
-  # 创建tab_control对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TTabControl(tab_control_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 转换tab_control对象(供脚本语言使用)。
-  # 
-  # @param widget tab_control对象。
-  #
-  # @return tab_control对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TTabControl(tab_control_cast(awtk_get_native_obj(widget)));
-
-
-#
-# 标签按钮控件。
-#
-#标签按钮有点类似单选按钮，但点击标签按钮之后会自动切换当前的标签页。
-#
-#tab\_button\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于tab\_button\_t控件。
-#
-#在xml中使用"tab\_button"标签创建标签按钮控件。如：
-#
-#```xml
-#<!-- tab_button_view_page1.xml -->
-#<view w="100%" h="100%">
-#<label x="c" y="m" w="100%" h="60" text="page1" />
-#<button name="close" x="c" y="bottom:100" w="80" h="40" text="Close" />
-#</view>
-#```
-#
-#```xml
-#<!-- tab_button dynamic load UI -->
-#<pages name="pages" x="right" y="0" w="70%" h="100%">
-#</pages>
-#<list_view x="0" y="0" w="30%" h="100%" item_height="40" auto_hide_scroll_bar="true">
-#<scroll_view name="view" x="0"  y="0" w="-12" h="100%">
-#<tab_button text="page1" load_ui="tab_button_view_page1" value="true"/>
-#<tab_button text="page2" load_ui="tab_button_view_page2" />
-#<tab_button text="page3" load_ui="tab_button_view_page3" />
-#<scroll_view />
-#<scroll_bar_d name="bar" x="right" y="0" w="12" h="100%" value="0"/>
-#</list_view>
-#```
-#
-#```xml
-#<!-- tab_button static load UI -->
-#<tab_button_group x="c" y="bottom:10" w="90%" h="30" compact="true"
-#<tab_button text="General"/>
-#<tab_button text="Network" value="true" />
-#<tab_button text="Security"/>
-#</tab_button_group>
-#```
-#
-#标签按钮一般放在标签按钮分组中，布局由标签按钮分组控件决定，不需要指定自己的布局参数和坐标。
-#
-#> 更多用法请参考：
-#[tab control](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/)
-#
-#可用通过style来设置控件的显示风格，如字体的大小和颜色等等。如：
-#
-#```xml
-#<tab_button>
-#<style name="default" border_color="#a0a0a0"  text_color="black">
-#<normal     bg_color="#d0d0d0" />
-#<pressed    bg_color="#f0f0f0" />
-#<over       bg_color="#e0e0e0" />
-#<normal_of_active     bg_color="#f0f0f0" />
-#<pressed_of_active    bg_color="#f0f0f0" />
-#<over_of_active       bg_color="#f0f0f0" />
-#</style>
-#</tab_button>
-#```
-#
-#
-class TTabButton (TWidget):
-  def __init__(self, nativeObj):
-    super(TTabButton, self).__init__(nativeObj)
-
-
-  #
-  # 创建tab_button对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TTabButton(tab_button_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 转换tab_button对象(供脚本语言使用)。
-  # 
-  # @param widget tab_button对象。
-  #
-  # @return tab_button对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TTabButton(tab_button_cast(awtk_get_native_obj(widget)));
-
-
-  #
-  # 设置为当前标签。
-  # 
-  # @param value 是否为当前标签。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_value(self, value): 
-    return tab_button_set_value(awtk_get_native_obj(self), value);
-
-
-  #
-  # 设置控件的图标。
-  # 
-  # @param name 当前项的图标。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_icon(self, name): 
-    return tab_button_set_icon(awtk_get_native_obj(self), name);
-
-
-  #
-  # 设置控件的active图标。
-  # 
-  # @param name 当前项的图标。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_active_icon(self, name): 
-    return tab_button_set_active_icon(awtk_get_native_obj(self), name);
-
-
-  #
-  # 设置控件动态加载显示UI。
-  # 
-  # @param name 动态加载UI的资源名称。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_load_ui(self, name): 
-    return tab_button_set_load_ui(awtk_get_native_obj(self), name);
-
-
-  #
-  # 值。
-  #
-  #
-  @property
-  def value(self):
-    return tab_button_t_get_prop_value(self.nativeObj);
-
-  @value.setter
-  def value(self, v):
-   this.set_value(v);
-
-
-  #
-  # 激活后加载的UI名字。
-  #
-  #
-  @property
-  def load_ui(self):
-    return tab_button_t_get_prop_load_ui(self.nativeObj);
-
-  @load_ui.setter
-  def load_ui(self, v):
-   this.set_load_ui(v);
-
-
-  #
-  # 当前项的图标的名称。
-  #
-  #
-  @property
-  def active_icon(self):
-    return tab_button_t_get_prop_active_icon(self.nativeObj);
-
-  @active_icon.setter
-  def active_icon(self, v):
-   this.set_active_icon(v);
-
-
-  #
-  # 非当前项的图标的名称。
-  #
-  #
-  @property
-  def icon(self):
-    return tab_button_t_get_prop_icon(self.nativeObj);
-
-  @icon.setter
-  def icon(self, v):
-   this.set_icon(v);
-
-
-#
-# 标签按钮分组控件。
-#
-#一个简单的容器，主要用于对标签按钮进行布局和管理。
-#
-#tab\_button\_group\_t是[widget\_t](widget_t.md)的子类控件，
-#widget\_t的函数均适用于tab\_button\_group\_t控件。
-#
-#在xml中使用"tab\_button\_group"标签创建标签按钮分组控件。如：
-#
-#```xml
-#<tab_button_group x="c" y="bottom:10" w="90%" h="30" compact="true"
-#<tab_button text="General"/>
-#<tab_button text="Network" value="true" />
-#<tab_button text="Security"/>
-#</tab_button_group>
-#```
-#
-#> 更多用法请参考：
-#[tab control](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/)
-#
-#可用通过style来设置控件的显示风格，如颜色等等。如：
-#
-#```xml
-#<tab_button_group>
-#<style name="default">
-#<normal/>
-#</style>
-#</tab_button_group>
-#```
-#
-#
-class TTabButtonGroup (TWidget):
-  def __init__(self, nativeObj):
-    super(TTabButtonGroup, self).__init__(nativeObj)
-
-
-  #
-  # 创建tab_button_group对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TTabButtonGroup(tab_button_group_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 设置compact。
-  # 
-  # @param compact 是否使用紧凑布局(缺省FALSE)。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_compact(self, compact): 
-    return tab_button_group_set_compact(awtk_get_native_obj(self), compact);
-
-
-  #
-  # 设置scrollable。
-  # 
-  # @param scrollable 是否允许滚动(缺省FALSE)。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_scrollable(self, scrollable): 
-    return tab_button_group_set_scrollable(awtk_get_native_obj(self), scrollable);
-
-
-  #
-  # 转换tab_button_group对象(供脚本语言使用)。
-  # 
-  # @param widget tab_button_group对象。
-  #
-  # @return tab_button_group对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TTabButtonGroup(tab_button_group_cast(awtk_get_native_obj(widget)));
-
-
-  #
-  # 紧凑型排版子控件(缺省FALSE)。
-  #
-  #
-  @property
-  def compact(self):
-    return tab_button_group_t_get_prop_compact(self.nativeObj);
-
-  @compact.setter
-  def compact(self, v):
-   this.set_compact(v);
-
-
-  #
-  # 是否支持滚动(缺省FALSE)。
-  #
-  #> 紧凑型排版子控件时才支持滚动。
-  #
-  #
-  @property
-  def scrollable(self):
-    return tab_button_group_t_get_prop_scrollable(self.nativeObj);
-
-  @scrollable.setter
-  def scrollable(self, v):
-   this.set_scrollable(v);
-
-
-#
-# 滑块控件。
-#
-#slider\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于slider\_t控件。
-#
-#在xml中使用"slider"标签创建滑块控件。如：
-#
-#```xml
-#<slider x="center" y="10" w="80%" h="20" value="10"/>
-#<slider style="img" x="center" y="50" w="80%" h="30" value="20" />
-#<slider style="img" x="center" y="90" w="80%" h="30" value="30" min="5" max="50" step="5"/>
-#```
-#
-#> 更多用法请参考：
-#[basic](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/basic.xml)
-#
-#在c代码中使用函数slider\_create创建滑块控件。如：
-#
-#
-#> 完整示例请参考：
-#[slider demo](https://github.com/zlgopen/awtk-c-demos/blob/master/demos/slider.c)
-#
-#可用通过style来设置控件的显示风格，如图片和颜色等等。如：
-#
-#```xml
-#<style name="img" bg_image="slider_bg" fg_image="slider_fg">
-#<normal icon="slider_drag"/>
-#<pressed icon="slider_drag_p"/>
-#<over icon="slider_drag_o"/>
-#</style>
-#```
-#
-#> 更多用法请参考：
-#[theme
-#default](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/styles/default.xml#L179)
-#
-#
-class TSlider (TWidget):
-  def __init__(self, nativeObj):
-    super(TSlider, self).__init__(nativeObj)
-
-
-  #
-  # 创建slider对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TSlider(slider_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 转换为slider对象(供脚本语言使用)。
-  # 
-  # @param widget slider对象。
-  #
-  # @return slider对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TSlider(slider_cast(awtk_get_native_obj(widget)));
-
-
-  #
-  # 设置滑块的值。
-  # 
-  # @param value 值
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_value(self, value): 
-    return slider_set_value(awtk_get_native_obj(self), value);
-
-
-  #
-  # 设置滑块的最小值。
-  # 
-  # @param min 最小值
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_min(self, min): 
-    return slider_set_min(awtk_get_native_obj(self), min);
-
-
-  #
-  # 设置滑块的最大值。
-  # 
-  # @param max 最大值
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_max(self, max): 
-    return slider_set_max(awtk_get_native_obj(self), max);
-
-
-  #
-  # 设置滑块的拖动的最小单位。
-  # 
-  # @param step 拖动的最小单位。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_step(self, step): 
-    return slider_set_step(awtk_get_native_obj(self), step);
-
-
-  #
-  # 设置bar的宽度或高度。
-  # 
-  # @param bar_size bar的宽度或高度。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_bar_size(self, bar_size): 
-    return slider_set_bar_size(awtk_get_native_obj(self), bar_size);
-
-
-  #
-  # 设置滑块的方向。
-  # 
-  # @param vertical 是否为垂直方向。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_vertical(self, vertical): 
-    return slider_set_vertical(awtk_get_native_obj(self), vertical);
-
-
-  #
-  # 值。
-  #
-  #
-  @property
-  def value(self):
-    return slider_t_get_prop_value(self.nativeObj);
-
-  @value.setter
-  def value(self, v):
-   this.set_value(v);
-
-
-  #
-  # 最小值。
-  #
-  #
-  @property
-  def min(self):
-    return slider_t_get_prop_min(self.nativeObj);
-
-  @min.setter
-  def min(self, v):
-   this.set_min(v);
-
-
-  #
-  # 最大值。
-  #
-  #
-  @property
-  def max(self):
-    return slider_t_get_prop_max(self.nativeObj);
-
-  @max.setter
-  def max(self, v):
-   this.set_max(v);
-
-
-  #
-  # 拖动的最小单位。
-  #
-  #
-  @property
-  def step(self):
-    return slider_t_get_prop_step(self.nativeObj);
-
-  @step.setter
-  def step(self, v):
-   this.set_step(v);
-
-
-  #
-  # 滑块的是否为垂直方向。
-  #
-  #
-  @property
-  def vertical(self):
-    return slider_t_get_prop_vertical(self.nativeObj);
-
-  @vertical.setter
-  def vertical(self, v):
-   this.set_vertical(v);
-
-
-  #
-  # 轴的宽度或高度（单位：像素），为0表示为控件的宽度或高度的一半，缺省为0。
-  #
-  #
-  @property
-  def bar_size(self):
-    return slider_t_get_prop_bar_size(self.nativeObj);
-
-  @bar_size.setter
-  def bar_size(self, v):
-   this.set_bar_size(v);
-
-
-  #
-  # 滑块的宽度或高度（单位：像素），缺省为10。
-  #
-  #
-  @property
-  def dragger_size(self):
-    return slider_t_get_prop_dragger_size(self.nativeObj);
-
-
-  #
-  # 滑块的宽度或高度是否与icon适应，缺省为true。
-  #
-  #
-  @property
-  def dragger_adapt_to_icon(self):
-    return slider_t_get_prop_dragger_adapt_to_icon(self.nativeObj);
-
-
-  #
-  # 是否允许在轴上滑动来改变滑块位置，缺省为FALSE。
-  #
-  #
-  @property
-  def slide_with_bar(self):
-    return slider_t_get_prop_slide_with_bar(self.nativeObj);
-
-
-#
-# row。一个简单的容器控件，用于水平排列其子控件。
-#
-#它本身不提供布局功能，仅提供具有语义的标签，让xml更具有可读性。
-#子控件的布局可用layout\_children属性指定。
-#请参考[布局参数](https://github.com/zlgopen/awtk/blob/master/docs/layout.md)。
-#
-#row\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于row\_t控件。
-#
-#在xml中使用"row"标签创建row。如：
-#
-#```xml
-#<row x="0" y="0" w="100%" h="100%" children_layout="default(c=0,r=1)">
-#<button name="open:basic" text="Basic"/>
-#<button name="open:button" text="Buttons"/>
-#<button name="open:edit" text="Edits"/>
-#<button name="open:keyboard" text="KeyBoard"/>
-#</row>
-#```
-#
-#可用通过style来设置控件的显示风格，如背景颜色等。如：
-#
-#```xml
-#<style name="default" border_color="#a0a0a0">
-#<normal     bg_color="#f0f0f0" />
-#</style>
-#```
-#
-#
-class TRow (TWidget):
-  def __init__(self, nativeObj):
-    super(TRow, self).__init__(nativeObj)
-
-
-  #
-  # 创建row对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TRow(row_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 转换为row对象(供脚本语言使用)。
-  # 
-  # @param widget row对象。
-  #
-  # @return row对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TRow(row_cast(awtk_get_native_obj(widget)));
-
-
-#
-# 进度条控件。
-#
-#进度条控件可以水平显示也可以垂直显示，由vertical属性决定。
-#
-#progress\_bar\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于progress\_bar\_t控件。
-#
-#在xml中使用"progress\_bar"标签创建进度条控件。如：
-#
-#```xml
-#<progress_bar name="bar1" x="10" y="128" w="240" h="30" value="40"/>
-#<progress_bar name="bar2" x="280" y="128" w="30" h="118" value="20" vertical="true"/>
-#```
-#
-#> 更多用法请参考：
-#[basic demo](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/basic.xml)
-#
-#在c代码中使用函数progress\_bar\_create创建进度条控件。如：
-#
-#
-#> 完整示例请参考：
-#[progress_bar demo](https://github.com/zlgopen/awtk-c-demos/blob/master/demos/progress_bar.c)
-#
-#可用通过style来设置控件的显示风格，如字体的大小和颜色等等。如：
-#
-#```xml
-#<style>
-#<normal bg_color="#f0f0f0" text_color="gold" fg_color="#c0c0c0" border_color="#a0a0a0" />
-#</style>
-#```
-#
-#> 更多用法请参考：
-#[theme
-#default](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/styles/default.xml#L183)
-#
-#
-class TProgressBar (TWidget):
-  def __init__(self, nativeObj):
-    super(TProgressBar, self).__init__(nativeObj)
-
-
-  #
-  # 创建progress_bar对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TProgressBar(progress_bar_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 转换为progress_bar对象(供脚本语言使用)。
-  # 
-  # @param widget progress_bar对象。
-  #
-  # @return progress_bar对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TProgressBar(progress_bar_cast(awtk_get_native_obj(widget)));
-
-
-  #
-  # 设置进度条的进度。
-  # 
-  # @param value 进度
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_value(self, value): 
-    return progress_bar_set_value(awtk_get_native_obj(self), value);
-
-
-  #
-  # 设置最大值。
-  # 
-  # @param max 最大值。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_max(self, max): 
-    return progress_bar_set_max(awtk_get_native_obj(self), max);
-
-
-  #
-  # 设置进度条的方向。
-  # 
-  # @param vertical 是否为垂直方向。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_vertical(self, vertical): 
-    return progress_bar_set_vertical(awtk_get_native_obj(self), vertical);
-
-
-  #
-  # 设置进度条的是否显示文本。
-  # 
-  # @param show_text 是否显示文本。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_show_text(self, show_text): 
-    return progress_bar_set_show_text(awtk_get_native_obj(self), show_text);
-
-
-  #
-  # 获取进度百分比。
-  #
-  #> 当max为100时，percent和value取整后一致。
-  # 
-  #
-  # @return 返回百分比。
-  #
-  def get_percent(self): 
-    return progress_bar_get_percent(awtk_get_native_obj(self));
-
-
-  #
-  # 进度条的值[0-max]。
-  #
-  #
-  @property
-  def value(self):
-    return progress_bar_t_get_prop_value(self.nativeObj);
-
-  @value.setter
-  def value(self, v):
-   this.set_value(v);
-
-
-  #
-  # 最大值(缺省为100)。
-  #
-  #
-  @property
-  def max(self):
-    return progress_bar_t_get_prop_max(self.nativeObj);
-
-  @max.setter
-  def max(self, v):
-   this.set_max(v);
-
-
-  #
-  # 进度条的是否为垂直方向。
-  #
-  #
-  @property
-  def vertical(self):
-    return progress_bar_t_get_prop_vertical(self.nativeObj);
-
-  @vertical.setter
-  def vertical(self, v):
-   this.set_vertical(v);
-
-
-  #
-  # 是否显示文本。
-  #
-  #
-  @property
-  def show_text(self):
-    return progress_bar_t_get_prop_show_text(self.nativeObj);
-
-  @show_text.setter
-  def show_text(self, v):
-   this.set_show_text(v);
-
-
-#
-# 页面管理控件。
-#
-#只有一个Page处于active状态，处于active状态的Page才能显示并接收事件。
-#常用于实现标签控件中的页面管理。
-#
-#pages\_t是[widget\_t](widget_t.md)的子类控件，
-#widget\_t的函数均适用于pages\_t控件。
-#
-#在xml中使用"pages"标签创建页面管理控件。如：
-#
-#```xml
-#<tab_control x="0" y="0" w="100%" h="100%"
-#<pages x="c" y="20" w="90%" h="-60" value="1">
-#...
-#</pages>
-#<tab_button_group>
-#...
-#</tab_button_group>
-#</tab_control>
-#```
-#
-#> 更多用法请参考：
-#[tab control](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/)
-#
-#
-class TPages (TWidget):
-  def __init__(self, nativeObj):
-    super(TPages, self).__init__(nativeObj)
-
-
-  #
-  # 创建pages对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TPages(pages_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 转换为pages对象(供脚本语言使用)。
-  # 
-  # @param widget pages对象。
-  #
-  # @return pages对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TPages(pages_cast(awtk_get_native_obj(widget)));
-
-
-  #
-  # 设置当前的Page。
-  # 
-  # @param index 当前Page的序号。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_active(self, index): 
-    return pages_set_active(awtk_get_native_obj(self), index);
-
-
-  #
-  # 通过页面的名字设置当前的Page。
-  # 
-  # @param name 当前Page的名字。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_active_by_name(self, name): 
-    return pages_set_active_by_name(awtk_get_native_obj(self), name);
-
-
-  #
-  # 当前活跃的page。
-  #
-  #
-  @property
-  def active(self):
-    return pages_t_get_prop_active(self.nativeObj);
-
-  @active.setter
-  def active(self, v):
-   this.set_active(v);
-
-
-#
-# 文本控件。用于显示一行或多行文本。
-#
-#文本控件不会根据文本的长度自动换行，只有文本内容包含换行符时才会换行。
-#
-#如需自动换行请使用[rich\_text\_t](rich_text_t.md)控件。
-#
-#label\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于label\_t控件。
-#
-#在xml中使用"label"标签创建文本控件。如：
-#
-#```xml
-#<label style="center" text="center"/>
-#```
-#
-#> 更多用法请参考：[label.xml](
-#https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/label.xml)
-#
-#在c代码中使用函数label\_create创建文本控件。如：
-#
-#
-#> 创建之后，需要用widget\_set\_text或widget\_set\_text\_utf8设置文本内容。
-#
-#> 完整示例请参考：[label demo](
-#https://github.com/zlgopen/awtk-c-demos/blob/master/demos/label.c)
-#
-#可用通过style来设置控件的显示风格，如字体的大小和颜色等等。如：
-#
-#```xml
-#<style name="left">
-#<normal text_color="red" text_align_h="left" border_color="#a0a0a0" margin="4" />
-#</style>
-#```
-#
-#> 更多用法请参考：
-#[theme default](
-#https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/styles/default.xml#L144)
-#
-#
-class TLabel (TWidget):
-  def __init__(self, nativeObj):
-    super(TLabel, self).__init__(nativeObj)
-
-
-  #
-  # 创建label对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TLabel(label_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 设置显示字符的个数(小余0时全部显示)。。
-  # 
-  # @param length 最大可显示字符个数。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_length(self, length): 
-    return label_set_length(awtk_get_native_obj(self), length);
-
-
-  #
-  # 根据文本内容调节控件大小。
-  # 
-  # @param min_w 最小宽度。
-  # @param max_w 最大宽度。
-  # @param min_h 最小高度。
-  # @param max_h 最大高度。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def resize_to_content(self, min_w, max_w, min_h, max_h): 
-    return label_resize_to_content(awtk_get_native_obj(self), min_w, max_w, min_h, max_h);
-
-
-  #
-  # 转换为label对象(供脚本语言使用)。
-  # 
-  # @param widget label对象。
-  #
-  # @return label对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TLabel(label_cast(awtk_get_native_obj(widget)));
-
-
-  #
-  # 显示字符的个数(小余0时全部显示)。
-  #主要用于动态改变显示字符的个数，来实现类似[拨号中...]的动画效果。
-  #
-  #
-  @property
-  def length(self):
-    return label_t_get_prop_length(self.nativeObj);
-
-  @length.setter
-  def length(self, v):
-   this.set_length(v);
-
-
-#
-# 分组控件。
-#
-#单选按钮在同一个父控件中是互斥的，所以通常将相关的单选按钮放在一个group\_box中。
-#
-#它本身不提供布局功能，仅提供具有语义的标签，让xml更具有可读性。
-#子控件的布局可用layout\_children属性指定。
-#请参考[布局参数](https://github.com/zlgopen/awtk/blob/master/docs/layout.md)。
-#
-#group\_box\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于group\_box\_t控件。
-#
-#在xml中使用"group\_box"标签创建group\_box。如：
-#
-#```xml
-#<group_box x="20" y="230" w="50%" h="90" children_layout="default(r=3,c=1,ym=2,s=10)"
-#<radio_button name="r1" text="Book"/>
-#<radio_button name="r2" text="Food"/>
-#<radio_button name="r3" text="Pencil" value="true"/>
-#</group_box>
-#```
-#
-#可用通过style来设置控件的显示风格，如背景颜色等。如：
-#
-#```xml
-#<style name="default" border_color="#a0a0a0">
-#<normal     bg_color="#f0f0f0" />
-#</style>
-#```
-#
-#
-class TGroupBox (TWidget):
-  def __init__(self, nativeObj):
-    super(TGroupBox, self).__init__(nativeObj)
-
-
-  #
-  # 创建group_box对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TGroupBox(group_box_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 转换为group_box对象(供脚本语言使用)。
-  # 
-  # @param widget group_box对象。
-  #
-  # @return group_box对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TGroupBox(group_box_cast(awtk_get_native_obj(widget)));
-
-
-#
-# grid控件。一个简单的容器控件，用于网格排列一组控件。
-#
-#它本身不提供布局功能，仅提供具有语义的标签，让xml更具有可读性。
-#子控件的布局可用layout\_children属性指定。
-#请参考[布局参数](https://github.com/zlgopen/awtk/blob/master/docs/layout.md)。
-#
-#grid\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于grid\_t控件。
-#
-#在xml中使用"grid"标签创建grid。如：
-#
-#```xml
-#<grid x="0" y="0" w="100%" h="100%" children_layout="default(c=2,r=2,m=5,s=5)">
-#<button name="open:basic" text="Basic"/>
-#<button name="open:button" text="Buttons"/>
-#<button name="open:edit" text="Edits"/>
-#<button name="open:keyboard" text="KeyBoard"/>
-#</grid>
-#```
-#
-#可用通过style来设置控件的显示风格，如背景颜色等。如：
-#
-#```xml
-#<style name="default" border_color="#a0a0a0">
-#<normal     bg_color="#f0f0f0" />
-#</style>
-#```
-#
-#
-class TGrid (TWidget):
-  def __init__(self, nativeObj):
-    super(TGrid, self).__init__(nativeObj)
-
-
-  #
-  # 创建grid对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TGrid(grid_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 转换为grid对象(供脚本语言使用)。
-  # 
-  # @param widget grid对象。
-  #
-  # @return grid对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TGrid(grid_cast(awtk_get_native_obj(widget)));
-
-
-#
-# grid_item。一个简单的容器控件，一般作为grid的子控件。
-#
-#它本身不提供布局功能，仅提供具有语义的标签，让xml更具有可读性。
-#子控件的布局可用layout\_children属性指定。
-#请参考[布局参数](https://github.com/zlgopen/awtk/blob/master/docs/layout.md)。
-#
-#grid\_item\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于grid\_item\_t控件。
-#
-#在xml中使用"grid\_item"标签创建grid\_item。如：
-#
-#```xml
-#<grid x="0" y="0" w="100%" h="100%" children_layout="default(c=2,r=2,m=5,s=5)">
-#<grid_item>
-#<button x="c" y="m" w="80%" h="30" name="0" text="0"/>
-#</grid_item>
-#<grid_item>
-#<button x="c" y="m" w="80%" h="30" name="1" text="1"/>
-#</grid_item>
-#<grid_item>
-#<button x="c" y="m" w="80%" h="30" name="2" text="2"/>
-#</grid_item>
-#<grid_item>
-#<button x="c" y="m" w="80%" h="30" name="3" text="3"/>
-#</grid_item>
-#</grid>
-#
-#```
-#
-#可用通过style来设置控件的显示风格，如背景颜色等。如：
-#
-#```xml
-#<style name="default" border_color="#a0a0a0">
-#<normal     bg_color="#f0f0f0" />
-#</style>
-#```
-#
-#
-class TGridItem (TWidget):
-  def __init__(self, nativeObj):
-    super(TGridItem, self).__init__(nativeObj)
-
-
-  #
-  # 创建grid_item对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TGridItem(grid_item_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 转换为grid_item对象(供脚本语言使用)。
-  # 
-  # @param widget grid_item对象。
-  #
-  # @return grid_item对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TGridItem(grid_item_cast(awtk_get_native_obj(widget)));
-
-
-#
-# 单行编辑器控件。
-#
-#在基于SDL的平台，单行编辑器控件使用平台原生的输入法，对于嵌入式平台使用内置的输入法。
-#
-#在使用内置的输入法时，软键盘由输入类型决定，开发者可以自定义软键盘的界面。
-#
-#edit\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于edit\_t控件。
-#
-#edit\_t本身可以做为容器，放入按钮等控件。有几个特殊的子控件：
-#
-#* 名为"clear"的按钮。点击时清除编辑器中的内容。
-#* 名为"inc"的按钮。点击时增加编辑器的值，用于实现类似于spinbox的功能。
-#* 名为"dec"的按钮。点击时减少编辑器的值，用于实现类似于spinbox的功能。
-#* 名为"visible"的复选框。勾选时显示密码，反之不显示密码。
-#
-#在xml中使用"edit"标签创建编辑器控件。如：
-#
-#```xml
-#<edit x="c" y="m" w="80" h="30"
-#tips="age" input_type="uint" min="0" max="150" step="1" auto_fix="true" style="number" />
-#```
-#
-#> XXX：需要在min/max/step之前设置input\_type。
-#
-#>更多用法请参考：
-#[edit.xml](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/edit.xml)
-#
-#在c代码中使用函数edit\_create创建编辑器控件。如：
-#
-#
-#> 创建之后，可以用widget\_set\_text或widget\_set\_text\_utf8设置文本内容。
-#
-#> 完整示例请参考：
-#[edit demo](https://github.com/zlgopen/awtk-c-demos/blob/master/demos/edit.c)
-#
-#可用通过style来设置控件的显示风格，如字体的大小和颜色等等。如：
-#
-#```xml
-#<style name="default" border_color="#a0a0a0"  text_color="black" text_align_h="left">
-#<normal     bg_color="#f0f0f0" />
-#<focused    bg_color="#f0f0f0" border_color="black"/>
-#<disable    bg_color="gray" text_color="#d0d0d0" />
-#<error      bg_color="#f0f0f0" text_color="red" />
-#<empty      bg_color="#f0f0f0" text_color="#a0a0a0" />
-#</style>
-#```
-#
-#> 更多用法请参考：
-#[theme
-#default](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/styles/default.xml#L104)
-#
-#
-class TEdit (TWidget):
-  def __init__(self, nativeObj):
-    super(TEdit, self).__init__(nativeObj)
-
-
-  #
-  # 创建edit对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TEdit(edit_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 转换为edit对象(供脚本语言使用)。
-  # 
-  # @param widget edit对象。
-  #
-  # @return edit对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TEdit(edit_cast(awtk_get_native_obj(widget)));
-
-
-  #
-  # 获取int类型的值。
-  # 
-  #
-  # @return 返回int的值。
-  #
-  def get_int(self): 
-    return edit_get_int(awtk_get_native_obj(self));
-
-
-  #
-  # 获取double类型的值。
-  # 
-  #
-  # @return 返回double的值。
-  #
-  def get_double(self): 
-    return edit_get_double(awtk_get_native_obj(self));
-
-
-  #
-  # 设置int类型的值。
-  # 
-  # @param value 值。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_int(self, value): 
-    return edit_set_int(awtk_get_native_obj(self), value);
-
-
-  #
-  # 设置double类型的值。
-  # 
-  # @param value 值。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_double(self, value): 
-    return edit_set_double(awtk_get_native_obj(self), value);
-
-
-  #
-  # 设置为文本输入及其长度限制，不允许输入超过max个字符，少于min个字符时进入error状态。
-  # 
-  # @param min 最小长度。
-  # @param max 最大长度。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_text_limit(self, min, max): 
-    return edit_set_text_limit(awtk_get_native_obj(self), min, max);
-
-
-  #
-  # 设置为整数输入及取值范围。
-  # 
-  # @param min 最小值。
-  # @param max 最大值。
-  # @param step 步长。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_int_limit(self, min, max, step): 
-    return edit_set_int_limit(awtk_get_native_obj(self), min, max, step);
-
-
-  #
-  # 设置为浮点数输入及取值范围。
-  # 
-  # @param min 最小值。
-  # @param max 最大值。
-  # @param step 步长。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_float_limit(self, min, max, step): 
-    return edit_set_float_limit(awtk_get_native_obj(self), min, max, step);
-
-
-  #
-  # 设置编辑器是否为只读。
-  # 
-  # @param readonly 只读。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_readonly(self, readonly): 
-    return edit_set_readonly(awtk_get_native_obj(self), readonly);
-
-
-  #
-  # 设置编辑器是否为自动改正。
-  # 
-  # @param auto_fix 自动改正。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_auto_fix(self, auto_fix): 
-    return edit_set_auto_fix(awtk_get_native_obj(self), auto_fix);
-
-
-  #
-  # 设置编辑器是否在获得焦点时不选中文本。
-  # 
-  # @param select_none_when_focused 是否在获得焦点时不选中文本。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_select_none_when_focused(self, select_none_when_focused): 
-    return edit_set_select_none_when_focused(awtk_get_native_obj(self), select_none_when_focused);
-
-
-  #
-  # 设置编辑器是否在获得焦点时打开输入法。
-  # 
-  # @param open_im_when_focused 是否在获得焦点时打开输入法。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_open_im_when_focused(self, open_im_when_focused): 
-    return edit_set_open_im_when_focused(awtk_get_native_obj(self), open_im_when_focused);
-
-
-  #
-  # 设置编辑器的输入类型。
-  # 
-  # @param type 输入类型。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_input_type(self, type): 
-    return edit_set_input_type(awtk_get_native_obj(self), type);
-
-
-  #
-  # 设置软键盘上action按钮的文本。
-  # 
-  # @param action_text 软键盘上action按钮的文本。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_action_text(self, action_text): 
-    return edit_set_action_text(awtk_get_native_obj(self), action_text);
-
-
-  #
-  # 设置编辑器的输入提示。
-  # 
-  # @param tips 输入提示。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_tips(self, tips): 
-    return edit_set_tips(awtk_get_native_obj(self), tips);
-
-
-  #
-  # 获取翻译之后的文本，然后调用edit_set_tips。
-  # 
-  # @param tr_tips 提示信息。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_tr_tips(self, tr_tips): 
-    return edit_set_tr_tips(awtk_get_native_obj(self), tr_tips);
-
-
-  #
-  # 设置自定义软键盘名称。
-  # 
-  # @param keyboard 键盘名称(相应UI资源必须存在)。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_keyboard(self, keyboard): 
-    return edit_set_keyboard(awtk_get_native_obj(self), keyboard);
-
-
-  #
-  # 当编辑器输入类型为密码时，设置密码是否可见。
-  # 
-  # @param password_visible 密码是否可见。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_password_visible(self, password_visible): 
-    return edit_set_password_visible(awtk_get_native_obj(self), password_visible);
-
-
-  #
-  # 设置为焦点。
-  # 
-  # @param focus 是否为焦点。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_focus(self, focus): 
-    return edit_set_focus(awtk_get_native_obj(self), focus);
-
-
-  #
-  # 设置输入框的光标坐标。
-  # 
-  # @param cursor 是否为焦点。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_cursor(self, cursor): 
-    return edit_set_cursor(awtk_get_native_obj(self), cursor);
-
-
-  #
-  # 编辑器是否为只读。
-  #
-  #
-  @property
-  def readonly(self):
-    return edit_t_get_prop_readonly(self.nativeObj);
-
-  @readonly.setter
-  def readonly(self, v):
-   this.set_readonly(v);
-
-
-  #
-  # 密码是否可见。
-  #
-  #
-  @property
-  def password_visible(self):
-    return edit_t_get_prop_password_visible(self.nativeObj);
-
-  @password_visible.setter
-  def password_visible(self, v):
-   this.set_password_visible(v);
-
-
-  #
-  # 输入无效时，是否自动改正。
-  #
-  #
-  @property
-  def auto_fix(self):
-    return edit_t_get_prop_auto_fix(self.nativeObj);
-
-  @auto_fix.setter
-  def auto_fix(self, v):
-   this.set_auto_fix(v);
-
-
-  #
-  # 获得焦点时不选中文本。
-  #
-  #> 主要用于没有指针设备的情况，否则软键盘无法取消选中文本。
-  #
-  #
-  @property
-  def select_none_when_focused(self):
-    return edit_t_get_prop_select_none_when_focused(self.nativeObj);
-
-  @select_none_when_focused.setter
-  def select_none_when_focused(self, v):
-   this.set_select_none_when_focused(v);
-
-
-  #
-  # 获得焦点时打开输入法。
-  #
-  #> 主要用于没有指针设备的情况，否则每次切换焦点时都打开输入法。
-  #
-  #
-  @property
-  def open_im_when_focused(self):
-    return edit_t_get_prop_open_im_when_focused(self.nativeObj);
-
-  @open_im_when_focused.setter
-  def open_im_when_focused(self, v):
-   this.set_open_im_when_focused(v);
-
-
-  #
-  # 上边距。
-  #
-  #
-  @property
-  def top_margin(self):
-    return edit_t_get_prop_top_margin(self.nativeObj);
-
-
-  #
-  # 下边距。
-  #
-  #
-  @property
-  def bottom_margin(self):
-    return edit_t_get_prop_bottom_margin(self.nativeObj);
-
-
-  #
-  # 左边距。
-  #
-  #
-  @property
-  def left_margin(self):
-    return edit_t_get_prop_left_margin(self.nativeObj);
-
-
-  #
-  # 右边距。
-  #
-  #
-  @property
-  def right_margin(self):
-    return edit_t_get_prop_right_margin(self.nativeObj);
-
-
-  #
-  # 输入提示。
-  #
-  #
-  @property
-  def tips(self):
-    return edit_t_get_prop_tips(self.nativeObj);
-
-  @tips.setter
-  def tips(self, v):
-   this.set_tips(v);
-
-
-  #
-  # 保存用于翻译的提示信息。
-  #
-  #
-  @property
-  def tr_tips(self):
-    return edit_t_get_prop_tr_tips(self.nativeObj);
-
-  @tr_tips.setter
-  def tr_tips(self, v):
-   this.set_tr_tips(v);
-
-
-  #
-  # 软键盘上action按钮的文本。内置取值有：
-  #
-  #* next 将焦点切换到下一个控件。
-  #* done 完成，关闭软键盘。
-  #
-  #也可以使用其它文本，比如send表示发送。这个需要自己实现相应的功能，处理EVT\_IM\_ACTION事件即可。
-  #
-  #
-  @property
-  def action_text(self):
-    return edit_t_get_prop_action_text(self.nativeObj);
-
-  @action_text.setter
-  def action_text(self, v):
-   this.set_action_text(v);
-
-
-  #
-  # 自定义软键盘名称。
-  #
-  #
-  @property
-  def keyboard(self):
-    return edit_t_get_prop_keyboard(self.nativeObj);
-
-  @keyboard.setter
-  def keyboard(self, v):
-   this.set_keyboard(v);
-
-
-  #
-  # 输入类型。
-  #
-  #
-  @property
-  def input_type(self):
-    return edit_t_get_prop_input_type(self.nativeObj);
-
-  @input_type.setter
-  def input_type(self, v):
-   this.set_input_type(v);
-
-
-  #
-  # 最小值或最小长度。
-  #
-  #
-  @property
-  def min(self):
-    return edit_t_get_prop_min(self.nativeObj);
-
-
-  #
-  # 最大值或最大长度。
-  #
-  #
-  @property
-  def max(self):
-    return edit_t_get_prop_max(self.nativeObj);
-
-
-  #
-  # 步长。
-  #作为数值型编辑器时，一次增加和减少时的数值。
-  #
-  #
-  @property
-  def step(self):
-    return edit_t_get_prop_step(self.nativeObj);
-
-
-#
-# dragger控件。
-#
-#目前主要用于scrollbar里的滑块。
-#
-#
-class TDragger (TWidget):
-  def __init__(self, nativeObj):
-    super(TDragger, self).__init__(nativeObj)
-
-
-  #
-  # 创建dragger对象。
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TDragger(dragger_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 转换为dragger对象(供脚本语言使用)。
-  # 
-  # @param widget dragger对象。
-  #
-  # @return dragger对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TDragger(dragger_cast(awtk_get_native_obj(widget)));
-
-
-  #
-  # 设置拖动的范围。
-  # 
-  # @param x_min x坐标最小值。
-  # @param y_min y坐标最小值。
-  # @param x_max x坐标最大值。
-  # @param y_max y坐标最大值。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_range(self, x_min, y_min, x_max, y_max): 
-    return dragger_set_range(awtk_get_native_obj(self), x_min, y_min, x_max, y_max);
-
-
-  #
-  # x坐标的最小值。
-  #
-  #
-  @property
-  def x_min(self):
-    return dragger_t_get_prop_x_min(self.nativeObj);
-
-
-  #
-  # y坐标的最小值。
-  #
-  #
-  @property
-  def y_min(self):
-    return dragger_t_get_prop_y_min(self.nativeObj);
-
-
-  #
-  # x坐标的最大值。
-  #
-  #
-  @property
-  def x_max(self):
-    return dragger_t_get_prop_x_max(self.nativeObj);
-
-
-  #
-  # y坐标的最大值。
-  #
-  #
-  @property
-  def y_max(self):
-    return dragger_t_get_prop_y_max(self.nativeObj);
-
-
-#
-# 数字时钟控件。
-#
-#digit\_clock\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于digit\_clock\_t控件。
-#
-#在xml中使用"digit\_clock"标签创建数字时钟控件。如：
-#
-#```xml
-#<digit_clock format="YY/MM/DD h:mm:ss"/>
-#```
-#
-#> 更多用法请参考：[digit\_clock.xml](
-#https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/digit_clock.xml)
-#
-#在c代码中使用函数digit\_clock\_create创建数字时钟控件。如：
-#
-#
-#> 完整示例请参考：[digit\_clock demo](
-#https://github.com/zlgopen/awtk-c-demos/blob/master/demos/digit_clock.c)
-#
-#可用通过style来设置控件的显示风格，如字体的大小和颜色等等。如：
-#
-#```xml
-#<style name="default">
-#<normal text_color="black" />
-#</style>
-#```
-#
-#> 更多用法请参考：[theme default](
-#https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/styles/default.xml#L138)
-#
-#
-class TDigitClock (TWidget):
-  def __init__(self, nativeObj):
-    super(TDigitClock, self).__init__(nativeObj)
-
-
-  #
-  # 创建digit_clock对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TDigitClock(digit_clock_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 转换为digit_clock对象(供脚本语言使用)。
-  # 
-  # @param widget digit_clock对象。
-  #
-  # @return digit_clock对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TDigitClock(digit_clock_cast(awtk_get_native_obj(widget)));
-
-
-  #
-  # 设置显示格式。
-  # 
-  # @param format 格式。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_format(self, format): 
-    return digit_clock_set_format(awtk_get_native_obj(self), format);
-
-
-  #
-  # 显示格式。
-  #
-  #* Y 代表年(完整显示)
-  #* M 代表月(1-12)
-  #* D 代表日(1-31)
-  #* h 代表时(0-23)
-  #* m 代表分(0-59)
-  #* s 代表秒(0-59)
-  #* w 代表星期(0-6)
-  #* W 代表星期的英文缩写(支持翻译)
-  #* YY 代表年(只显示末两位)
-  #* MM 代表月(01-12)
-  #* DD 代表日(01-31)
-  #* hh 代表时(00-23)
-  #* mm 代表分(00-59)
-  #* ss 代表秒(00-59)
-  #* MMM 代表月的英文缩写(支持翻译)
-  #
-  #如 日期时间为：2018/11/12 9:10:20
-  #* "Y/M/D"显示为"2018/11/12"
-  #* "Y-M-D"显示为"2018-11-12"
-  #* "Y-M-D h:m:s"显示为"2018-11-12 9:10:20"
-  #* "Y-M-D hh:mm:ss"显示为"2018-11-12 09:10:20"
-  #
-  #
-  @property
-  def format(self):
-    return digit_clock_t_get_prop_format(self.nativeObj);
-
-  @format.setter
-  def format(self, v):
-   this.set_format(v);
-
-
-#
-# 对话框标题控件。
-#
-#它本身不提供布局功能，仅提供具有语义的标签，让xml更具有可读性。
-#子控件的布局可用layout\_children属性指定。
-#请参考[布局参数](https://github.com/zlgopen/awtk/blob/master/docs/layout.md)。
-#
-#dialog\_title\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于dialog\_title\_t控件。
-#
-#在xml中使用"dialog\_title"标签创建dialog\_title。如：
-#
-#```xml
-#<dialog anim_hint="center_scale(duration=300)" x="c" y="m" w="80%" h="160" text="Dialog">
-#<dialog_title x="0" y="0" w="100%" h="30" text="Hello AWTK" />
-#<dialog_client x="0" y="bottom" w="100%" h="-30">
-#<label name="" x="center" y="middle:-20" w="200" h="30" text="Are you ready?"/>
-#<button name="quit" x="10" y="bottom:10" w="40%" h="30" text="确定"/>
-#<button name="quit" x="right:10" y="bottom:10" w="40%" h="30" text="取消"/>
-#</dialog_client>
-#</dialog>
-#```
-#
-#在c代码中，用dialog\_create\_simple创建对话框时，自动创建dialog标题对象。
-#
-#
-class TDialogTitle (TWidget):
-  def __init__(self, nativeObj):
-    super(TDialogTitle, self).__init__(nativeObj)
-
-
-  #
-  # 创建dialog对象。
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return dialog对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TDialogTitle(dialog_title_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 转换为dialog_title对象(供脚本语言使用)。
-  # 
-  # @param widget dialog_title对象。
-  #
-  # @return dialog_title对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TDialogTitle(dialog_title_cast(awtk_get_native_obj(widget)));
-
-
-#
-# 对话框客户区控件。
-#
-#它本身不提供布局功能，仅提供具有语义的标签，让xml更具有可读性。
-#子控件的布局可用layout\_children属性指定。
-#请参考[布局参数](https://github.com/zlgopen/awtk/blob/master/docs/layout.md)。
-#
-#dialog\_client\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于dialog\_client\_t控件。
-#
-#在xml中使用"dialog\_client"标签创建dialog\_client。如：
-#
-#```xml
-#<dialog anim_hint="center_scale(duration=300)" x="c" y="m" w="80%" h="160" text="Dialog">
-#<dialog_title x="0" y="0" w="100%" h="30" text="Hello AWTK" />
-#<dialog_client x="0" y="bottom" w="100%" h="-30">
-#<label name="" x="center" y="middle:-20" w="200" h="30" text="Are you ready?"/>
-#<button name="quit" x="10" y="bottom:10" w="40%" h="30" text="确定"/>
-#<button name="quit" x="right:10" y="bottom:10" w="40%" h="30" text="取消"/>
-#</dialog_client>
-#</dialog>
-#```
-#
-#在c代码中，用dialog\_create\_simple创建对话框时，自动创建dialog客户区对象。
-#
-#
-class TDialogClient (TWidget):
-  def __init__(self, nativeObj):
-    super(TDialogClient, self).__init__(nativeObj)
-
-
-  #
-  # 创建dialog客户区对象。
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return dialog对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TDialogClient(dialog_client_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 转换为dialog_client对象(供脚本语言使用)。
-  # 
-  # @param widget dialog_client对象。
-  #
-  # @return dialog_client对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TDialogClient(dialog_client_cast(awtk_get_native_obj(widget)));
-
-
-#
-# ComboBox Item控件。
-#
-#本类仅供combo\_box控件内部使用。
-#
-#
-class TComboBoxItem (TWidget):
-  def __init__(self, nativeObj):
-    super(TComboBoxItem, self).__init__(nativeObj)
-
-
-  #
-  # 创建combo_box_item对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TComboBoxItem(combo_box_item_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 转换combo_box_item对象(供脚本语言使用)。
-  # 
-  # @param widget combo_box_item对象。
-  #
-  # @return combo_box_item对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TComboBoxItem(combo_box_item_cast(awtk_get_native_obj(widget)));
-
-
-  #
-  # 设置控件是否被选中。
-  # 
-  # @param checked 是否被选中。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_checked(self, checked): 
-    return combo_box_item_set_checked(awtk_get_native_obj(self), checked);
-
-
-  #
-  # 设置控件的值。
-  # 
-  # @param value 值
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_value(self, value): 
-    return combo_box_item_set_value(awtk_get_native_obj(self), value);
-
-
-  #
-  # 值。
-  #
-  #
-  @property
-  def value(self):
-    return combo_box_item_t_get_prop_value(self.nativeObj);
-
-  @value.setter
-  def value(self, v):
-   this.set_value(v);
-
-
-  #
-  # 是否被选中。
-  #
-  #
-  @property
-  def checked(self):
-    return combo_box_item_t_get_prop_checked(self.nativeObj);
-
-  @checked.setter
-  def checked(self, v):
-   this.set_checked(v);
+  def draw_type(self):
+    return guage_t_get_prop_draw_type(self.nativeObj);
+
+  @draw_type.setter
+  def draw_type(self, v):
+   this.set_draw_type(v);
 
 
 #
@@ -12666,23 +10466,76 @@ class TSwitch (TWidget):
 
 
 #
-# column。一个简单的容器控件，垂直排列其子控件。
+# 滚轮事件。
+#
+#
+class TWheelEvent (TEvent):
+  def __init__(self, nativeObj):
+    super(TWheelEvent, self).__init__(nativeObj)
+
+
+  #
+  # 把event对象转wheel_event_t对象，主要给脚本语言使用。
+  # 
+  # @param event event对象。
+  #
+  # @return event对象。
+  #
+  @classmethod
+  def cast(cls, event): 
+    return  TWheelEvent(wheel_event_cast(awtk_get_native_obj(event)));
+
+
+  #
+  # 滚轮的y值。
+  #
+  #
+  @property
+  def dy(self):
+    return wheel_event_t_get_prop_dy(self.nativeObj);
+
+
+  #
+  # alt键是否按下。
+  #
+  #
+  @property
+  def alt(self):
+    return wheel_event_t_get_prop_alt(self.nativeObj);
+
+
+  #
+  # ctrl键是否按下。
+  #
+  #
+  @property
+  def ctrl(self):
+    return wheel_event_t_get_prop_ctrl(self.nativeObj);
+
+
+  #
+  # shift键是否按下。
+  #
+  #
+  @property
+  def shift(self):
+    return wheel_event_t_get_prop_shift(self.nativeObj);
+
+
+#
+# 一个通用的容器控件。
 #
 #它本身不提供布局功能，仅提供具有语义的标签，让xml更具有可读性。
 #子控件的布局可用layout\_children属性指定。
 #请参考[布局参数](https://github.com/zlgopen/awtk/blob/master/docs/layout.md)。
 #
-#column\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于column\_t控件。
+#view\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于view\_t控件。
 #
-#在xml中使用"column"标签创建column。如：
+#在xml中使用"view"标签创建view。如：
 #
 #```xml
-#<column x="0" y="0" w="100%" h="100%" children_layout="default(c=1,r=0)">
-#<button name="open:basic" text="Basic"/>
-#<button name="open:button" text="Buttons"/>
-#<button name="open:edit" text="Edits"/>
-#<button name="open:keyboard" text="KeyBoard"/>
-#</column>
+#<view x="0" y="0" w="100%" h="100%" children_layout="default(c=2,r=2,m=5,s=5)">
+#</view>
 #```
 #
 #可用通过style来设置控件的显示风格，如背景颜色等。如：
@@ -12694,13 +10547,13 @@ class TSwitch (TWidget):
 #```
 #
 #
-class TColumn (TWidget):
+class TView (TWidget):
   def __init__(self, nativeObj):
-    super(TColumn, self).__init__(nativeObj)
+    super(TView, self).__init__(nativeObj)
 
 
   #
-  # 创建column对象
+  # 创建view对象
   # 
   # @param parent 父控件
   # @param x x坐标
@@ -12712,108 +10565,47 @@ class TColumn (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TColumn(column_create(awtk_get_native_obj(parent), x, y, w, h));
+    return  TView(view_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
-  # 转换为column对象(供脚本语言使用)。
+  # 设置缺省获得焦点的子控件(可用控件名或类型)。
   # 
-  # @param widget column对象。
-  #
-  # @return column对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TColumn(column_cast(awtk_get_native_obj(widget)));
-
-
-#
-# 色块控件。
-#
-#用来显示一个颜色块，它通过属性而不是主题来设置颜色，方便在运行时动态改变颜色。
-#
-#可以使用value属性访问背景颜色的颜色值。
-#
-#color\_tile\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于color\_tile\_t控件。
-#
-#在xml中使用"color_tile"标签创建色块控件。如：
-#
-#```xml
-#<color_tile x="c" y="m" w="80" h="30" bg_color="green" />
-#```
-#
-#> 更多用法请参考：
-#[color_tile](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/color_picker_rgb.xml)
-#
-#在c代码中使用函数color_tile\_create创建色块控件。如：
-#
-#> 创建之后，用color\_tile\_set\_bg\_color设置背景颜色。
-#
-#
-class TColorTile (TWidget):
-  def __init__(self, nativeObj):
-    super(TColorTile, self).__init__(nativeObj)
-
-
-  #
-  # 创建color_tile对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TColorTile(color_tile_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 转换为color_tile对象(供脚本语言使用)。
-  # 
-  # @param widget color_tile对象。
-  #
-  # @return color_tile对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TColorTile(color_tile_cast(awtk_get_native_obj(widget)));
-
-
-  #
-  # 设置背景颜色。
-  # 
-  # @param color 背景颜色。
+  # @param default_focused_child 缺省获得焦点的子控件(可用控件名或类型)。
   #
   # @return 返回RET_OK表示成功，否则表示失败。
   #
-  def set_bg_color(self, color): 
-    return color_tile_set_bg_color(awtk_get_native_obj(self), color);
+  def set_default_focused_child(self, default_focused_child): 
+    return view_set_default_focused_child(awtk_get_native_obj(self), default_focused_child);
 
 
   #
-  # 背景颜色。
+  # 转换为view对象(供脚本语言使用)。
+  # 
+  # @param widget view对象。
+  #
+  # @return view对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TView(view_cast(awtk_get_native_obj(widget)));
+
+
+  #
+  # 缺省获得焦点的子控件(可用控件名或类型)。
+  #
+  #> view作为pages/slideview的直接子控件才需要设置。
+  #> 正常情况下，一个窗口只能指定一个初始焦点。
+  #> 但是对于pages/slideview来说，可能希望每一个页面都有一个初始焦点，此时可用default\_focused\_child来指定。
   #
   #
   @property
-  def bg_color(self):
-    return color_tile_t_get_prop_bg_color(self.nativeObj);
+  def default_focused_child(self):
+    return view_t_get_prop_default_focused_child(self.nativeObj);
 
-  @bg_color.setter
-  def bg_color(self, v):
-   this.set_bg_color(v);
-
-
-  #
-  # 边框颜色。
-  #
-  #
-  @property
-  def border_color(self):
-    return color_tile_t_get_prop_border_color(self.nativeObj);
+  @default_focused_child.setter
+  def default_focused_child(self, v):
+   this.set_default_focused_child(v);
 
 
 #
@@ -13012,6 +10804,258 @@ class TSlideView (TWidget):
   @anim_hint.setter
   def anim_hint(self, v):
    this.set_anim_hint(v);
+
+
+#
+# 标签控件。
+#
+#它本身不提供布局功能，仅提供具有语义的标签，让xml更具有可读性。
+#
+#标签控件通常会包含一个pages控件和一个tab\_button\_group控件。
+#
+#
+#
+#tab\_control\_t是[widget\_t](widget_t.md)的子类控件，
+#widget\_t的函数均适用于tab\_control\_t控件。
+#
+#在xml中使用"tab\_control"标签创建标签控件。如：
+#
+#```xml
+#<tab_control x="0" y="0" w="100%" h="100%"
+#<pages x="c" y="20" w="90%" h="-60" value="1">
+#...
+#</pages>
+#<tab_button_group>
+#...
+#</tab_button_group>
+#</tab_control>
+#```
+#
+#> 更多用法请参考：
+#[tab control](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/)
+#
+#
+class TTabControl (TWidget):
+  def __init__(self, nativeObj):
+    super(TTabControl, self).__init__(nativeObj)
+
+
+  #
+  # 创建tab_control对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+    return  TTabControl(tab_control_create(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 转换tab_control对象(供脚本语言使用)。
+  # 
+  # @param widget tab_control对象。
+  #
+  # @return tab_control对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TTabControl(tab_control_cast(awtk_get_native_obj(widget)));
+
+
+#
+# 标签按钮控件。
+#
+#标签按钮有点类似单选按钮，但点击标签按钮之后会自动切换当前的标签页。
+#
+#tab\_button\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于tab\_button\_t控件。
+#
+#在xml中使用"tab\_button"标签创建标签按钮控件。如：
+#
+#```xml
+#<!-- tab_button_view_page1.xml -->
+#<view w="100%" h="100%">
+#<label x="c" y="m" w="100%" h="60" text="page1" />
+#<button name="close" x="c" y="bottom:100" w="80" h="40" text="Close" />
+#</view>
+#```
+#
+#```xml
+#<!-- tab_button dynamic load UI -->
+#<pages name="pages" x="right" y="0" w="70%" h="100%">
+#</pages>
+#<list_view x="0" y="0" w="30%" h="100%" item_height="40" auto_hide_scroll_bar="true">
+#<scroll_view name="view" x="0"  y="0" w="-12" h="100%">
+#<tab_button text="page1" load_ui="tab_button_view_page1" value="true"/>
+#<tab_button text="page2" load_ui="tab_button_view_page2" />
+#<tab_button text="page3" load_ui="tab_button_view_page3" />
+#<scroll_view />
+#<scroll_bar_d name="bar" x="right" y="0" w="12" h="100%" value="0"/>
+#</list_view>
+#```
+#
+#```xml
+#<!-- tab_button static load UI -->
+#<tab_button_group x="c" y="bottom:10" w="90%" h="30" compact="true"
+#<tab_button text="General"/>
+#<tab_button text="Network" value="true" />
+#<tab_button text="Security"/>
+#</tab_button_group>
+#```
+#
+#标签按钮一般放在标签按钮分组中，布局由标签按钮分组控件决定，不需要指定自己的布局参数和坐标。
+#
+#> 更多用法请参考：
+#[tab control](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/)
+#
+#可用通过style来设置控件的显示风格，如字体的大小和颜色等等。如：
+#
+#```xml
+#<tab_button>
+#<style name="default" border_color="#a0a0a0"  text_color="black">
+#<normal     bg_color="#d0d0d0" />
+#<pressed    bg_color="#f0f0f0" />
+#<over       bg_color="#e0e0e0" />
+#<normal_of_active     bg_color="#f0f0f0" />
+#<pressed_of_active    bg_color="#f0f0f0" />
+#<over_of_active       bg_color="#f0f0f0" />
+#</style>
+#</tab_button>
+#```
+#
+#
+class TTabButton (TWidget):
+  def __init__(self, nativeObj):
+    super(TTabButton, self).__init__(nativeObj)
+
+
+  #
+  # 创建tab_button对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+    return  TTabButton(tab_button_create(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 转换tab_button对象(供脚本语言使用)。
+  # 
+  # @param widget tab_button对象。
+  #
+  # @return tab_button对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TTabButton(tab_button_cast(awtk_get_native_obj(widget)));
+
+
+  #
+  # 设置为当前标签。
+  # 
+  # @param value 是否为当前标签。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_value(self, value): 
+    return tab_button_set_value(awtk_get_native_obj(self), value);
+
+
+  #
+  # 设置控件的图标。
+  # 
+  # @param name 当前项的图标。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_icon(self, name): 
+    return tab_button_set_icon(awtk_get_native_obj(self), name);
+
+
+  #
+  # 设置控件的active图标。
+  # 
+  # @param name 当前项的图标。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_active_icon(self, name): 
+    return tab_button_set_active_icon(awtk_get_native_obj(self), name);
+
+
+  #
+  # 设置控件动态加载显示UI。
+  # 
+  # @param name 动态加载UI的资源名称。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_load_ui(self, name): 
+    return tab_button_set_load_ui(awtk_get_native_obj(self), name);
+
+
+  #
+  # 值。
+  #
+  #
+  @property
+  def value(self):
+    return tab_button_t_get_prop_value(self.nativeObj);
+
+  @value.setter
+  def value(self, v):
+   this.set_value(v);
+
+
+  #
+  # 激活后加载的UI名字。
+  #
+  #
+  @property
+  def load_ui(self):
+    return tab_button_t_get_prop_load_ui(self.nativeObj);
+
+  @load_ui.setter
+  def load_ui(self, v):
+   this.set_load_ui(v);
+
+
+  #
+  # 当前项的图标的名称。
+  #
+  #
+  @property
+  def active_icon(self):
+    return tab_button_t_get_prop_active_icon(self.nativeObj);
+
+  @active_icon.setter
+  def active_icon(self, v):
+   this.set_active_icon(v);
+
+
+  #
+  # 非当前项的图标的名称。
+  #
+  #
+  @property
+  def icon(self):
+    return tab_button_t_get_prop_icon(self.nativeObj);
+
+  @icon.setter
+  def icon(self, v):
+   this.set_icon(v);
 
 
 #
@@ -13331,187 +11375,6 @@ class TSlideIndicator (TWidget):
   @indicated_target.setter
   def indicated_target(self, v):
    this.set_indicated_target(v);
-
-
-#
-# 一个裁剪子控件的容器控件。
-#
-#它本身不提供布局功能，仅提供具有语义的标签，让xml更具有可读性。
-#子控件的布局可用layout\_children属性指定。
-#请参考[布局参数](https://github.com/zlgopen/awtk/blob/master/docs/layout.md)。
-#
-#clip\_view\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于clip\_view\_t控件。
-#
-#在xml中使用"clip_view"标签创建clip_view，在clip_view控件下的所有子控件都会被裁剪。如下button控件会被裁剪，无法画出clip_view控件 ：
-#
-#```xml
-#<clip_view x="0" y="0" w="100" h="100">
-#<button x="50" y="10" w="100" h="50" />
-#</clip_view>
-#```
-#
-#备注：在clip_view控件下的所有子控件都会被裁剪，如果子控件本身会设置裁剪区的话，在子控件中计算裁剪区的交集，具体请参考scroll_view控件的scroll_view_on_paint_children函数。
-#
-#可用通过style来设置控件的显示风格，如背景颜色等。如：
-#
-#```xml
-#<style name="default" border_color="#a0a0a0">
-#<normal     bg_color="#f0f0f0" />
-#</style>
-#```
-#
-#
-class TClipView (TWidget):
-  def __init__(self, nativeObj):
-    super(TClipView, self).__init__(nativeObj)
-
-
-  #
-  # 创建clip_view对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TClipView(clip_view_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 转换为clip_view对象(供脚本语言使用)。
-  # 
-  # @param widget clip_view对象。
-  #
-  # @return clip_view对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TClipView(clip_view_cast(awtk_get_native_obj(widget)));
-
-
-#
-# 勾选按钮控件(单选/多选)。
-#
-#check\_button\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于check\_button\_t控件。
-#
-#在xml中使用"check_button"标签创建多选按钮控件。如：
-#
-#```xml
-#<check_button name="c1" text="Book"/>
-#```
-#
-#在xml中使用"radio_button"标签创建单选按钮控件。如：
-#
-#```xml
-#<radio_button name="r1" text="Book"/>
-#```
-#
-#> 更多用法请参考：
-#[button.xml](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/basic.xml)
-#
-#在c代码中使用函数check\_button\_create创建多选按钮控件。如：
-#
-#
-#在c代码中使用函数check\_button\_create\_radio创建单选按钮控件。如：
-#
-#
-#> 完整示例请参考：
-#[button demo](https://github.com/zlgopen/awtk-c-demos/blob/master/demos/check_button.c)
-#
-#可用通过style来设置控件的显示风格，如字体的大小和颜色等等。如：
-#
-#```xml
-#<style name="default" icon_at="left">
-#<normal  icon="unchecked" />
-#<pressed icon="unchecked" />
-#<over    icon="unchecked" text_color="green"/>
-#<normal_of_checked icon="checked" text_color="blue"/>
-#<pressed_of_checked icon="checked" text_color="blue"/>
-#<over_of_checked icon="checked" text_color="green"/>
-#</style>
-#```
-#
-#> 更多用法请参考：
-#[theme
-#default](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/styles/default.xml#L227)
-#
-#
-class TCheckButton (TWidget):
-  def __init__(self, nativeObj):
-    super(TCheckButton, self).__init__(nativeObj)
-
-
-  #
-  # 创建多选按钮对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return widget对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TCheckButton(check_button_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 创建单选按钮对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return widget对象。
-  #
-  @classmethod
-  def create_radio(cls, parent, x, y, w, h): 
-    return  TCheckButton(check_button_create_radio(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 设置控件的值。
-  # 
-  # @param value 值(勾选为TRUE，非勾选为FALSE)。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_value(self, value): 
-    return check_button_set_value(awtk_get_native_obj(self), value);
-
-
-  #
-  # 转换check_button对象(供脚本语言使用)。
-  # 
-  # @param widget check_button对象。
-  #
-  # @return check_button对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TCheckButton(check_button_cast(awtk_get_native_obj(widget)));
-
-
-  #
-  # 值(勾选为TRUE，非勾选为FALSE)。
-  #
-  #
-  @property
-  def value(self):
-    return check_button_t_get_prop_value(self.nativeObj);
-
-  @value.setter
-  def value(self, v):
-   this.set_value(v);
 
 
 #
@@ -14485,6 +12348,601 @@ class TListItem (TWidget):
 
 
 #
+# 标签按钮分组控件。
+#
+#一个简单的容器，主要用于对标签按钮进行布局和管理。
+#
+#tab\_button\_group\_t是[widget\_t](widget_t.md)的子类控件，
+#widget\_t的函数均适用于tab\_button\_group\_t控件。
+#
+#在xml中使用"tab\_button\_group"标签创建标签按钮分组控件。如：
+#
+#```xml
+#<tab_button_group x="c" y="bottom:10" w="90%" h="30" compact="true"
+#<tab_button text="General"/>
+#<tab_button text="Network" value="true" />
+#<tab_button text="Security"/>
+#</tab_button_group>
+#```
+#
+#> 更多用法请参考：
+#[tab control](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/)
+#
+#可用通过style来设置控件的显示风格，如颜色等等。如：
+#
+#```xml
+#<tab_button_group>
+#<style name="default">
+#<normal/>
+#</style>
+#</tab_button_group>
+#```
+#
+#
+class TTabButtonGroup (TWidget):
+  def __init__(self, nativeObj):
+    super(TTabButtonGroup, self).__init__(nativeObj)
+
+
+  #
+  # 创建tab_button_group对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+    return  TTabButtonGroup(tab_button_group_create(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 设置compact。
+  # 
+  # @param compact 是否使用紧凑布局(缺省FALSE)。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_compact(self, compact): 
+    return tab_button_group_set_compact(awtk_get_native_obj(self), compact);
+
+
+  #
+  # 设置scrollable。
+  # 
+  # @param scrollable 是否允许滚动(缺省FALSE)。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_scrollable(self, scrollable): 
+    return tab_button_group_set_scrollable(awtk_get_native_obj(self), scrollable);
+
+
+  #
+  # 转换tab_button_group对象(供脚本语言使用)。
+  # 
+  # @param widget tab_button_group对象。
+  #
+  # @return tab_button_group对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TTabButtonGroup(tab_button_group_cast(awtk_get_native_obj(widget)));
+
+
+  #
+  # 紧凑型排版子控件(缺省FALSE)。
+  #
+  #
+  @property
+  def compact(self):
+    return tab_button_group_t_get_prop_compact(self.nativeObj);
+
+  @compact.setter
+  def compact(self, v):
+   this.set_compact(v);
+
+
+  #
+  # 是否支持滚动(缺省FALSE)。
+  #
+  #> 紧凑型排版子控件时才支持滚动。
+  #
+  #
+  @property
+  def scrollable(self):
+    return tab_button_group_t_get_prop_scrollable(self.nativeObj);
+
+  @scrollable.setter
+  def scrollable(self, v):
+   this.set_scrollable(v);
+
+
+#
+# 滑块控件。
+#
+#slider\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于slider\_t控件。
+#
+#在xml中使用"slider"标签创建滑块控件。如：
+#
+#```xml
+#<slider x="center" y="10" w="80%" h="20" value="10"/>
+#<slider style="img" x="center" y="50" w="80%" h="30" value="20" />
+#<slider style="img" x="center" y="90" w="80%" h="30" value="30" min="5" max="50" step="5"/>
+#```
+#
+#> 更多用法请参考：
+#[basic](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/basic.xml)
+#
+#在c代码中使用函数slider\_create创建滑块控件。如：
+#
+#
+#> 完整示例请参考：
+#[slider demo](https://github.com/zlgopen/awtk-c-demos/blob/master/demos/slider.c)
+#
+#可用通过style来设置控件的显示风格，如图片和颜色等等。如：
+#
+#```xml
+#<style name="img" bg_image="slider_bg" fg_image="slider_fg">
+#<normal icon="slider_drag"/>
+#<pressed icon="slider_drag_p"/>
+#<over icon="slider_drag_o"/>
+#</style>
+#```
+#
+#> 更多用法请参考：
+#[theme
+#default](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/styles/default.xml#L179)
+#
+#
+class TSlider (TWidget):
+  def __init__(self, nativeObj):
+    super(TSlider, self).__init__(nativeObj)
+
+
+  #
+  # 创建slider对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+    return  TSlider(slider_create(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 转换为slider对象(供脚本语言使用)。
+  # 
+  # @param widget slider对象。
+  #
+  # @return slider对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TSlider(slider_cast(awtk_get_native_obj(widget)));
+
+
+  #
+  # 设置滑块的值。
+  # 
+  # @param value 值
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_value(self, value): 
+    return slider_set_value(awtk_get_native_obj(self), value);
+
+
+  #
+  # 设置滑块的最小值。
+  # 
+  # @param min 最小值
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_min(self, min): 
+    return slider_set_min(awtk_get_native_obj(self), min);
+
+
+  #
+  # 设置滑块的最大值。
+  # 
+  # @param max 最大值
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_max(self, max): 
+    return slider_set_max(awtk_get_native_obj(self), max);
+
+
+  #
+  # 设置滑块的拖动的最小单位。
+  # 
+  # @param step 拖动的最小单位。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_step(self, step): 
+    return slider_set_step(awtk_get_native_obj(self), step);
+
+
+  #
+  # 设置bar的宽度或高度。
+  # 
+  # @param bar_size bar的宽度或高度。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_bar_size(self, bar_size): 
+    return slider_set_bar_size(awtk_get_native_obj(self), bar_size);
+
+
+  #
+  # 设置滑块的方向。
+  # 
+  # @param vertical 是否为垂直方向。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_vertical(self, vertical): 
+    return slider_set_vertical(awtk_get_native_obj(self), vertical);
+
+
+  #
+  # 值。
+  #
+  #
+  @property
+  def value(self):
+    return slider_t_get_prop_value(self.nativeObj);
+
+  @value.setter
+  def value(self, v):
+   this.set_value(v);
+
+
+  #
+  # 最小值。
+  #
+  #
+  @property
+  def min(self):
+    return slider_t_get_prop_min(self.nativeObj);
+
+  @min.setter
+  def min(self, v):
+   this.set_min(v);
+
+
+  #
+  # 最大值。
+  #
+  #
+  @property
+  def max(self):
+    return slider_t_get_prop_max(self.nativeObj);
+
+  @max.setter
+  def max(self, v):
+   this.set_max(v);
+
+
+  #
+  # 拖动的最小单位。
+  #
+  #
+  @property
+  def step(self):
+    return slider_t_get_prop_step(self.nativeObj);
+
+  @step.setter
+  def step(self, v):
+   this.set_step(v);
+
+
+  #
+  # 滑块的是否为垂直方向。
+  #
+  #
+  @property
+  def vertical(self):
+    return slider_t_get_prop_vertical(self.nativeObj);
+
+  @vertical.setter
+  def vertical(self, v):
+   this.set_vertical(v);
+
+
+  #
+  # 轴的宽度或高度（单位：像素），为0表示为控件的宽度或高度的一半，缺省为0。
+  #
+  #
+  @property
+  def bar_size(self):
+    return slider_t_get_prop_bar_size(self.nativeObj);
+
+  @bar_size.setter
+  def bar_size(self, v):
+   this.set_bar_size(v);
+
+
+  #
+  # 滑块的宽度或高度（单位：像素），缺省为10。
+  #
+  #
+  @property
+  def dragger_size(self):
+    return slider_t_get_prop_dragger_size(self.nativeObj);
+
+
+  #
+  # 滑块的宽度或高度是否与icon适应，缺省为true。
+  #
+  #
+  @property
+  def dragger_adapt_to_icon(self):
+    return slider_t_get_prop_dragger_adapt_to_icon(self.nativeObj);
+
+
+  #
+  # 是否允许在轴上滑动来改变滑块位置，缺省为FALSE。
+  #
+  #
+  @property
+  def slide_with_bar(self):
+    return slider_t_get_prop_slide_with_bar(self.nativeObj);
+
+
+#
+# row。一个简单的容器控件，用于水平排列其子控件。
+#
+#它本身不提供布局功能，仅提供具有语义的标签，让xml更具有可读性。
+#子控件的布局可用layout\_children属性指定。
+#请参考[布局参数](https://github.com/zlgopen/awtk/blob/master/docs/layout.md)。
+#
+#row\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于row\_t控件。
+#
+#在xml中使用"row"标签创建row。如：
+#
+#```xml
+#<row x="0" y="0" w="100%" h="100%" children_layout="default(c=0,r=1)">
+#<button name="open:basic" text="Basic"/>
+#<button name="open:button" text="Buttons"/>
+#<button name="open:edit" text="Edits"/>
+#<button name="open:keyboard" text="KeyBoard"/>
+#</row>
+#```
+#
+#可用通过style来设置控件的显示风格，如背景颜色等。如：
+#
+#```xml
+#<style name="default" border_color="#a0a0a0">
+#<normal     bg_color="#f0f0f0" />
+#</style>
+#```
+#
+#
+class TRow (TWidget):
+  def __init__(self, nativeObj):
+    super(TRow, self).__init__(nativeObj)
+
+
+  #
+  # 创建row对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+    return  TRow(row_create(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 转换为row对象(供脚本语言使用)。
+  # 
+  # @param widget row对象。
+  #
+  # @return row对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TRow(row_cast(awtk_get_native_obj(widget)));
+
+
+#
+# 进度条控件。
+#
+#进度条控件可以水平显示也可以垂直显示，由vertical属性决定。
+#
+#progress\_bar\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于progress\_bar\_t控件。
+#
+#在xml中使用"progress\_bar"标签创建进度条控件。如：
+#
+#```xml
+#<progress_bar name="bar1" x="10" y="128" w="240" h="30" value="40"/>
+#<progress_bar name="bar2" x="280" y="128" w="30" h="118" value="20" vertical="true"/>
+#```
+#
+#> 更多用法请参考：
+#[basic demo](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/basic.xml)
+#
+#在c代码中使用函数progress\_bar\_create创建进度条控件。如：
+#
+#
+#> 完整示例请参考：
+#[progress_bar demo](https://github.com/zlgopen/awtk-c-demos/blob/master/demos/progress_bar.c)
+#
+#可用通过style来设置控件的显示风格，如字体的大小和颜色等等。如：
+#
+#```xml
+#<style>
+#<normal bg_color="#f0f0f0" text_color="gold" fg_color="#c0c0c0" border_color="#a0a0a0" />
+#</style>
+#```
+#
+#> 更多用法请参考：
+#[theme
+#default](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/styles/default.xml#L183)
+#
+#
+class TProgressBar (TWidget):
+  def __init__(self, nativeObj):
+    super(TProgressBar, self).__init__(nativeObj)
+
+
+  #
+  # 创建progress_bar对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+    return  TProgressBar(progress_bar_create(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 转换为progress_bar对象(供脚本语言使用)。
+  # 
+  # @param widget progress_bar对象。
+  #
+  # @return progress_bar对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TProgressBar(progress_bar_cast(awtk_get_native_obj(widget)));
+
+
+  #
+  # 设置进度条的进度。
+  # 
+  # @param value 进度
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_value(self, value): 
+    return progress_bar_set_value(awtk_get_native_obj(self), value);
+
+
+  #
+  # 设置最大值。
+  # 
+  # @param max 最大值。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_max(self, max): 
+    return progress_bar_set_max(awtk_get_native_obj(self), max);
+
+
+  #
+  # 设置进度条的方向。
+  # 
+  # @param vertical 是否为垂直方向。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_vertical(self, vertical): 
+    return progress_bar_set_vertical(awtk_get_native_obj(self), vertical);
+
+
+  #
+  # 设置进度条的是否显示文本。
+  # 
+  # @param show_text 是否显示文本。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_show_text(self, show_text): 
+    return progress_bar_set_show_text(awtk_get_native_obj(self), show_text);
+
+
+  #
+  # 获取进度百分比。
+  #
+  #> 当max为100时，percent和value取整后一致。
+  # 
+  #
+  # @return 返回百分比。
+  #
+  def get_percent(self): 
+    return progress_bar_get_percent(awtk_get_native_obj(self));
+
+
+  #
+  # 进度条的值[0-max]。
+  #
+  #
+  @property
+  def value(self):
+    return progress_bar_t_get_prop_value(self.nativeObj);
+
+  @value.setter
+  def value(self, v):
+   this.set_value(v);
+
+
+  #
+  # 最大值(缺省为100)。
+  #
+  #
+  @property
+  def max(self):
+    return progress_bar_t_get_prop_max(self.nativeObj);
+
+  @max.setter
+  def max(self, v):
+   this.set_max(v);
+
+
+  #
+  # 进度条的是否为垂直方向。
+  #
+  #
+  @property
+  def vertical(self):
+    return progress_bar_t_get_prop_vertical(self.nativeObj);
+
+  @vertical.setter
+  def vertical(self, v):
+   this.set_vertical(v);
+
+
+  #
+  # 是否显示文本。
+  #
+  #
+  @property
+  def show_text(self):
+    return progress_bar_t_get_prop_show_text(self.nativeObj);
+
+  @show_text.setter
+  def show_text(self, v):
+   this.set_show_text(v);
+
+
+#
 # 可水平滚动的文本控件，方便实现长文本滚动。
 #
 #
@@ -14767,260 +13225,6 @@ class THscrollLabel (TWidget):
 
 
 #
-# 按钮控件。
-#
-#点击按钮之后会触发EVT\_CLICK事件，注册EVT\_CLICK事件以执行特定操作。
-#
-#按钮控件也可以作为容器使用，使用图片和文本作为其子控件，可以实现很多有趣的效果。
-#
-#button\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于button\_t控件。
-#
-#在xml中使用"button"标签创建按钮控件。如：
-#
-#```xml
-#<button x="c" y="m" w="80" h="30" text="OK"/>
-#```
-#
-#> 更多用法请参考：
-#[button.xml](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/button.xml)
-#
-#在c代码中使用函数button\_create创建按钮控件。如：
-#
-#
-#> 创建之后，需要用widget\_set\_text或widget\_set\_text\_utf8设置文本内容。
-#
-#> 完整示例请参考：
-#[button demo](https://github.com/zlgopen/awtk-c-demos/blob/master/demos/button.c)
-#
-#可用通过style来设置控件的显示风格，如字体的大小和颜色等等。如：
-#
-#```xml
-#<style name="default" border_color="#a0a0a0"  text_color="black">
-#<normal     bg_color="#f0f0f0" />
-#<pressed    bg_color="#c0c0c0" x_offset="1" y_offset="1"/>
-#<over       bg_color="#e0e0e0" />
-#<disable    bg_color="gray" text_color="#d0d0d0" />
-#</style>
-#```
-#
-#> 更多用法请参考：
-#[theme
-#default](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/styles/default.xml#L31)
-#
-#
-class TButton (TWidget):
-  def __init__(self, nativeObj):
-    super(TButton, self).__init__(nativeObj)
-
-
-  #
-  # 创建button对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TButton(button_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 转换为button对象(供脚本语言使用)。
-  # 
-  # @param widget button对象。
-  #
-  # @return button对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TButton(button_cast(awtk_get_native_obj(widget)));
-
-
-  #
-  # 设置触发EVT\_CLICK事件的时间间隔。为0则不重复触发EVT\_CLICK事件。
-  # 
-  # @param repeat 触发EVT_CLICK事件的时间间隔(毫秒)。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_repeat(self, repeat): 
-    return button_set_repeat(awtk_get_native_obj(self), repeat);
-
-
-  #
-  # 设置是否启用长按事件。
-  # 
-  # @param enable_long_press 是否启用长按事件。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_enable_long_press(self, enable_long_press): 
-    return button_set_enable_long_press(awtk_get_native_obj(self), enable_long_press);
-
-
-  #
-  # 重复触发EVT\_CLICK事件的时间间隔。
-  #
-  #为0则不重复触发EVT\_CLICK事件。
-  #
-  #
-  @property
-  def repeat(self):
-    return button_t_get_prop_repeat(self.nativeObj);
-
-  @repeat.setter
-  def repeat(self, v):
-   this.set_repeat(v);
-
-
-  #
-  # 是否启用长按事件，为true时才触发长按事件。
-  #
-  #触发长按事件后不再触发点击事件。
-  #缺省不启用。
-  #
-  #
-  @property
-  def enable_long_press(self):
-    return button_t_get_prop_enable_long_press(self.nativeObj);
-
-  @enable_long_press.setter
-  def enable_long_press(self, v):
-   this.set_enable_long_press(v);
-
-
-#
-# Button Group控件。一个简单的容器控件，用于容纳一组按钮控件。
-#
-#它本身不提供布局功能，仅提供具有语义的标签，让xml更具有可读性。
-#子控件的布局可用layout\_children属性指定。
-#请参考[布局参数](https://github.com/zlgopen/awtk/blob/master/docs/layout.md)。
-#
-#button\_group\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于button\_group\_t控件。
-#
-#在xml中使用"button\_group"标签创建button\_group。如：
-#
-#```xml
-#<button_group x="0" y="m" w="100%" h="40" children_layout="default(c=4,r=1,s=5,m=5)">
-#<button name="open:basic" text="Basic"/>
-#<button name="open:button" text="Buttons"/>
-#<button name="open:edit" text="Edits"/>
-#<button name="open:keyboard" text="KeyBoard"/>
-#</button_group>
-#```
-#
-#可用通过style来设置控件的显示风格，如背景颜色等。如：
-#
-#```xml
-#<style name="default" border_color="#a0a0a0">
-#<normal     bg_color="#f0f0f0" />
-#</style>
-#```
-#
-#
-class TButtonGroup (TWidget):
-  def __init__(self, nativeObj):
-    super(TButtonGroup, self).__init__(nativeObj)
-
-
-  #
-  # 创建button_group对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TButtonGroup(button_group_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 转换为button_group对象(供脚本语言使用)。
-  # 
-  # @param widget button_group对象。
-  #
-  # @return button_group对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TButtonGroup(button_group_cast(awtk_get_native_obj(widget)));
-
-
-#
-# app_bar控件。
-#
-#一个简单的容器控件，一般在窗口的顶部，用于显示本窗口的状态和信息。
-#
-#它本身不提供布局功能，仅提供具有语义的标签，让xml更具有可读性。
-#子控件的布局可用layout\_children属性指定。
-#请参考[布局参数](https://github.com/zlgopen/awtk/blob/master/docs/layout.md)。
-#
-#app\_bar\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于app\_bar\_t控件。
-#
-#在xml中使用"app\_bar"标签创建app\_bar。如：
-#
-#```xml
-#<app_bar x="0" y="0" w="100%" h="30"
-#<label x="0" y="0" w="100%" h="100%" text="Basic Controls" />
-#</app_bar>
-#```
-#
-#在c代码中使用函数app\_bar\_create创建app\_bar。如：
-#
-#
-#可用通过style来设置控件的显示风格，如背景颜色等。如：
-#
-#```xml
-#<style name="default" border_color="#a0a0a0">
-#<normal     bg_color="#f0f0f0" />
-#</style>
-#```
-#
-#
-class TAppBar (TWidget):
-  def __init__(self, nativeObj):
-    super(TAppBar, self).__init__(nativeObj)
-
-
-  #
-  # 创建app_bar对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TAppBar(app_bar_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 转换为app_bar对象(供脚本语言使用)。
-  # 
-  # @param widget app_bar对象。
-  #
-  # @return app_bar对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TAppBar(app_bar_cast(awtk_get_native_obj(widget)));
-
-
-#
 # 图文混排控件，实现简单的图文混排。
 #
 #rich\_text\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于rich\_text\_t控件。
@@ -15123,33 +13327,97 @@ class TRichText (TWidget):
 
 
 #
-# 滚轮事件。
+# 页面管理控件。
+#
+#只有一个Page处于active状态，处于active状态的Page才能显示并接收事件。
+#常用于实现标签控件中的页面管理。
+#
+#pages\_t是[widget\_t](widget_t.md)的子类控件，
+#widget\_t的函数均适用于pages\_t控件。
+#
+#在xml中使用"pages"标签创建页面管理控件。如：
+#
+#```xml
+#<tab_control x="0" y="0" w="100%" h="100%"
+#<pages x="c" y="20" w="90%" h="-60" value="1">
+#...
+#</pages>
+#<tab_button_group>
+#...
+#</tab_button_group>
+#</tab_control>
+#```
+#
+#> 更多用法请参考：
+#[tab control](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/)
 #
 #
-class TOrientationEvent (TEvent):
+class TPages (TWidget):
   def __init__(self, nativeObj):
-    super(TOrientationEvent, self).__init__(nativeObj)
+    super(TPages, self).__init__(nativeObj)
 
 
   #
-  # 把event对象转orientation_event_t对象，主要给脚本语言使用。
+  # 创建pages对象
   # 
-  # @param event event对象。
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
   #
-  # @return event对象。
+  # @return 对象。
   #
   @classmethod
-  def cast(cls, event): 
-    return  TOrientationEvent(orientation_event_cast(awtk_get_native_obj(event)));
+  def create(cls, parent, x, y, w, h): 
+    return  TPages(pages_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
-  # 屏幕方向。
+  # 转换为pages对象(供脚本语言使用)。
+  # 
+  # @param widget pages对象。
+  #
+  # @return pages对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TPages(pages_cast(awtk_get_native_obj(widget)));
+
+
+  #
+  # 设置当前的Page。
+  # 
+  # @param index 当前Page的序号。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_active(self, index): 
+    return pages_set_active(awtk_get_native_obj(self), index);
+
+
+  #
+  # 通过页面的名字设置当前的Page。
+  # 
+  # @param name 当前Page的名字。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_active_by_name(self, name): 
+    return pages_set_active_by_name(awtk_get_native_obj(self), name);
+
+
+  #
+  # 当前活跃的page。
   #
   #
   @property
-  def orientation(self):
-    return orientation_event_t_get_prop_orientation(self.nativeObj);
+  def active(self):
+    return pages_t_get_prop_active(self.nativeObj);
+
+  @active.setter
+  def active(self, v):
+   this.set_active(v);
 
 
 #
@@ -15470,105 +13738,114 @@ class TProgressCircle (TWidget):
 
 
 #
-# 指针事件。
+# 文本控件。用于显示一行或多行文本。
+#
+#文本控件不会根据文本的长度自动换行，只有文本内容包含换行符时才会换行。
+#
+#如需自动换行请使用[rich\_text\_t](rich_text_t.md)控件。
+#
+#label\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于label\_t控件。
+#
+#在xml中使用"label"标签创建文本控件。如：
+#
+#```xml
+#<label style="center" text="center"/>
+#```
+#
+#> 更多用法请参考：[label.xml](
+#https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/label.xml)
+#
+#在c代码中使用函数label\_create创建文本控件。如：
 #
 #
-class TPointerEvent (TEvent):
+#> 创建之后，需要用widget\_set\_text或widget\_set\_text\_utf8设置文本内容。
+#
+#> 完整示例请参考：[label demo](
+#https://github.com/zlgopen/awtk-c-demos/blob/master/demos/label.c)
+#
+#可用通过style来设置控件的显示风格，如字体的大小和颜色等等。如：
+#
+#```xml
+#<style name="left">
+#<normal text_color="red" text_align_h="left" border_color="#a0a0a0" margin="4" />
+#</style>
+#```
+#
+#> 更多用法请参考：
+#[theme default](
+#https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/styles/default.xml#L144)
+#
+#
+class TLabel (TWidget):
   def __init__(self, nativeObj):
-    super(TPointerEvent, self).__init__(nativeObj)
+    super(TLabel, self).__init__(nativeObj)
 
 
   #
-  # 把event对象转pointer_event_t对象，主要给脚本语言使用。
+  # 创建label对象
   # 
-  # @param event event对象。
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
   #
-  # @return event对象。
+  # @return 对象。
   #
   @classmethod
-  def cast(cls, event): 
-    return  TPointerEvent(pointer_event_cast(awtk_get_native_obj(event)));
+  def create(cls, parent, x, y, w, h): 
+    return  TLabel(label_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
-  # x坐标。
+  # 设置显示字符的个数(小余0时全部显示)。。
+  # 
+  # @param length 最大可显示字符个数。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_length(self, length): 
+    return label_set_length(awtk_get_native_obj(self), length);
+
+
+  #
+  # 根据文本内容调节控件大小。
+  # 
+  # @param min_w 最小宽度。
+  # @param max_w 最大宽度。
+  # @param min_h 最小高度。
+  # @param max_h 最大高度。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def resize_to_content(self, min_w, max_w, min_h, max_h): 
+    return label_resize_to_content(awtk_get_native_obj(self), min_w, max_w, min_h, max_h);
+
+
+  #
+  # 转换为label对象(供脚本语言使用)。
+  # 
+  # @param widget label对象。
+  #
+  # @return label对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TLabel(label_cast(awtk_get_native_obj(widget)));
+
+
+  #
+  # 显示字符的个数(小余0时全部显示)。
+  #主要用于动态改变显示字符的个数，来实现类似[拨号中...]的动画效果。
   #
   #
   @property
-  def x(self):
-    return pointer_event_t_get_prop_x(self.nativeObj);
+  def length(self):
+    return label_t_get_prop_length(self.nativeObj);
 
-
-  #
-  # y坐标。
-  #
-  #
-  @property
-  def y(self):
-    return pointer_event_t_get_prop_y(self.nativeObj);
-
-
-  #
-  # button。
-  #
-  #
-  @property
-  def button(self):
-    return pointer_event_t_get_prop_button(self.nativeObj);
-
-
-  #
-  # 指针是否按下。
-  #
-  #
-  @property
-  def pressed(self):
-    return pointer_event_t_get_prop_pressed(self.nativeObj);
-
-
-  #
-  # alt键是否按下。
-  #
-  #
-  @property
-  def alt(self):
-    return pointer_event_t_get_prop_alt(self.nativeObj);
-
-
-  #
-  # ctrl键是否按下。
-  #
-  #
-  @property
-  def ctrl(self):
-    return pointer_event_t_get_prop_ctrl(self.nativeObj);
-
-
-  #
-  # cmd键是否按下。
-  #
-  #
-  @property
-  def cmd(self):
-    return pointer_event_t_get_prop_cmd(self.nativeObj);
-
-
-  #
-  # menu键是否按下。
-  #
-  #
-  @property
-  def menu(self):
-    return pointer_event_t_get_prop_menu(self.nativeObj);
-
-
-  #
-  # shift键是否按下。
-  #
-  #
-  @property
-  def shift(self):
-    return pointer_event_t_get_prop_shift(self.nativeObj);
+  @length.setter
+  def length(self, v):
+   this.set_length(v);
 
 
 #
@@ -16044,143 +14321,66 @@ class TLangIndicator (TWidget):
 
 
 #
-# 按键事件。
+# 分组控件。
+#
+#单选按钮在同一个父控件中是互斥的，所以通常将相关的单选按钮放在一个group\_box中。
+#
+#它本身不提供布局功能，仅提供具有语义的标签，让xml更具有可读性。
+#子控件的布局可用layout\_children属性指定。
+#请参考[布局参数](https://github.com/zlgopen/awtk/blob/master/docs/layout.md)。
+#
+#group\_box\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于group\_box\_t控件。
+#
+#在xml中使用"group\_box"标签创建group\_box。如：
+#
+#```xml
+#<group_box x="20" y="230" w="50%" h="90" children_layout="default(r=3,c=1,ym=2,s=10)"
+#<radio_button name="r1" text="Book"/>
+#<radio_button name="r2" text="Food"/>
+#<radio_button name="r3" text="Pencil" value="true"/>
+#</group_box>
+#```
+#
+#可用通过style来设置控件的显示风格，如背景颜色等。如：
+#
+#```xml
+#<style name="default" border_color="#a0a0a0">
+#<normal     bg_color="#f0f0f0" />
+#</style>
+#```
 #
 #
-class TKeyEvent (TEvent):
+class TGroupBox (TWidget):
   def __init__(self, nativeObj):
-    super(TKeyEvent, self).__init__(nativeObj)
+    super(TGroupBox, self).__init__(nativeObj)
 
 
   #
-  # 把event对象转key_event_t对象，主要给脚本语言使用。
+  # 创建group_box对象
   # 
-  # @param event event对象。
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
   #
-  # @return event对象。
+  # @return 对象。
   #
   @classmethod
-  def cast(cls, event): 
-    return  TKeyEvent(key_event_cast(awtk_get_native_obj(event)));
+  def create(cls, parent, x, y, w, h): 
+    return  TGroupBox(group_box_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
-  # 键值。
+  # 转换为group_box对象(供脚本语言使用)。
+  # 
+  # @param widget group_box对象。
   #
+  # @return group_box对象。
   #
-  @property
-  def key(self):
-    return key_event_t_get_prop_key(self.nativeObj);
-
-
-  #
-  # alt键是否按下。
-  #
-  #
-  @property
-  def alt(self):
-    return key_event_t_get_prop_alt(self.nativeObj);
-
-
-  #
-  # left alt键是否按下。
-  #
-  #
-  @property
-  def lalt(self):
-    return key_event_t_get_prop_lalt(self.nativeObj);
-
-
-  #
-  # right alt键是否按下。
-  #
-  #
-  @property
-  def ralt(self):
-    return key_event_t_get_prop_ralt(self.nativeObj);
-
-
-  #
-  # right alt键是否按下。
-  #ctrl键是否按下。
-  #
-  #
-  @property
-  def ctrl(self):
-    return key_event_t_get_prop_ctrl(self.nativeObj);
-
-
-  #
-  # left ctrl键是否按下。
-  #
-  #
-  @property
-  def lctrl(self):
-    return key_event_t_get_prop_lctrl(self.nativeObj);
-
-
-  #
-  # right ctrl键是否按下。
-  #
-  #
-  @property
-  def rctrl(self):
-    return key_event_t_get_prop_rctrl(self.nativeObj);
-
-
-  #
-  # shift键是否按下。
-  #
-  #
-  @property
-  def shift(self):
-    return key_event_t_get_prop_shift(self.nativeObj);
-
-
-  #
-  # left shift键是否按下。
-  #
-  #
-  @property
-  def lshift(self):
-    return key_event_t_get_prop_lshift(self.nativeObj);
-
-
-  #
-  # right shift键是否按下。
-  #
-  #
-  @property
-  def rshift(self):
-    return key_event_t_get_prop_rshift(self.nativeObj);
-
-
-  #
-  # left shift键是否按下。
-  #cmd/win键是否按下。
-  #
-  #
-  @property
-  def cmd(self):
-    return key_event_t_get_prop_cmd(self.nativeObj);
-
-
-  #
-  # menu键是否按下。
-  #
-  #
-  @property
-  def menu(self):
-    return key_event_t_get_prop_menu(self.nativeObj);
-
-
-  #
-  # capslock键是否按下。
-  #
-  #
-  @property
-  def capslock(self):
-    return key_event_t_get_prop_capslock(self.nativeObj);
+  @classmethod
+  def cast(cls, widget): 
+    return  TGroupBox(group_box_cast(awtk_get_native_obj(widget)));
 
 
 #
@@ -16871,46 +15071,36 @@ class TImageAnimation (TWidget):
 
 
 #
-# 表盘控件。
+# 仪表指针控件。
 #
-#表盘控件就是一张图片。
+#仪表指针就是一张旋转的图片，图片可以是普通图片也可以是SVG图片。
 #
-#guage\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于guage\_t控件。
+#在嵌入式平台上，对于旋转的图片，SVG图片的效率比位图高数倍，所以推荐使用SVG图片。
 #
-#在xml中使用"guage"标签创建表盘控件。如：
+#guage\_pointer\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于guage\_pointer\_t控件。
+#
+#在xml中使用"guage\_pointer"标签创建仪表指针控件。如：
 #
 #```xml
-#<guage x="c" y="10" w="240" h="240" image="guage_bg"
+#<guage_pointer x="c" y="50" w="24" h="140" value="-128" image="guage_pointer" />
 #```
 #
 #> 更多用法请参考：
 #[guage.xml](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/guage.xml)
 #
-#在c代码中使用函数guage\_create创建表盘控件。如：
+#在c代码中使用函数guage\_pointer\_create创建仪表指针控件。如：
 #
 #
-#可用通过style来设置控件的显示风格，如背景和边框等。如：
-#
-#```xml
-#<guage>
-#<style name="border">
-#<normal border_color="#000000" bg_color="#e0e0e0" text_color="black"/>
-#</style>
-#</guage>
-#```
-#
-#> 更多用法请参考：
-#[theme
-#default](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/styles/default.xml)
+#> 创建之后，需要用guage\_pointer\_set\_image设置仪表指针图片。
 #
 #
-class TGuage (TWidget):
+class TGuagePointer (TWidget):
   def __init__(self, nativeObj):
-    super(TGuage, self).__init__(nativeObj)
+    super(TGuagePointer, self).__init__(nativeObj)
 
 
   #
-  # 创建guage对象
+  # 创建guage_pointer对象
   # 
   # @param parent 父控件
   # @param x x坐标
@@ -16922,53 +15112,77 @@ class TGuage (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TGuage(guage_create(awtk_get_native_obj(parent), x, y, w, h));
+    return  TGuagePointer(guage_pointer_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
-  # 转换为guage对象(供脚本语言使用)。
+  # 转换为guage_pointer对象(供脚本语言使用)。
   # 
-  # @param widget guage对象。
+  # @param widget guage_pointer对象。
   #
-  # @return guage对象。
+  # @return guage_pointer对象。
   #
   @classmethod
   def cast(cls, widget): 
-    return  TGuage(guage_cast(awtk_get_native_obj(widget)));
+    return  TGuagePointer(guage_pointer_cast(awtk_get_native_obj(widget)));
 
 
   #
-  # 设置背景图片的名称。
+  # 设置指针角度。12点钟方向为0度，顺时钟方向为正，单位为度。
   # 
-  # @param name 图片名称，该图片必须存在于资源管理器。
+  # @param angle 指针角度。
   #
   # @return 返回RET_OK表示成功，否则表示失败。
   #
-  def set_image(self, name): 
-    return guage_set_image(awtk_get_native_obj(self), name);
+  def set_angle(self, angle): 
+    return guage_pointer_set_angle(awtk_get_native_obj(self), angle);
 
 
   #
-  # 设置图片的显示方式。
-  #
-  #> 绘制方式的属性值和枚举值:
-  #[image\_draw\_type\_name\_value](https://github.com/zlgopen/awtk/blob/master/src/base/enums.c#L98)
+  # 设置指针的图片。
   # 
-  # @param draw_type 显示方式。
+  # @param image 指针的图片。
   #
   # @return 返回RET_OK表示成功，否则表示失败。
   #
-  def set_draw_type(self, draw_type): 
-    return guage_set_draw_type(awtk_get_native_obj(self), draw_type);
+  def set_image(self, image): 
+    return guage_pointer_set_image(awtk_get_native_obj(self), image);
 
 
   #
-  # 背景图片。
+  # 设置指针的旋转锚点。
+  # 
+  # @param anchor_x 指针的锚点坐标x。(后面加上px为像素点，不加px为相对百分比坐标)
+  # @param anchor_y 指针的锚点坐标y。(后面加上px为像素点，不加px为相对百分比坐标)
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_anchor(self, anchor_x, anchor_y): 
+    return guage_pointer_set_anchor(awtk_get_native_obj(self), anchor_x, anchor_y);
+
+
+  #
+  # 指针角度。12点钟方向为0度，顺时钟方向为正，单位为度。
+  #
+  #
+  @property
+  def angle(self):
+    return guage_pointer_t_get_prop_angle(self.nativeObj);
+
+  @angle.setter
+  def angle(self, v):
+   this.set_angle(v);
+
+
+  #
+  # 指针图片。
+  #
+  #图片须垂直向上，图片的中心点为旋转方向。
   #
   #
   @property
   def image(self):
-    return guage_t_get_prop_image(self.nativeObj);
+    return guage_pointer_t_get_prop_image(self.nativeObj);
 
   @image.setter
   def image(self, v):
@@ -16976,16 +15190,83 @@ class TGuage (TWidget):
 
 
   #
-  # 图片的绘制方式。
+  # 图片旋转锚点x坐标。(后面加上px为像素点，不加px为相对百分比坐标0.0f到1.0f)
   #
   #
   @property
-  def draw_type(self):
-    return guage_t_get_prop_draw_type(self.nativeObj);
+  def anchor_x(self):
+    return guage_pointer_t_get_prop_anchor_x(self.nativeObj);
 
-  @draw_type.setter
-  def draw_type(self, v):
-   this.set_draw_type(v);
+
+  #
+  # 图片旋转锚点x坐标。(后面加上px为像素点，不加px为相对百分比坐标0.0f到1.0f)
+  #
+  #
+  @property
+  def anchor_y(self):
+    return guage_pointer_t_get_prop_anchor_y(self.nativeObj);
+
+
+#
+# grid控件。一个简单的容器控件，用于网格排列一组控件。
+#
+#它本身不提供布局功能，仅提供具有语义的标签，让xml更具有可读性。
+#子控件的布局可用layout\_children属性指定。
+#请参考[布局参数](https://github.com/zlgopen/awtk/blob/master/docs/layout.md)。
+#
+#grid\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于grid\_t控件。
+#
+#在xml中使用"grid"标签创建grid。如：
+#
+#```xml
+#<grid x="0" y="0" w="100%" h="100%" children_layout="default(c=2,r=2,m=5,s=5)">
+#<button name="open:basic" text="Basic"/>
+#<button name="open:button" text="Buttons"/>
+#<button name="open:edit" text="Edits"/>
+#<button name="open:keyboard" text="KeyBoard"/>
+#</grid>
+#```
+#
+#可用通过style来设置控件的显示风格，如背景颜色等。如：
+#
+#```xml
+#<style name="default" border_color="#a0a0a0">
+#<normal     bg_color="#f0f0f0" />
+#</style>
+#```
+#
+#
+class TGrid (TWidget):
+  def __init__(self, nativeObj):
+    super(TGrid, self).__init__(nativeObj)
+
+
+  #
+  # 创建grid对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+    return  TGrid(grid_create(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 转换为grid对象(供脚本语言使用)。
+  # 
+  # @param widget grid对象。
+  #
+  # @return grid对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TGrid(grid_cast(awtk_get_native_obj(widget)));
 
 
 #
@@ -17596,6 +15877,77 @@ class TDraggable (TWidget):
 
 
 #
+# grid_item。一个简单的容器控件，一般作为grid的子控件。
+#
+#它本身不提供布局功能，仅提供具有语义的标签，让xml更具有可读性。
+#子控件的布局可用layout\_children属性指定。
+#请参考[布局参数](https://github.com/zlgopen/awtk/blob/master/docs/layout.md)。
+#
+#grid\_item\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于grid\_item\_t控件。
+#
+#在xml中使用"grid\_item"标签创建grid\_item。如：
+#
+#```xml
+#<grid x="0" y="0" w="100%" h="100%" children_layout="default(c=2,r=2,m=5,s=5)">
+#<grid_item>
+#<button x="c" y="m" w="80%" h="30" name="0" text="0"/>
+#</grid_item>
+#<grid_item>
+#<button x="c" y="m" w="80%" h="30" name="1" text="1"/>
+#</grid_item>
+#<grid_item>
+#<button x="c" y="m" w="80%" h="30" name="2" text="2"/>
+#</grid_item>
+#<grid_item>
+#<button x="c" y="m" w="80%" h="30" name="3" text="3"/>
+#</grid_item>
+#</grid>
+#
+#```
+#
+#可用通过style来设置控件的显示风格，如背景颜色等。如：
+#
+#```xml
+#<style name="default" border_color="#a0a0a0">
+#<normal     bg_color="#f0f0f0" />
+#</style>
+#```
+#
+#
+class TGridItem (TWidget):
+  def __init__(self, nativeObj):
+    super(TGridItem, self).__init__(nativeObj)
+
+
+  #
+  # 创建grid_item对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+    return  TGridItem(grid_item_create(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 转换为grid_item对象(供脚本语言使用)。
+  # 
+  # @param widget grid_item对象。
+  #
+  # @return grid_item对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TGridItem(grid_item_cast(awtk_get_native_obj(widget)));
+
+
+#
 # 颜色选择器。
 #
 #color\_picker\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于color\_picker\_t控件。
@@ -17705,47 +16057,65 @@ class TColorComponent (TWidget):
 
 
 #
-# 画布控件。
+# 单行编辑器控件。
 #
-#画布控件让开发者可以自己在控件上绘制需要的内容。
+#在基于SDL的平台，单行编辑器控件使用平台原生的输入法，对于嵌入式平台使用内置的输入法。
 #
-#canvas\_widget\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于canvas\_widget\_t控件。
+#在使用内置的输入法时，软键盘由输入类型决定，开发者可以自定义软键盘的界面。
 #
-#在xml中使用"canvas"标签创建画布控件。如：
+#edit\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于edit\_t控件。
+#
+#edit\_t本身可以做为容器，放入按钮等控件。有几个特殊的子控件：
+#
+#* 名为"clear"的按钮。点击时清除编辑器中的内容。
+#* 名为"inc"的按钮。点击时增加编辑器的值，用于实现类似于spinbox的功能。
+#* 名为"dec"的按钮。点击时减少编辑器的值，用于实现类似于spinbox的功能。
+#* 名为"visible"的复选框。勾选时显示密码，反之不显示密码。
+#
+#在xml中使用"edit"标签创建编辑器控件。如：
 #
 #```xml
-#<canvas name="paint_vgcanvas" x="0" y="0" w="100%" h="100%" />
+#<edit x="c" y="m" w="80" h="30"
+#tips="age" input_type="uint" min="0" max="150" step="1" auto_fix="true" style="number" />
+#```
+#
+#> XXX：需要在min/max/step之前设置input\_type。
+#
+#>更多用法请参考：
+#[edit.xml](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/edit.xml)
+#
+#在c代码中使用函数edit\_create创建编辑器控件。如：
+#
+#
+#> 创建之后，可以用widget\_set\_text或widget\_set\_text\_utf8设置文本内容。
+#
+#> 完整示例请参考：
+#[edit demo](https://github.com/zlgopen/awtk-c-demos/blob/master/demos/edit.c)
+#
+#可用通过style来设置控件的显示风格，如字体的大小和颜色等等。如：
+#
+#```xml
+#<style name="default" border_color="#a0a0a0"  text_color="black" text_align_h="left">
+#<normal     bg_color="#f0f0f0" />
+#<focused    bg_color="#f0f0f0" border_color="black"/>
+#<disable    bg_color="gray" text_color="#d0d0d0" />
+#<error      bg_color="#f0f0f0" text_color="red" />
+#<empty      bg_color="#f0f0f0" text_color="#a0a0a0" />
+#</style>
 #```
 #
 #> 更多用法请参考：
-#[canvas_widget.xml](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/vgcanvas.xml)
-#
-#在c代码中使用函数canvas\_widget\_create创建画布控件。如：
-#
-#
-#> 创建之后，需要用widget\_on注册EVT\_PAINT事件，并在EVT\_PAINT事件处理函数中绘制。
+#[theme
+#default](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/styles/default.xml#L104)
 #
 #
-#绘制时，可以通过canvas接口去绘制，也可以通过vgcanvas接口去绘制。
-#先从evt获取canvas对象，再通过canvas\_get\_vgcanvas从canvas中获取vgcanvas对象。
-#
-#
-#> 完整示例请参考：
-#[canvas demo](https://github.com/zlgopen/awtk-c-demos/blob/master/demos/canvas.c)
-#
-#参考：
-#
-#* [canvas接口描述](canvas_t.md)
-#* [vgcanvas接口描述](vgcanvas_t.md)
-#
-#
-class TCanvasWidget (TWidget):
+class TEdit (TWidget):
   def __init__(self, nativeObj):
-    super(TCanvasWidget, self).__init__(nativeObj)
+    super(TEdit, self).__init__(nativeObj)
 
 
   #
-  # 创建canvas_widget对象
+  # 创建edit对象
   # 
   # @param parent 父控件
   # @param x x坐标
@@ -17757,296 +16127,750 @@ class TCanvasWidget (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TCanvasWidget(canvas_widget_create(awtk_get_native_obj(parent), x, y, w, h));
+    return  TEdit(edit_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
-  # 转换为canvas_widget对象(供脚本语言使用)。
+  # 转换为edit对象(供脚本语言使用)。
   # 
-  # @param widget canvas_widget对象。
+  # @param widget edit对象。
   #
-  # @return canvas_widget对象。
+  # @return edit对象。
   #
   @classmethod
   def cast(cls, widget): 
-    return  TCanvasWidget(canvas_widget_cast(awtk_get_native_obj(widget)));
-
-
-#
-# 绘制事件。
-#
-#
-class TPaintEvent (TEvent):
-  def __init__(self, nativeObj):
-    super(TPaintEvent, self).__init__(nativeObj)
+    return  TEdit(edit_cast(awtk_get_native_obj(widget)));
 
 
   #
-  # 把event对象转paint_event_t对象。主要给脚本语言使用。
+  # 获取int类型的值。
   # 
-  # @param event event对象。
   #
-  # @return event 对象。
+  # @return 返回int的值。
   #
-  @classmethod
-  def cast(cls, event): 
-    return  TPaintEvent(paint_event_cast(awtk_get_native_obj(event)));
+  def get_int(self): 
+    return edit_get_int(awtk_get_native_obj(self));
 
 
   #
-  # canvas。
+  # 获取double类型的值。
+  # 
+  #
+  # @return 返回double的值。
+  #
+  def get_double(self): 
+    return edit_get_double(awtk_get_native_obj(self));
+
+
+  #
+  # 设置int类型的值。
+  # 
+  # @param value 值。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_int(self, value): 
+    return edit_set_int(awtk_get_native_obj(self), value);
+
+
+  #
+  # 设置double类型的值。
+  # 
+  # @param value 值。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_double(self, value): 
+    return edit_set_double(awtk_get_native_obj(self), value);
+
+
+  #
+  # 设置为文本输入及其长度限制，不允许输入超过max个字符，少于min个字符时进入error状态。
+  # 
+  # @param min 最小长度。
+  # @param max 最大长度。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_text_limit(self, min, max): 
+    return edit_set_text_limit(awtk_get_native_obj(self), min, max);
+
+
+  #
+  # 设置为整数输入及取值范围。
+  # 
+  # @param min 最小值。
+  # @param max 最大值。
+  # @param step 步长。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_int_limit(self, min, max, step): 
+    return edit_set_int_limit(awtk_get_native_obj(self), min, max, step);
+
+
+  #
+  # 设置为浮点数输入及取值范围。
+  # 
+  # @param min 最小值。
+  # @param max 最大值。
+  # @param step 步长。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_float_limit(self, min, max, step): 
+    return edit_set_float_limit(awtk_get_native_obj(self), min, max, step);
+
+
+  #
+  # 设置编辑器是否为只读。
+  # 
+  # @param readonly 只读。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_readonly(self, readonly): 
+    return edit_set_readonly(awtk_get_native_obj(self), readonly);
+
+
+  #
+  # 设置编辑器是否为自动改正。
+  # 
+  # @param auto_fix 自动改正。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_auto_fix(self, auto_fix): 
+    return edit_set_auto_fix(awtk_get_native_obj(self), auto_fix);
+
+
+  #
+  # 设置编辑器是否在获得焦点时不选中文本。
+  # 
+  # @param select_none_when_focused 是否在获得焦点时不选中文本。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_select_none_when_focused(self, select_none_when_focused): 
+    return edit_set_select_none_when_focused(awtk_get_native_obj(self), select_none_when_focused);
+
+
+  #
+  # 设置编辑器是否在获得焦点时打开输入法。
+  # 
+  # @param open_im_when_focused 是否在获得焦点时打开输入法。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_open_im_when_focused(self, open_im_when_focused): 
+    return edit_set_open_im_when_focused(awtk_get_native_obj(self), open_im_when_focused);
+
+
+  #
+  # 设置编辑器的输入类型。
+  # 
+  # @param type 输入类型。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_input_type(self, type): 
+    return edit_set_input_type(awtk_get_native_obj(self), type);
+
+
+  #
+  # 设置软键盘上action按钮的文本。
+  # 
+  # @param action_text 软键盘上action按钮的文本。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_action_text(self, action_text): 
+    return edit_set_action_text(awtk_get_native_obj(self), action_text);
+
+
+  #
+  # 设置编辑器的输入提示。
+  # 
+  # @param tips 输入提示。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_tips(self, tips): 
+    return edit_set_tips(awtk_get_native_obj(self), tips);
+
+
+  #
+  # 获取翻译之后的文本，然后调用edit_set_tips。
+  # 
+  # @param tr_tips 提示信息。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_tr_tips(self, tr_tips): 
+    return edit_set_tr_tips(awtk_get_native_obj(self), tr_tips);
+
+
+  #
+  # 设置自定义软键盘名称。
+  # 
+  # @param keyboard 键盘名称(相应UI资源必须存在)。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_keyboard(self, keyboard): 
+    return edit_set_keyboard(awtk_get_native_obj(self), keyboard);
+
+
+  #
+  # 当编辑器输入类型为密码时，设置密码是否可见。
+  # 
+  # @param password_visible 密码是否可见。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_password_visible(self, password_visible): 
+    return edit_set_password_visible(awtk_get_native_obj(self), password_visible);
+
+
+  #
+  # 设置为焦点。
+  # 
+  # @param focus 是否为焦点。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_focus(self, focus): 
+    return edit_set_focus(awtk_get_native_obj(self), focus);
+
+
+  #
+  # 设置输入框的光标坐标。
+  # 
+  # @param cursor 是否为焦点。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_cursor(self, cursor): 
+    return edit_set_cursor(awtk_get_native_obj(self), cursor);
+
+
+  #
+  # 编辑器是否为只读。
   #
   #
   @property
-  def c(self):
-    return TCanvas(paint_event_t_get_prop_c(self.nativeObj));
+  def readonly(self):
+    return edit_t_get_prop_readonly(self.nativeObj);
 
-
-#
-# 窗口事件，由窗口管理器触发。
-#
-#
-class TWindowEvent (TEvent):
-  def __init__(self, nativeObj):
-    super(TWindowEvent, self).__init__(nativeObj)
+  @readonly.setter
+  def readonly(self, v):
+   this.set_readonly(v);
 
 
   #
-  # 把event对象转window_event_t对象。主要给脚本语言使用。
+  # 密码是否可见。
+  #
+  #
+  @property
+  def password_visible(self):
+    return edit_t_get_prop_password_visible(self.nativeObj);
+
+  @password_visible.setter
+  def password_visible(self, v):
+   this.set_password_visible(v);
+
+
+  #
+  # 输入无效时，是否自动改正。
+  #
+  #
+  @property
+  def auto_fix(self):
+    return edit_t_get_prop_auto_fix(self.nativeObj);
+
+  @auto_fix.setter
+  def auto_fix(self, v):
+   this.set_auto_fix(v);
+
+
+  #
+  # 获得焦点时不选中文本。
+  #
+  #> 主要用于没有指针设备的情况，否则软键盘无法取消选中文本。
+  #
+  #
+  @property
+  def select_none_when_focused(self):
+    return edit_t_get_prop_select_none_when_focused(self.nativeObj);
+
+  @select_none_when_focused.setter
+  def select_none_when_focused(self, v):
+   this.set_select_none_when_focused(v);
+
+
+  #
+  # 获得焦点时打开输入法。
+  #
+  #> 主要用于没有指针设备的情况，否则每次切换焦点时都打开输入法。
+  #
+  #
+  @property
+  def open_im_when_focused(self):
+    return edit_t_get_prop_open_im_when_focused(self.nativeObj);
+
+  @open_im_when_focused.setter
+  def open_im_when_focused(self, v):
+   this.set_open_im_when_focused(v);
+
+
+  #
+  # 上边距。
+  #
+  #
+  @property
+  def top_margin(self):
+    return edit_t_get_prop_top_margin(self.nativeObj);
+
+
+  #
+  # 下边距。
+  #
+  #
+  @property
+  def bottom_margin(self):
+    return edit_t_get_prop_bottom_margin(self.nativeObj);
+
+
+  #
+  # 左边距。
+  #
+  #
+  @property
+  def left_margin(self):
+    return edit_t_get_prop_left_margin(self.nativeObj);
+
+
+  #
+  # 右边距。
+  #
+  #
+  @property
+  def right_margin(self):
+    return edit_t_get_prop_right_margin(self.nativeObj);
+
+
+  #
+  # 输入提示。
+  #
+  #
+  @property
+  def tips(self):
+    return edit_t_get_prop_tips(self.nativeObj);
+
+  @tips.setter
+  def tips(self, v):
+   this.set_tips(v);
+
+
+  #
+  # 保存用于翻译的提示信息。
+  #
+  #
+  @property
+  def tr_tips(self):
+    return edit_t_get_prop_tr_tips(self.nativeObj);
+
+  @tr_tips.setter
+  def tr_tips(self, v):
+   this.set_tr_tips(v);
+
+
+  #
+  # 软键盘上action按钮的文本。内置取值有：
+  #
+  #* next 将焦点切换到下一个控件。
+  #* done 完成，关闭软键盘。
+  #
+  #也可以使用其它文本，比如send表示发送。这个需要自己实现相应的功能，处理EVT\_IM\_ACTION事件即可。
+  #
+  #
+  @property
+  def action_text(self):
+    return edit_t_get_prop_action_text(self.nativeObj);
+
+  @action_text.setter
+  def action_text(self, v):
+   this.set_action_text(v);
+
+
+  #
+  # 自定义软键盘名称。
+  #
+  #
+  @property
+  def keyboard(self):
+    return edit_t_get_prop_keyboard(self.nativeObj);
+
+  @keyboard.setter
+  def keyboard(self, v):
+   this.set_keyboard(v);
+
+
+  #
+  # 输入类型。
+  #
+  #
+  @property
+  def input_type(self):
+    return edit_t_get_prop_input_type(self.nativeObj);
+
+  @input_type.setter
+  def input_type(self, v):
+   this.set_input_type(v);
+
+
+  #
+  # 最小值或最小长度。
+  #
+  #
+  @property
+  def min(self):
+    return edit_t_get_prop_min(self.nativeObj);
+
+
+  #
+  # 最大值或最大长度。
+  #
+  #
+  @property
+  def max(self):
+    return edit_t_get_prop_max(self.nativeObj);
+
+
+  #
+  # 步长。
+  #作为数值型编辑器时，一次增加和减少时的数值。
+  #
+  #
+  @property
+  def step(self):
+    return edit_t_get_prop_step(self.nativeObj);
+
+
+#
+# dragger控件。
+#
+#目前主要用于scrollbar里的滑块。
+#
+#
+class TDragger (TWidget):
+  def __init__(self, nativeObj):
+    super(TDragger, self).__init__(nativeObj)
+
+
+  #
+  # 创建dragger对象。
   # 
-  # @param event event对象。
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
   #
   # @return 对象。
   #
   @classmethod
-  def cast(cls, event): 
-    return  TWindowEvent(window_event_cast(awtk_get_native_obj(event)));
+  def create(cls, parent, x, y, w, h): 
+    return  TDragger(dragger_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
-  # canvas。
-  #
-  #
-  @property
-  def window(self):
-    return TWidget(window_event_t_get_prop_window(self.nativeObj));
-
-
-#
-# 图片控件基类。
-#
-#本类把图片相关控件的公共行为进行抽象，放到一起方便重用。目前已知的具体实现如下图：
-#
-#
-#
-#> 本类是一个抽象类，不能进行实例化。请在应用程序中使用具体的类，如image\_t。
-#
-#如果需要显示文件系统中的图片，只需将图片名称换成实际的文件名，并加上"file://"前缀即可。如：
-#
-#```
-#<image draw_type="center" image="file://./demos/assets/default/raw/images/xx/flag_CN.png" />
-#<gif image="file://./demos/assets/default/raw/images/x2/bee.gif" />
-#<svg image="file://./demos/assets/default/raw/images/svg/china.bsvg" />
-#```
-#
-#
-class TImageBase (TWidget):
-  def __init__(self, nativeObj):
-    super(TImageBase, self).__init__(nativeObj)
-
-
-  #
-  # 设置控件的图片名称。
-  #
-  #> 如果需要显示文件系统中的图片，只需将图片名称换成实际的文件名，并加上"file://"前缀即可。
+  # 转换为dragger对象(供脚本语言使用)。
   # 
-  # @param name 图片名称，该图片必须存在于资源管理器。
+  # @param widget dragger对象。
   #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_image(self, name): 
-    return image_base_set_image(awtk_get_native_obj(self), name);
-
-
-  #
-  # 设置控件的旋转角度(仅在WITH_VGCANVAS定义时生效)。
-  # 
-  # @param rotation 旋转角度(幅度)。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_rotation(self, rotation): 
-    return image_base_set_rotation(awtk_get_native_obj(self), rotation);
-
-
-  #
-  # 设置控件的缩放比例(仅在WITH_VGCANVAS定义时生效)。
-  # 
-  # @param scale_x X方向缩放比例。
-  # @param scale_y Y方向缩放比例。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_scale(self, scale_x, scale_y): 
-    return image_base_set_scale(awtk_get_native_obj(self), scale_x, scale_y);
-
-
-  #
-  # 设置控件的锚点(仅在WITH_VGCANVAS定义时生效)。
-  # 
-  # @param anchor_x 锚点X(0-1)。0在控件左边，0.5在控件中间，1在控件右边。
-  # @param anchor_y 锚点Y(0-1)。0在控件顶部，0.5在控件中间，1在控件底部。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_anchor(self, anchor_x, anchor_y): 
-    return image_base_set_anchor(awtk_get_native_obj(self), anchor_x, anchor_y);
-
-
-  #
-  # 设置控件的选中状态。
-  # 
-  # @param selected 是否被选中。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_selected(self, selected): 
-    return image_base_set_selected(awtk_get_native_obj(self), selected);
-
-
-  #
-  # 设置控件是否可以被选中。
-  # 
-  # @param selectable 是否可以被选中。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_selectable(self, selectable): 
-    return image_base_set_selectable(awtk_get_native_obj(self), selectable);
-
-
-  #
-  # 设置控件是否可以被点击。
-  # 
-  # @param clickable 是否可以被点击。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_clickable(self, clickable): 
-    return image_base_set_clickable(awtk_get_native_obj(self), clickable);
-
-
-  #
-  # 转换为image_base对象(供脚本语言使用)。
-  # 
-  # @param widget image_base对象。
-  #
-  # @return image_base对象。
+  # @return dragger对象。
   #
   @classmethod
   def cast(cls, widget): 
-    return  TImageBase(image_base_cast(awtk_get_native_obj(widget)));
+    return  TDragger(dragger_cast(awtk_get_native_obj(widget)));
 
 
   #
-  # 图片的名称。
+  # 设置拖动的范围。
+  # 
+  # @param x_min x坐标最小值。
+  # @param y_min y坐标最小值。
+  # @param x_max x坐标最大值。
+  # @param y_max y坐标最大值。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_range(self, x_min, y_min, x_max, y_max): 
+    return dragger_set_range(awtk_get_native_obj(self), x_min, y_min, x_max, y_max);
+
+
+  #
+  # x坐标的最小值。
   #
   #
   @property
-  def image(self):
-    return image_base_t_get_prop_image(self.nativeObj);
-
-  @image.setter
-  def image(self, v):
-   this.set_image(v);
+  def x_min(self):
+    return dragger_t_get_prop_x_min(self.nativeObj);
 
 
   #
-  # 锚点X(0-1)。0在控件左边，0.5在控件中间，1在控件右边。
+  # y坐标的最小值。
   #
   #
   @property
-  def anchor_x(self):
-    return image_base_t_get_prop_anchor_x(self.nativeObj);
+  def y_min(self):
+    return dragger_t_get_prop_y_min(self.nativeObj);
 
 
   #
-  # 锚点Y(0-1)。0在控件顶部，0.5在控件中间，1在控件底部。
+  # x坐标的最大值。
   #
   #
   @property
-  def anchor_y(self):
-    return image_base_t_get_prop_anchor_y(self.nativeObj);
+  def x_max(self):
+    return dragger_t_get_prop_x_max(self.nativeObj);
 
 
   #
-  # 控件在X方向上的缩放比例。
+  # y坐标的最大值。
   #
   #
   @property
-  def scale_x(self):
-    return image_base_t_get_prop_scale_x(self.nativeObj);
+  def y_max(self):
+    return dragger_t_get_prop_y_max(self.nativeObj);
+
+
+#
+# 数字时钟控件。
+#
+#digit\_clock\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于digit\_clock\_t控件。
+#
+#在xml中使用"digit\_clock"标签创建数字时钟控件。如：
+#
+#```xml
+#<digit_clock format="YY/MM/DD h:mm:ss"/>
+#```
+#
+#> 更多用法请参考：[digit\_clock.xml](
+#https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/digit_clock.xml)
+#
+#在c代码中使用函数digit\_clock\_create创建数字时钟控件。如：
+#
+#
+#> 完整示例请参考：[digit\_clock demo](
+#https://github.com/zlgopen/awtk-c-demos/blob/master/demos/digit_clock.c)
+#
+#可用通过style来设置控件的显示风格，如字体的大小和颜色等等。如：
+#
+#```xml
+#<style name="default">
+#<normal text_color="black" />
+#</style>
+#```
+#
+#> 更多用法请参考：[theme default](
+#https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/styles/default.xml#L138)
+#
+#
+class TDigitClock (TWidget):
+  def __init__(self, nativeObj):
+    super(TDigitClock, self).__init__(nativeObj)
 
 
   #
-  # 控件在Y方向上的缩放比例。
+  # 创建digit_clock对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+    return  TDigitClock(digit_clock_create(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 转换为digit_clock对象(供脚本语言使用)。
+  # 
+  # @param widget digit_clock对象。
+  #
+  # @return digit_clock对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TDigitClock(digit_clock_cast(awtk_get_native_obj(widget)));
+
+
+  #
+  # 设置显示格式。
+  # 
+  # @param format 格式。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_format(self, format): 
+    return digit_clock_set_format(awtk_get_native_obj(self), format);
+
+
+  #
+  # 显示格式。
+  #
+  #* Y 代表年(完整显示)
+  #* M 代表月(1-12)
+  #* D 代表日(1-31)
+  #* h 代表时(0-23)
+  #* m 代表分(0-59)
+  #* s 代表秒(0-59)
+  #* w 代表星期(0-6)
+  #* W 代表星期的英文缩写(支持翻译)
+  #* YY 代表年(只显示末两位)
+  #* MM 代表月(01-12)
+  #* DD 代表日(01-31)
+  #* hh 代表时(00-23)
+  #* mm 代表分(00-59)
+  #* ss 代表秒(00-59)
+  #* MMM 代表月的英文缩写(支持翻译)
+  #
+  #如 日期时间为：2018/11/12 9:10:20
+  #* "Y/M/D"显示为"2018/11/12"
+  #* "Y-M-D"显示为"2018-11-12"
+  #* "Y-M-D h:m:s"显示为"2018-11-12 9:10:20"
+  #* "Y-M-D hh:mm:ss"显示为"2018-11-12 09:10:20"
   #
   #
   @property
-  def scale_y(self):
-    return image_base_t_get_prop_scale_y(self.nativeObj);
+  def format(self):
+    return digit_clock_t_get_prop_format(self.nativeObj);
+
+  @format.setter
+  def format(self, v):
+   this.set_format(v);
+
+
+#
+# 对话框标题控件。
+#
+#它本身不提供布局功能，仅提供具有语义的标签，让xml更具有可读性。
+#子控件的布局可用layout\_children属性指定。
+#请参考[布局参数](https://github.com/zlgopen/awtk/blob/master/docs/layout.md)。
+#
+#dialog\_title\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于dialog\_title\_t控件。
+#
+#在xml中使用"dialog\_title"标签创建dialog\_title。如：
+#
+#```xml
+#<dialog anim_hint="center_scale(duration=300)" x="c" y="m" w="80%" h="160" text="Dialog">
+#<dialog_title x="0" y="0" w="100%" h="30" text="Hello AWTK" />
+#<dialog_client x="0" y="bottom" w="100%" h="-30">
+#<label name="" x="center" y="middle:-20" w="200" h="30" text="Are you ready?"/>
+#<button name="quit" x="10" y="bottom:10" w="40%" h="30" text="确定"/>
+#<button name="quit" x="right:10" y="bottom:10" w="40%" h="30" text="取消"/>
+#</dialog_client>
+#</dialog>
+#```
+#
+#在c代码中，用dialog\_create\_simple创建对话框时，自动创建dialog标题对象。
+#
+#
+class TDialogTitle (TWidget):
+  def __init__(self, nativeObj):
+    super(TDialogTitle, self).__init__(nativeObj)
 
 
   #
-  # 控件的旋转角度(幅度)。
+  # 创建dialog对象。
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
   #
+  # @return dialog对象。
   #
-  @property
-  def rotation(self):
-    return image_base_t_get_prop_rotation(self.nativeObj);
-
-  @rotation.setter
-  def rotation(self, v):
-   this.set_rotation(v);
-
-
-  #
-  # 点击时，是否触发EVT_CLICK事件。
-  #
-  #
-  @property
-  def clickable(self):
-    return image_base_t_get_prop_clickable(self.nativeObj);
-
-  @clickable.setter
-  def clickable(self, v):
-   this.set_clickable(v);
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+    return  TDialogTitle(dialog_title_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
-  # 是否设置选中状态。
+  # 转换为dialog_title对象(供脚本语言使用)。
+  # 
+  # @param widget dialog_title对象。
   #
+  # @return dialog_title对象。
   #
-  @property
-  def selectable(self):
-    return image_base_t_get_prop_selectable(self.nativeObj);
+  @classmethod
+  def cast(cls, widget): 
+    return  TDialogTitle(dialog_title_cast(awtk_get_native_obj(widget)));
 
-  @selectable.setter
-  def selectable(self, v):
-   this.set_selectable(v);
+
+#
+# 对话框客户区控件。
+#
+#它本身不提供布局功能，仅提供具有语义的标签，让xml更具有可读性。
+#子控件的布局可用layout\_children属性指定。
+#请参考[布局参数](https://github.com/zlgopen/awtk/blob/master/docs/layout.md)。
+#
+#dialog\_client\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于dialog\_client\_t控件。
+#
+#在xml中使用"dialog\_client"标签创建dialog\_client。如：
+#
+#```xml
+#<dialog anim_hint="center_scale(duration=300)" x="c" y="m" w="80%" h="160" text="Dialog">
+#<dialog_title x="0" y="0" w="100%" h="30" text="Hello AWTK" />
+#<dialog_client x="0" y="bottom" w="100%" h="-30">
+#<label name="" x="center" y="middle:-20" w="200" h="30" text="Are you ready?"/>
+#<button name="quit" x="10" y="bottom:10" w="40%" h="30" text="确定"/>
+#<button name="quit" x="right:10" y="bottom:10" w="40%" h="30" text="取消"/>
+#</dialog_client>
+#</dialog>
+#```
+#
+#在c代码中，用dialog\_create\_simple创建对话框时，自动创建dialog客户区对象。
+#
+#
+class TDialogClient (TWidget):
+  def __init__(self, nativeObj):
+    super(TDialogClient, self).__init__(nativeObj)
 
 
   #
-  # 当前是否被选中。
+  # 创建dialog客户区对象。
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
   #
+  # @return dialog对象。
   #
-  @property
-  def selected(self):
-    return image_base_t_get_prop_selected(self.nativeObj);
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+    return  TDialogClient(dialog_client_create(awtk_get_native_obj(parent), x, y, w, h));
 
-  @selected.setter
-  def selected(self, v):
-   this.set_selected(v);
+
+  #
+  # 转换为dialog_client对象(供脚本语言使用)。
+  # 
+  # @param widget dialog_client对象。
+  #
+  # @return dialog_client对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TDialogClient(dialog_client_cast(awtk_get_native_obj(widget)));
 
 
 #
@@ -18385,6 +17209,93 @@ class TWindowBase (TWidget):
 
 
 #
+# ComboBox Item控件。
+#
+#本类仅供combo\_box控件内部使用。
+#
+#
+class TComboBoxItem (TWidget):
+  def __init__(self, nativeObj):
+    super(TComboBoxItem, self).__init__(nativeObj)
+
+
+  #
+  # 创建combo_box_item对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+    return  TComboBoxItem(combo_box_item_create(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 转换combo_box_item对象(供脚本语言使用)。
+  # 
+  # @param widget combo_box_item对象。
+  #
+  # @return combo_box_item对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TComboBoxItem(combo_box_item_cast(awtk_get_native_obj(widget)));
+
+
+  #
+  # 设置控件是否被选中。
+  # 
+  # @param checked 是否被选中。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_checked(self, checked): 
+    return combo_box_item_set_checked(awtk_get_native_obj(self), checked);
+
+
+  #
+  # 设置控件的值。
+  # 
+  # @param value 值
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_value(self, value): 
+    return combo_box_item_set_value(awtk_get_native_obj(self), value);
+
+
+  #
+  # 值。
+  #
+  #
+  @property
+  def value(self):
+    return combo_box_item_t_get_prop_value(self.nativeObj);
+
+  @value.setter
+  def value(self, v):
+   this.set_value(v);
+
+
+  #
+  # 是否被选中。
+  #
+  #
+  @property
+  def checked(self):
+    return combo_box_item_t_get_prop_checked(self.nativeObj);
+
+  @checked.setter
+  def checked(self, v):
+   this.set_checked(v);
+
+
+#
 # 可变的style(可实时修改并生效，主要用于在designer中被编辑的控件，或者一些特殊控件)。
 #
 #style\_mutable也对style\_const进行了包装，当用户没修改某个值时，便从style\_const中获取。
@@ -18460,6 +17371,1141 @@ class TStyleMutable (TStyle):
 
 
 #
+# column。一个简单的容器控件，垂直排列其子控件。
+#
+#它本身不提供布局功能，仅提供具有语义的标签，让xml更具有可读性。
+#子控件的布局可用layout\_children属性指定。
+#请参考[布局参数](https://github.com/zlgopen/awtk/blob/master/docs/layout.md)。
+#
+#column\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于column\_t控件。
+#
+#在xml中使用"column"标签创建column。如：
+#
+#```xml
+#<column x="0" y="0" w="100%" h="100%" children_layout="default(c=1,r=0)">
+#<button name="open:basic" text="Basic"/>
+#<button name="open:button" text="Buttons"/>
+#<button name="open:edit" text="Edits"/>
+#<button name="open:keyboard" text="KeyBoard"/>
+#</column>
+#```
+#
+#可用通过style来设置控件的显示风格，如背景颜色等。如：
+#
+#```xml
+#<style name="default" border_color="#a0a0a0">
+#<normal     bg_color="#f0f0f0" />
+#</style>
+#```
+#
+#
+class TColumn (TWidget):
+  def __init__(self, nativeObj):
+    super(TColumn, self).__init__(nativeObj)
+
+
+  #
+  # 创建column对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+    return  TColumn(column_create(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 转换为column对象(供脚本语言使用)。
+  # 
+  # @param widget column对象。
+  #
+  # @return column对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TColumn(column_cast(awtk_get_native_obj(widget)));
+
+
+#
+# 图片控件基类。
+#
+#本类把图片相关控件的公共行为进行抽象，放到一起方便重用。目前已知的具体实现如下图：
+#
+#
+#
+#> 本类是一个抽象类，不能进行实例化。请在应用程序中使用具体的类，如image\_t。
+#
+#如果需要显示文件系统中的图片，只需将图片名称换成实际的文件名，并加上"file://"前缀即可。如：
+#
+#```
+#<image draw_type="center" image="file://./demos/assets/default/raw/images/xx/flag_CN.png" />
+#<gif image="file://./demos/assets/default/raw/images/x2/bee.gif" />
+#<svg image="file://./demos/assets/default/raw/images/svg/china.bsvg" />
+#```
+#
+#
+class TImageBase (TWidget):
+  def __init__(self, nativeObj):
+    super(TImageBase, self).__init__(nativeObj)
+
+
+  #
+  # 设置控件的图片名称。
+  #
+  #> 如果需要显示文件系统中的图片，只需将图片名称换成实际的文件名，并加上"file://"前缀即可。
+  # 
+  # @param name 图片名称，该图片必须存在于资源管理器。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_image(self, name): 
+    return image_base_set_image(awtk_get_native_obj(self), name);
+
+
+  #
+  # 设置控件的旋转角度(仅在WITH_VGCANVAS定义时生效)。
+  # 
+  # @param rotation 旋转角度(幅度)。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_rotation(self, rotation): 
+    return image_base_set_rotation(awtk_get_native_obj(self), rotation);
+
+
+  #
+  # 设置控件的缩放比例(仅在WITH_VGCANVAS定义时生效)。
+  # 
+  # @param scale_x X方向缩放比例。
+  # @param scale_y Y方向缩放比例。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_scale(self, scale_x, scale_y): 
+    return image_base_set_scale(awtk_get_native_obj(self), scale_x, scale_y);
+
+
+  #
+  # 设置控件的锚点(仅在WITH_VGCANVAS定义时生效)。
+  # 
+  # @param anchor_x 锚点X(0-1)。0在控件左边，0.5在控件中间，1在控件右边。
+  # @param anchor_y 锚点Y(0-1)。0在控件顶部，0.5在控件中间，1在控件底部。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_anchor(self, anchor_x, anchor_y): 
+    return image_base_set_anchor(awtk_get_native_obj(self), anchor_x, anchor_y);
+
+
+  #
+  # 设置控件的选中状态。
+  # 
+  # @param selected 是否被选中。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_selected(self, selected): 
+    return image_base_set_selected(awtk_get_native_obj(self), selected);
+
+
+  #
+  # 设置控件是否可以被选中。
+  # 
+  # @param selectable 是否可以被选中。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_selectable(self, selectable): 
+    return image_base_set_selectable(awtk_get_native_obj(self), selectable);
+
+
+  #
+  # 设置控件是否可以被点击。
+  # 
+  # @param clickable 是否可以被点击。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_clickable(self, clickable): 
+    return image_base_set_clickable(awtk_get_native_obj(self), clickable);
+
+
+  #
+  # 转换为image_base对象(供脚本语言使用)。
+  # 
+  # @param widget image_base对象。
+  #
+  # @return image_base对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TImageBase(image_base_cast(awtk_get_native_obj(widget)));
+
+
+  #
+  # 图片的名称。
+  #
+  #
+  @property
+  def image(self):
+    return image_base_t_get_prop_image(self.nativeObj);
+
+  @image.setter
+  def image(self, v):
+   this.set_image(v);
+
+
+  #
+  # 锚点X(0-1)。0在控件左边，0.5在控件中间，1在控件右边。
+  #
+  #
+  @property
+  def anchor_x(self):
+    return image_base_t_get_prop_anchor_x(self.nativeObj);
+
+
+  #
+  # 锚点Y(0-1)。0在控件顶部，0.5在控件中间，1在控件底部。
+  #
+  #
+  @property
+  def anchor_y(self):
+    return image_base_t_get_prop_anchor_y(self.nativeObj);
+
+
+  #
+  # 控件在X方向上的缩放比例。
+  #
+  #
+  @property
+  def scale_x(self):
+    return image_base_t_get_prop_scale_x(self.nativeObj);
+
+
+  #
+  # 控件在Y方向上的缩放比例。
+  #
+  #
+  @property
+  def scale_y(self):
+    return image_base_t_get_prop_scale_y(self.nativeObj);
+
+
+  #
+  # 控件的旋转角度(幅度)。
+  #
+  #
+  @property
+  def rotation(self):
+    return image_base_t_get_prop_rotation(self.nativeObj);
+
+  @rotation.setter
+  def rotation(self, v):
+   this.set_rotation(v);
+
+
+  #
+  # 点击时，是否触发EVT_CLICK事件。
+  #
+  #
+  @property
+  def clickable(self):
+    return image_base_t_get_prop_clickable(self.nativeObj);
+
+  @clickable.setter
+  def clickable(self, v):
+   this.set_clickable(v);
+
+
+  #
+  # 是否设置选中状态。
+  #
+  #
+  @property
+  def selectable(self):
+    return image_base_t_get_prop_selectable(self.nativeObj);
+
+  @selectable.setter
+  def selectable(self, v):
+   this.set_selectable(v);
+
+
+  #
+  # 当前是否被选中。
+  #
+  #
+  @property
+  def selected(self):
+    return image_base_t_get_prop_selected(self.nativeObj);
+
+  @selected.setter
+  def selected(self, v):
+   this.set_selected(v);
+
+
+#
+# 窗口事件，由窗口管理器触发。
+#
+#
+class TWindowEvent (TEvent):
+  def __init__(self, nativeObj):
+    super(TWindowEvent, self).__init__(nativeObj)
+
+
+  #
+  # 把event对象转window_event_t对象。主要给脚本语言使用。
+  # 
+  # @param event event对象。
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def cast(cls, event): 
+    return  TWindowEvent(window_event_cast(awtk_get_native_obj(event)));
+
+
+  #
+  # canvas。
+  #
+  #
+  @property
+  def window(self):
+    return TWidget(window_event_t_get_prop_window(self.nativeObj));
+
+
+#
+# 绘制事件。
+#
+#
+class TPaintEvent (TEvent):
+  def __init__(self, nativeObj):
+    super(TPaintEvent, self).__init__(nativeObj)
+
+
+  #
+  # 把event对象转paint_event_t对象。主要给脚本语言使用。
+  # 
+  # @param event event对象。
+  #
+  # @return event 对象。
+  #
+  @classmethod
+  def cast(cls, event): 
+    return  TPaintEvent(paint_event_cast(awtk_get_native_obj(event)));
+
+
+  #
+  # canvas。
+  #
+  #
+  @property
+  def c(self):
+    return TCanvas(paint_event_t_get_prop_c(self.nativeObj));
+
+
+#
+# 按键事件。
+#
+#
+class TKeyEvent (TEvent):
+  def __init__(self, nativeObj):
+    super(TKeyEvent, self).__init__(nativeObj)
+
+
+  #
+  # 把event对象转key_event_t对象，主要给脚本语言使用。
+  # 
+  # @param event event对象。
+  #
+  # @return event对象。
+  #
+  @classmethod
+  def cast(cls, event): 
+    return  TKeyEvent(key_event_cast(awtk_get_native_obj(event)));
+
+
+  #
+  # 键值。
+  #
+  #
+  @property
+  def key(self):
+    return key_event_t_get_prop_key(self.nativeObj);
+
+
+  #
+  # alt键是否按下。
+  #
+  #
+  @property
+  def alt(self):
+    return key_event_t_get_prop_alt(self.nativeObj);
+
+
+  #
+  # left alt键是否按下。
+  #
+  #
+  @property
+  def lalt(self):
+    return key_event_t_get_prop_lalt(self.nativeObj);
+
+
+  #
+  # right alt键是否按下。
+  #
+  #
+  @property
+  def ralt(self):
+    return key_event_t_get_prop_ralt(self.nativeObj);
+
+
+  #
+  # right alt键是否按下。
+  #ctrl键是否按下。
+  #
+  #
+  @property
+  def ctrl(self):
+    return key_event_t_get_prop_ctrl(self.nativeObj);
+
+
+  #
+  # left ctrl键是否按下。
+  #
+  #
+  @property
+  def lctrl(self):
+    return key_event_t_get_prop_lctrl(self.nativeObj);
+
+
+  #
+  # right ctrl键是否按下。
+  #
+  #
+  @property
+  def rctrl(self):
+    return key_event_t_get_prop_rctrl(self.nativeObj);
+
+
+  #
+  # shift键是否按下。
+  #
+  #
+  @property
+  def shift(self):
+    return key_event_t_get_prop_shift(self.nativeObj);
+
+
+  #
+  # left shift键是否按下。
+  #
+  #
+  @property
+  def lshift(self):
+    return key_event_t_get_prop_lshift(self.nativeObj);
+
+
+  #
+  # right shift键是否按下。
+  #
+  #
+  @property
+  def rshift(self):
+    return key_event_t_get_prop_rshift(self.nativeObj);
+
+
+  #
+  # left shift键是否按下。
+  #cmd/win键是否按下。
+  #
+  #
+  @property
+  def cmd(self):
+    return key_event_t_get_prop_cmd(self.nativeObj);
+
+
+  #
+  # menu键是否按下。
+  #
+  #
+  @property
+  def menu(self):
+    return key_event_t_get_prop_menu(self.nativeObj);
+
+
+  #
+  # capslock键是否按下。
+  #
+  #
+  @property
+  def capslock(self):
+    return key_event_t_get_prop_capslock(self.nativeObj);
+
+
+#
+# 指针事件。
+#
+#
+class TPointerEvent (TEvent):
+  def __init__(self, nativeObj):
+    super(TPointerEvent, self).__init__(nativeObj)
+
+
+  #
+  # 把event对象转pointer_event_t对象，主要给脚本语言使用。
+  # 
+  # @param event event对象。
+  #
+  # @return event对象。
+  #
+  @classmethod
+  def cast(cls, event): 
+    return  TPointerEvent(pointer_event_cast(awtk_get_native_obj(event)));
+
+
+  #
+  # x坐标。
+  #
+  #
+  @property
+  def x(self):
+    return pointer_event_t_get_prop_x(self.nativeObj);
+
+
+  #
+  # y坐标。
+  #
+  #
+  @property
+  def y(self):
+    return pointer_event_t_get_prop_y(self.nativeObj);
+
+
+  #
+  # button。
+  #
+  #
+  @property
+  def button(self):
+    return pointer_event_t_get_prop_button(self.nativeObj);
+
+
+  #
+  # 指针是否按下。
+  #
+  #
+  @property
+  def pressed(self):
+    return pointer_event_t_get_prop_pressed(self.nativeObj);
+
+
+  #
+  # alt键是否按下。
+  #
+  #
+  @property
+  def alt(self):
+    return pointer_event_t_get_prop_alt(self.nativeObj);
+
+
+  #
+  # ctrl键是否按下。
+  #
+  #
+  @property
+  def ctrl(self):
+    return pointer_event_t_get_prop_ctrl(self.nativeObj);
+
+
+  #
+  # cmd键是否按下。
+  #
+  #
+  @property
+  def cmd(self):
+    return pointer_event_t_get_prop_cmd(self.nativeObj);
+
+
+  #
+  # menu键是否按下。
+  #
+  #
+  @property
+  def menu(self):
+    return pointer_event_t_get_prop_menu(self.nativeObj);
+
+
+  #
+  # shift键是否按下。
+  #
+  #
+  @property
+  def shift(self):
+    return pointer_event_t_get_prop_shift(self.nativeObj);
+
+
+#
+# 滚轮事件。
+#
+#
+class TOrientationEvent (TEvent):
+  def __init__(self, nativeObj):
+    super(TOrientationEvent, self).__init__(nativeObj)
+
+
+  #
+  # 把event对象转orientation_event_t对象，主要给脚本语言使用。
+  # 
+  # @param event event对象。
+  #
+  # @return event对象。
+  #
+  @classmethod
+  def cast(cls, event): 
+    return  TOrientationEvent(orientation_event_cast(awtk_get_native_obj(event)));
+
+
+  #
+  # 屏幕方向。
+  #
+  #
+  @property
+  def orientation(self):
+    return orientation_event_t_get_prop_orientation(self.nativeObj);
+
+
+#
+# app_bar控件。
+#
+#一个简单的容器控件，一般在窗口的顶部，用于显示本窗口的状态和信息。
+#
+#它本身不提供布局功能，仅提供具有语义的标签，让xml更具有可读性。
+#子控件的布局可用layout\_children属性指定。
+#请参考[布局参数](https://github.com/zlgopen/awtk/blob/master/docs/layout.md)。
+#
+#app\_bar\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于app\_bar\_t控件。
+#
+#在xml中使用"app\_bar"标签创建app\_bar。如：
+#
+#```xml
+#<app_bar x="0" y="0" w="100%" h="30"
+#<label x="0" y="0" w="100%" h="100%" text="Basic Controls" />
+#</app_bar>
+#```
+#
+#在c代码中使用函数app\_bar\_create创建app\_bar。如：
+#
+#
+#可用通过style来设置控件的显示风格，如背景颜色等。如：
+#
+#```xml
+#<style name="default" border_color="#a0a0a0">
+#<normal     bg_color="#f0f0f0" />
+#</style>
+#```
+#
+#
+class TAppBar (TWidget):
+  def __init__(self, nativeObj):
+    super(TAppBar, self).__init__(nativeObj)
+
+
+  #
+  # 创建app_bar对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+    return  TAppBar(app_bar_create(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 转换为app_bar对象(供脚本语言使用)。
+  # 
+  # @param widget app_bar对象。
+  #
+  # @return app_bar对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TAppBar(app_bar_cast(awtk_get_native_obj(widget)));
+
+
+#
+# Button Group控件。一个简单的容器控件，用于容纳一组按钮控件。
+#
+#它本身不提供布局功能，仅提供具有语义的标签，让xml更具有可读性。
+#子控件的布局可用layout\_children属性指定。
+#请参考[布局参数](https://github.com/zlgopen/awtk/blob/master/docs/layout.md)。
+#
+#button\_group\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于button\_group\_t控件。
+#
+#在xml中使用"button\_group"标签创建button\_group。如：
+#
+#```xml
+#<button_group x="0" y="m" w="100%" h="40" children_layout="default(c=4,r=1,s=5,m=5)">
+#<button name="open:basic" text="Basic"/>
+#<button name="open:button" text="Buttons"/>
+#<button name="open:edit" text="Edits"/>
+#<button name="open:keyboard" text="KeyBoard"/>
+#</button_group>
+#```
+#
+#可用通过style来设置控件的显示风格，如背景颜色等。如：
+#
+#```xml
+#<style name="default" border_color="#a0a0a0">
+#<normal     bg_color="#f0f0f0" />
+#</style>
+#```
+#
+#
+class TButtonGroup (TWidget):
+  def __init__(self, nativeObj):
+    super(TButtonGroup, self).__init__(nativeObj)
+
+
+  #
+  # 创建button_group对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+    return  TButtonGroup(button_group_create(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 转换为button_group对象(供脚本语言使用)。
+  # 
+  # @param widget button_group对象。
+  #
+  # @return button_group对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TButtonGroup(button_group_cast(awtk_get_native_obj(widget)));
+
+
+#
+# 按钮控件。
+#
+#点击按钮之后会触发EVT\_CLICK事件，注册EVT\_CLICK事件以执行特定操作。
+#
+#按钮控件也可以作为容器使用，使用图片和文本作为其子控件，可以实现很多有趣的效果。
+#
+#button\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于button\_t控件。
+#
+#在xml中使用"button"标签创建按钮控件。如：
+#
+#```xml
+#<button x="c" y="m" w="80" h="30" text="OK"/>
+#```
+#
+#> 更多用法请参考：
+#[button.xml](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/button.xml)
+#
+#在c代码中使用函数button\_create创建按钮控件。如：
+#
+#
+#> 创建之后，需要用widget\_set\_text或widget\_set\_text\_utf8设置文本内容。
+#
+#> 完整示例请参考：
+#[button demo](https://github.com/zlgopen/awtk-c-demos/blob/master/demos/button.c)
+#
+#可用通过style来设置控件的显示风格，如字体的大小和颜色等等。如：
+#
+#```xml
+#<style name="default" border_color="#a0a0a0"  text_color="black">
+#<normal     bg_color="#f0f0f0" />
+#<pressed    bg_color="#c0c0c0" x_offset="1" y_offset="1"/>
+#<over       bg_color="#e0e0e0" />
+#<disable    bg_color="gray" text_color="#d0d0d0" />
+#</style>
+#```
+#
+#> 更多用法请参考：
+#[theme
+#default](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/styles/default.xml#L31)
+#
+#
+class TButton (TWidget):
+  def __init__(self, nativeObj):
+    super(TButton, self).__init__(nativeObj)
+
+
+  #
+  # 创建button对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+    return  TButton(button_create(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 转换为button对象(供脚本语言使用)。
+  # 
+  # @param widget button对象。
+  #
+  # @return button对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TButton(button_cast(awtk_get_native_obj(widget)));
+
+
+  #
+  # 设置触发EVT\_CLICK事件的时间间隔。为0则不重复触发EVT\_CLICK事件。
+  # 
+  # @param repeat 触发EVT_CLICK事件的时间间隔(毫秒)。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_repeat(self, repeat): 
+    return button_set_repeat(awtk_get_native_obj(self), repeat);
+
+
+  #
+  # 设置是否启用长按事件。
+  # 
+  # @param enable_long_press 是否启用长按事件。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_enable_long_press(self, enable_long_press): 
+    return button_set_enable_long_press(awtk_get_native_obj(self), enable_long_press);
+
+
+  #
+  # 重复触发EVT\_CLICK事件的时间间隔。
+  #
+  #为0则不重复触发EVT\_CLICK事件。
+  #
+  #
+  @property
+  def repeat(self):
+    return button_t_get_prop_repeat(self.nativeObj);
+
+  @repeat.setter
+  def repeat(self, v):
+   this.set_repeat(v);
+
+
+  #
+  # 是否启用长按事件，为true时才触发长按事件。
+  #
+  #触发长按事件后不再触发点击事件。
+  #缺省不启用。
+  #
+  #
+  @property
+  def enable_long_press(self):
+    return button_t_get_prop_enable_long_press(self.nativeObj);
+
+  @enable_long_press.setter
+  def enable_long_press(self, v):
+   this.set_enable_long_press(v);
+
+
+#
+# 色块控件。
+#
+#用来显示一个颜色块，它通过属性而不是主题来设置颜色，方便在运行时动态改变颜色。
+#
+#可以使用value属性访问背景颜色的颜色值。
+#
+#color\_tile\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于color\_tile\_t控件。
+#
+#在xml中使用"color_tile"标签创建色块控件。如：
+#
+#```xml
+#<color_tile x="c" y="m" w="80" h="30" bg_color="green" />
+#```
+#
+#> 更多用法请参考：
+#[color_tile](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/color_picker_rgb.xml)
+#
+#在c代码中使用函数color_tile\_create创建色块控件。如：
+#
+#> 创建之后，用color\_tile\_set\_bg\_color设置背景颜色。
+#
+#
+class TColorTile (TWidget):
+  def __init__(self, nativeObj):
+    super(TColorTile, self).__init__(nativeObj)
+
+
+  #
+  # 创建color_tile对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+    return  TColorTile(color_tile_create(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 转换为color_tile对象(供脚本语言使用)。
+  # 
+  # @param widget color_tile对象。
+  #
+  # @return color_tile对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TColorTile(color_tile_cast(awtk_get_native_obj(widget)));
+
+
+  #
+  # 设置背景颜色。
+  # 
+  # @param color 背景颜色。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_bg_color(self, color): 
+    return color_tile_set_bg_color(awtk_get_native_obj(self), color);
+
+
+  #
+  # 背景颜色。
+  #
+  #
+  @property
+  def bg_color(self):
+    return color_tile_t_get_prop_bg_color(self.nativeObj);
+
+  @bg_color.setter
+  def bg_color(self, v):
+   this.set_bg_color(v);
+
+
+  #
+  # 边框颜色。
+  #
+  #
+  @property
+  def border_color(self):
+    return color_tile_t_get_prop_border_color(self.nativeObj);
+
+
+#
+# 勾选按钮控件(单选/多选)。
+#
+#check\_button\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于check\_button\_t控件。
+#
+#在xml中使用"check_button"标签创建多选按钮控件。如：
+#
+#```xml
+#<check_button name="c1" text="Book"/>
+#```
+#
+#在xml中使用"radio_button"标签创建单选按钮控件。如：
+#
+#```xml
+#<radio_button name="r1" text="Book"/>
+#```
+#
+#> 更多用法请参考：
+#[button.xml](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/basic.xml)
+#
+#在c代码中使用函数check\_button\_create创建多选按钮控件。如：
+#
+#
+#在c代码中使用函数check\_button\_create\_radio创建单选按钮控件。如：
+#
+#
+#> 完整示例请参考：
+#[button demo](https://github.com/zlgopen/awtk-c-demos/blob/master/demos/check_button.c)
+#
+#可用通过style来设置控件的显示风格，如字体的大小和颜色等等。如：
+#
+#```xml
+#<style name="default" icon_at="left">
+#<normal  icon="unchecked" />
+#<pressed icon="unchecked" />
+#<over    icon="unchecked" text_color="green"/>
+#<normal_of_checked icon="checked" text_color="blue"/>
+#<pressed_of_checked icon="checked" text_color="blue"/>
+#<over_of_checked icon="checked" text_color="green"/>
+#</style>
+#```
+#
+#> 更多用法请参考：
+#[theme
+#default](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/styles/default.xml#L227)
+#
+#
+class TCheckButton (TWidget):
+  def __init__(self, nativeObj):
+    super(TCheckButton, self).__init__(nativeObj)
+
+
+  #
+  # 创建多选按钮对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return widget对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+    return  TCheckButton(check_button_create(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 创建单选按钮对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return widget对象。
+  #
+  @classmethod
+  def create_radio(cls, parent, x, y, w, h): 
+    return  TCheckButton(check_button_create_radio(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 设置控件的值。
+  # 
+  # @param value 值(勾选为TRUE，非勾选为FALSE)。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_value(self, value): 
+    return check_button_set_value(awtk_get_native_obj(self), value);
+
+
+  #
+  # 转换check_button对象(供脚本语言使用)。
+  # 
+  # @param widget check_button对象。
+  #
+  # @return check_button对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TCheckButton(check_button_cast(awtk_get_native_obj(widget)));
+
+
+  #
+  # 值(勾选为TRUE，非勾选为FALSE)。
+  #
+  #
+  @property
+  def value(self):
+    return check_button_t_get_prop_value(self.nativeObj);
+
+  @value.setter
+  def value(self, v):
+   this.set_value(v);
+
+
+#
+# 一个裁剪子控件的容器控件。
+#
+#它本身不提供布局功能，仅提供具有语义的标签，让xml更具有可读性。
+#子控件的布局可用layout\_children属性指定。
+#请参考[布局参数](https://github.com/zlgopen/awtk/blob/master/docs/layout.md)。
+#
+#clip\_view\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于clip\_view\_t控件。
+#
+#在xml中使用"clip_view"标签创建clip_view，在clip_view控件下的所有子控件都会被裁剪。如下button控件会被裁剪，无法画出clip_view控件 ：
+#
+#```xml
+#<clip_view x="0" y="0" w="100" h="100">
+#<button x="50" y="10" w="100" h="50" />
+#</clip_view>
+#```
+#
+#备注：在clip_view控件下的所有子控件都会被裁剪，如果子控件本身会设置裁剪区的话，在子控件中计算裁剪区的交集，具体请参考scroll_view控件的scroll_view_on_paint_children函数。
+#
+#可用通过style来设置控件的显示风格，如背景颜色等。如：
+#
+#```xml
+#<style name="default" border_color="#a0a0a0">
+#<normal     bg_color="#f0f0f0" />
+#</style>
+#```
+#
+#
+class TClipView (TWidget):
+  def __init__(self, nativeObj):
+    super(TClipView, self).__init__(nativeObj)
+
+
+  #
+  # 创建clip_view对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+    return  TClipView(clip_view_create(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 转换为clip_view对象(供脚本语言使用)。
+  # 
+  # @param widget clip_view对象。
+  #
+  # @return clip_view对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TClipView(clip_view_cast(awtk_get_native_obj(widget)));
+
+
+#
 # 电阻屏校准窗口。
 #
 #calibration\_win\_t是[window\_base\_t](window_base_t.md)的子类控件，
@@ -18496,784 +18542,6 @@ class TCalibrationWin (TWindowBase):
   @classmethod
   def cast(cls, widget): 
     return  TCalibrationWin(calibration_win_cast(awtk_get_native_obj(widget)));
-
-
-#
-# 原生窗口。
-#
-#
-class TNativeWindow (TObject):
-  def __init__(self, nativeObj):
-    super(TNativeWindow, self).__init__(nativeObj)
-
-
-  #
-  # 移动窗口。
-  # 
-  # @param x x坐标。
-  # @param y y坐标。
-  # @param force 无论是否shared都move。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def move(self, x, y, force): 
-    return native_window_move(awtk_get_native_obj(self), x, y, force);
-
-
-  #
-  # 调整窗口大小。
-  # 
-  # @param w 宽。
-  # @param h 高。
-  # @param force 无论是否shared都resize。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def resize(self, w, h, force): 
-    return native_window_resize(awtk_get_native_obj(self), w, h, force);
-
-
-  #
-  # 最小化窗口。
-  # 
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def minimize(self): 
-    return native_window_minimize(awtk_get_native_obj(self));
-
-
-  #
-  # 最大化窗口。
-  # 
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def maximize(self): 
-    return native_window_maximize(awtk_get_native_obj(self));
-
-
-  #
-  # 恢复窗口大小。
-  # 
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def restore(self): 
-    return native_window_restore(awtk_get_native_obj(self));
-
-
-  #
-  # 窗口居中。
-  # 
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def center(self): 
-    return native_window_center(awtk_get_native_obj(self));
-
-
-  #
-  # 是否显示边框。
-  # 
-  # @param show 是否显示。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def show_border(self, show): 
-    return native_window_show_border(awtk_get_native_obj(self), show);
-
-
-  #
-  # 是否全屏。
-  # 
-  # @param fullscreen 是否全屏。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_fullscreen(self, fullscreen): 
-    return native_window_set_fullscreen(awtk_get_native_obj(self), fullscreen);
-
-
-  #
-  # 设置鼠标光标。
-  # 
-  # @param name 鼠标光标的名称。
-  # @param img 鼠标光标的图片。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_cursor(self, name, img): 
-    return native_window_set_cursor(awtk_get_native_obj(self), name, awtk_get_native_obj(img));
-
-
-#
-# 单个定时器的信息。
-#
-#
-class TTimerInfo (TObject):
-  def __init__(self, nativeObj):
-    super(TTimerInfo, self).__init__(nativeObj)
-
-
-  #
-  # 转换为timer_info对象(供脚本语言使用)。
-  # 
-  # @param timer timer_info对象。
-  #
-  # @return timer_info对象。
-  #
-  @classmethod
-  def cast(cls, timer): 
-    return  TTimerInfo(timer_info_cast(awtk_get_native_obj(timer)));
-
-
-  #
-  # 定时器回调函数的上下文
-  #
-  #
-  @property
-  def ctx(self):
-    return timer_info_t_get_prop_ctx(self.nativeObj);
-
-
-  #
-  # 定时器的ID
-  #
-  #> 为TK\_INVALID\_ID时表示无效定时器。
-  #
-  #
-  @property
-  def id(self):
-    return timer_info_t_get_prop_id(self.nativeObj);
-
-
-  #
-  # 当前时间(相对时间，单位为毫秒)。
-  #
-  #
-  @property
-  def now(self):
-    return timer_info_t_get_prop_now(self.nativeObj);
-
-
-#
-# GIF图片控件。
-#
-#> 注意：GIF图片的尺寸大于控件大小时会自动缩小图片，但一般的嵌入式系统的硬件加速都不支持图片缩放，
-#所以缩放图片会导致性能明显下降。如果性能不满意时，请确认一下GIF图片的尺寸是否小余控件大小。
-#
-#gif\_image\_t是[image\_base\_t](image_base_t.md)的子类控件，image\_base\_t的函数均适用于gif\_image\_t控件。
-#
-#在xml中使用"gif"标签创建GIF图片控件。如：
-#
-#```xml
-#<gif image="bee"/>
-#```
-#
-#>更多用法请参考：
-#[gif
-#image](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/gif_image.xml)
-#
-#在c代码中使用函数gif\_image\_create创建GIF图片控件。如：
-#
-#
-#> 创建之后:
-#>
-#> 需要用widget\_set\_image设置图片名称。
-#
-#> 完整示例请参考：[gif image demo](
-#https://github.com/zlgopen/awtk-c-demos/blob/master/demos/gif_image.c)
-#
-#可用通过style来设置控件的显示风格，如背景和边框等。如：
-#
-#```xml
-#<gif>
-#<style name="border">
-#<normal border_color="#000000" bg_color="#e0e0e0" text_color="black"/>
-#</style>
-#</gif>
-#```
-#
-#> 更多用法请参考：[theme default](
-#https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/styles/default.xml)
-#
-#
-class TGifImage (TImageBase):
-  def __init__(self, nativeObj):
-    super(TGifImage, self).__init__(nativeObj)
-
-
-  #
-  # 创建gif_image对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TGifImage(gif_image_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 转换为gif_image对象(供脚本语言使用)。
-  # 
-  # @param widget gif_image对象。
-  #
-  # @return gif_image对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TGifImage(gif_image_cast(awtk_get_native_obj(widget)));
-
-
-#
-# 软键盘。
-#
-#软键盘是一个特殊的窗口，由编辑器通过输入法自动打开和关闭。
-#
-#这里介绍一下定制软键盘的方法：
-#
-#编辑器输入类型和软键盘UI资源文件的对应关系:
-#
-#| 输入类型       | 软键盘UI资源文件|
-#|----------------|:---------------:|
-#| INPUT\_PHONE    | kb\_phone.xml    |
-#| INPUT\_INT      | kb\_int.xml      |
-#| INPUT\_FLOAT    | kb\_float.xml    |
-#| INPUT\_UINT     | kb\_uint.xml     |
-#| INPUT\_UFLOAT   | kb\_ufloat.xml   |
-#| INPUT\_HEX      | kb\_hex.xml      |
-#| INPUT\_EMAIL    | kb\_ascii.xml    |
-#| INPUT\_PASSWORD | kb\_ascii.xml    |
-#| INPUT\_CUSTOM   | 使用自定义的键盘 |
-#| 其它            | kb\_default.xml  |
-#
-#keyboard中按钮子控件的名称有些特殊要求：
-#
-#|  名称          | 功能            |
-#|----------------|:---------------:|
-#| return         | 回车键          |
-#| action         | 定制按钮        |
-#| backspace      | 删除键          |
-#| tab            | tab键           |
-#| space          | 空格键          |
-#| close          | 关闭软键盘      |
-#| 前缀key:        | 键值           |
-#| 前缀hard_key:   | 模拟物理键盘    |
-#| 前缀page:       | 切换到页面      |
-#| 前缀opt:        | 多个字符选择一个，点击切换到下一个，超时提交字符(用于实现九宫格输入) |
-#
-#示例：
-#
-#* 按键"a"，提交输入法处理。
-#
-#```xml
-#<button repeat="300" name="key:a" text="a"/>
-#```
-#
-#* 字符"a"，直接提交到编辑器。
-#
-#```xml
-#<button repeat="300" name="a" text="a"/>
-#```
-#
-#* 模拟物理键盘数字"1"，触发key down/up事件（可以用来选择候选字）。
-#
-#```xml
-#<button repeat="300" name="hard_key:1" text="1"/>
-#```
-#
-#* 九宫格输入
-#
-#```xml
-#<button repeat="300" name="opt:._@/#" text="._@/#"/>
-#<button repeat="300" name="opt:abc" text="abc"/>
-#<button repeat="300" name="opt:def" text="def"/>
-#```
-#
-#
-#* 输入语言切换
-#
-#有的输入法，同时支持输入多种语言。
-#比如T9，可以同时支持中文和英文输入，配合软键盘随时切换输入的语言。
-#
-#可以在pages的页面里指定lang属性，切换到该页面时会设置输入法的语言。如：
-#
-#```xml
-#<pages x="0" y="bottom" w="100%" h="-28" active="2">
-#<view name="lower" lang="en_us"
-#x="0" y="0" w="100%" h="100%" children_layout="default(r=4,c=4,s=2,m=2)">
-#...
-#</view>
-#<view name="chinese" lang="zh_cn"
-#x="0" y="0" w="100%" h="100%" children_layout="default(r=4,c=4,s=2,m=2)">
-#...
-#</view>
-#</pages>
-#```
-#
-#> 更多用法请参考：
-#[kb_default](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/kb_default.xml)
-#
-#
-class TKeyboard (TWindowBase):
-  def __init__(self, nativeObj):
-    super(TKeyboard, self).__init__(nativeObj)
-
-
-  #
-  # 创建keyboard对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TKeyboard(keyboard_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 转换为keyboard对象(供脚本语言使用)。
-  # 
-  # @param widget keyboard对象。
-  #
-  # @return keyboard对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TKeyboard(keyboard_cast(awtk_get_native_obj(widget)));
-
-
-#
-# mutable图片控件。
-#
-#像摄像头和视频的图像是变化的，每一帧都不同，我们把这类图片称为mutable image。
-#
-#本控件辅助实现摄像头和视频的显示功能。
-#
-#mutable\_image\_t是[image\_base\_t](image_base_t.md)的子类控件，image\_base\_t的函数均适用于mutable\_image\_t控件。
-#
-#在xml中使用"mutable\_image"标签创建mutable图片控件。如：
-#
-#```xml
-#<mutable_image w="100%" h="100%"/>
-#```
-#
-#>更多用法请参考：
-#[mutable
-#image](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/mutable_image.xml)
-#
-#在c代码中使用函数mutable\_image\_create创建mutable图片控件。如：
-#
-#
-#> 创建之后:
-#>
-#> 需要用mutable\_image\_set\_create\_image设置创建图片的回调函数。
-#> 需要用mutable\_image\_set\_prepare\_image设置准备图片的回调函数。
-#
-#> 完整示例请参考：[mutable image demo](
-#https://github.com/zlgopen/awtk-c-demos/blob/master/demos/mutable_image.c)
-#
-#一般不需通过style来设置控件的显示风格，如果在特殊情况下需要，可以参考其它控件。
-#
-#
-class TMutableImage (TImageBase):
-  def __init__(self, nativeObj):
-    super(TMutableImage, self).__init__(nativeObj)
-
-
-#
-# 对象接口的缺省实现。
-#
-#内部使用有序数组保存所有属性，可以快速查找指定名称的属性。
-#
-#
-class TObjectDefault (TObject):
-  def __init__(self, nativeObj):
-    super(TObjectDefault, self).__init__(nativeObj)
-
-
-  #
-  # 创建对象。
-  # 
-  #
-  # @return 返回object对象。
-  #
-  @classmethod
-  def create(cls): 
-    return  TObjectDefault(object_default_create());
-
-
-  #
-  # for script gc
-  # 
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def unref(self): 
-    return object_default_unref(awtk_get_native_obj(self));
-
-
-  #
-  # 清除全部属性。
-  # 
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def clear_props(self): 
-    return object_default_clear_props(awtk_get_native_obj(self));
-
-
-  #
-  # 属性个数。
-  #
-  #
-  @property
-  def props_size(self):
-    return object_default_t_get_prop_props_size(self.nativeObj);
-
-
-#
-# 简单的动态数组，内部存放value对象。
-#
-#访问时属性名称为：
-#
-#* "size"/"length" 用于获取数组的长度。
-#* index 用于访问属性，-1可以用来追加新元素。
-#
-#
-class TObjectArray (TObject):
-  def __init__(self, nativeObj):
-    super(TObjectArray, self).__init__(nativeObj)
-
-
-  #
-  # 创建对象。
-  # 
-  #
-  # @return 返回object对象。
-  #
-  @classmethod
-  def create(cls): 
-    return  TObjectArray(object_array_create());
-
-
-  #
-  # for script gc
-  # 
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def unref(self): 
-    return object_array_unref(awtk_get_native_obj(self));
-
-
-  #
-  # 清除全部属性。
-  # 
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def clear_props(self): 
-    return object_array_clear_props(awtk_get_native_obj(self));
-
-
-  #
-  # 属性个数。
-  #
-  #
-  @property
-  def props_size(self):
-    return object_array_t_get_prop_props_size(self.nativeObj);
-
-
-#
-# 窗口。
-#
-#缺省的应用程序窗口，占用除system\_bar\_t之外的整个区域，请不要修改它的位置和大小(除非你清楚后果)。
-#
-#window\_t是[window\_base\_t](window_base_t.md)的子类控件，window\_base\_t的函数均适用于window\_t控件。
-#
-#在xml中使用"window"标签创建窗口。无需指定坐标和大小，可以指定主题和动画名称。如：
-#
-#```xml
-#<window theme="basic" anim_hint="htranslate">
-#...
-#</window>
-#```
-#
-#>
-#更多用法请参考：[window.xml](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/)
-#
-#在c代码中使用函数window\_create创建窗口。如：
-#
-#
-#> 无需指定父控件、坐标和大小，使用0即可。
-#
-#> 完整示例请参考：[window
-#demo](https://github.com/zlgopen/awtk-c-demos/blob/master/demos/)
-#
-#可用通过style来设置窗口的风格，如背景颜色或图片等。如：
-#
-#```xml
-#<style name="bricks">
-#<normal bg_image="bricks"  bg_image_draw_type="repeat"/>
-#</style>
-#```
-#
-#> 更多用法请参考：[theme
-#default](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/styles/default.xml#L0)
-#
-#
-class TWindow (TWindowBase):
-  def __init__(self, nativeObj):
-    super(TWindow, self).__init__(nativeObj)
-
-
-  #
-  # 创建window对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TWindow(window_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 以缺省的方式创建window对象。
-  # 
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def create_default(cls): 
-    return  TWindow(window_create_default());
-
-
-  #
-  # 设置为全屏窗口。
-  #
-  #>这里全屏是指与LCD相同大小，而非让SDL窗口全屏。
-  # 
-  # @param fullscreen 是否全屏。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_fullscreen(self, fullscreen): 
-    return window_set_fullscreen(awtk_get_native_obj(self), fullscreen);
-
-
-  #
-  # 从资源文件中加载并创建window_base对象。本函数在ui_loader/ui_builder_default里实现。
-  # 
-  # @param name window的名称。
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def open(cls, name): 
-    return  TWindow(window_open(name));
-
-
-  #
-  # 从资源文件中加载并创建window对象。本函数在ui_loader/ui_builder_default里实现。
-  # 
-  # @param name window的名称。
-  # @param to_close 关闭该窗口。
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def open_and_close(cls, name, to_close): 
-    return  TWindow(window_open_and_close(name, awtk_get_native_obj(to_close)));
-
-
-  #
-  # 关闭窗口。
-  # 
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def close(self): 
-    return window_close(awtk_get_native_obj(self));
-
-
-  #
-  # 立即无条件关闭窗口(无动画)。
-  # 
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def close_force(self): 
-    return window_close_force(awtk_get_native_obj(self));
-
-
-  #
-  # 转换为window对象(供脚本语言使用)。
-  # 
-  # @param widget window对象。
-  #
-  # @return window对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TWindow(window_cast(awtk_get_native_obj(widget)));
-
-
-  #
-  # 是否全屏。
-  #
-  #>这里全屏是指与LCD相同大小，而非让SDL窗口全屏。
-  #
-  #
-  @property
-  def fullscreen(self):
-    return window_t_get_prop_fullscreen(self.nativeObj);
-
-  @fullscreen.setter
-  def fullscreen(self, v):
-   this.set_fullscreen(v);
-
-
-#
-# 单个idle的信息。
-#
-#
-class TIdleInfo (TObject):
-  def __init__(self, nativeObj):
-    super(TIdleInfo, self).__init__(nativeObj)
-
-
-  #
-  # 转换为idle_info对象(供脚本语言使用)。
-  # 
-  # @param idle idle_info对象。
-  #
-  # @return idle_info对象。
-  #
-  @classmethod
-  def cast(cls, idle): 
-    return  TIdleInfo(idle_info_cast(awtk_get_native_obj(idle)));
-
-
-  #
-  # idle回调函数上下文。
-  #
-  #
-  @property
-  def ctx(self):
-    return idle_info_t_get_prop_ctx(self.nativeObj);
-
-
-  #
-  # idle的ID
-  #
-  #> 为TK\_INVALID\_ID时表示无效idle。
-  #
-  #
-  @property
-  def id(self):
-    return idle_info_t_get_prop_id(self.nativeObj);
-
-
-#
-# SVG图片控件。
-#
-#svg\_image\_t是[image\_base\_t](image_base_t.md)的子类控件，image\_base\_t的函数均适用于svg\_image\_t控件。
-#
-#在xml中使用"svg"标签创建SVG图片控件。如：
-#
-#```xml
-#<svg image="girl"/>
-#```
-#
-#>更多用法请参考：[svg image](
-#https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/svg_image.xml)
-#
-#在c代码中使用函数svg\_image\_create创建SVG图片控件。如：
-#
-#
-#> 创建之后: 需要用widget\_set\_image设置图片名称。
-#
-#> 完整示例请参考：[svg image demo](
-#https://github.com/zlgopen/awtk-c-demos/blob/master/demos/svg_image.c)
-#
-#可用通过style来设置控件的显示风格，如背景和边框等。如：
-#
-#```xml
-#<svg>
-#<style name="default">
-#<normal border_color="green" fg_color="red" />
-#</style>
-#</svg>
-#```
-#
-#> 更多用法请参考：[theme default](
-#https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/styles/default.xml)
-#
-#
-class TSvgImage (TImageBase):
-  def __init__(self, nativeObj):
-    super(TSvgImage, self).__init__(nativeObj)
-
-
-  #
-  # 创建svg_image对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TSvgImage(svg_image_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 设置控件的图片名称。
-  #
-  #> 如果需要显示文件系统中的图片，只需将图片名称换成实际的文件名，并加上"file://"前缀即可。
-  # 
-  # @param name 图片名称，该图片必须存在于资源管理器。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_image(self, name): 
-    return svg_image_set_image(awtk_get_native_obj(self), name);
-
-
-  #
-  # 转换为svg_image对象(供脚本语言使用)。
-  # 
-  # @param widget svg_image对象。
-  #
-  # @return svg_image对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TSvgImage(svg_image_cast(awtk_get_native_obj(widget)));
 
 
 #
@@ -19612,6 +18880,409 @@ class TComboBox (TEdit):
 
 
 #
+# 窗口。
+#
+#缺省的应用程序窗口，占用除system\_bar\_t之外的整个区域，请不要修改它的位置和大小(除非你清楚后果)。
+#
+#window\_t是[window\_base\_t](window_base_t.md)的子类控件，window\_base\_t的函数均适用于window\_t控件。
+#
+#在xml中使用"window"标签创建窗口。无需指定坐标和大小，可以指定主题和动画名称。如：
+#
+#```xml
+#<window theme="basic" anim_hint="htranslate">
+#...
+#</window>
+#```
+#
+#>
+#更多用法请参考：[window.xml](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/)
+#
+#在c代码中使用函数window\_create创建窗口。如：
+#
+#
+#> 无需指定父控件、坐标和大小，使用0即可。
+#
+#> 完整示例请参考：[window
+#demo](https://github.com/zlgopen/awtk-c-demos/blob/master/demos/)
+#
+#可用通过style来设置窗口的风格，如背景颜色或图片等。如：
+#
+#```xml
+#<style name="bricks">
+#<normal bg_image="bricks"  bg_image_draw_type="repeat"/>
+#</style>
+#```
+#
+#> 更多用法请参考：[theme
+#default](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/styles/default.xml#L0)
+#
+#
+class TWindow (TWindowBase):
+  def __init__(self, nativeObj):
+    super(TWindow, self).__init__(nativeObj)
+
+
+  #
+  # 创建window对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+    return  TWindow(window_create(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 以缺省的方式创建window对象。
+  # 
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def create_default(cls): 
+    return  TWindow(window_create_default());
+
+
+  #
+  # 设置为全屏窗口。
+  #
+  #>这里全屏是指与LCD相同大小，而非让SDL窗口全屏。
+  # 
+  # @param fullscreen 是否全屏。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_fullscreen(self, fullscreen): 
+    return window_set_fullscreen(awtk_get_native_obj(self), fullscreen);
+
+
+  #
+  # 从资源文件中加载并创建window_base对象。本函数在ui_loader/ui_builder_default里实现。
+  # 
+  # @param name window的名称。
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def open(cls, name): 
+    return  TWindow(window_open(name));
+
+
+  #
+  # 从资源文件中加载并创建window对象。本函数在ui_loader/ui_builder_default里实现。
+  # 
+  # @param name window的名称。
+  # @param to_close 关闭该窗口。
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def open_and_close(cls, name, to_close): 
+    return  TWindow(window_open_and_close(name, awtk_get_native_obj(to_close)));
+
+
+  #
+  # 关闭窗口。
+  # 
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def close(self): 
+    return window_close(awtk_get_native_obj(self));
+
+
+  #
+  # 立即无条件关闭窗口(无动画)。
+  # 
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def close_force(self): 
+    return window_close_force(awtk_get_native_obj(self));
+
+
+  #
+  # 转换为window对象(供脚本语言使用)。
+  # 
+  # @param widget window对象。
+  #
+  # @return window对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TWindow(window_cast(awtk_get_native_obj(widget)));
+
+
+  #
+  # 是否全屏。
+  #
+  #>这里全屏是指与LCD相同大小，而非让SDL窗口全屏。
+  #
+  #
+  @property
+  def fullscreen(self):
+    return window_t_get_prop_fullscreen(self.nativeObj);
+
+  @fullscreen.setter
+  def fullscreen(self, v):
+   this.set_fullscreen(v);
+
+
+#
+# 单个定时器的信息。
+#
+#
+class TTimerInfo (TObject):
+  def __init__(self, nativeObj):
+    super(TTimerInfo, self).__init__(nativeObj)
+
+
+  #
+  # 转换为timer_info对象(供脚本语言使用)。
+  # 
+  # @param timer timer_info对象。
+  #
+  # @return timer_info对象。
+  #
+  @classmethod
+  def cast(cls, timer): 
+    return  TTimerInfo(timer_info_cast(awtk_get_native_obj(timer)));
+
+
+  #
+  # 定时器回调函数的上下文
+  #
+  #
+  @property
+  def ctx(self):
+    return timer_info_t_get_prop_ctx(self.nativeObj);
+
+
+  #
+  # 定时器的ID
+  #
+  #> 为TK\_INVALID\_ID时表示无效定时器。
+  #
+  #
+  @property
+  def id(self):
+    return timer_info_t_get_prop_id(self.nativeObj);
+
+
+  #
+  # 当前时间(相对时间，单位为毫秒)。
+  #
+  #
+  @property
+  def now(self):
+    return timer_info_t_get_prop_now(self.nativeObj);
+
+
+#
+# GIF图片控件。
+#
+#> 注意：GIF图片的尺寸大于控件大小时会自动缩小图片，但一般的嵌入式系统的硬件加速都不支持图片缩放，
+#所以缩放图片会导致性能明显下降。如果性能不满意时，请确认一下GIF图片的尺寸是否小余控件大小。
+#
+#gif\_image\_t是[image\_base\_t](image_base_t.md)的子类控件，image\_base\_t的函数均适用于gif\_image\_t控件。
+#
+#在xml中使用"gif"标签创建GIF图片控件。如：
+#
+#```xml
+#<gif image="bee"/>
+#```
+#
+#>更多用法请参考：
+#[gif
+#image](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/gif_image.xml)
+#
+#在c代码中使用函数gif\_image\_create创建GIF图片控件。如：
+#
+#
+#> 创建之后:
+#>
+#> 需要用widget\_set\_image设置图片名称。
+#
+#> 完整示例请参考：[gif image demo](
+#https://github.com/zlgopen/awtk-c-demos/blob/master/demos/gif_image.c)
+#
+#可用通过style来设置控件的显示风格，如背景和边框等。如：
+#
+#```xml
+#<gif>
+#<style name="border">
+#<normal border_color="#000000" bg_color="#e0e0e0" text_color="black"/>
+#</style>
+#</gif>
+#```
+#
+#> 更多用法请参考：[theme default](
+#https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/styles/default.xml)
+#
+#
+class TGifImage (TImageBase):
+  def __init__(self, nativeObj):
+    super(TGifImage, self).__init__(nativeObj)
+
+
+  #
+  # 创建gif_image对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+    return  TGifImage(gif_image_create(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 转换为gif_image对象(供脚本语言使用)。
+  # 
+  # @param widget gif_image对象。
+  #
+  # @return gif_image对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TGifImage(gif_image_cast(awtk_get_native_obj(widget)));
+
+
+#
+# 软键盘。
+#
+#软键盘是一个特殊的窗口，由编辑器通过输入法自动打开和关闭。
+#
+#这里介绍一下定制软键盘的方法：
+#
+#编辑器输入类型和软键盘UI资源文件的对应关系:
+#
+#| 输入类型       | 软键盘UI资源文件|
+#|----------------|:---------------:|
+#| INPUT\_PHONE    | kb\_phone.xml    |
+#| INPUT\_INT      | kb\_int.xml      |
+#| INPUT\_FLOAT    | kb\_float.xml    |
+#| INPUT\_UINT     | kb\_uint.xml     |
+#| INPUT\_UFLOAT   | kb\_ufloat.xml   |
+#| INPUT\_HEX      | kb\_hex.xml      |
+#| INPUT\_EMAIL    | kb\_ascii.xml    |
+#| INPUT\_PASSWORD | kb\_ascii.xml    |
+#| INPUT\_CUSTOM   | 使用自定义的键盘 |
+#| 其它            | kb\_default.xml  |
+#
+#keyboard中按钮子控件的名称有些特殊要求：
+#
+#|  名称          | 功能            |
+#|----------------|:---------------:|
+#| return         | 回车键          |
+#| action         | 定制按钮        |
+#| backspace      | 删除键          |
+#| tab            | tab键           |
+#| space          | 空格键          |
+#| close          | 关闭软键盘      |
+#| 前缀key:        | 键值           |
+#| 前缀hard_key:   | 模拟物理键盘    |
+#| 前缀page:       | 切换到页面      |
+#| 前缀opt:        | 多个字符选择一个，点击切换到下一个，超时提交字符(用于实现九宫格输入) |
+#
+#示例：
+#
+#* 按键"a"，提交输入法处理。
+#
+#```xml
+#<button repeat="300" name="key:a" text="a"/>
+#```
+#
+#* 字符"a"，直接提交到编辑器。
+#
+#```xml
+#<button repeat="300" name="a" text="a"/>
+#```
+#
+#* 模拟物理键盘数字"1"，触发key down/up事件（可以用来选择候选字）。
+#
+#```xml
+#<button repeat="300" name="hard_key:1" text="1"/>
+#```
+#
+#* 九宫格输入
+#
+#```xml
+#<button repeat="300" name="opt:._@/#" text="._@/#"/>
+#<button repeat="300" name="opt:abc" text="abc"/>
+#<button repeat="300" name="opt:def" text="def"/>
+#```
+#
+#
+#* 输入语言切换
+#
+#有的输入法，同时支持输入多种语言。
+#比如T9，可以同时支持中文和英文输入，配合软键盘随时切换输入的语言。
+#
+#可以在pages的页面里指定lang属性，切换到该页面时会设置输入法的语言。如：
+#
+#```xml
+#<pages x="0" y="bottom" w="100%" h="-28" active="2">
+#<view name="lower" lang="en_us"
+#x="0" y="0" w="100%" h="100%" children_layout="default(r=4,c=4,s=2,m=2)">
+#...
+#</view>
+#<view name="chinese" lang="zh_cn"
+#x="0" y="0" w="100%" h="100%" children_layout="default(r=4,c=4,s=2,m=2)">
+#...
+#</view>
+#</pages>
+#```
+#
+#> 更多用法请参考：
+#[kb_default](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/kb_default.xml)
+#
+#
+class TKeyboard (TWindowBase):
+  def __init__(self, nativeObj):
+    super(TKeyboard, self).__init__(nativeObj)
+
+
+  #
+  # 创建keyboard对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+    return  TKeyboard(keyboard_create(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 转换为keyboard对象(供脚本语言使用)。
+  # 
+  # @param widget keyboard对象。
+  #
+  # @return keyboard对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TKeyboard(keyboard_cast(awtk_get_native_obj(widget)));
+
+
+#
 # 图片控件。
 #
 #用来显示一张静态图片，目前支持bmp/png/jpg等格式。
@@ -19725,6 +19396,44 @@ class TImage (TImageBase):
 
 
 #
+# mutable图片控件。
+#
+#像摄像头和视频的图像是变化的，每一帧都不同，我们把这类图片称为mutable image。
+#
+#本控件辅助实现摄像头和视频的显示功能。
+#
+#mutable\_image\_t是[image\_base\_t](image_base_t.md)的子类控件，image\_base\_t的函数均适用于mutable\_image\_t控件。
+#
+#在xml中使用"mutable\_image"标签创建mutable图片控件。如：
+#
+#```xml
+#<mutable_image w="100%" h="100%"/>
+#```
+#
+#>更多用法请参考：
+#[mutable
+#image](https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/mutable_image.xml)
+#
+#在c代码中使用函数mutable\_image\_create创建mutable图片控件。如：
+#
+#
+#> 创建之后:
+#>
+#> 需要用mutable\_image\_set\_create\_image设置创建图片的回调函数。
+#> 需要用mutable\_image\_set\_prepare\_image设置准备图片的回调函数。
+#
+#> 完整示例请参考：[mutable image demo](
+#https://github.com/zlgopen/awtk-c-demos/blob/master/demos/mutable_image.c)
+#
+#一般不需通过style来设置控件的显示风格，如果在特殊情况下需要，可以参考其它控件。
+#
+#
+class TMutableImage (TImageBase):
+  def __init__(self, nativeObj):
+    super(TMutableImage, self).__init__(nativeObj)
+
+
+#
 # overlay窗口。
 #
 #overlay窗口有点类似于非模态的dialog，但是它位置和大小是完全自由的，窗口管理器不会对它做任何限制。
@@ -19793,6 +19502,115 @@ class TOverlay (TWindowBase):
   @classmethod
   def cast(cls, widget): 
     return  TOverlay(overlay_cast(awtk_get_native_obj(widget)));
+
+
+#
+# 原生窗口。
+#
+#
+class TNativeWindow (TObject):
+  def __init__(self, nativeObj):
+    super(TNativeWindow, self).__init__(nativeObj)
+
+
+  #
+  # 移动窗口。
+  # 
+  # @param x x坐标。
+  # @param y y坐标。
+  # @param force 无论是否shared都move。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def move(self, x, y, force): 
+    return native_window_move(awtk_get_native_obj(self), x, y, force);
+
+
+  #
+  # 调整窗口大小。
+  # 
+  # @param w 宽。
+  # @param h 高。
+  # @param force 无论是否shared都resize。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def resize(self, w, h, force): 
+    return native_window_resize(awtk_get_native_obj(self), w, h, force);
+
+
+  #
+  # 最小化窗口。
+  # 
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def minimize(self): 
+    return native_window_minimize(awtk_get_native_obj(self));
+
+
+  #
+  # 最大化窗口。
+  # 
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def maximize(self): 
+    return native_window_maximize(awtk_get_native_obj(self));
+
+
+  #
+  # 恢复窗口大小。
+  # 
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def restore(self): 
+    return native_window_restore(awtk_get_native_obj(self));
+
+
+  #
+  # 窗口居中。
+  # 
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def center(self): 
+    return native_window_center(awtk_get_native_obj(self));
+
+
+  #
+  # 是否显示边框。
+  # 
+  # @param show 是否显示。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def show_border(self, show): 
+    return native_window_show_border(awtk_get_native_obj(self), show);
+
+
+  #
+  # 是否全屏。
+  # 
+  # @param fullscreen 是否全屏。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_fullscreen(self, fullscreen): 
+    return native_window_set_fullscreen(awtk_get_native_obj(self), fullscreen);
+
+
+  #
+  # 设置鼠标光标。
+  # 
+  # @param name 鼠标光标的名称。
+  # @param img 鼠标光标的图片。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_cursor(self, name, img): 
+    return native_window_set_cursor(awtk_get_native_obj(self), name, awtk_get_native_obj(img));
 
 
 #
@@ -19919,6 +19737,57 @@ class TPopup (TWindowBase):
   @close_when_click_outside.setter
   def close_when_click_outside(self, v):
    this.set_close_when_click_outside(v);
+
+
+#
+# 对象接口的缺省实现。
+#
+#内部使用有序数组保存所有属性，可以快速查找指定名称的属性。
+#
+#
+class TObjectDefault (TObject):
+  def __init__(self, nativeObj):
+    super(TObjectDefault, self).__init__(nativeObj)
+
+
+  #
+  # 创建对象。
+  # 
+  #
+  # @return 返回object对象。
+  #
+  @classmethod
+  def create(cls): 
+    return  TObjectDefault(object_default_create());
+
+
+  #
+  # for script gc
+  # 
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def unref(self): 
+    return object_default_unref(awtk_get_native_obj(self));
+
+
+  #
+  # 清除全部属性。
+  # 
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def clear_props(self): 
+    return object_default_clear_props(awtk_get_native_obj(self));
+
+
+  #
+  # 属性个数。
+  #
+  #
+  @property
+  def props_size(self):
+    return object_default_t_get_prop_props_size(self.nativeObj);
 
 
 #
@@ -20081,6 +19950,183 @@ class TSystemBar (TWindowBase):
   @classmethod
   def cast(cls, widget): 
     return  TSystemBar(system_bar_cast(awtk_get_native_obj(widget)));
+
+
+#
+# 简单的动态数组，内部存放value对象。
+#
+#访问时属性名称为：
+#
+#* "size"/"length" 用于获取数组的长度。
+#* index 用于访问属性，-1可以用来追加新元素。
+#
+#
+class TObjectArray (TObject):
+  def __init__(self, nativeObj):
+    super(TObjectArray, self).__init__(nativeObj)
+
+
+  #
+  # 创建对象。
+  # 
+  #
+  # @return 返回object对象。
+  #
+  @classmethod
+  def create(cls): 
+    return  TObjectArray(object_array_create());
+
+
+  #
+  # for script gc
+  # 
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def unref(self): 
+    return object_array_unref(awtk_get_native_obj(self));
+
+
+  #
+  # 清除全部属性。
+  # 
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def clear_props(self): 
+    return object_array_clear_props(awtk_get_native_obj(self));
+
+
+  #
+  # 属性个数。
+  #
+  #
+  @property
+  def props_size(self):
+    return object_array_t_get_prop_props_size(self.nativeObj);
+
+
+#
+# SVG图片控件。
+#
+#svg\_image\_t是[image\_base\_t](image_base_t.md)的子类控件，image\_base\_t的函数均适用于svg\_image\_t控件。
+#
+#在xml中使用"svg"标签创建SVG图片控件。如：
+#
+#```xml
+#<svg image="girl"/>
+#```
+#
+#>更多用法请参考：[svg image](
+#https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/svg_image.xml)
+#
+#在c代码中使用函数svg\_image\_create创建SVG图片控件。如：
+#
+#
+#> 创建之后: 需要用widget\_set\_image设置图片名称。
+#
+#> 完整示例请参考：[svg image demo](
+#https://github.com/zlgopen/awtk-c-demos/blob/master/demos/svg_image.c)
+#
+#可用通过style来设置控件的显示风格，如背景和边框等。如：
+#
+#```xml
+#<svg>
+#<style name="default">
+#<normal border_color="green" fg_color="red" />
+#</style>
+#</svg>
+#```
+#
+#> 更多用法请参考：[theme default](
+#https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/styles/default.xml)
+#
+#
+class TSvgImage (TImageBase):
+  def __init__(self, nativeObj):
+    super(TSvgImage, self).__init__(nativeObj)
+
+
+  #
+  # 创建svg_image对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+    return  TSvgImage(svg_image_create(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 设置控件的图片名称。
+  #
+  #> 如果需要显示文件系统中的图片，只需将图片名称换成实际的文件名，并加上"file://"前缀即可。
+  # 
+  # @param name 图片名称，该图片必须存在于资源管理器。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_image(self, name): 
+    return svg_image_set_image(awtk_get_native_obj(self), name);
+
+
+  #
+  # 转换为svg_image对象(供脚本语言使用)。
+  # 
+  # @param widget svg_image对象。
+  #
+  # @return svg_image对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TSvgImage(svg_image_cast(awtk_get_native_obj(widget)));
+
+
+#
+# 单个idle的信息。
+#
+#
+class TIdleInfo (TObject):
+  def __init__(self, nativeObj):
+    super(TIdleInfo, self).__init__(nativeObj)
+
+
+  #
+  # 转换为idle_info对象(供脚本语言使用)。
+  # 
+  # @param idle idle_info对象。
+  #
+  # @return idle_info对象。
+  #
+  @classmethod
+  def cast(cls, idle): 
+    return  TIdleInfo(idle_info_cast(awtk_get_native_obj(idle)));
+
+
+  #
+  # idle回调函数上下文。
+  #
+  #
+  @property
+  def ctx(self):
+    return idle_info_t_get_prop_ctx(self.nativeObj);
+
+
+  #
+  # idle的ID
+  #
+  #> 为TK\_INVALID\_ID时表示无效idle。
+  #
+  #
+  @property
+  def id(self):
+    return idle_info_t_get_prop_id(self.nativeObj);
 
 
 #
