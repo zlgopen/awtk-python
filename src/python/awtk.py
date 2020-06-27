@@ -1861,6 +1861,24 @@ class TEventType:
   PROP_CHANGED = EVT_PROP_CHANGED();
 
   #
+  # 对象即将执行命令(cmd_exec_event_t)。
+  #
+  #
+  CMD_WILL_EXEC = EVT_CMD_WILL_EXEC();
+
+  #
+  # 对象完成执行命令(cmd_exec_event_t)。
+  #
+  #
+  CMD_EXECED = EVT_CMD_EXECED();
+
+  #
+  # 对象命令是否能执行指定的命令(cmd_exec_event_t)。
+  #
+  #
+  CMD_CAN_EXEC = EVT_CMD_CAN_EXEC();
+
+  #
   # 即将增加和删除集合中的项目(event_t)。
   #
   #
@@ -2047,67 +2065,91 @@ class TImageManager(object):
 class TInputType: 
 
   #
-  # 文本。
+  # 文本。字符串属性值：text
   #
   #
   TEXT = INPUT_TEXT();
 
   #
-  # 整数。
+  # 整数。字符串属性值：int
   #
   #
   INT = INPUT_INT();
 
   #
-  # 非负整数。
+  # 非负整数。字符串属性值：uint
   #
   #
   UINT = INPUT_UINT();
 
   #
-  # 16进制整数。
+  # 16进制整数。字符串属性值：hex
   #
   #
   HEX = INPUT_HEX();
 
   #
-  # 浮点数。
+  # 浮点数。字符串属性值：float
   #
   #
   FLOAT = INPUT_FLOAT();
 
   #
-  # 非负浮点数。
+  # 非负浮点数。字符串属性值：ufloat
   #
   #
   UFLOAT = INPUT_UFLOAT();
 
   #
-  # 邮件地址。
+  # 邮件地址。字符串属性值：email
   #
   #
   EMAIL = INPUT_EMAIL();
 
   #
-  # 密码。
+  # 密码。字符串属性值：password
   #
   #
   PASSWORD = INPUT_PASSWORD();
 
   #
-  # 电话号码。
+  # 电话号码。字符串属性值：phone
   #
   #
   PHONE = INPUT_PHONE();
 
   #
-  # 使用自定义的软键盘(如计算器等应用不希望弹出系统软键盘)。
+  # IP Addr V4(如：192.168.1.1)。字符串属性值：ipv4
+  #
+  #
+  IPV4 = INPUT_IPV4();
+
+  #
+  # 日期(如：2020/02/20)。字符串属性值：date
+  #
+  #
+  DATE = INPUT_DATE();
+
+  #
+  # 时间(时分，如：12:00)。字符串属性值：time
+  #
+  #
+  TIME = INPUT_TIME();
+
+  #
+  # 时间(时分秒，如：12:00:00)。字符串属性值：time_full
+  #
+  #
+  TIME_FULL = INPUT_TIME_FULL();
+
+  #
+  # 使用自定义的软键盘(如计算器等应用不希望弹出系统软键盘)。字符串属性值：custom
   #
   #
   CUSTOM = INPUT_CUSTOM();
 
   #
-  # 使用自定义的密码软键盘。
+  # 使用自定义的密码软键盘。字符串属性值：custom_password
   #
   #
   CUSTOM_PASSWORD = INPUT_CUSTOM_PASSWORD();
@@ -8190,6 +8232,20 @@ class TObjectCmd:
   #
   CLEAR = OBJECT_CMD_CLEAR();
 
+  #
+  # 增加子项。
+  #>参数为属性的名称或路径。
+  #
+  #
+  ADD = OBJECT_CMD_ADD();
+
+  #
+  # 编辑子项。
+  #>参数为属性的名称或路径。
+  #
+  #
+  EDIT = OBJECT_CMD_EDIT();
+
 #
 # 命名的值。
 #
@@ -9798,6 +9854,54 @@ class TErrorEvent (TEvent):
 
 
 #
+# 对象执行命令的事件。
+#
+#
+class TCmdExecEvent (TEvent):
+  def __init__(self, nativeObj):
+    super(TCmdExecEvent, self).__init__(nativeObj)
+
+
+  #
+  # 把event对象转cmd_exec_event_t对象，主要给脚本语言使用。
+  # 
+  # @param event event对象。
+  #
+  # @return 返回event对象。
+  #
+  @classmethod
+  def cast(cls, event): 
+    return  TCmdExecEvent(cmd_exec_event_cast(awtk_get_native_obj(event)));
+
+
+  #
+  # 命令的名称。
+  #
+  #
+  @property
+  def name(self):
+    return cmd_exec_event_t_get_prop_name(self.nativeObj);
+
+
+  #
+  # 命令的参数。
+  #
+  #
+  @property
+  def args(self):
+    return cmd_exec_event_t_get_prop_args(self.nativeObj);
+
+
+  #
+  # 执行结果(适用于EXECED)。
+  #
+  #
+  @property
+  def result(self):
+    return cmd_exec_event_t_get_prop_result(self.nativeObj);
+
+
+#
 # 模拟时钟控件。
 #
 #time\_clock\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于time\_clock\_t控件。
@@ -10368,6 +10472,63 @@ class TTextSelector (TWidget):
 
 
 #
+# 滚轮事件。
+#
+#
+class TWheelEvent (TEvent):
+  def __init__(self, nativeObj):
+    super(TWheelEvent, self).__init__(nativeObj)
+
+
+  #
+  # 把event对象转wheel_event_t对象，主要给脚本语言使用。
+  # 
+  # @param event event对象。
+  #
+  # @return event对象。
+  #
+  @classmethod
+  def cast(cls, event): 
+    return  TWheelEvent(wheel_event_cast(awtk_get_native_obj(event)));
+
+
+  #
+  # 滚轮的y值。
+  #
+  #
+  @property
+  def dy(self):
+    return wheel_event_t_get_prop_dy(self.nativeObj);
+
+
+  #
+  # alt键是否按下。
+  #
+  #
+  @property
+  def alt(self):
+    return wheel_event_t_get_prop_alt(self.nativeObj);
+
+
+  #
+  # ctrl键是否按下。
+  #
+  #
+  @property
+  def ctrl(self):
+    return wheel_event_t_get_prop_ctrl(self.nativeObj);
+
+
+  #
+  # shift键是否按下。
+  #
+  #
+  @property
+  def shift(self):
+    return wheel_event_t_get_prop_shift(self.nativeObj);
+
+
+#
 # 开关控件。
 #
 #switch\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于switch\_t控件。
@@ -10466,63 +10627,6 @@ class TSwitch (TWidget):
 
 
 #
-# 滚轮事件。
-#
-#
-class TWheelEvent (TEvent):
-  def __init__(self, nativeObj):
-    super(TWheelEvent, self).__init__(nativeObj)
-
-
-  #
-  # 把event对象转wheel_event_t对象，主要给脚本语言使用。
-  # 
-  # @param event event对象。
-  #
-  # @return event对象。
-  #
-  @classmethod
-  def cast(cls, event): 
-    return  TWheelEvent(wheel_event_cast(awtk_get_native_obj(event)));
-
-
-  #
-  # 滚轮的y值。
-  #
-  #
-  @property
-  def dy(self):
-    return wheel_event_t_get_prop_dy(self.nativeObj);
-
-
-  #
-  # alt键是否按下。
-  #
-  #
-  @property
-  def alt(self):
-    return wheel_event_t_get_prop_alt(self.nativeObj);
-
-
-  #
-  # ctrl键是否按下。
-  #
-  #
-  @property
-  def ctrl(self):
-    return wheel_event_t_get_prop_ctrl(self.nativeObj);
-
-
-  #
-  # shift键是否按下。
-  #
-  #
-  @property
-  def shift(self):
-    return wheel_event_t_get_prop_shift(self.nativeObj);
-
-
-#
 # 一个通用的容器控件。
 #
 #它本身不提供布局功能，仅提供具有语义的标签，让xml更具有可读性。
@@ -10606,204 +10710,6 @@ class TView (TWidget):
   @default_focused_child.setter
   def default_focused_child(self, v):
    this.set_default_focused_child(v);
-
-
-#
-# 滑动视图。
-#
-#滑动视图可以管理多个页面，并通过滑动来切换当前页面。也可以管理多张图片，让它们自动切换。
-#
-#slide\_view\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于slide\_view\_t控件。
-#
-#在xml中使用"slide\_view"标签创建滑动视图控件。如：
-#
-#```xml
-#<slide_view x="0" y="0" w="100%" h="100%" style="dot">
-#<view x="0" y="0" w="100%" h="100%" children_layout="default(w=60,h=60,m=5,s=10)">
-#...
-#</view>
-#<view x="0" y="0" w="100%" h="100%" children_layout="default(w=60,h=60,m=5,s=10)">
-#...
-#</view>
-#</slide_view>
-#```
-#
-#> 更多用法请参考：[slide_view.xml](
-#https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/slide_view.xml)
-#
-#在c代码中使用函数slide\_view\_create创建滑动视图控件。如：
-#
-#
-#> 完整示例请参考：
-#[slide_view demo](
-#https://github.com/zlgopen/awtk-c-demos/blob/master/demos/slide_view.c)
-#
-#可用通过style来设置控件的显示风格，如背景颜色和指示器的图标等等。如：
-#
-#```xml
-#<style name="dot">
-#<normal  icon="dot" active_icon="active_dot"/>
-#</style>
-#```
-#
-#> 如果希望背景图片跟随滚动，请将背景图片设置到页面上，否则设置到slide\_view上。
-#
-#> 更多用法请参考：[theme default](
-#https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/styles/default.xml#L458)
-#
-#
-class TSlideView (TWidget):
-  def __init__(self, nativeObj):
-    super(TSlideView, self).__init__(nativeObj)
-
-
-  #
-  # 创建slide_view对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TSlideView(slide_view_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 转换为slide_view对象(供脚本语言使用)。
-  # 
-  # @param widget slide_view对象。
-  #
-  # @return slide_view对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TSlideView(slide_view_cast(awtk_get_native_obj(widget)));
-
-
-  #
-  # 设置为自动播放模式。
-  # 
-  # @param auto_play 0表示禁止自动播放，非0表示自动播放时每一页播放的时间。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_auto_play(self, auto_play): 
-    return slide_view_set_auto_play(awtk_get_native_obj(self), auto_play);
-
-
-  #
-  # 设置当前页的序号。
-  # 
-  # @param index 当前页的序号。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_active(self, index): 
-    return slide_view_set_active(awtk_get_native_obj(self), index);
-
-
-  #
-  # 设置为上下滑动(缺省为左右滑动)。
-  # 
-  # @param vertical TRUE表示上下滑动，FALSE表示左右滑动。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_vertical(self, vertical): 
-    return slide_view_set_vertical(awtk_get_native_obj(self), vertical);
-
-
-  #
-  # 设置页面切换动画。
-  #
-  #anim_hint取值如下：
-  #
-  #* "translate"：平移。
-  #* "overlap"：覆盖。
-  #* "overlap\_with\_alpha"：覆盖并改变透明度。
-  #
-  #> 使用"overlap"或"overlap\_with\_alpha"动画时，背景图片最好指定到page上。
-  #>
-  #> 使用"overlap\_with\_alpha"动画时，slideview的背景设置为黑色，
-  #> 或slideview的背景设置为透明，窗口的背景设置为黑色，以获得更好的视觉效果和性能。
-  # 
-  # @param anim_hint 页面切换动画。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_anim_hint(self, anim_hint): 
-    return slide_view_set_anim_hint(awtk_get_native_obj(self), anim_hint);
-
-
-  #
-  # 设置循环切换模式。
-  # 
-  # @param loop 是否启用循环切换模式。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_loop(self, loop): 
-    return slide_view_set_loop(awtk_get_native_obj(self), loop);
-
-
-  #
-  # 是否为上下滑动模式。
-  #
-  #
-  @property
-  def vertical(self):
-    return slide_view_t_get_prop_vertical(self.nativeObj);
-
-  @vertical.setter
-  def vertical(self, v):
-   this.set_vertical(v);
-
-
-  #
-  # 自动播放。0表示禁止自动播放，非0表示自动播放时每一页播放的时间。
-  #
-  #
-  @property
-  def auto_play(self):
-    return slide_view_t_get_prop_auto_play(self.nativeObj);
-
-  @auto_play.setter
-  def auto_play(self, v):
-   this.set_auto_play(v);
-
-
-  #
-  # 循环切换模式。
-  #
-  #向后切换：切换到最后一页时，再往后切换就到第一页。
-  #向前切换：切换到第一页时，再往前切换就到最后一页。
-  #
-  #
-  @property
-  def loop(self):
-    return slide_view_t_get_prop_loop(self.nativeObj);
-
-  @loop.setter
-  def loop(self, v):
-   this.set_loop(v);
-
-
-  #
-  # 页面切换效果。
-  #
-  #
-  @property
-  def anim_hint(self):
-    return slide_view_t_get_prop_anim_hint(self.nativeObj);
-
-  @anim_hint.setter
-  def anim_hint(self, v):
-   this.set_anim_hint(v);
 
 
 #
@@ -11056,6 +10962,204 @@ class TTabButton (TWidget):
   @icon.setter
   def icon(self, v):
    this.set_icon(v);
+
+
+#
+# 滑动视图。
+#
+#滑动视图可以管理多个页面，并通过滑动来切换当前页面。也可以管理多张图片，让它们自动切换。
+#
+#slide\_view\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于slide\_view\_t控件。
+#
+#在xml中使用"slide\_view"标签创建滑动视图控件。如：
+#
+#```xml
+#<slide_view x="0" y="0" w="100%" h="100%" style="dot">
+#<view x="0" y="0" w="100%" h="100%" children_layout="default(w=60,h=60,m=5,s=10)">
+#...
+#</view>
+#<view x="0" y="0" w="100%" h="100%" children_layout="default(w=60,h=60,m=5,s=10)">
+#...
+#</view>
+#</slide_view>
+#```
+#
+#> 更多用法请参考：[slide_view.xml](
+#https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/ui/slide_view.xml)
+#
+#在c代码中使用函数slide\_view\_create创建滑动视图控件。如：
+#
+#
+#> 完整示例请参考：
+#[slide_view demo](
+#https://github.com/zlgopen/awtk-c-demos/blob/master/demos/slide_view.c)
+#
+#可用通过style来设置控件的显示风格，如背景颜色和指示器的图标等等。如：
+#
+#```xml
+#<style name="dot">
+#<normal  icon="dot" active_icon="active_dot"/>
+#</style>
+#```
+#
+#> 如果希望背景图片跟随滚动，请将背景图片设置到页面上，否则设置到slide\_view上。
+#
+#> 更多用法请参考：[theme default](
+#https://github.com/zlgopen/awtk/blob/master/demos/assets/default/raw/styles/default.xml#L458)
+#
+#
+class TSlideView (TWidget):
+  def __init__(self, nativeObj):
+    super(TSlideView, self).__init__(nativeObj)
+
+
+  #
+  # 创建slide_view对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+    return  TSlideView(slide_view_create(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 转换为slide_view对象(供脚本语言使用)。
+  # 
+  # @param widget slide_view对象。
+  #
+  # @return slide_view对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TSlideView(slide_view_cast(awtk_get_native_obj(widget)));
+
+
+  #
+  # 设置为自动播放模式。
+  # 
+  # @param auto_play 0表示禁止自动播放，非0表示自动播放时每一页播放的时间。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_auto_play(self, auto_play): 
+    return slide_view_set_auto_play(awtk_get_native_obj(self), auto_play);
+
+
+  #
+  # 设置当前页的序号。
+  # 
+  # @param index 当前页的序号。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_active(self, index): 
+    return slide_view_set_active(awtk_get_native_obj(self), index);
+
+
+  #
+  # 设置为上下滑动(缺省为左右滑动)。
+  # 
+  # @param vertical TRUE表示上下滑动，FALSE表示左右滑动。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_vertical(self, vertical): 
+    return slide_view_set_vertical(awtk_get_native_obj(self), vertical);
+
+
+  #
+  # 设置页面切换动画。
+  #
+  #anim_hint取值如下：
+  #
+  #* "translate"：平移。
+  #* "overlap"：覆盖。
+  #* "overlap\_with\_alpha"：覆盖并改变透明度。
+  #
+  #> 使用"overlap"或"overlap\_with\_alpha"动画时，背景图片最好指定到page上。
+  #>
+  #> 使用"overlap\_with\_alpha"动画时，slideview的背景设置为黑色，
+  #> 或slideview的背景设置为透明，窗口的背景设置为黑色，以获得更好的视觉效果和性能。
+  # 
+  # @param anim_hint 页面切换动画。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_anim_hint(self, anim_hint): 
+    return slide_view_set_anim_hint(awtk_get_native_obj(self), anim_hint);
+
+
+  #
+  # 设置循环切换模式。
+  # 
+  # @param loop 是否启用循环切换模式。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_loop(self, loop): 
+    return slide_view_set_loop(awtk_get_native_obj(self), loop);
+
+
+  #
+  # 是否为上下滑动模式。
+  #
+  #
+  @property
+  def vertical(self):
+    return slide_view_t_get_prop_vertical(self.nativeObj);
+
+  @vertical.setter
+  def vertical(self, v):
+   this.set_vertical(v);
+
+
+  #
+  # 自动播放。0表示禁止自动播放，非0表示自动播放时每一页播放的时间。
+  #
+  #
+  @property
+  def auto_play(self):
+    return slide_view_t_get_prop_auto_play(self.nativeObj);
+
+  @auto_play.setter
+  def auto_play(self, v):
+   this.set_auto_play(v);
+
+
+  #
+  # 循环切换模式。
+  #
+  #向后切换：切换到最后一页时，再往后切换就到第一页。
+  #向前切换：切换到第一页时，再往前切换就到最后一页。
+  #
+  #
+  @property
+  def loop(self):
+    return slide_view_t_get_prop_loop(self.nativeObj);
+
+  @loop.setter
+  def loop(self, v):
+   this.set_loop(v);
+
+
+  #
+  # 页面切换效果。
+  #
+  #
+  @property
+  def anim_hint(self):
+    return slide_view_t_get_prop_anim_hint(self.nativeObj);
+
+  @anim_hint.setter
+  def anim_hint(self, v):
+   this.set_anim_hint(v);
 
 
 #
