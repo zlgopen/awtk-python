@@ -4,7 +4,6 @@
 #include "default/inc/strings/zh_CN.data"
 #include "default/inc/strings/en_US.data"
 #include "default/inc/styles/slide_menu.data"
-#include "default/inc/styles/main.data"
 #include "default/inc/styles/digit_clock.data"
 #include "default/inc/styles/dialog_toast.data"
 #include "default/inc/styles/edit.data"
@@ -22,7 +21,6 @@
 #include "default/inc/styles/guage.data"
 #include "default/inc/styles/file_browser.data"
 #include "default/inc/styles/dialog_confirm.data"
-#include "default/inc/styles/window1.data"
 #include "default/inc/styles/dialog.data"
 #include "default/inc/styles/tab_top.data"
 #include "default/inc/styles/button.data"
@@ -39,6 +37,7 @@
 #include "default/inc/ui/menu_left_bottom.data"
 #include "default/inc/ui/auto_play_landscape.data"
 #include "default/inc/ui/color_picker_simple.data"
+#include "default/inc/ui/bidi.data"
 #include "default/inc/ui/progress_circle.data"
 #include "default/inc/ui/combo_box.data"
 #include "default/inc/ui/kb_phone.data"
@@ -135,7 +134,6 @@
 #include "default/inc/ui/mono_test.data"
 #include "default/inc/ui/select1.data"
 #include "default/inc/ui/hscroll_label.data"
-#include "default/inc/ui/window1.data"
 #include "default/inc/ui/slide_left.data"
 #include "default/inc/ui/image_animation.data"
 #include "default/inc/ui/image_value.data"
@@ -175,7 +173,6 @@
 #include "default/inc/images/num_7.res"
 #include "default/inc/images/close_p.res"
 #include "default/inc/images/num_6.res"
-#include "default/inc/images/bg_landscape_1.res"
 #include "default/inc/images/shift.res"
 #include "default/inc/images/ani7.res"
 #include "default/inc/images/ania.res"
@@ -185,7 +182,6 @@
 #include "default/inc/images/flag_none.res"
 #include "default/inc/images/bee.res"
 #include "default/inc/images/contact.res"
-#include "default/inc/images/bg_landscape_3.res"
 #include "default/inc/images/battery_4.res"
 #include "default/inc/images/num_4.res"
 #include "default/inc/images/slider_fg.res"
@@ -194,7 +190,6 @@
 #include "default/inc/images/dialog_title.res"
 #include "default/inc/images/battery_5.res"
 #include "default/inc/images/num_5.res"
-#include "default/inc/images/bg_landscape_2.res"
 #include "default/inc/images/ani4.res"
 #include "default/inc/images/anib.res"
 #include "default/inc/images/me_active.res"
@@ -268,16 +263,13 @@
 #include "default/inc/images/progress_circle.res"
 #include "default/inc/images/red_btn_o.res"
 #include "default/inc/images/slider_drag.res"
-#include "default/inc/images/bg_portrait_1.res"
 #include "default/inc/images/cursor_text.res"
 #include "default/inc/images/unchecked.res"
 #include "default/inc/images/red_btn_n.res"
 #include "default/inc/images/arrow_down_p.res"
 #include "default/inc/images/slider_v_bg.res"
 #include "default/inc/images/warn.res"
-#include "default/inc/images/bg_portrait_3.res"
 #include "default/inc/images/green_btn_p.res"
-#include "default/inc/images/bg_portrait_2.res"
 #include "default/inc/images/flag_CN.res"
 #include "default/inc/images/switch.res"
 #include "default/inc/images/radio_unchecked.res"
@@ -359,10 +351,8 @@
 #include "default/inc/images/arrow_up_o.data"
 #include "default/inc/images/clock.data"
 #include "default/inc/images/empty.data"
-#include "default/inc/images/bg_portrait_1.data"
 #include "default/inc/images/ani5.data"
 #include "default/inc/images/ani4.data"
-#include "default/inc/images/bg_landscape_1.data"
 #include "default/inc/images/left_off.data"
 #include "default/inc/images/radio_unchecked.data"
 #include "default/inc/images/rgba.data"
@@ -389,8 +379,6 @@
 #include "default/inc/images/ani7.data"
 #include "default/inc/images/play_p.data"
 #include "default/inc/images/battery_5.data"
-#include "default/inc/images/bg_landscape_2.data"
-#include "default/inc/images/bg_portrait_3.data"
 #include "default/inc/images/green_btn_p.data"
 #include "default/inc/images/red_btn_p.data"
 #include "default/inc/images/me.data"
@@ -400,9 +388,7 @@
 #include "default/inc/images/warn.data"
 #include "default/inc/images/contact_active.data"
 #include "default/inc/images/slider_drag_o.data"
-#include "default/inc/images/bg_portrait_2.data"
 #include "default/inc/images/battery_4.data"
-#include "default/inc/images/bg_landscape_3.data"
 #include "default/inc/images/ani6.data"
 #include "default/inc/images/message.data"
 #include "default/inc/images/edit_clear_o.data"
@@ -452,17 +438,13 @@
 #include "default/inc/images/girl.bsvg"
 #endif /*WITH_VGCANVAS*/
 #ifdef WITH_TRUETYPE_FONT
-#include "default/inc/fonts/thin.res"
-#include "default/inc/fonts/bold.res"
-#include "default/inc/fonts/ap.res"
-#include "default/inc/fonts/default_full.res"
+#include "default/inc/fonts/trado.res"
 #include "default/inc/fonts/default.res"
-#include "default/inc/fonts/italic.res"
-#include "default/inc/fonts/mono.res"
-#include "default/inc/fonts/default.mini.res"
-#include "default/inc/fonts/light.res"
-#include "default/inc/fonts/led.res"
 #else /*WITH_TRUETYPE_FONT*/
+#include "default/inc/fonts/default_20.data"
+#include "default/inc/fonts/default_16.data"
+#include "default/inc/fonts/default_18.data"
+#include "default/inc/fonts/default_24.data"
 #endif /*WITH_TRUETYPE_FONT*/
 #include "default/inc/scripts/dummy.res"
 #endif /*WITH_FS_RES*/
@@ -477,7 +459,6 @@ ret_t assets_init_default(void) {
   assets_manager_add(am, strings_zh_CN);
   assets_manager_add(am, strings_en_US);
   assets_manager_add(am, style_slide_menu);
-  assets_manager_add(am, style_main);
   assets_manager_add(am, style_digit_clock);
   assets_manager_add(am, style_dialog_toast);
   assets_manager_add(am, style_edit);
@@ -495,7 +476,6 @@ ret_t assets_init_default(void) {
   assets_manager_add(am, style_guage);
   assets_manager_add(am, style_file_browser);
   assets_manager_add(am, style_dialog_confirm);
-  assets_manager_add(am, style_window1);
   assets_manager_add(am, style_dialog);
   assets_manager_add(am, style_tab_top);
   assets_manager_add(am, style_button);
@@ -512,6 +492,7 @@ ret_t assets_init_default(void) {
   assets_manager_add(am, ui_menu_left_bottom);
   assets_manager_add(am, ui_auto_play_landscape);
   assets_manager_add(am, ui_color_picker_simple);
+  assets_manager_add(am, ui_bidi);
   assets_manager_add(am, ui_progress_circle);
   assets_manager_add(am, ui_combo_box);
   assets_manager_add(am, ui_kb_phone);
@@ -608,7 +589,6 @@ ret_t assets_init_default(void) {
   assets_manager_add(am, ui_mono_test);
   assets_manager_add(am, ui_select1);
   assets_manager_add(am, ui_hscroll_label);
-  assets_manager_add(am, ui_window1);
   assets_manager_add(am, ui_slide_left);
   assets_manager_add(am, ui_image_animation);
   assets_manager_add(am, ui_image_value);
@@ -647,7 +627,6 @@ ret_t assets_init_default(void) {
   assets_manager_add(am, image_num_7);
   assets_manager_add(am, image_close_p);
   assets_manager_add(am, image_num_6);
-  assets_manager_add(am, image_bg_landscape_1);
   assets_manager_add(am, image_shift);
   assets_manager_add(am, image_ani7);
   assets_manager_add(am, image_ania);
@@ -657,7 +636,6 @@ ret_t assets_init_default(void) {
   assets_manager_add(am, image_flag_none);
   assets_manager_add(am, image_bee);
   assets_manager_add(am, image_contact);
-  assets_manager_add(am, image_bg_landscape_3);
   assets_manager_add(am, image_battery_4);
   assets_manager_add(am, image_num_4);
   assets_manager_add(am, image_slider_fg);
@@ -666,7 +644,6 @@ ret_t assets_init_default(void) {
   assets_manager_add(am, image_dialog_title);
   assets_manager_add(am, image_battery_5);
   assets_manager_add(am, image_num_5);
-  assets_manager_add(am, image_bg_landscape_2);
   assets_manager_add(am, image_ani4);
   assets_manager_add(am, image_anib);
   assets_manager_add(am, image_me_active);
@@ -740,16 +717,13 @@ ret_t assets_init_default(void) {
   assets_manager_add(am, image_progress_circle);
   assets_manager_add(am, image_red_btn_o);
   assets_manager_add(am, image_slider_drag);
-  assets_manager_add(am, image_bg_portrait_1);
   assets_manager_add(am, image_cursor_text);
   assets_manager_add(am, image_unchecked);
   assets_manager_add(am, image_red_btn_n);
   assets_manager_add(am, image_arrow_down_p);
   assets_manager_add(am, image_slider_v_bg);
   assets_manager_add(am, image_warn);
-  assets_manager_add(am, image_bg_portrait_3);
   assets_manager_add(am, image_green_btn_p);
-  assets_manager_add(am, image_bg_portrait_2);
   assets_manager_add(am, image_flag_CN);
   assets_manager_add(am, image_switch);
   assets_manager_add(am, image_radio_unchecked);
@@ -787,17 +761,13 @@ ret_t assets_init_default(void) {
   assets_manager_add(am, image_girl);
 #endif /*WITH_VGCANVAS*/
 #ifdef WITH_TRUETYPE_FONT
-  assets_manager_add(am, font_thin);
-  assets_manager_add(am, font_bold);
-  assets_manager_add(am, font_ap);
-  assets_manager_add(am, font_default_full);
+  assets_manager_add(am, font_trado);
   assets_manager_add(am, font_default);
-  assets_manager_add(am, font_italic);
-  assets_manager_add(am, font_mono);
-  assets_manager_add(am, font_default_mini);
-  assets_manager_add(am, font_light);
-  assets_manager_add(am, font_led);
 #else /*WITH_TRUETYPE_FONT*/
+  assets_manager_add(am, font_default_20);
+  assets_manager_add(am, font_default_16);
+  assets_manager_add(am, font_default_18);
+  assets_manager_add(am, font_default_24);
 #endif /*WITH_TRUETYPE_FONT*/
   assets_manager_add(am, script_dummy);
 #endif

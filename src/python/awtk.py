@@ -1300,6 +1300,24 @@ class TGlobal(object):
 
 
 #
+# 剪切板数据类型定义。
+#
+#
+class TClipBoardDataType: 
+
+  #
+  # 无数据。
+  #
+  #
+  NONE = CLIP_BOARD_DATA_TYPE_NONE();
+
+  #
+  # UTF8文本。
+  #
+  #
+  TEXT = CLIP_BOARD_DATA_TYPE_TEXT();
+
+#
 # 剪切板接口。
 #
 #
@@ -1940,6 +1958,17 @@ class TFontManager(object):
   #
   def unload_font(self, name, size): 
     return font_manager_unload_font(awtk_get_native_obj(self), name, size);
+
+
+  #
+  # 清除最久没有被使用的缓冲字模。
+  # 
+  # @param cache_size 每种字体保留缓存字模的个数。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def shrink_cache(self, cache_size): 
+    return font_manager_shrink_cache(awtk_get_native_obj(self), cache_size);
 
 
   #
@@ -7682,6 +7711,102 @@ class TTimeNow(object):
 
 
 #
+# bidi 类型常量定义。
+#
+#
+class TBidiType: 
+
+  #
+  # 自动检查。
+  #
+  #
+  AUTO = BIDI_TYPE_AUTO();
+
+  #
+  # Left-To-Right letter。
+  #
+  #
+  LTR = BIDI_TYPE_LTR();
+
+  #
+  # Right-To-Left letter。
+  #
+  #
+  RTL = BIDI_TYPE_RTL();
+
+  #
+  # Weak Left To Right paragraph。
+  #
+  #
+  WLTR = BIDI_TYPE_WLTR();
+
+  #
+  # Weak Right To Left paragraph。
+  #
+  #
+  WRTL = BIDI_TYPE_WRTL();
+
+#
+# 对象常见命令定义
+#
+#
+class TObjectCmd: 
+
+  #
+  # 保存命令
+  #
+  #
+  SAVE = OBJECT_CMD_SAVE();
+
+  #
+  # 重新加载命令
+  #
+  #
+  RELOAD = OBJECT_CMD_RELOAD();
+
+  #
+  # 和前一个属性交换位置
+  #>参数为属性的名称或路径。
+  #
+  #
+  MOVE_UP = OBJECT_CMD_MOVE_UP();
+
+  #
+  # 和后一个属性交换位置
+  #>参数为属性的名称或路径。
+  #
+  #
+  MOVE_DOWN = OBJECT_CMD_MOVE_DOWN();
+
+  #
+  # 删除属性。
+  #>参数为属性的名称或路径。
+  #
+  #
+  REMOVE = OBJECT_CMD_REMOVE();
+
+  #
+  # 清除全部属性。
+  #>参数为属性的名称或路径。
+  #
+  #
+  CLEAR = OBJECT_CMD_CLEAR();
+
+  #
+  # 增加子项。
+  #>参数为属性的名称或路径。
+  #
+  #
+  ADD = OBJECT_CMD_ADD();
+
+  #
+  # 编辑子项。
+  #>参数为属性的名称或路径。
+  #
+  #
+  EDIT = OBJECT_CMD_EDIT();
+
+#
 # 图片绘制方法常量定义。
 #
 #
@@ -7820,431 +7945,6 @@ class TImageDrawType:
   #
   #
   REPEAT3_Y = IMAGE_DRAW_REPEAT3_Y();
-
-#
-# 提供基本的绘图功能和状态管理。
-#
-#
-class TCanvas(object):
-  def __init__(self, nativeObj):
-    self.nativeObj = nativeObj;
-
-
-  #
-  # 获取画布的宽度。
-  # 
-  #
-  # @return 返回画布的宽度。
-  #
-  def get_width(self): 
-    return canvas_get_width(awtk_get_native_obj(self));
-
-
-  #
-  # 获取画布的高度。
-  # 
-  #
-  # @return 返回画布的高度。
-  #
-  def get_height(self): 
-    return canvas_get_height(awtk_get_native_obj(self));
-
-
-  #
-  # 获取裁剪区。
-  # 
-  # @param r rect对象。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def get_clip_rect(self, r): 
-    return canvas_get_clip_rect(awtk_get_native_obj(self), awtk_get_native_obj(r));
-
-
-  #
-  # 设置裁剪区。
-  # 
-  # @param r rect对象。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_clip_rect(self, r): 
-    return canvas_set_clip_rect(awtk_get_native_obj(self), awtk_get_native_obj(r));
-
-
-  #
-  # 设置裁剪区。
-  # 
-  # @param r rect对象。
-  # @param translate 是否将裁剪区的位置加上canvas当前的偏移。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_clip_rect_ex(self, r, translate): 
-    return canvas_set_clip_rect_ex(awtk_get_native_obj(self), awtk_get_native_obj(r), translate);
-
-
-  #
-  # 设置填充颜色。
-  #
-  #> 供脚本语言使用。
-  # 
-  # @param color 颜色。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_fill_color(self, color): 
-    return canvas_set_fill_color_str(awtk_get_native_obj(self), color);
-
-
-  #
-  # 设置文本颜色。
-  #
-  #> 供脚本语言使用。
-  # 
-  # @param color 颜色。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_text_color(self, color): 
-    return canvas_set_text_color_str(awtk_get_native_obj(self), color);
-
-
-  #
-  # 设置线条颜色。
-  #
-  #> 供脚本语言使用。
-  # 
-  # @param color 颜色。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_stroke_color(self, color): 
-    return canvas_set_stroke_color_str(awtk_get_native_obj(self), color);
-
-
-  #
-  # 设置全局alpha值。
-  # 
-  # @param alpha alpha值。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_global_alpha(self, alpha): 
-    return canvas_set_global_alpha(awtk_get_native_obj(self), alpha);
-
-
-  #
-  # 平移原点坐标。
-  # 
-  # @param dx x偏移。
-  # @param dy y偏移。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def translate(self, dx, dy): 
-    return canvas_translate(awtk_get_native_obj(self), dx, dy);
-
-
-  #
-  # 反向平移原点坐标。
-  # 
-  # @param dx x偏移。
-  # @param dy y偏移。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def untranslate(self, dx, dy): 
-    return canvas_untranslate(awtk_get_native_obj(self), dx, dy);
-
-
-  #
-  # 画垂直线。
-  # 
-  # @param x x坐标。
-  # @param y y坐标。
-  # @param h 高度。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def draw_vline(self, x, y, h): 
-    return canvas_draw_vline(awtk_get_native_obj(self), x, y, h);
-
-
-  #
-  # 画水平线。
-  # 
-  # @param x x坐标。
-  # @param y y坐标。
-  # @param w 宽度。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def draw_hline(self, x, y, w): 
-    return canvas_draw_hline(awtk_get_native_obj(self), x, y, w);
-
-
-  #
-  # 填充矩形。
-  # 
-  # @param x x坐标。
-  # @param y y坐标。
-  # @param w 宽度。
-  # @param h 高度。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def fill_rect(self, x, y, w, h): 
-    return canvas_fill_rect(awtk_get_native_obj(self), x, y, w, h);
-
-
-  #
-  # 绘制矩形。
-  # 
-  # @param x x坐标。
-  # @param y y坐标。
-  # @param w 宽度。
-  # @param h 高度。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def stroke_rect(self, x, y, w, h): 
-    return canvas_stroke_rect(awtk_get_native_obj(self), x, y, w, h);
-
-
-  #
-  # 设置字体。
-  # 
-  # @param name 字体名称。
-  # @param size 字体大小。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_font(self, name, size): 
-    return canvas_set_font(awtk_get_native_obj(self), name, size);
-
-
-  #
-  # 计算文本所占的宽度。
-  #
-  #> 供脚本语言使用。
-  # 
-  # @param str 字符串。
-  #
-  # @return 返回文本所占的宽度。
-  #
-  def measure_text(self, str): 
-    return canvas_measure_utf8(awtk_get_native_obj(self), str);
-
-
-  #
-  # 绘制文本。
-  #
-  #> 供脚本语言使用。
-  # 
-  # @param str 字符串。
-  # @param x x坐标。
-  # @param y y坐标。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def draw_text(self, str, x, y): 
-    return canvas_draw_utf8(awtk_get_native_obj(self), str, x, y);
-
-
-  #
-  # 绘制文本。
-  #
-  #> 供脚本语言使用。
-  # 
-  # @param str 字符串。
-  # @param r 矩形区域。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def draw_text_in_rect(self, str, r): 
-    return canvas_draw_utf8_in_rect(awtk_get_native_obj(self), str, awtk_get_native_obj(r));
-
-
-  #
-  # 绘制图标。
-  # 
-  # @param img 图片对象。
-  # @param cx 中心点x坐标。
-  # @param cy 中心点y坐标。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def draw_icon(self, img, cx, cy): 
-    return canvas_draw_icon(awtk_get_native_obj(self), awtk_get_native_obj(img), cx, cy);
-
-
-  #
-  # 绘制图片。
-  # 
-  # @param img 图片对象。
-  # @param src 源区域。
-  # @param dst 目的区域。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def draw_image(self, img, src, dst): 
-    return canvas_draw_image(awtk_get_native_obj(self), awtk_get_native_obj(img), awtk_get_native_obj(src), awtk_get_native_obj(dst));
-
-
-  #
-  # 绘制图片。
-  # 
-  # @param img 图片对象。
-  # @param draw_type 绘制类型。
-  # @param dst 目的区域。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def draw_image_ex(self, img, draw_type, dst): 
-    return canvas_draw_image_ex(awtk_get_native_obj(self), awtk_get_native_obj(img), draw_type, awtk_get_native_obj(dst));
-
-
-  #
-  # 获取vgcanvas对象。
-  # 
-  #
-  # @return 返回vgcanvas对象。
-  #
-  def get_vgcanvas(self): 
-    return  TVgcanvas(canvas_get_vgcanvas(awtk_get_native_obj(self)));
-
-
-  #
-  # 转换为canvas对象(供脚本语言使用)。
-  # 
-  # @param c canvas对象。
-  #
-  # @return canvas对象。
-  #
-  @classmethod
-  def cast(cls, c): 
-    return  TCanvas(canvas_cast(awtk_get_native_obj(c)));
-
-
-  #
-  # 释放相关资源。
-  # 
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def reset(self): 
-    return canvas_reset(awtk_get_native_obj(self));
-
-
-  #
-  # x坐标偏移。
-  #
-  #
-  @property
-  def ox(self):
-    return canvas_t_get_prop_ox(self.nativeObj);
-
-
-  #
-  # y坐标偏移。
-  #
-  #
-  @property
-  def oy(self):
-    return canvas_t_get_prop_oy(self.nativeObj);
-
-
-  #
-  # 当前字体名称。
-  #
-  #
-  @property
-  def font_name(self):
-    return canvas_t_get_prop_font_name(self.nativeObj);
-
-
-  #
-  # 当前字体大小。
-  #
-  #
-  @property
-  def font_size(self):
-    return canvas_t_get_prop_font_size(self.nativeObj);
-
-
-  #
-  # 当前全局alpha。
-  #
-  #
-  @property
-  def global_alpha(self):
-    return canvas_t_get_prop_global_alpha(self.nativeObj);
-
-  @global_alpha.setter
-  def global_alpha(self, v):
-   this.set_global_alpha(v);
-
-
-#
-# 对象常见命令定义
-#
-#
-class TObjectCmd: 
-
-  #
-  # 保存命令
-  #
-  #
-  SAVE = OBJECT_CMD_SAVE();
-
-  #
-  # 重新加载命令
-  #
-  #
-  RELOAD = OBJECT_CMD_RELOAD();
-
-  #
-  # 和前一个属性交换位置
-  #>参数为属性的名称或路径。
-  #
-  #
-  MOVE_UP = OBJECT_CMD_MOVE_UP();
-
-  #
-  # 和后一个属性交换位置
-  #>参数为属性的名称或路径。
-  #
-  #
-  MOVE_DOWN = OBJECT_CMD_MOVE_DOWN();
-
-  #
-  # 删除属性。
-  #>参数为属性的名称或路径。
-  #
-  #
-  REMOVE = OBJECT_CMD_REMOVE();
-
-  #
-  # 清除全部属性。
-  #>参数为属性的名称或路径。
-  #
-  #
-  CLEAR = OBJECT_CMD_CLEAR();
-
-  #
-  # 增加子项。
-  #>参数为属性的名称或路径。
-  #
-  #
-  ADD = OBJECT_CMD_ADD();
-
-  #
-  # 编辑子项。
-  #>参数为属性的名称或路径。
-  #
-  #
-  EDIT = OBJECT_CMD_EDIT();
 
 #
 # 命名的值。
@@ -8997,22 +8697,378 @@ class TIdleManager(object):
 
 
 #
-# 剪切板数据类型定义。
+# 离线画布 canvas。
 #
 #
-class TClipBoardDataType: 
+class TCanvasOffline(object):
+  def __init__(self, nativeObj):
+    self.nativeObj = nativeObj;
+
+
+#
+# 提供基本的绘图功能和状态管理。
+#
+#
+class TCanvas(object):
+  def __init__(self, nativeObj):
+    self.nativeObj = nativeObj;
+
 
   #
-  # 无数据。
+  # 获取画布的宽度。
+  # 
   #
+  # @return 返回画布的宽度。
   #
-  NONE = CLIP_BOARD_DATA_TYPE_NONE();
+  def get_width(self): 
+    return canvas_get_width(awtk_get_native_obj(self));
+
 
   #
-  # UTF8文本。
+  # 获取画布的高度。
+  # 
+  #
+  # @return 返回画布的高度。
+  #
+  def get_height(self): 
+    return canvas_get_height(awtk_get_native_obj(self));
+
+
+  #
+  # 获取裁剪区。
+  # 
+  # @param r rect对象。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def get_clip_rect(self, r): 
+    return canvas_get_clip_rect(awtk_get_native_obj(self), awtk_get_native_obj(r));
+
+
+  #
+  # 设置裁剪区。
+  # 
+  # @param r rect对象。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_clip_rect(self, r): 
+    return canvas_set_clip_rect(awtk_get_native_obj(self), awtk_get_native_obj(r));
+
+
+  #
+  # 设置裁剪区。
+  # 
+  # @param r rect对象。
+  # @param translate 是否将裁剪区的位置加上canvas当前的偏移。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_clip_rect_ex(self, r, translate): 
+    return canvas_set_clip_rect_ex(awtk_get_native_obj(self), awtk_get_native_obj(r), translate);
+
+
+  #
+  # 设置填充颜色。
+  #
+  #> 供脚本语言使用。
+  # 
+  # @param color 颜色。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_fill_color(self, color): 
+    return canvas_set_fill_color_str(awtk_get_native_obj(self), color);
+
+
+  #
+  # 设置文本颜色。
+  #
+  #> 供脚本语言使用。
+  # 
+  # @param color 颜色。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_text_color(self, color): 
+    return canvas_set_text_color_str(awtk_get_native_obj(self), color);
+
+
+  #
+  # 设置线条颜色。
+  #
+  #> 供脚本语言使用。
+  # 
+  # @param color 颜色。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_stroke_color(self, color): 
+    return canvas_set_stroke_color_str(awtk_get_native_obj(self), color);
+
+
+  #
+  # 设置全局alpha值。
+  # 
+  # @param alpha alpha值。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_global_alpha(self, alpha): 
+    return canvas_set_global_alpha(awtk_get_native_obj(self), alpha);
+
+
+  #
+  # 平移原点坐标。
+  # 
+  # @param dx x偏移。
+  # @param dy y偏移。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def translate(self, dx, dy): 
+    return canvas_translate(awtk_get_native_obj(self), dx, dy);
+
+
+  #
+  # 反向平移原点坐标。
+  # 
+  # @param dx x偏移。
+  # @param dy y偏移。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def untranslate(self, dx, dy): 
+    return canvas_untranslate(awtk_get_native_obj(self), dx, dy);
+
+
+  #
+  # 画垂直线。
+  # 
+  # @param x x坐标。
+  # @param y y坐标。
+  # @param h 高度。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def draw_vline(self, x, y, h): 
+    return canvas_draw_vline(awtk_get_native_obj(self), x, y, h);
+
+
+  #
+  # 画水平线。
+  # 
+  # @param x x坐标。
+  # @param y y坐标。
+  # @param w 宽度。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def draw_hline(self, x, y, w): 
+    return canvas_draw_hline(awtk_get_native_obj(self), x, y, w);
+
+
+  #
+  # 填充矩形。
+  # 
+  # @param x x坐标。
+  # @param y y坐标。
+  # @param w 宽度。
+  # @param h 高度。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def fill_rect(self, x, y, w, h): 
+    return canvas_fill_rect(awtk_get_native_obj(self), x, y, w, h);
+
+
+  #
+  # 绘制矩形。
+  # 
+  # @param x x坐标。
+  # @param y y坐标。
+  # @param w 宽度。
+  # @param h 高度。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def stroke_rect(self, x, y, w, h): 
+    return canvas_stroke_rect(awtk_get_native_obj(self), x, y, w, h);
+
+
+  #
+  # 设置字体。
+  # 
+  # @param name 字体名称。
+  # @param size 字体大小。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_font(self, name, size): 
+    return canvas_set_font(awtk_get_native_obj(self), name, size);
+
+
+  #
+  # 计算文本所占的宽度。
+  #
+  #> 供脚本语言使用。
+  # 
+  # @param str 字符串。
+  #
+  # @return 返回文本所占的宽度。
+  #
+  def measure_text(self, str): 
+    return canvas_measure_utf8(awtk_get_native_obj(self), str);
+
+
+  #
+  # 绘制文本。
+  #
+  #> 供脚本语言使用。
+  # 
+  # @param str 字符串。
+  # @param x x坐标。
+  # @param y y坐标。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def draw_text(self, str, x, y): 
+    return canvas_draw_utf8(awtk_get_native_obj(self), str, x, y);
+
+
+  #
+  # 绘制文本。
+  #
+  #> 供脚本语言使用。
+  # 
+  # @param str 字符串。
+  # @param r 矩形区域。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def draw_text_in_rect(self, str, r): 
+    return canvas_draw_utf8_in_rect(awtk_get_native_obj(self), str, awtk_get_native_obj(r));
+
+
+  #
+  # 绘制图标。
+  # 
+  # @param img 图片对象。
+  # @param cx 中心点x坐标。
+  # @param cy 中心点y坐标。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def draw_icon(self, img, cx, cy): 
+    return canvas_draw_icon(awtk_get_native_obj(self), awtk_get_native_obj(img), cx, cy);
+
+
+  #
+  # 绘制图片。
+  # 
+  # @param img 图片对象。
+  # @param src 源区域。
+  # @param dst 目的区域。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def draw_image(self, img, src, dst): 
+    return canvas_draw_image(awtk_get_native_obj(self), awtk_get_native_obj(img), awtk_get_native_obj(src), awtk_get_native_obj(dst));
+
+
+  #
+  # 绘制图片。
+  # 
+  # @param img 图片对象。
+  # @param draw_type 绘制类型。
+  # @param dst 目的区域。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def draw_image_ex(self, img, draw_type, dst): 
+    return canvas_draw_image_ex(awtk_get_native_obj(self), awtk_get_native_obj(img), draw_type, awtk_get_native_obj(dst));
+
+
+  #
+  # 获取vgcanvas对象。
+  # 
+  #
+  # @return 返回vgcanvas对象。
+  #
+  def get_vgcanvas(self): 
+    return  TVgcanvas(canvas_get_vgcanvas(awtk_get_native_obj(self)));
+
+
+  #
+  # 转换为canvas对象(供脚本语言使用)。
+  # 
+  # @param c canvas对象。
+  #
+  # @return canvas对象。
+  #
+  @classmethod
+  def cast(cls, c): 
+    return  TCanvas(canvas_cast(awtk_get_native_obj(c)));
+
+
+  #
+  # 释放相关资源。
+  # 
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def reset(self): 
+    return canvas_reset(awtk_get_native_obj(self));
+
+
+  #
+  # x坐标偏移。
   #
   #
-  TEXT = CLIP_BOARD_DATA_TYPE_TEXT();
+  @property
+  def ox(self):
+    return canvas_t_get_prop_ox(self.nativeObj);
+
+
+  #
+  # y坐标偏移。
+  #
+  #
+  @property
+  def oy(self):
+    return canvas_t_get_prop_oy(self.nativeObj);
+
+
+  #
+  # 当前字体名称。
+  #
+  #
+  @property
+  def font_name(self):
+    return canvas_t_get_prop_font_name(self.nativeObj);
+
+
+  #
+  # 当前字体大小。
+  #
+  #
+  @property
+  def font_size(self):
+    return canvas_t_get_prop_font_size(self.nativeObj);
+
+
+  #
+  # 当前全局alpha。
+  #
+  #
+  @property
+  def global_alpha(self):
+    return canvas_t_get_prop_global_alpha(self.nativeObj);
+
+  @global_alpha.setter
+  def global_alpha(self, v):
+   this.set_global_alpha(v);
+
 
 #
 # 缓动作动画常量定义。
@@ -9205,6 +9261,45 @@ class TDateTime(object):
   #
   def from_time(self, time): 
     return date_time_from_time(awtk_get_native_obj(self), time);
+
+
+  #
+  # 是否是闰年。
+  # 
+  # @param year 年份。
+  #
+  # @return 返回TRUE表示是，否则表示否。
+  #
+  @classmethod
+  def is_leap(cls, year): 
+    return date_time_is_leap(year);
+
+
+  #
+  # 获取指定年份月份的天数。
+  # 
+  # @param year 年份。
+  # @param montn 月份(1-12)。
+  #
+  # @return 返回大于0表示天数，否则表示失败。
+  #
+  @classmethod
+  def get_days(cls, year, montn): 
+    return date_time_get_days(year, montn);
+
+
+  #
+  # 获取指定日期是周几(0-6)。
+  # 
+  # @param year 年份。
+  # @param montn 月份(1-12)。
+  # @param day 日(1-31)。
+  #
+  # @return 返回大于等于0表示周几(0-6)，否则表示失败。
+  #
+  @classmethod
+  def get_wday(cls, year, montn, day): 
+    return date_time_get_wday(year, montn, day);
 
 
   #
@@ -16608,7 +16703,7 @@ class TEdit (TWidget):
 
 
   #
-  # 自定义软键盘名称。
+  # 自定义软键盘名称。AWTK优先查找keyboard属性设置的键盘文件名（该键盘的XML文件需要在default\raw\ui目录下存在），如果keyboard为空就找input_type设置的键盘类型
   #
   #
   @property

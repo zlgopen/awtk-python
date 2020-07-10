@@ -32,11 +32,13 @@
 #include "tkc/types_def.h"
 #include "tkc/timer_manager.h"
 #include "tkc/time_now.h"
-#include "base/canvas.h"
+#include "base/bidi.h"
 #include "tkc/named_value.h"
 #include "tkc/mime_types.h"
 #include "slide_view/slide_indicator.h"
 #include "tkc/idle_manager.h"
+#include "base/canvas_offline.h"
+#include "base/canvas.h"
 #include "tkc/easing.h"
 #include "tkc/date_time.h"
 #include "tkc/color.h"
@@ -1482,6 +1484,14 @@ pyobject_t wrap_tk_is_pointer_pressed(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("b", ret);
 }
 
+pyobject_t get_CLIP_BOARD_DATA_TYPE_NONE(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", CLIP_BOARD_DATA_TYPE_NONE);
+}
+
+pyobject_t get_CLIP_BOARD_DATA_TYPE_TEXT(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", CLIP_BOARD_DATA_TYPE_TEXT);
+}
+
 pyobject_t wrap_clip_board_set_text(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   const char* text = NULL;
@@ -1899,6 +1909,20 @@ pyobject_t wrap_font_manager_unload_font(pyobject_t self, pyobject_t pyargs) {
   }
 
   ret = (ret_t)font_manager_unload_font(fm, name, size);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_font_manager_shrink_cache(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  font_manager_t* fm = NULL;
+  uint32_t cache_size = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&i" , &parse_voidp, &fm, &cache_size)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)font_manager_shrink_cache(fm, cache_size);
   return Py_BuildValue("i", ret);
 }
 
@@ -6698,6 +6722,58 @@ pyobject_t wrap_time_now_ms(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("i", ret);
 }
 
+pyobject_t get_BIDI_TYPE_AUTO(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", BIDI_TYPE_AUTO);
+}
+
+pyobject_t get_BIDI_TYPE_LTR(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", BIDI_TYPE_LTR);
+}
+
+pyobject_t get_BIDI_TYPE_RTL(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", BIDI_TYPE_RTL);
+}
+
+pyobject_t get_BIDI_TYPE_WLTR(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", BIDI_TYPE_WLTR);
+}
+
+pyobject_t get_BIDI_TYPE_WRTL(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", BIDI_TYPE_WRTL);
+}
+
+pyobject_t get_OBJECT_CMD_SAVE(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("s", OBJECT_CMD_SAVE);
+}
+
+pyobject_t get_OBJECT_CMD_RELOAD(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("s", OBJECT_CMD_RELOAD);
+}
+
+pyobject_t get_OBJECT_CMD_MOVE_UP(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("s", OBJECT_CMD_MOVE_UP);
+}
+
+pyobject_t get_OBJECT_CMD_MOVE_DOWN(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("s", OBJECT_CMD_MOVE_DOWN);
+}
+
+pyobject_t get_OBJECT_CMD_REMOVE(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("s", OBJECT_CMD_REMOVE);
+}
+
+pyobject_t get_OBJECT_CMD_CLEAR(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("s", OBJECT_CMD_CLEAR);
+}
+
+pyobject_t get_OBJECT_CMD_ADD(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("s", OBJECT_CMD_ADD);
+}
+
+pyobject_t get_OBJECT_CMD_EDIT(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("s", OBJECT_CMD_EDIT);
+}
+
 pyobject_t get_IMAGE_DRAW_DEFAULT(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("i", IMAGE_DRAW_DEFAULT);
 }
@@ -6776,461 +6852,6 @@ pyobject_t get_IMAGE_DRAW_REPEAT3_X(pyobject_t self, pyobject_t pyargs) {
 
 pyobject_t get_IMAGE_DRAW_REPEAT3_Y(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("i", IMAGE_DRAW_REPEAT3_Y);
-}
-
-pyobject_t wrap_canvas_get_width(pyobject_t self, pyobject_t pyargs) {
-  wh_t ret = 0;
-  canvas_t* c = NULL;
-
-  if (!PyArg_ParseTuple(pyargs, "O&" , &parse_voidp, &c)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  ret = (wh_t)canvas_get_width(c);
-  return Py_BuildValue("i", ret);
-}
-
-pyobject_t wrap_canvas_get_height(pyobject_t self, pyobject_t pyargs) {
-  wh_t ret = 0;
-  canvas_t* c = NULL;
-
-  if (!PyArg_ParseTuple(pyargs, "O&" , &parse_voidp, &c)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  ret = (wh_t)canvas_get_height(c);
-  return Py_BuildValue("i", ret);
-}
-
-pyobject_t wrap_canvas_get_clip_rect(pyobject_t self, pyobject_t pyargs) {
-  ret_t ret = 0;
-  canvas_t* c = NULL;
-  rect_t* r = NULL;
-
-  if (!PyArg_ParseTuple(pyargs, "O&O&" , &parse_voidp, &c, &parse_voidp, &r)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  ret = (ret_t)canvas_get_clip_rect(c, r);
-  return Py_BuildValue("i", ret);
-}
-
-pyobject_t wrap_canvas_set_clip_rect(pyobject_t self, pyobject_t pyargs) {
-  ret_t ret = 0;
-  canvas_t* c = NULL;
-  const rect_t* r = NULL;
-
-  if (!PyArg_ParseTuple(pyargs, "O&O&" , &parse_voidp, &c, &parse_voidp, &r)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  ret = (ret_t)canvas_set_clip_rect(c, r);
-  return Py_BuildValue("i", ret);
-}
-
-pyobject_t wrap_canvas_set_clip_rect_ex(pyobject_t self, pyobject_t pyargs) {
-  ret_t ret = 0;
-  canvas_t* c = NULL;
-  const rect_t* r = NULL;
-  bool_t translate = 0;
-
-  if (!PyArg_ParseTuple(pyargs, "O&O&b" , &parse_voidp, &c, &parse_voidp, &r, &translate)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  ret = (ret_t)canvas_set_clip_rect_ex(c, r, translate);
-  return Py_BuildValue("i", ret);
-}
-
-pyobject_t wrap_canvas_set_fill_color_str(pyobject_t self, pyobject_t pyargs) {
-  ret_t ret = 0;
-  canvas_t* c = NULL;
-  const char* color = NULL;
-
-  if (!PyArg_ParseTuple(pyargs, "O&s" , &parse_voidp, &c, &color)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  ret = (ret_t)canvas_set_fill_color_str(c, color);
-  return Py_BuildValue("i", ret);
-}
-
-pyobject_t wrap_canvas_set_text_color_str(pyobject_t self, pyobject_t pyargs) {
-  ret_t ret = 0;
-  canvas_t* c = NULL;
-  const char* color = NULL;
-
-  if (!PyArg_ParseTuple(pyargs, "O&s" , &parse_voidp, &c, &color)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  ret = (ret_t)canvas_set_text_color_str(c, color);
-  return Py_BuildValue("i", ret);
-}
-
-pyobject_t wrap_canvas_set_stroke_color_str(pyobject_t self, pyobject_t pyargs) {
-  ret_t ret = 0;
-  canvas_t* c = NULL;
-  const char* color = NULL;
-
-  if (!PyArg_ParseTuple(pyargs, "O&s" , &parse_voidp, &c, &color)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  ret = (ret_t)canvas_set_stroke_color_str(c, color);
-  return Py_BuildValue("i", ret);
-}
-
-pyobject_t wrap_canvas_set_global_alpha(pyobject_t self, pyobject_t pyargs) {
-  ret_t ret = 0;
-  canvas_t* c = NULL;
-  uint8_t alpha = 0;
-
-  if (!PyArg_ParseTuple(pyargs, "O&i" , &parse_voidp, &c, &alpha)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  ret = (ret_t)canvas_set_global_alpha(c, alpha);
-  return Py_BuildValue("i", ret);
-}
-
-pyobject_t wrap_canvas_translate(pyobject_t self, pyobject_t pyargs) {
-  ret_t ret = 0;
-  canvas_t* c = NULL;
-  xy_t dx = 0;
-  xy_t dy = 0;
-
-  if (!PyArg_ParseTuple(pyargs, "O&ii" , &parse_voidp, &c, &dx, &dy)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  ret = (ret_t)canvas_translate(c, dx, dy);
-  return Py_BuildValue("i", ret);
-}
-
-pyobject_t wrap_canvas_untranslate(pyobject_t self, pyobject_t pyargs) {
-  ret_t ret = 0;
-  canvas_t* c = NULL;
-  xy_t dx = 0;
-  xy_t dy = 0;
-
-  if (!PyArg_ParseTuple(pyargs, "O&ii" , &parse_voidp, &c, &dx, &dy)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  ret = (ret_t)canvas_untranslate(c, dx, dy);
-  return Py_BuildValue("i", ret);
-}
-
-pyobject_t wrap_canvas_draw_vline(pyobject_t self, pyobject_t pyargs) {
-  ret_t ret = 0;
-  canvas_t* c = NULL;
-  xy_t x = 0;
-  xy_t y = 0;
-  wh_t h = 0;
-
-  if (!PyArg_ParseTuple(pyargs, "O&iii" , &parse_voidp, &c, &x, &y, &h)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  ret = (ret_t)canvas_draw_vline(c, x, y, h);
-  return Py_BuildValue("i", ret);
-}
-
-pyobject_t wrap_canvas_draw_hline(pyobject_t self, pyobject_t pyargs) {
-  ret_t ret = 0;
-  canvas_t* c = NULL;
-  xy_t x = 0;
-  xy_t y = 0;
-  wh_t w = 0;
-
-  if (!PyArg_ParseTuple(pyargs, "O&iii" , &parse_voidp, &c, &x, &y, &w)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  ret = (ret_t)canvas_draw_hline(c, x, y, w);
-  return Py_BuildValue("i", ret);
-}
-
-pyobject_t wrap_canvas_fill_rect(pyobject_t self, pyobject_t pyargs) {
-  ret_t ret = 0;
-  canvas_t* c = NULL;
-  xy_t x = 0;
-  xy_t y = 0;
-  wh_t w = 0;
-  wh_t h = 0;
-
-  if (!PyArg_ParseTuple(pyargs, "O&iiii" , &parse_voidp, &c, &x, &y, &w, &h)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  ret = (ret_t)canvas_fill_rect(c, x, y, w, h);
-  return Py_BuildValue("i", ret);
-}
-
-pyobject_t wrap_canvas_stroke_rect(pyobject_t self, pyobject_t pyargs) {
-  ret_t ret = 0;
-  canvas_t* c = NULL;
-  xy_t x = 0;
-  xy_t y = 0;
-  wh_t w = 0;
-  wh_t h = 0;
-
-  if (!PyArg_ParseTuple(pyargs, "O&iiii" , &parse_voidp, &c, &x, &y, &w, &h)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  ret = (ret_t)canvas_stroke_rect(c, x, y, w, h);
-  return Py_BuildValue("i", ret);
-}
-
-pyobject_t wrap_canvas_set_font(pyobject_t self, pyobject_t pyargs) {
-  ret_t ret = 0;
-  canvas_t* c = NULL;
-  const char* name = NULL;
-  font_size_t size = 0;
-
-  if (!PyArg_ParseTuple(pyargs, "O&si" , &parse_voidp, &c, &name, &size)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  ret = (ret_t)canvas_set_font(c, name, size);
-  return Py_BuildValue("i", ret);
-}
-
-pyobject_t wrap_canvas_measure_utf8(pyobject_t self, pyobject_t pyargs) {
-  float_t ret = 0;
-  canvas_t* c = NULL;
-  const char* str = NULL;
-
-  if (!PyArg_ParseTuple(pyargs, "O&s" , &parse_voidp, &c, &str)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  ret = (float_t)canvas_measure_utf8(c, str);
-  return Py_BuildValue("f", ret);
-}
-
-pyobject_t wrap_canvas_draw_utf8(pyobject_t self, pyobject_t pyargs) {
-  ret_t ret = 0;
-  canvas_t* c = NULL;
-  const char* str = NULL;
-  xy_t x = 0;
-  xy_t y = 0;
-
-  if (!PyArg_ParseTuple(pyargs, "O&sii" , &parse_voidp, &c, &str, &x, &y)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  ret = (ret_t)canvas_draw_utf8(c, str, x, y);
-  return Py_BuildValue("i", ret);
-}
-
-pyobject_t wrap_canvas_draw_utf8_in_rect(pyobject_t self, pyobject_t pyargs) {
-  ret_t ret = 0;
-  canvas_t* c = NULL;
-  const char* str = NULL;
-  const rect_t* r = NULL;
-
-  if (!PyArg_ParseTuple(pyargs, "O&sO&" , &parse_voidp, &c, &str, &parse_voidp, &r)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  ret = (ret_t)canvas_draw_utf8_in_rect(c, str, r);
-  return Py_BuildValue("i", ret);
-}
-
-pyobject_t wrap_canvas_draw_icon(pyobject_t self, pyobject_t pyargs) {
-  ret_t ret = 0;
-  canvas_t* c = NULL;
-  bitmap_t* img = NULL;
-  xy_t cx = 0;
-  xy_t cy = 0;
-
-  if (!PyArg_ParseTuple(pyargs, "O&O&ii" , &parse_voidp, &c, &parse_voidp, &img, &cx, &cy)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  ret = (ret_t)canvas_draw_icon(c, img, cx, cy);
-  return Py_BuildValue("i", ret);
-}
-
-pyobject_t wrap_canvas_draw_image(pyobject_t self, pyobject_t pyargs) {
-  ret_t ret = 0;
-  canvas_t* c = NULL;
-  bitmap_t* img = NULL;
-  rect_t* src = NULL;
-  rect_t* dst = NULL;
-
-  if (!PyArg_ParseTuple(pyargs, "O&O&O&O&" , &parse_voidp, &c, &parse_voidp, &img, &parse_voidp, &src, &parse_voidp, &dst)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  ret = (ret_t)canvas_draw_image(c, img, src, dst);
-  return Py_BuildValue("i", ret);
-}
-
-pyobject_t wrap_canvas_draw_image_ex(pyobject_t self, pyobject_t pyargs) {
-  ret_t ret = 0;
-  canvas_t* c = NULL;
-  bitmap_t* img = NULL;
-  image_draw_type_t draw_type = 0;
-  rect_t* dst = NULL;
-
-  if (!PyArg_ParseTuple(pyargs, "O&O&iO&" , &parse_voidp, &c, &parse_voidp, &img, &draw_type, &parse_voidp, &dst)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  ret = (ret_t)canvas_draw_image_ex(c, img, draw_type, dst);
-  return Py_BuildValue("i", ret);
-}
-
-pyobject_t wrap_canvas_get_vgcanvas(pyobject_t self, pyobject_t pyargs) {
-  vgcanvas_t* ret = NULL;
-  canvas_t* c = NULL;
-
-  if (!PyArg_ParseTuple(pyargs, "O&" , &parse_voidp, &c)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  ret = (vgcanvas_t*)canvas_get_vgcanvas(c);
-  return PyLong_FromVoidPtr((void*)ret);
-}
-
-pyobject_t wrap_canvas_cast(pyobject_t self, pyobject_t pyargs) {
-  canvas_t* ret = NULL;
-  canvas_t* c = NULL;
-
-  if (!PyArg_ParseTuple(pyargs, "O&" , &parse_voidp, &c)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  ret = (canvas_t*)canvas_cast(c);
-  return PyLong_FromVoidPtr((void*)ret);
-}
-
-pyobject_t wrap_canvas_reset(pyobject_t self, pyobject_t pyargs) {
-  ret_t ret = 0;
-  canvas_t* c = NULL;
-
-  if (!PyArg_ParseTuple(pyargs, "O&" , &parse_voidp, &c)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  ret = (ret_t)canvas_reset(c);
-  return Py_BuildValue("i", ret);
-}
-
-pyobject_t wrap_canvas_t_get_prop_ox(pyobject_t self, pyobject_t pyargs) {
-  canvas_t* obj = NULL;
-
-  if (!PyArg_ParseTuple(pyargs, "O&", &parse_voidp, &obj)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  return Py_BuildValue("i", obj->ox);
-}
-
-pyobject_t wrap_canvas_t_get_prop_oy(pyobject_t self, pyobject_t pyargs) {
-  canvas_t* obj = NULL;
-
-  if (!PyArg_ParseTuple(pyargs, "O&", &parse_voidp, &obj)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  return Py_BuildValue("i", obj->oy);
-}
-
-pyobject_t wrap_canvas_t_get_prop_font_name(pyobject_t self, pyobject_t pyargs) {
-  canvas_t* obj = NULL;
-
-  if (!PyArg_ParseTuple(pyargs, "O&", &parse_voidp, &obj)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  return Py_BuildValue("s", obj->font_name);
-}
-
-pyobject_t wrap_canvas_t_get_prop_font_size(pyobject_t self, pyobject_t pyargs) {
-  canvas_t* obj = NULL;
-
-  if (!PyArg_ParseTuple(pyargs, "O&", &parse_voidp, &obj)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  return Py_BuildValue("i", obj->font_size);
-}
-
-pyobject_t wrap_canvas_t_get_prop_global_alpha(pyobject_t self, pyobject_t pyargs) {
-  canvas_t* obj = NULL;
-
-  if (!PyArg_ParseTuple(pyargs, "O&", &parse_voidp, &obj)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  return Py_BuildValue("i", obj->global_alpha);
-}
-
-pyobject_t get_OBJECT_CMD_SAVE(pyobject_t self, pyobject_t pyargs) {
-  return Py_BuildValue("s", OBJECT_CMD_SAVE);
-}
-
-pyobject_t get_OBJECT_CMD_RELOAD(pyobject_t self, pyobject_t pyargs) {
-  return Py_BuildValue("s", OBJECT_CMD_RELOAD);
-}
-
-pyobject_t get_OBJECT_CMD_MOVE_UP(pyobject_t self, pyobject_t pyargs) {
-  return Py_BuildValue("s", OBJECT_CMD_MOVE_UP);
-}
-
-pyobject_t get_OBJECT_CMD_MOVE_DOWN(pyobject_t self, pyobject_t pyargs) {
-  return Py_BuildValue("s", OBJECT_CMD_MOVE_DOWN);
-}
-
-pyobject_t get_OBJECT_CMD_REMOVE(pyobject_t self, pyobject_t pyargs) {
-  return Py_BuildValue("s", OBJECT_CMD_REMOVE);
-}
-
-pyobject_t get_OBJECT_CMD_CLEAR(pyobject_t self, pyobject_t pyargs) {
-  return Py_BuildValue("s", OBJECT_CMD_CLEAR);
-}
-
-pyobject_t get_OBJECT_CMD_ADD(pyobject_t self, pyobject_t pyargs) {
-  return Py_BuildValue("s", OBJECT_CMD_ADD);
-}
-
-pyobject_t get_OBJECT_CMD_EDIT(pyobject_t self, pyobject_t pyargs) {
-  return Py_BuildValue("s", OBJECT_CMD_EDIT);
 }
 
 pyobject_t wrap_named_value_create(pyobject_t self, pyobject_t pyargs) {
@@ -7738,12 +7359,427 @@ pyobject_t get_INDICATOR_DEFAULT_PAINT_STROKE_RECT(pyobject_t self, pyobject_t p
   return Py_BuildValue("i", INDICATOR_DEFAULT_PAINT_STROKE_RECT);
 }
 
-pyobject_t get_CLIP_BOARD_DATA_TYPE_NONE(pyobject_t self, pyobject_t pyargs) {
-  return Py_BuildValue("i", CLIP_BOARD_DATA_TYPE_NONE);
+pyobject_t wrap_canvas_get_width(pyobject_t self, pyobject_t pyargs) {
+  wh_t ret = 0;
+  canvas_t* c = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&" , &parse_voidp, &c)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (wh_t)canvas_get_width(c);
+  return Py_BuildValue("i", ret);
 }
 
-pyobject_t get_CLIP_BOARD_DATA_TYPE_TEXT(pyobject_t self, pyobject_t pyargs) {
-  return Py_BuildValue("i", CLIP_BOARD_DATA_TYPE_TEXT);
+pyobject_t wrap_canvas_get_height(pyobject_t self, pyobject_t pyargs) {
+  wh_t ret = 0;
+  canvas_t* c = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&" , &parse_voidp, &c)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (wh_t)canvas_get_height(c);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_canvas_get_clip_rect(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  canvas_t* c = NULL;
+  rect_t* r = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&O&" , &parse_voidp, &c, &parse_voidp, &r)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)canvas_get_clip_rect(c, r);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_canvas_set_clip_rect(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  canvas_t* c = NULL;
+  const rect_t* r = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&O&" , &parse_voidp, &c, &parse_voidp, &r)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)canvas_set_clip_rect(c, r);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_canvas_set_clip_rect_ex(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  canvas_t* c = NULL;
+  const rect_t* r = NULL;
+  bool_t translate = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&O&b" , &parse_voidp, &c, &parse_voidp, &r, &translate)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)canvas_set_clip_rect_ex(c, r, translate);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_canvas_set_fill_color_str(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  canvas_t* c = NULL;
+  const char* color = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&s" , &parse_voidp, &c, &color)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)canvas_set_fill_color_str(c, color);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_canvas_set_text_color_str(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  canvas_t* c = NULL;
+  const char* color = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&s" , &parse_voidp, &c, &color)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)canvas_set_text_color_str(c, color);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_canvas_set_stroke_color_str(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  canvas_t* c = NULL;
+  const char* color = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&s" , &parse_voidp, &c, &color)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)canvas_set_stroke_color_str(c, color);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_canvas_set_global_alpha(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  canvas_t* c = NULL;
+  uint8_t alpha = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&i" , &parse_voidp, &c, &alpha)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)canvas_set_global_alpha(c, alpha);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_canvas_translate(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  canvas_t* c = NULL;
+  xy_t dx = 0;
+  xy_t dy = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&ii" , &parse_voidp, &c, &dx, &dy)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)canvas_translate(c, dx, dy);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_canvas_untranslate(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  canvas_t* c = NULL;
+  xy_t dx = 0;
+  xy_t dy = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&ii" , &parse_voidp, &c, &dx, &dy)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)canvas_untranslate(c, dx, dy);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_canvas_draw_vline(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  canvas_t* c = NULL;
+  xy_t x = 0;
+  xy_t y = 0;
+  wh_t h = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&iii" , &parse_voidp, &c, &x, &y, &h)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)canvas_draw_vline(c, x, y, h);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_canvas_draw_hline(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  canvas_t* c = NULL;
+  xy_t x = 0;
+  xy_t y = 0;
+  wh_t w = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&iii" , &parse_voidp, &c, &x, &y, &w)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)canvas_draw_hline(c, x, y, w);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_canvas_fill_rect(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  canvas_t* c = NULL;
+  xy_t x = 0;
+  xy_t y = 0;
+  wh_t w = 0;
+  wh_t h = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&iiii" , &parse_voidp, &c, &x, &y, &w, &h)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)canvas_fill_rect(c, x, y, w, h);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_canvas_stroke_rect(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  canvas_t* c = NULL;
+  xy_t x = 0;
+  xy_t y = 0;
+  wh_t w = 0;
+  wh_t h = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&iiii" , &parse_voidp, &c, &x, &y, &w, &h)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)canvas_stroke_rect(c, x, y, w, h);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_canvas_set_font(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  canvas_t* c = NULL;
+  const char* name = NULL;
+  font_size_t size = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&si" , &parse_voidp, &c, &name, &size)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)canvas_set_font(c, name, size);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_canvas_measure_utf8(pyobject_t self, pyobject_t pyargs) {
+  float_t ret = 0;
+  canvas_t* c = NULL;
+  const char* str = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&s" , &parse_voidp, &c, &str)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (float_t)canvas_measure_utf8(c, str);
+  return Py_BuildValue("f", ret);
+}
+
+pyobject_t wrap_canvas_draw_utf8(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  canvas_t* c = NULL;
+  const char* str = NULL;
+  xy_t x = 0;
+  xy_t y = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&sii" , &parse_voidp, &c, &str, &x, &y)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)canvas_draw_utf8(c, str, x, y);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_canvas_draw_utf8_in_rect(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  canvas_t* c = NULL;
+  const char* str = NULL;
+  const rect_t* r = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&sO&" , &parse_voidp, &c, &str, &parse_voidp, &r)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)canvas_draw_utf8_in_rect(c, str, r);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_canvas_draw_icon(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  canvas_t* c = NULL;
+  bitmap_t* img = NULL;
+  xy_t cx = 0;
+  xy_t cy = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&O&ii" , &parse_voidp, &c, &parse_voidp, &img, &cx, &cy)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)canvas_draw_icon(c, img, cx, cy);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_canvas_draw_image(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  canvas_t* c = NULL;
+  bitmap_t* img = NULL;
+  rect_t* src = NULL;
+  rect_t* dst = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&O&O&O&" , &parse_voidp, &c, &parse_voidp, &img, &parse_voidp, &src, &parse_voidp, &dst)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)canvas_draw_image(c, img, src, dst);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_canvas_draw_image_ex(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  canvas_t* c = NULL;
+  bitmap_t* img = NULL;
+  image_draw_type_t draw_type = 0;
+  rect_t* dst = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&O&iO&" , &parse_voidp, &c, &parse_voidp, &img, &draw_type, &parse_voidp, &dst)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)canvas_draw_image_ex(c, img, draw_type, dst);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_canvas_get_vgcanvas(pyobject_t self, pyobject_t pyargs) {
+  vgcanvas_t* ret = NULL;
+  canvas_t* c = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&" , &parse_voidp, &c)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (vgcanvas_t*)canvas_get_vgcanvas(c);
+  return PyLong_FromVoidPtr((void*)ret);
+}
+
+pyobject_t wrap_canvas_cast(pyobject_t self, pyobject_t pyargs) {
+  canvas_t* ret = NULL;
+  canvas_t* c = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&" , &parse_voidp, &c)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (canvas_t*)canvas_cast(c);
+  return PyLong_FromVoidPtr((void*)ret);
+}
+
+pyobject_t wrap_canvas_reset(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  canvas_t* c = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&" , &parse_voidp, &c)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)canvas_reset(c);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_canvas_t_get_prop_ox(pyobject_t self, pyobject_t pyargs) {
+  canvas_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("i", obj->ox);
+}
+
+pyobject_t wrap_canvas_t_get_prop_oy(pyobject_t self, pyobject_t pyargs) {
+  canvas_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("i", obj->oy);
+}
+
+pyobject_t wrap_canvas_t_get_prop_font_name(pyobject_t self, pyobject_t pyargs) {
+  canvas_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("s", obj->font_name);
+}
+
+pyobject_t wrap_canvas_t_get_prop_font_size(pyobject_t self, pyobject_t pyargs) {
+  canvas_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("i", obj->font_size);
+}
+
+pyobject_t wrap_canvas_t_get_prop_global_alpha(pyobject_t self, pyobject_t pyargs) {
+  canvas_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("i", obj->global_alpha);
 }
 
 pyobject_t get_EASING_LINEAR(pyobject_t self, pyobject_t pyargs) {
@@ -7878,6 +7914,48 @@ pyobject_t wrap_date_time_from_time(pyobject_t self, pyobject_t pyargs) {
   }
 
   ret = (ret_t)date_time_from_time(dt, time);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_date_time_is_leap(pyobject_t self, pyobject_t pyargs) {
+  bool_t ret = 0;
+  uint32_t year = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "i" , &year)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (bool_t)date_time_is_leap(year);
+  return Py_BuildValue("b", ret);
+}
+
+pyobject_t wrap_date_time_get_days(pyobject_t self, pyobject_t pyargs) {
+  int32_t ret = 0;
+  uint32_t year = 0;
+  uint32_t montn = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "ii" , &year, &montn)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (int32_t)date_time_get_days(year, montn);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_date_time_get_wday(pyobject_t self, pyobject_t pyargs) {
+  int32_t ret = 0;
+  uint32_t year = 0;
+  uint32_t montn = 0;
+  uint32_t day = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "iii" , &year, &montn, &day)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (int32_t)date_time_get_wday(year, montn, day);
   return Py_BuildValue("i", ret);
 }
 
@@ -17054,6 +17132,8 @@ static PyMethodDef awtk_methods[] = {
 {"tk_get_pointer_x", wrap_tk_get_pointer_x, METH_VARARGS, "tk_get_pointer_x"},
 {"tk_get_pointer_y", wrap_tk_get_pointer_y, METH_VARARGS, "tk_get_pointer_y"},
 {"tk_is_pointer_pressed", wrap_tk_is_pointer_pressed, METH_VARARGS, "tk_is_pointer_pressed"},
+{"CLIP_BOARD_DATA_TYPE_NONE", get_CLIP_BOARD_DATA_TYPE_NONE, METH_VARARGS, "CLIP_BOARD_DATA_TYPE_NONE"},
+{"CLIP_BOARD_DATA_TYPE_TEXT", get_CLIP_BOARD_DATA_TYPE_TEXT, METH_VARARGS, "CLIP_BOARD_DATA_TYPE_TEXT"},
 {"clip_board_set_text", wrap_clip_board_set_text, METH_VARARGS, "clip_board_set_text"},
 {"clip_board_get_text", wrap_clip_board_get_text, METH_VARARGS, "clip_board_get_text"},
 {"DIALOG_QUIT_NONE", get_DIALOG_QUIT_NONE, METH_VARARGS, "DIALOG_QUIT_NONE"},
@@ -17152,6 +17232,7 @@ static PyMethodDef awtk_methods[] = {
 {"EVT_ERROR", get_EVT_ERROR, METH_VARARGS, "EVT_ERROR"},
 {"EVT_DESTROY", get_EVT_DESTROY, METH_VARARGS, "EVT_DESTROY"},
 {"font_manager_unload_font", wrap_font_manager_unload_font, METH_VARARGS, "font_manager_unload_font"},
+{"font_manager_shrink_cache", wrap_font_manager_shrink_cache, METH_VARARGS, "font_manager_shrink_cache"},
 {"font_manager_unload_all", wrap_font_manager_unload_all, METH_VARARGS, "font_manager_unload_all"},
 {"GLYPH_FMT_ALPHA", get_GLYPH_FMT_ALPHA, METH_VARARGS, "GLYPH_FMT_ALPHA"},
 {"GLYPH_FMT_MONO", get_GLYPH_FMT_MONO, METH_VARARGS, "GLYPH_FMT_MONO"},
@@ -17853,6 +17934,19 @@ static PyMethodDef awtk_methods[] = {
 {"RET_EOS", get_RET_EOS, METH_VARARGS, "RET_EOS"},
 {"time_now_s", wrap_time_now_s, METH_VARARGS, "time_now_s"},
 {"time_now_ms", wrap_time_now_ms, METH_VARARGS, "time_now_ms"},
+{"BIDI_TYPE_AUTO", get_BIDI_TYPE_AUTO, METH_VARARGS, "BIDI_TYPE_AUTO"},
+{"BIDI_TYPE_LTR", get_BIDI_TYPE_LTR, METH_VARARGS, "BIDI_TYPE_LTR"},
+{"BIDI_TYPE_RTL", get_BIDI_TYPE_RTL, METH_VARARGS, "BIDI_TYPE_RTL"},
+{"BIDI_TYPE_WLTR", get_BIDI_TYPE_WLTR, METH_VARARGS, "BIDI_TYPE_WLTR"},
+{"BIDI_TYPE_WRTL", get_BIDI_TYPE_WRTL, METH_VARARGS, "BIDI_TYPE_WRTL"},
+{"OBJECT_CMD_SAVE", get_OBJECT_CMD_SAVE, METH_VARARGS, "OBJECT_CMD_SAVE"},
+{"OBJECT_CMD_RELOAD", get_OBJECT_CMD_RELOAD, METH_VARARGS, "OBJECT_CMD_RELOAD"},
+{"OBJECT_CMD_MOVE_UP", get_OBJECT_CMD_MOVE_UP, METH_VARARGS, "OBJECT_CMD_MOVE_UP"},
+{"OBJECT_CMD_MOVE_DOWN", get_OBJECT_CMD_MOVE_DOWN, METH_VARARGS, "OBJECT_CMD_MOVE_DOWN"},
+{"OBJECT_CMD_REMOVE", get_OBJECT_CMD_REMOVE, METH_VARARGS, "OBJECT_CMD_REMOVE"},
+{"OBJECT_CMD_CLEAR", get_OBJECT_CMD_CLEAR, METH_VARARGS, "OBJECT_CMD_CLEAR"},
+{"OBJECT_CMD_ADD", get_OBJECT_CMD_ADD, METH_VARARGS, "OBJECT_CMD_ADD"},
+{"OBJECT_CMD_EDIT", get_OBJECT_CMD_EDIT, METH_VARARGS, "OBJECT_CMD_EDIT"},
 {"IMAGE_DRAW_DEFAULT", get_IMAGE_DRAW_DEFAULT, METH_VARARGS, "IMAGE_DRAW_DEFAULT"},
 {"IMAGE_DRAW_CENTER", get_IMAGE_DRAW_CENTER, METH_VARARGS, "IMAGE_DRAW_CENTER"},
 {"IMAGE_DRAW_ICON", get_IMAGE_DRAW_ICON, METH_VARARGS, "IMAGE_DRAW_ICON"},
@@ -17873,44 +17967,6 @@ static PyMethodDef awtk_methods[] = {
 {"IMAGE_DRAW_REPEAT9", get_IMAGE_DRAW_REPEAT9, METH_VARARGS, "IMAGE_DRAW_REPEAT9"},
 {"IMAGE_DRAW_REPEAT3_X", get_IMAGE_DRAW_REPEAT3_X, METH_VARARGS, "IMAGE_DRAW_REPEAT3_X"},
 {"IMAGE_DRAW_REPEAT3_Y", get_IMAGE_DRAW_REPEAT3_Y, METH_VARARGS, "IMAGE_DRAW_REPEAT3_Y"},
-{"canvas_get_width", wrap_canvas_get_width, METH_VARARGS, "canvas_get_width"},
-{"canvas_get_height", wrap_canvas_get_height, METH_VARARGS, "canvas_get_height"},
-{"canvas_get_clip_rect", wrap_canvas_get_clip_rect, METH_VARARGS, "canvas_get_clip_rect"},
-{"canvas_set_clip_rect", wrap_canvas_set_clip_rect, METH_VARARGS, "canvas_set_clip_rect"},
-{"canvas_set_clip_rect_ex", wrap_canvas_set_clip_rect_ex, METH_VARARGS, "canvas_set_clip_rect_ex"},
-{"canvas_set_fill_color_str", wrap_canvas_set_fill_color_str, METH_VARARGS, "canvas_set_fill_color_str"},
-{"canvas_set_text_color_str", wrap_canvas_set_text_color_str, METH_VARARGS, "canvas_set_text_color_str"},
-{"canvas_set_stroke_color_str", wrap_canvas_set_stroke_color_str, METH_VARARGS, "canvas_set_stroke_color_str"},
-{"canvas_set_global_alpha", wrap_canvas_set_global_alpha, METH_VARARGS, "canvas_set_global_alpha"},
-{"canvas_translate", wrap_canvas_translate, METH_VARARGS, "canvas_translate"},
-{"canvas_untranslate", wrap_canvas_untranslate, METH_VARARGS, "canvas_untranslate"},
-{"canvas_draw_vline", wrap_canvas_draw_vline, METH_VARARGS, "canvas_draw_vline"},
-{"canvas_draw_hline", wrap_canvas_draw_hline, METH_VARARGS, "canvas_draw_hline"},
-{"canvas_fill_rect", wrap_canvas_fill_rect, METH_VARARGS, "canvas_fill_rect"},
-{"canvas_stroke_rect", wrap_canvas_stroke_rect, METH_VARARGS, "canvas_stroke_rect"},
-{"canvas_set_font", wrap_canvas_set_font, METH_VARARGS, "canvas_set_font"},
-{"canvas_measure_utf8", wrap_canvas_measure_utf8, METH_VARARGS, "canvas_measure_utf8"},
-{"canvas_draw_utf8", wrap_canvas_draw_utf8, METH_VARARGS, "canvas_draw_utf8"},
-{"canvas_draw_utf8_in_rect", wrap_canvas_draw_utf8_in_rect, METH_VARARGS, "canvas_draw_utf8_in_rect"},
-{"canvas_draw_icon", wrap_canvas_draw_icon, METH_VARARGS, "canvas_draw_icon"},
-{"canvas_draw_image", wrap_canvas_draw_image, METH_VARARGS, "canvas_draw_image"},
-{"canvas_draw_image_ex", wrap_canvas_draw_image_ex, METH_VARARGS, "canvas_draw_image_ex"},
-{"canvas_get_vgcanvas", wrap_canvas_get_vgcanvas, METH_VARARGS, "canvas_get_vgcanvas"},
-{"canvas_cast", wrap_canvas_cast, METH_VARARGS, "canvas_cast"},
-{"canvas_reset", wrap_canvas_reset, METH_VARARGS, "canvas_reset"},
-{"canvas_t_get_prop_ox", wrap_canvas_t_get_prop_ox, METH_VARARGS, "canvas_t_get_prop_ox"},
-{"canvas_t_get_prop_oy", wrap_canvas_t_get_prop_oy, METH_VARARGS, "canvas_t_get_prop_oy"},
-{"canvas_t_get_prop_font_name", wrap_canvas_t_get_prop_font_name, METH_VARARGS, "canvas_t_get_prop_font_name"},
-{"canvas_t_get_prop_font_size", wrap_canvas_t_get_prop_font_size, METH_VARARGS, "canvas_t_get_prop_font_size"},
-{"canvas_t_get_prop_global_alpha", wrap_canvas_t_get_prop_global_alpha, METH_VARARGS, "canvas_t_get_prop_global_alpha"},
-{"OBJECT_CMD_SAVE", get_OBJECT_CMD_SAVE, METH_VARARGS, "OBJECT_CMD_SAVE"},
-{"OBJECT_CMD_RELOAD", get_OBJECT_CMD_RELOAD, METH_VARARGS, "OBJECT_CMD_RELOAD"},
-{"OBJECT_CMD_MOVE_UP", get_OBJECT_CMD_MOVE_UP, METH_VARARGS, "OBJECT_CMD_MOVE_UP"},
-{"OBJECT_CMD_MOVE_DOWN", get_OBJECT_CMD_MOVE_DOWN, METH_VARARGS, "OBJECT_CMD_MOVE_DOWN"},
-{"OBJECT_CMD_REMOVE", get_OBJECT_CMD_REMOVE, METH_VARARGS, "OBJECT_CMD_REMOVE"},
-{"OBJECT_CMD_CLEAR", get_OBJECT_CMD_CLEAR, METH_VARARGS, "OBJECT_CMD_CLEAR"},
-{"OBJECT_CMD_ADD", get_OBJECT_CMD_ADD, METH_VARARGS, "OBJECT_CMD_ADD"},
-{"OBJECT_CMD_EDIT", get_OBJECT_CMD_EDIT, METH_VARARGS, "OBJECT_CMD_EDIT"},
 {"named_value_create", wrap_named_value_create, METH_VARARGS, "named_value_create"},
 {"named_value_cast", wrap_named_value_cast, METH_VARARGS, "named_value_cast"},
 {"named_value_set_name", wrap_named_value_set_name, METH_VARARGS, "named_value_set_name"},
@@ -18024,8 +18080,36 @@ static PyMethodDef awtk_methods[] = {
 {"INDICATOR_DEFAULT_PAINT_STROKE_DOT", get_INDICATOR_DEFAULT_PAINT_STROKE_DOT, METH_VARARGS, "INDICATOR_DEFAULT_PAINT_STROKE_DOT"},
 {"INDICATOR_DEFAULT_PAINT_FILL_RECT", get_INDICATOR_DEFAULT_PAINT_FILL_RECT, METH_VARARGS, "INDICATOR_DEFAULT_PAINT_FILL_RECT"},
 {"INDICATOR_DEFAULT_PAINT_STROKE_RECT", get_INDICATOR_DEFAULT_PAINT_STROKE_RECT, METH_VARARGS, "INDICATOR_DEFAULT_PAINT_STROKE_RECT"},
-{"CLIP_BOARD_DATA_TYPE_NONE", get_CLIP_BOARD_DATA_TYPE_NONE, METH_VARARGS, "CLIP_BOARD_DATA_TYPE_NONE"},
-{"CLIP_BOARD_DATA_TYPE_TEXT", get_CLIP_BOARD_DATA_TYPE_TEXT, METH_VARARGS, "CLIP_BOARD_DATA_TYPE_TEXT"},
+{"canvas_get_width", wrap_canvas_get_width, METH_VARARGS, "canvas_get_width"},
+{"canvas_get_height", wrap_canvas_get_height, METH_VARARGS, "canvas_get_height"},
+{"canvas_get_clip_rect", wrap_canvas_get_clip_rect, METH_VARARGS, "canvas_get_clip_rect"},
+{"canvas_set_clip_rect", wrap_canvas_set_clip_rect, METH_VARARGS, "canvas_set_clip_rect"},
+{"canvas_set_clip_rect_ex", wrap_canvas_set_clip_rect_ex, METH_VARARGS, "canvas_set_clip_rect_ex"},
+{"canvas_set_fill_color_str", wrap_canvas_set_fill_color_str, METH_VARARGS, "canvas_set_fill_color_str"},
+{"canvas_set_text_color_str", wrap_canvas_set_text_color_str, METH_VARARGS, "canvas_set_text_color_str"},
+{"canvas_set_stroke_color_str", wrap_canvas_set_stroke_color_str, METH_VARARGS, "canvas_set_stroke_color_str"},
+{"canvas_set_global_alpha", wrap_canvas_set_global_alpha, METH_VARARGS, "canvas_set_global_alpha"},
+{"canvas_translate", wrap_canvas_translate, METH_VARARGS, "canvas_translate"},
+{"canvas_untranslate", wrap_canvas_untranslate, METH_VARARGS, "canvas_untranslate"},
+{"canvas_draw_vline", wrap_canvas_draw_vline, METH_VARARGS, "canvas_draw_vline"},
+{"canvas_draw_hline", wrap_canvas_draw_hline, METH_VARARGS, "canvas_draw_hline"},
+{"canvas_fill_rect", wrap_canvas_fill_rect, METH_VARARGS, "canvas_fill_rect"},
+{"canvas_stroke_rect", wrap_canvas_stroke_rect, METH_VARARGS, "canvas_stroke_rect"},
+{"canvas_set_font", wrap_canvas_set_font, METH_VARARGS, "canvas_set_font"},
+{"canvas_measure_utf8", wrap_canvas_measure_utf8, METH_VARARGS, "canvas_measure_utf8"},
+{"canvas_draw_utf8", wrap_canvas_draw_utf8, METH_VARARGS, "canvas_draw_utf8"},
+{"canvas_draw_utf8_in_rect", wrap_canvas_draw_utf8_in_rect, METH_VARARGS, "canvas_draw_utf8_in_rect"},
+{"canvas_draw_icon", wrap_canvas_draw_icon, METH_VARARGS, "canvas_draw_icon"},
+{"canvas_draw_image", wrap_canvas_draw_image, METH_VARARGS, "canvas_draw_image"},
+{"canvas_draw_image_ex", wrap_canvas_draw_image_ex, METH_VARARGS, "canvas_draw_image_ex"},
+{"canvas_get_vgcanvas", wrap_canvas_get_vgcanvas, METH_VARARGS, "canvas_get_vgcanvas"},
+{"canvas_cast", wrap_canvas_cast, METH_VARARGS, "canvas_cast"},
+{"canvas_reset", wrap_canvas_reset, METH_VARARGS, "canvas_reset"},
+{"canvas_t_get_prop_ox", wrap_canvas_t_get_prop_ox, METH_VARARGS, "canvas_t_get_prop_ox"},
+{"canvas_t_get_prop_oy", wrap_canvas_t_get_prop_oy, METH_VARARGS, "canvas_t_get_prop_oy"},
+{"canvas_t_get_prop_font_name", wrap_canvas_t_get_prop_font_name, METH_VARARGS, "canvas_t_get_prop_font_name"},
+{"canvas_t_get_prop_font_size", wrap_canvas_t_get_prop_font_size, METH_VARARGS, "canvas_t_get_prop_font_size"},
+{"canvas_t_get_prop_global_alpha", wrap_canvas_t_get_prop_global_alpha, METH_VARARGS, "canvas_t_get_prop_global_alpha"},
 {"EASING_LINEAR", get_EASING_LINEAR, METH_VARARGS, "EASING_LINEAR"},
 {"EASING_QUADRATIC_IN", get_EASING_QUADRATIC_IN, METH_VARARGS, "EASING_QUADRATIC_IN"},
 {"EASING_QUADRATIC_OUT", get_EASING_QUADRATIC_OUT, METH_VARARGS, "EASING_QUADRATIC_OUT"},
@@ -18053,6 +18137,9 @@ static PyMethodDef awtk_methods[] = {
 {"date_time_create", wrap_date_time_create, METH_VARARGS, "date_time_create"},
 {"date_time_set", wrap_date_time_set, METH_VARARGS, "date_time_set"},
 {"date_time_from_time", wrap_date_time_from_time, METH_VARARGS, "date_time_from_time"},
+{"date_time_is_leap", wrap_date_time_is_leap, METH_VARARGS, "date_time_is_leap"},
+{"date_time_get_days", wrap_date_time_get_days, METH_VARARGS, "date_time_get_days"},
+{"date_time_get_wday", wrap_date_time_get_wday, METH_VARARGS, "date_time_get_wday"},
 {"date_time_t_get_prop_second", wrap_date_time_t_get_prop_second, METH_VARARGS, "date_time_t_get_prop_second"},
 {"date_time_t_get_prop_minute", wrap_date_time_t_get_prop_minute, METH_VARARGS, "date_time_t_get_prop_minute"},
 {"date_time_t_get_prop_hour", wrap_date_time_t_get_prop_hour, METH_VARARGS, "date_time_t_get_prop_hour"},
