@@ -66,6 +66,15 @@ class TEvent(object):
 
 
   #
+  # 结构体的大小。
+  #
+  #
+  @property
+  def size(self):
+    return event_t_get_prop_size(self.nativeObj);
+
+
+  #
   # 事件发生的时间。
   #
   #
@@ -1580,19 +1589,19 @@ class TEventType:
   MOVE_RESIZE = EVT_MOVE_RESIZE();
 
   #
-  # 控件的值即将改变的事件名(event_t)。
+  # 控件的值即将改变的事件名(value_change_event_t)。
   #
   #
   VALUE_WILL_CHANGE = EVT_VALUE_WILL_CHANGE();
 
   #
-  # 控件的值改变的事件名(event_t)。
+  # 控件的值改变的事件名(value_change_event_t)。
   #
   #
   VALUE_CHANGED = EVT_VALUE_CHANGED();
 
   #
-  # 控件的值持续改变(如编辑器正在编辑)的事件名(event_t)。
+  # 控件的值持续改变(如编辑器正在编辑)的事件名(value_change_event_t)。
   #
   #
   VALUE_CHANGING = EVT_VALUE_CHANGING();
@@ -3275,6 +3284,138 @@ class TAssetsManager(object):
 
 
 #
+# 类型常量定义。
+#
+#
+class TValueType: 
+
+  #
+  # 无效类型。
+  #
+  #
+  INVALID = VALUE_TYPE_INVALID();
+
+  #
+  # BOOL类型。
+  #
+  #
+  BOOL = VALUE_TYPE_BOOL();
+
+  #
+  # int8_t类型。
+  #
+  #
+  INT8 = VALUE_TYPE_INT8();
+
+  #
+  # uint8_t类型。
+  #
+  #
+  UINT8 = VALUE_TYPE_UINT8();
+
+  #
+  # int16_t类型。
+  #
+  #
+  INT16 = VALUE_TYPE_INT16();
+
+  #
+  # uint16_t类型。
+  #
+  #
+  UINT16 = VALUE_TYPE_UINT16();
+
+  #
+  # int32_t类型。
+  #
+  #
+  INT32 = VALUE_TYPE_INT32();
+
+  #
+  # uint32_t类型。
+  #
+  #
+  UINT32 = VALUE_TYPE_UINT32();
+
+  #
+  # int64_t类型。
+  #
+  #
+  INT64 = VALUE_TYPE_INT64();
+
+  #
+  # uint64_t类型。
+  #
+  #
+  UINT64 = VALUE_TYPE_UINT64();
+
+  #
+  # void*类型。
+  #
+  #
+  POINTER = VALUE_TYPE_POINTER();
+
+  #
+  # float_t类型。
+  #
+  #
+  FLOAT = VALUE_TYPE_FLOAT();
+
+  #
+  # float类型。
+  #
+  #
+  FLOAT32 = VALUE_TYPE_FLOAT32();
+
+  #
+  # double类型。
+  #
+  #
+  DOUBLE = VALUE_TYPE_DOUBLE();
+
+  #
+  # char*类型。
+  #
+  #
+  STRING = VALUE_TYPE_STRING();
+
+  #
+  # wchar_t*类型。
+  #
+  #
+  WSTRING = VALUE_TYPE_WSTRING();
+
+  #
+  # object_t*类型。
+  #
+  #
+  OBJECT = VALUE_TYPE_OBJECT();
+
+  #
+  # 带长度的字符串。
+  #
+  #
+  SIZED_STRING = VALUE_TYPE_SIZED_STRING();
+
+  #
+  # 二进制数据。
+  #
+  #
+  BINARY = VALUE_TYPE_BINARY();
+
+  #
+  # 二进制数据(UBJSON)。
+  #
+  #
+  UBJSON = VALUE_TYPE_UBJSON();
+
+  #
+  # 特殊用途。
+  #
+  #
+  TOKEN = VALUE_TYPE_TOKEN();
+
+#
 # style常量定义。
 #
 #
@@ -3607,138 +3748,6 @@ class TStyle(object):
   def is_mutable(self): 
     return style_is_mutable(awtk_get_native_obj(self));
 
-
-#
-# 类型常量定义。
-#
-#
-class TValueType: 
-
-  #
-  # 无效类型。
-  #
-  #
-  INVALID = VALUE_TYPE_INVALID();
-
-  #
-  # BOOL类型。
-  #
-  #
-  BOOL = VALUE_TYPE_BOOL();
-
-  #
-  # int8_t类型。
-  #
-  #
-  INT8 = VALUE_TYPE_INT8();
-
-  #
-  # uint8_t类型。
-  #
-  #
-  UINT8 = VALUE_TYPE_UINT8();
-
-  #
-  # int16_t类型。
-  #
-  #
-  INT16 = VALUE_TYPE_INT16();
-
-  #
-  # uint16_t类型。
-  #
-  #
-  UINT16 = VALUE_TYPE_UINT16();
-
-  #
-  # int32_t类型。
-  #
-  #
-  INT32 = VALUE_TYPE_INT32();
-
-  #
-  # uint32_t类型。
-  #
-  #
-  UINT32 = VALUE_TYPE_UINT32();
-
-  #
-  # int64_t类型。
-  #
-  #
-  INT64 = VALUE_TYPE_INT64();
-
-  #
-  # uint64_t类型。
-  #
-  #
-  UINT64 = VALUE_TYPE_UINT64();
-
-  #
-  # void*类型。
-  #
-  #
-  POINTER = VALUE_TYPE_POINTER();
-
-  #
-  # float_t类型。
-  #
-  #
-  FLOAT = VALUE_TYPE_FLOAT();
-
-  #
-  # float类型。
-  #
-  #
-  FLOAT32 = VALUE_TYPE_FLOAT32();
-
-  #
-  # double类型。
-  #
-  #
-  DOUBLE = VALUE_TYPE_DOUBLE();
-
-  #
-  # char*类型。
-  #
-  #
-  STRING = VALUE_TYPE_STRING();
-
-  #
-  # wchar_t*类型。
-  #
-  #
-  WSTRING = VALUE_TYPE_WSTRING();
-
-  #
-  # object_t*类型。
-  #
-  #
-  OBJECT = VALUE_TYPE_OBJECT();
-
-  #
-  # 带长度的字符串。
-  #
-  #
-  SIZED_STRING = VALUE_TYPE_SIZED_STRING();
-
-  #
-  # 二进制数据。
-  #
-  #
-  BINARY = VALUE_TYPE_BINARY();
-
-  #
-  # 二进制数据(UBJSON)。
-  #
-  #
-  UBJSON = VALUE_TYPE_UBJSON();
-
-  #
-  # 特殊用途。
-  #
-  #
-  TOKEN = VALUE_TYPE_TOKEN();
 
 #
 # 主题。
@@ -10007,46 +10016,36 @@ class TAssetType:
   DATA = ASSET_TYPE_DATA();
 
 #
-# 表盘控件。
+# 仪表指针控件。
 #
-#表盘控件就是一张图片。
+#仪表指针就是一张旋转的图片，图片可以是普通图片也可以是SVG图片。
 #
-#guage\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于guage\_t控件。
+#在嵌入式平台上，对于旋转的图片，SVG图片的效率比位图高数倍，所以推荐使用SVG图片。
 #
-#在xml中使用"guage"标签创建表盘控件。如：
+#guage\_pointer\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于guage\_pointer\_t控件。
+#
+#在xml中使用"guage\_pointer"标签创建仪表指针控件。如：
 #
 #```xml
-#<guage x="c" y="10" w="240" h="240" image="guage_bg"
+#<guage_pointer x="c" y="50" w="24" h="140" value="-128" image="guage_pointer" />
 #```
 #
 #> 更多用法请参考：
 #[guage.xml](https://github.com/zlgopen/awtk/blob/master/design/default/ui/guage.xml)
 #
-#在c代码中使用函数guage\_create创建表盘控件。如：
+#在c代码中使用函数guage\_pointer\_create创建仪表指针控件。如：
 #
 #
-#可用通过style来设置控件的显示风格，如背景和边框等。如：
-#
-#```xml
-#<guage>
-#<style name="border">
-#<normal border_color="#000000" bg_color="#e0e0e0" text_color="black"/>
-#</style>
-#</guage>
-#```
-#
-#> 更多用法请参考：
-#[theme
-#default](https://github.com/zlgopen/awtk/blob/master/design/default/styles/default.xml)
+#> 创建之后，需要用guage\_pointer\_set\_image设置仪表指针图片。
 #
 #
-class TGuage (TWidget):
+class TGuagePointer (TWidget):
   def __init__(self, nativeObj):
-    super(TGuage, self).__init__(nativeObj)
+    super(TGuagePointer, self).__init__(nativeObj)
 
 
   #
-  # 创建guage对象
+  # 创建guage_pointer对象
   # 
   # @param parent 父控件
   # @param x x坐标
@@ -10058,53 +10057,77 @@ class TGuage (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TGuage(guage_create(awtk_get_native_obj(parent), x, y, w, h));
+    return  TGuagePointer(guage_pointer_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
-  # 转换为guage对象(供脚本语言使用)。
+  # 转换为guage_pointer对象(供脚本语言使用)。
   # 
-  # @param widget guage对象。
+  # @param widget guage_pointer对象。
   #
-  # @return guage对象。
+  # @return guage_pointer对象。
   #
   @classmethod
   def cast(cls, widget): 
-    return  TGuage(guage_cast(awtk_get_native_obj(widget)));
+    return  TGuagePointer(guage_pointer_cast(awtk_get_native_obj(widget)));
 
 
   #
-  # 设置背景图片的名称。
+  # 设置指针角度。12点钟方向为0度，顺时钟方向为正，单位为度。
   # 
-  # @param name 图片名称，该图片必须存在于资源管理器。
+  # @param angle 指针角度。
   #
   # @return 返回RET_OK表示成功，否则表示失败。
   #
-  def set_image(self, name): 
-    return guage_set_image(awtk_get_native_obj(self), name);
+  def set_angle(self, angle): 
+    return guage_pointer_set_angle(awtk_get_native_obj(self), angle);
 
 
   #
-  # 设置图片的显示方式。
-  #
-  #> 绘制方式的属性值和枚举值:
-  #[image\_draw\_type\_name\_value](https://github.com/zlgopen/awtk/blob/master/src/base/enums.c#L98)
+  # 设置指针的图片。
   # 
-  # @param draw_type 显示方式。
+  # @param image 指针的图片。
   #
   # @return 返回RET_OK表示成功，否则表示失败。
   #
-  def set_draw_type(self, draw_type): 
-    return guage_set_draw_type(awtk_get_native_obj(self), draw_type);
+  def set_image(self, image): 
+    return guage_pointer_set_image(awtk_get_native_obj(self), image);
 
 
   #
-  # 背景图片。
+  # 设置指针的旋转锚点。
+  # 
+  # @param anchor_x 指针的锚点坐标x。(后面加上px为像素点，不加px为相对百分比坐标)
+  # @param anchor_y 指针的锚点坐标y。(后面加上px为像素点，不加px为相对百分比坐标)
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_anchor(self, anchor_x, anchor_y): 
+    return guage_pointer_set_anchor(awtk_get_native_obj(self), anchor_x, anchor_y);
+
+
+  #
+  # 指针角度。12点钟方向为0度，顺时钟方向为正，单位为度。
+  #
+  #
+  @property
+  def angle(self):
+    return guage_pointer_t_get_prop_angle(self.nativeObj);
+
+  @angle.setter
+  def angle(self, v):
+   this.set_angle(v);
+
+
+  #
+  # 指针图片。
+  #
+  #图片须垂直向上，图片的中心点为旋转方向。
   #
   #
   @property
   def image(self):
-    return guage_t_get_prop_image(self.nativeObj);
+    return guage_pointer_t_get_prop_image(self.nativeObj);
 
   @image.setter
   def image(self, v):
@@ -10112,16 +10135,21 @@ class TGuage (TWidget):
 
 
   #
-  # 图片的绘制方式。
+  # 图片旋转锚点x坐标。(后面加上px为像素点，不加px为相对百分比坐标0.0f到1.0f)
   #
   #
   @property
-  def draw_type(self):
-    return guage_t_get_prop_draw_type(self.nativeObj);
+  def anchor_x(self):
+    return guage_pointer_t_get_prop_anchor_x(self.nativeObj);
 
-  @draw_type.setter
-  def draw_type(self, v):
-   this.set_draw_type(v);
+
+  #
+  # 图片旋转锚点x坐标。(后面加上px为像素点，不加px为相对百分比坐标0.0f到1.0f)
+  #
+  #
+  @property
+  def anchor_y(self):
+    return guage_pointer_t_get_prop_anchor_y(self.nativeObj);
 
 
 #
@@ -13239,68 +13267,6 @@ class TTextSelector (TWidget):
 
 
 #
-# column。一个简单的容器控件，垂直排列其子控件。
-#
-#它本身不提供布局功能，仅提供具有语义的标签，让xml更具有可读性。
-#子控件的布局可用layout\_children属性指定。
-#请参考[布局参数](https://github.com/zlgopen/awtk/blob/master/docs/layout.md)。
-#
-#column\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于column\_t控件。
-#
-#在xml中使用"column"标签创建column。如：
-#
-#```xml
-#<column x="0" y="0" w="100%" h="100%" children_layout="default(c=1,r=0)">
-#<button name="open:basic" text="Basic"/>
-#<button name="open:button" text="Buttons"/>
-#<button name="open:edit" text="Edits"/>
-#<button name="open:keyboard" text="KeyBoard"/>
-#</column>
-#```
-#
-#可用通过style来设置控件的显示风格，如背景颜色等。如：
-#
-#```xml
-#<style name="default" border_color="#a0a0a0">
-#<normal     bg_color="#f0f0f0" />
-#</style>
-#```
-#
-#
-class TColumn (TWidget):
-  def __init__(self, nativeObj):
-    super(TColumn, self).__init__(nativeObj)
-
-
-  #
-  # 创建column对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TColumn(column_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 转换为column对象(供脚本语言使用)。
-  # 
-  # @param widget column对象。
-  #
-  # @return column对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TColumn(column_cast(awtk_get_native_obj(widget)));
-
-
-#
 # 开关控件。
 #
 #switch\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于switch\_t控件。
@@ -13399,6 +13365,68 @@ class TSwitch (TWidget):
 
 
 #
+# column。一个简单的容器控件，垂直排列其子控件。
+#
+#它本身不提供布局功能，仅提供具有语义的标签，让xml更具有可读性。
+#子控件的布局可用layout\_children属性指定。
+#请参考[布局参数](https://github.com/zlgopen/awtk/blob/master/docs/layout.md)。
+#
+#column\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于column\_t控件。
+#
+#在xml中使用"column"标签创建column。如：
+#
+#```xml
+#<column x="0" y="0" w="100%" h="100%" children_layout="default(c=1,r=0)">
+#<button name="open:basic" text="Basic"/>
+#<button name="open:button" text="Buttons"/>
+#<button name="open:edit" text="Edits"/>
+#<button name="open:keyboard" text="KeyBoard"/>
+#</column>
+#```
+#
+#可用通过style来设置控件的显示风格，如背景颜色等。如：
+#
+#```xml
+#<style name="default" border_color="#a0a0a0">
+#<normal     bg_color="#f0f0f0" />
+#</style>
+#```
+#
+#
+class TColumn (TWidget):
+  def __init__(self, nativeObj):
+    super(TColumn, self).__init__(nativeObj)
+
+
+  #
+  # 创建column对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+    return  TColumn(column_create(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 转换为column对象(供脚本语言使用)。
+  # 
+  # @param widget column对象。
+  #
+  # @return column对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TColumn(column_cast(awtk_get_native_obj(widget)));
+
+
+#
 # 色块控件。
 #
 #用来显示一个颜色块，它通过属性而不是主题来设置颜色，方便在运行时动态改变颜色。
@@ -13485,187 +13513,6 @@ class TColorTile (TWidget):
   @property
   def border_color(self):
     return color_tile_t_get_prop_border_color(self.nativeObj);
-
-
-#
-# 一个裁剪子控件的容器控件。
-#
-#它本身不提供布局功能，仅提供具有语义的标签，让xml更具有可读性。
-#子控件的布局可用layout\_children属性指定。
-#请参考[布局参数](https://github.com/zlgopen/awtk/blob/master/docs/layout.md)。
-#
-#clip\_view\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于clip\_view\_t控件。
-#
-#在xml中使用"clip_view"标签创建clip_view，在clip_view控件下的所有子控件都会被裁剪。如下button控件会被裁剪，无法画出clip_view控件 ：
-#
-#```xml
-#<clip_view x="0" y="0" w="100" h="100">
-#<button x="50" y="10" w="100" h="50" />
-#</clip_view>
-#```
-#
-#备注：在clip_view控件下的所有子控件都会被裁剪，如果子控件本身会设置裁剪区的话，在子控件中计算裁剪区的交集，具体请参考scroll_view控件的scroll_view_on_paint_children函数。
-#
-#可用通过style来设置控件的显示风格，如背景颜色等。如：
-#
-#```xml
-#<style name="default" border_color="#a0a0a0">
-#<normal     bg_color="#f0f0f0" />
-#</style>
-#```
-#
-#
-class TClipView (TWidget):
-  def __init__(self, nativeObj):
-    super(TClipView, self).__init__(nativeObj)
-
-
-  #
-  # 创建clip_view对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TClipView(clip_view_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 转换为clip_view对象(供脚本语言使用)。
-  # 
-  # @param widget clip_view对象。
-  #
-  # @return clip_view对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TClipView(clip_view_cast(awtk_get_native_obj(widget)));
-
-
-#
-# 勾选按钮控件(单选/多选)。
-#
-#check\_button\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于check\_button\_t控件。
-#
-#在xml中使用"check_button"标签创建多选按钮控件。如：
-#
-#```xml
-#<check_button name="c1" text="Book"/>
-#```
-#
-#在xml中使用"radio_button"标签创建单选按钮控件。如：
-#
-#```xml
-#<radio_button name="r1" text="Book"/>
-#```
-#
-#> 更多用法请参考：
-#[button.xml](https://github.com/zlgopen/awtk/blob/master/design/default/ui/basic.xml)
-#
-#在c代码中使用函数check\_button\_create创建多选按钮控件。如：
-#
-#
-#在c代码中使用函数check\_button\_create\_radio创建单选按钮控件。如：
-#
-#
-#> 完整示例请参考：
-#[button demo](https://github.com/zlgopen/awtk-c-demos/blob/master/demos/check_button.c)
-#
-#可用通过style来设置控件的显示风格，如字体的大小和颜色等等。如：
-#
-#```xml
-#<style name="default" icon_at="left">
-#<normal  icon="unchecked" />
-#<pressed icon="unchecked" />
-#<over    icon="unchecked" text_color="green"/>
-#<normal_of_checked icon="checked" text_color="blue"/>
-#<pressed_of_checked icon="checked" text_color="blue"/>
-#<over_of_checked icon="checked" text_color="green"/>
-#</style>
-#```
-#
-#> 更多用法请参考：
-#[theme
-#default](https://github.com/zlgopen/awtk/blob/master/design/default/styles/default.xml#L227)
-#
-#
-class TCheckButton (TWidget):
-  def __init__(self, nativeObj):
-    super(TCheckButton, self).__init__(nativeObj)
-
-
-  #
-  # 创建多选按钮对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return widget对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  TCheckButton(check_button_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 创建单选按钮对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return widget对象。
-  #
-  @classmethod
-  def create_radio(cls, parent, x, y, w, h): 
-    return  TCheckButton(check_button_create_radio(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 设置控件的值。
-  # 
-  # @param value 值(勾选为TRUE，非勾选为FALSE)。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_value(self, value): 
-    return check_button_set_value(awtk_get_native_obj(self), value);
-
-
-  #
-  # 转换check_button对象(供脚本语言使用)。
-  # 
-  # @param widget check_button对象。
-  #
-  # @return check_button对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  TCheckButton(check_button_cast(awtk_get_native_obj(widget)));
-
-
-  #
-  # 值(勾选为TRUE，非勾选为FALSE)。
-  #
-  #
-  @property
-  def value(self):
-    return check_button_t_get_prop_value(self.nativeObj);
-
-  @value.setter
-  def value(self, v):
-   this.set_value(v);
 
 
 #
@@ -13864,6 +13711,187 @@ class TSlideView (TWidget):
   @anim_hint.setter
   def anim_hint(self, v):
    this.set_anim_hint(v);
+
+
+#
+# 一个裁剪子控件的容器控件。
+#
+#它本身不提供布局功能，仅提供具有语义的标签，让xml更具有可读性。
+#子控件的布局可用layout\_children属性指定。
+#请参考[布局参数](https://github.com/zlgopen/awtk/blob/master/docs/layout.md)。
+#
+#clip\_view\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于clip\_view\_t控件。
+#
+#在xml中使用"clip_view"标签创建clip_view，在clip_view控件下的所有子控件都会被裁剪。如下button控件会被裁剪，无法画出clip_view控件 ：
+#
+#```xml
+#<clip_view x="0" y="0" w="100" h="100">
+#<button x="50" y="10" w="100" h="50" />
+#</clip_view>
+#```
+#
+#备注：在clip_view控件下的所有子控件都会被裁剪，如果子控件本身会设置裁剪区的话，在子控件中计算裁剪区的交集，具体请参考scroll_view控件的scroll_view_on_paint_children函数。
+#
+#可用通过style来设置控件的显示风格，如背景颜色等。如：
+#
+#```xml
+#<style name="default" border_color="#a0a0a0">
+#<normal     bg_color="#f0f0f0" />
+#</style>
+#```
+#
+#
+class TClipView (TWidget):
+  def __init__(self, nativeObj):
+    super(TClipView, self).__init__(nativeObj)
+
+
+  #
+  # 创建clip_view对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+    return  TClipView(clip_view_create(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 转换为clip_view对象(供脚本语言使用)。
+  # 
+  # @param widget clip_view对象。
+  #
+  # @return clip_view对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TClipView(clip_view_cast(awtk_get_native_obj(widget)));
+
+
+#
+# 勾选按钮控件(单选/多选)。
+#
+#check\_button\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于check\_button\_t控件。
+#
+#在xml中使用"check_button"标签创建多选按钮控件。如：
+#
+#```xml
+#<check_button name="c1" text="Book"/>
+#```
+#
+#在xml中使用"radio_button"标签创建单选按钮控件。如：
+#
+#```xml
+#<radio_button name="r1" text="Book"/>
+#```
+#
+#> 更多用法请参考：
+#[button.xml](https://github.com/zlgopen/awtk/blob/master/design/default/ui/basic.xml)
+#
+#在c代码中使用函数check\_button\_create创建多选按钮控件。如：
+#
+#
+#在c代码中使用函数check\_button\_create\_radio创建单选按钮控件。如：
+#
+#
+#> 完整示例请参考：
+#[button demo](https://github.com/zlgopen/awtk-c-demos/blob/master/demos/check_button.c)
+#
+#可用通过style来设置控件的显示风格，如字体的大小和颜色等等。如：
+#
+#```xml
+#<style name="default" icon_at="left">
+#<normal  icon="unchecked" />
+#<pressed icon="unchecked" />
+#<over    icon="unchecked" text_color="green"/>
+#<normal_of_checked icon="checked" text_color="blue"/>
+#<pressed_of_checked icon="checked" text_color="blue"/>
+#<over_of_checked icon="checked" text_color="green"/>
+#</style>
+#```
+#
+#> 更多用法请参考：
+#[theme
+#default](https://github.com/zlgopen/awtk/blob/master/design/default/styles/default.xml#L227)
+#
+#
+class TCheckButton (TWidget):
+  def __init__(self, nativeObj):
+    super(TCheckButton, self).__init__(nativeObj)
+
+
+  #
+  # 创建多选按钮对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return widget对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+    return  TCheckButton(check_button_create(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 创建单选按钮对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return widget对象。
+  #
+  @classmethod
+  def create_radio(cls, parent, x, y, w, h): 
+    return  TCheckButton(check_button_create_radio(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 设置控件的值。
+  # 
+  # @param value 值(勾选为TRUE，非勾选为FALSE)。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_value(self, value): 
+    return check_button_set_value(awtk_get_native_obj(self), value);
+
+
+  #
+  # 转换check_button对象(供脚本语言使用)。
+  # 
+  # @param widget check_button对象。
+  #
+  # @return check_button对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TCheckButton(check_button_cast(awtk_get_native_obj(widget)));
+
+
+  #
+  # 值(勾选为TRUE，非勾选为FALSE)。
+  #
+  #
+  @property
+  def value(self):
+    return check_button_t_get_prop_value(self.nativeObj);
+
+  @value.setter
+  def value(self, v):
+   this.set_value(v);
 
 
 #
@@ -15156,6 +15184,288 @@ class TListItem (TWidget):
 
 
 #
+# 可水平滚动的文本控件，方便实现长文本滚动。
+#
+#
+#hscroll\_label\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于hscroll\_label\_t控件。
+#
+#在xml中使用"hscroll\_label"标签创建行号控件，一般配合mledit使用。如：
+#
+#```xml
+#```
+#
+#> 更多用法请参考：[mledit.xml](
+#https://github.com/zlgopen/awtk/blob/master/design/default/ui/mledit.xml)
+#
+#可用通过style来设置控件的显示风格，如字体的大小和颜色等等。如：
+#
+#```xml
+#<style name="default" text_color="black">
+#<normal   />
+#<focused  />
+#</style>
+#```
+#
+#> 更多用法请参考：
+#[theme default](
+#https://github.com/zlgopen/awtk/blob/master/design/default/styles/default.xml)
+#
+#
+class THscrollLabel (TWidget):
+  def __init__(self, nativeObj):
+    super(THscrollLabel, self).__init__(nativeObj)
+
+
+  #
+  # 创建hscroll_label对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+    return  THscrollLabel(hscroll_label_create(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 设置lull。
+  # 
+  # @param lull 间歇时间(ms)。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_lull(self, lull): 
+    return hscroll_label_set_lull(awtk_get_native_obj(self), lull);
+
+
+  #
+  # 设置duration。
+  # 
+  # @param duration 滚动时间(ms)。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_duration(self, duration): 
+    return hscroll_label_set_duration(awtk_get_native_obj(self), duration);
+
+
+  #
+  # 设置only_focus。
+  # 
+  # @param only_focus 是否只有处于focus时才滚动。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_only_focus(self, only_focus): 
+    return hscroll_label_set_only_focus(awtk_get_native_obj(self), only_focus);
+
+
+  #
+  # 设置only_parent_focus。
+  # 
+  # @param only_parent_focus 是否只有处于focus时才滚动。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_only_parent_focus(self, only_parent_focus): 
+    return hscroll_label_set_only_parent_focus(awtk_get_native_obj(self), only_parent_focus);
+
+
+  #
+  # 设置loop。
+  # 
+  # @param loop 是否循环滚动。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_loop(self, loop): 
+    return hscroll_label_set_loop(awtk_get_native_obj(self), loop);
+
+
+  #
+  # 设置yoyo。
+  # 
+  # @param yoyo 是否往返滚动。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_yoyo(self, yoyo): 
+    return hscroll_label_set_yoyo(awtk_get_native_obj(self), yoyo);
+
+
+  #
+  # 设置ellipses。
+  # 
+  # @param ellipses 是否在文本超长时在行尾显示"..."。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_ellipses(self, ellipses): 
+    return hscroll_label_set_ellipses(awtk_get_native_obj(self), ellipses);
+
+
+  #
+  # 设置x偏移(一般无需用户调用)。。
+  # 
+  # @param xoffset x偏移。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_xoffset(self, xoffset): 
+    return hscroll_label_set_xoffset(awtk_get_native_obj(self), xoffset);
+
+
+  #
+  # 启动(一般无需用户调用)。
+  # 
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def start(self): 
+    return hscroll_label_start(awtk_get_native_obj(self));
+
+
+  #
+  # 停止(一般无需用户调用)。
+  # 
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def stop(self): 
+    return hscroll_label_stop(awtk_get_native_obj(self));
+
+
+  #
+  # 转换为hscroll_label对象(供脚本语言使用)。
+  # 
+  # @param widget hscroll_label对象。
+  #
+  # @return hscroll_label对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  THscrollLabel(hscroll_label_cast(awtk_get_native_obj(widget)));
+
+
+  #
+  # 只有处于focus时才滚动(缺省否)。
+  #
+  #
+  @property
+  def only_focus(self):
+    return hscroll_label_t_get_prop_only_focus(self.nativeObj);
+
+  @only_focus.setter
+  def only_focus(self, v):
+   this.set_only_focus(v);
+
+
+  #
+  # 只有父控件处于focus时才滚动(缺省否)。
+  #
+  #
+  @property
+  def only_parent_focus(self):
+    return hscroll_label_t_get_prop_only_parent_focus(self.nativeObj);
+
+  @only_parent_focus.setter
+  def only_parent_focus(self, v):
+   this.set_only_parent_focus(v);
+
+
+  #
+  # loop是否循环滚动(缺省FALSE)。
+  #
+  #
+  @property
+  def loop(self):
+    return hscroll_label_t_get_prop_loop(self.nativeObj);
+
+  @loop.setter
+  def loop(self, v):
+   this.set_loop(v);
+
+
+  #
+  # 是否往返滚动(缺省FALSE)。
+  #
+  #
+  @property
+  def yoyo(self):
+    return hscroll_label_t_get_prop_yoyo(self.nativeObj);
+
+  @yoyo.setter
+  def yoyo(self, v):
+   this.set_yoyo(v);
+
+
+  #
+  # 文本显示不下时，在行尾显示省略号(缺省FALSE)。
+  #
+  #
+  @property
+  def ellipses(self):
+    return hscroll_label_t_get_prop_ellipses(self.nativeObj);
+
+  @ellipses.setter
+  def ellipses(self, v):
+   this.set_ellipses(v);
+
+
+  #
+  # 滚动之间的间歇时间(ms)，缺省3000ms。
+  #
+  #
+  @property
+  def lull(self):
+    return hscroll_label_t_get_prop_lull(self.nativeObj);
+
+  @lull.setter
+  def lull(self, v):
+   this.set_lull(v);
+
+
+  #
+  # 完整的滚动一次需要的时间(ms)，缺省5000ms。
+  #
+  #
+  @property
+  def duration(self):
+    return hscroll_label_t_get_prop_duration(self.nativeObj);
+
+  @duration.setter
+  def duration(self, v):
+   this.set_duration(v);
+
+
+  #
+  # 偏移量。
+  #
+  #
+  @property
+  def xoffset(self):
+    return hscroll_label_t_get_prop_xoffset(self.nativeObj);
+
+  @xoffset.setter
+  def xoffset(self, v):
+   this.set_xoffset(v);
+
+
+  #
+  # 文本的宽度。
+  #
+  #
+  @property
+  def text_w(self):
+    return hscroll_label_t_get_prop_text_w(self.nativeObj);
+
+
+#
 # 按钮控件。
 #
 #点击按钮之后会触发EVT\_CLICK事件，注册EVT\_CLICK事件以执行特定操作。
@@ -15464,288 +15774,6 @@ class TOrientationEvent (TEvent):
 
 
 #
-# 可水平滚动的文本控件，方便实现长文本滚动。
-#
-#
-#hscroll\_label\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于hscroll\_label\_t控件。
-#
-#在xml中使用"hscroll\_label"标签创建行号控件，一般配合mledit使用。如：
-#
-#```xml
-#```
-#
-#> 更多用法请参考：[mledit.xml](
-#https://github.com/zlgopen/awtk/blob/master/design/default/ui/mledit.xml)
-#
-#可用通过style来设置控件的显示风格，如字体的大小和颜色等等。如：
-#
-#```xml
-#<style name="default" text_color="black">
-#<normal   />
-#<focused  />
-#</style>
-#```
-#
-#> 更多用法请参考：
-#[theme default](
-#https://github.com/zlgopen/awtk/blob/master/design/default/styles/default.xml)
-#
-#
-class THscrollLabel (TWidget):
-  def __init__(self, nativeObj):
-    super(THscrollLabel, self).__init__(nativeObj)
-
-
-  #
-  # 创建hscroll_label对象
-  # 
-  # @param parent 父控件
-  # @param x x坐标
-  # @param y y坐标
-  # @param w 宽度
-  # @param h 高度
-  #
-  # @return 对象。
-  #
-  @classmethod
-  def create(cls, parent, x, y, w, h): 
-    return  THscrollLabel(hscroll_label_create(awtk_get_native_obj(parent), x, y, w, h));
-
-
-  #
-  # 设置lull。
-  # 
-  # @param lull 间歇时间(ms)。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_lull(self, lull): 
-    return hscroll_label_set_lull(awtk_get_native_obj(self), lull);
-
-
-  #
-  # 设置duration。
-  # 
-  # @param duration 滚动时间(ms)。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_duration(self, duration): 
-    return hscroll_label_set_duration(awtk_get_native_obj(self), duration);
-
-
-  #
-  # 设置only_focus。
-  # 
-  # @param only_focus 是否只有处于focus时才滚动。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_only_focus(self, only_focus): 
-    return hscroll_label_set_only_focus(awtk_get_native_obj(self), only_focus);
-
-
-  #
-  # 设置only_parent_focus。
-  # 
-  # @param only_parent_focus 是否只有处于focus时才滚动。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_only_parent_focus(self, only_parent_focus): 
-    return hscroll_label_set_only_parent_focus(awtk_get_native_obj(self), only_parent_focus);
-
-
-  #
-  # 设置loop。
-  # 
-  # @param loop 是否循环滚动。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_loop(self, loop): 
-    return hscroll_label_set_loop(awtk_get_native_obj(self), loop);
-
-
-  #
-  # 设置yoyo。
-  # 
-  # @param yoyo 是否往返滚动。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_yoyo(self, yoyo): 
-    return hscroll_label_set_yoyo(awtk_get_native_obj(self), yoyo);
-
-
-  #
-  # 设置ellipses。
-  # 
-  # @param ellipses 是否在文本超长时在行尾显示"..."。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_ellipses(self, ellipses): 
-    return hscroll_label_set_ellipses(awtk_get_native_obj(self), ellipses);
-
-
-  #
-  # 设置x偏移(一般无需用户调用)。。
-  # 
-  # @param xoffset x偏移。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_xoffset(self, xoffset): 
-    return hscroll_label_set_xoffset(awtk_get_native_obj(self), xoffset);
-
-
-  #
-  # 启动(一般无需用户调用)。
-  # 
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def start(self): 
-    return hscroll_label_start(awtk_get_native_obj(self));
-
-
-  #
-  # 停止(一般无需用户调用)。
-  # 
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def stop(self): 
-    return hscroll_label_stop(awtk_get_native_obj(self));
-
-
-  #
-  # 转换为hscroll_label对象(供脚本语言使用)。
-  # 
-  # @param widget hscroll_label对象。
-  #
-  # @return hscroll_label对象。
-  #
-  @classmethod
-  def cast(cls, widget): 
-    return  THscrollLabel(hscroll_label_cast(awtk_get_native_obj(widget)));
-
-
-  #
-  # 只有处于focus时才滚动(缺省否)。
-  #
-  #
-  @property
-  def only_focus(self):
-    return hscroll_label_t_get_prop_only_focus(self.nativeObj);
-
-  @only_focus.setter
-  def only_focus(self, v):
-   this.set_only_focus(v);
-
-
-  #
-  # 只有父控件处于focus时才滚动(缺省否)。
-  #
-  #
-  @property
-  def only_parent_focus(self):
-    return hscroll_label_t_get_prop_only_parent_focus(self.nativeObj);
-
-  @only_parent_focus.setter
-  def only_parent_focus(self, v):
-   this.set_only_parent_focus(v);
-
-
-  #
-  # loop是否循环滚动(缺省FALSE)。
-  #
-  #
-  @property
-  def loop(self):
-    return hscroll_label_t_get_prop_loop(self.nativeObj);
-
-  @loop.setter
-  def loop(self, v):
-   this.set_loop(v);
-
-
-  #
-  # 是否往返滚动(缺省FALSE)。
-  #
-  #
-  @property
-  def yoyo(self):
-    return hscroll_label_t_get_prop_yoyo(self.nativeObj);
-
-  @yoyo.setter
-  def yoyo(self, v):
-   this.set_yoyo(v);
-
-
-  #
-  # 文本显示不下时，在行尾显示省略号(缺省FALSE)。
-  #
-  #
-  @property
-  def ellipses(self):
-    return hscroll_label_t_get_prop_ellipses(self.nativeObj);
-
-  @ellipses.setter
-  def ellipses(self, v):
-   this.set_ellipses(v);
-
-
-  #
-  # 滚动之间的间歇时间(ms)，缺省3000ms。
-  #
-  #
-  @property
-  def lull(self):
-    return hscroll_label_t_get_prop_lull(self.nativeObj);
-
-  @lull.setter
-  def lull(self, v):
-   this.set_lull(v);
-
-
-  #
-  # 完整的滚动一次需要的时间(ms)，缺省5000ms。
-  #
-  #
-  @property
-  def duration(self):
-    return hscroll_label_t_get_prop_duration(self.nativeObj);
-
-  @duration.setter
-  def duration(self, v):
-   this.set_duration(v);
-
-
-  #
-  # 偏移量。
-  #
-  #
-  @property
-  def xoffset(self):
-    return hscroll_label_t_get_prop_xoffset(self.nativeObj);
-
-  @xoffset.setter
-  def xoffset(self, v):
-   this.set_xoffset(v);
-
-
-  #
-  # 文本的宽度。
-  #
-  #
-  @property
-  def text_w(self):
-    return hscroll_label_t_get_prop_text_w(self.nativeObj);
-
-
-#
 # 图文混排控件，实现简单的图文混排。
 #
 #rich\_text\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于rich\_text\_t控件。
@@ -15818,6 +15846,17 @@ class TRichText (TWidget):
 
 
   #
+  # 设置是否允许y方向滑动。
+  # 
+  # @param yslidable 是否允许滑动。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_yslidable(self, yslidable): 
+    return rich_text_set_yslidable(awtk_get_native_obj(self), yslidable);
+
+
+  #
   # 转换为rich_text对象(供脚本语言使用)。
   # 
   # @param widget rich_text对象。
@@ -15845,6 +15884,19 @@ class TRichText (TWidget):
   @property
   def margin(self):
     return rich_text_t_get_prop_margin(self.nativeObj);
+
+
+  #
+  # 标识控件是否允许上下拖动。
+  #
+  #
+  @property
+  def yslidable(self):
+    return rich_text_t_get_prop_yslidable(self.nativeObj);
+
+  @yslidable.setter
+  def yslidable(self, v):
+   this.set_yslidable(v);
 
 
 #
@@ -15903,108 +15955,6 @@ class TRichTextView (TWidget):
   @classmethod
   def cast(cls, widget): 
     return  TRichTextView(rich_text_view_cast(awtk_get_native_obj(widget)));
-
-
-#
-# 指针事件。
-#
-#
-class TPointerEvent (TEvent):
-  def __init__(self, nativeObj):
-    super(TPointerEvent, self).__init__(nativeObj)
-
-
-  #
-  # 把event对象转pointer_event_t对象，主要给脚本语言使用。
-  # 
-  # @param event event对象。
-  #
-  # @return event对象。
-  #
-  @classmethod
-  def cast(cls, event): 
-    return  TPointerEvent(pointer_event_cast(awtk_get_native_obj(event)));
-
-
-  #
-  # x坐标。
-  #
-  #
-  @property
-  def x(self):
-    return pointer_event_t_get_prop_x(self.nativeObj);
-
-
-  #
-  # y坐标。
-  #
-  #
-  @property
-  def y(self):
-    return pointer_event_t_get_prop_y(self.nativeObj);
-
-
-  #
-  # button。
-  #
-  #
-  @property
-  def button(self):
-    return pointer_event_t_get_prop_button(self.nativeObj);
-
-
-  #
-  # 指针是否按下。
-  #
-  #
-  @property
-  def pressed(self):
-    return pointer_event_t_get_prop_pressed(self.nativeObj);
-
-
-  #
-  # alt键是否按下。
-  #
-  #
-  @property
-  def alt(self):
-    return pointer_event_t_get_prop_alt(self.nativeObj);
-
-
-  #
-  # ctrl键是否按下。
-  #
-  #
-  @property
-  def ctrl(self):
-    return pointer_event_t_get_prop_ctrl(self.nativeObj);
-
-
-  #
-  # cmd键是否按下。
-  #
-  #
-  @property
-  def cmd(self):
-    return pointer_event_t_get_prop_cmd(self.nativeObj);
-
-
-  #
-  # menu键是否按下。
-  #
-  #
-  @property
-  def menu(self):
-    return pointer_event_t_get_prop_menu(self.nativeObj);
-
-
-  #
-  # shift键是否按下。
-  #
-  #
-  @property
-  def shift(self):
-    return pointer_event_t_get_prop_shift(self.nativeObj);
 
 
 #
@@ -16267,16 +16217,16 @@ class TProgressCircle (TWidget):
 
 
 #
-# 按键事件。
+# 值变化事件。
 #
 #
-class TKeyEvent (TEvent):
+class TValueChangeEvent (TEvent):
   def __init__(self, nativeObj):
-    super(TKeyEvent, self).__init__(nativeObj)
+    super(TValueChangeEvent, self).__init__(nativeObj)
 
 
   #
-  # 把event对象转key_event_t对象，主要给脚本语言使用。
+  # 把event对象转value_change_event_t对象，主要给脚本语言使用。
   # 
   # @param event event对象。
   #
@@ -16284,16 +16234,64 @@ class TKeyEvent (TEvent):
   #
   @classmethod
   def cast(cls, event): 
-    return  TKeyEvent(key_event_cast(awtk_get_native_obj(event)));
+    return  TValueChangeEvent(value_change_event_cast(awtk_get_native_obj(event)));
+
+
+#
+# 指针事件。
+#
+#
+class TPointerEvent (TEvent):
+  def __init__(self, nativeObj):
+    super(TPointerEvent, self).__init__(nativeObj)
 
 
   #
-  # 键值。
+  # 把event对象转pointer_event_t对象，主要给脚本语言使用。
+  # 
+  # @param event event对象。
+  #
+  # @return event对象。
+  #
+  @classmethod
+  def cast(cls, event): 
+    return  TPointerEvent(pointer_event_cast(awtk_get_native_obj(event)));
+
+
+  #
+  # x坐标。
   #
   #
   @property
-  def key(self):
-    return key_event_t_get_prop_key(self.nativeObj);
+  def x(self):
+    return pointer_event_t_get_prop_x(self.nativeObj);
+
+
+  #
+  # y坐标。
+  #
+  #
+  @property
+  def y(self):
+    return pointer_event_t_get_prop_y(self.nativeObj);
+
+
+  #
+  # button。
+  #
+  #
+  @property
+  def button(self):
+    return pointer_event_t_get_prop_button(self.nativeObj);
+
+
+  #
+  # 指针是否按下。
+  #
+  #
+  @property
+  def pressed(self):
+    return pointer_event_t_get_prop_pressed(self.nativeObj);
 
 
   #
@@ -16302,90 +16300,25 @@ class TKeyEvent (TEvent):
   #
   @property
   def alt(self):
-    return key_event_t_get_prop_alt(self.nativeObj);
+    return pointer_event_t_get_prop_alt(self.nativeObj);
 
 
   #
-  # left alt键是否按下。
-  #
-  #
-  @property
-  def lalt(self):
-    return key_event_t_get_prop_lalt(self.nativeObj);
-
-
-  #
-  # right alt键是否按下。
-  #
-  #
-  @property
-  def ralt(self):
-    return key_event_t_get_prop_ralt(self.nativeObj);
-
-
-  #
-  # right alt键是否按下。
-  #ctrl键是否按下。
+  # ctrl键是否按下。
   #
   #
   @property
   def ctrl(self):
-    return key_event_t_get_prop_ctrl(self.nativeObj);
+    return pointer_event_t_get_prop_ctrl(self.nativeObj);
 
 
   #
-  # left ctrl键是否按下。
-  #
-  #
-  @property
-  def lctrl(self):
-    return key_event_t_get_prop_lctrl(self.nativeObj);
-
-
-  #
-  # right ctrl键是否按下。
-  #
-  #
-  @property
-  def rctrl(self):
-    return key_event_t_get_prop_rctrl(self.nativeObj);
-
-
-  #
-  # shift键是否按下。
-  #
-  #
-  @property
-  def shift(self):
-    return key_event_t_get_prop_shift(self.nativeObj);
-
-
-  #
-  # left shift键是否按下。
-  #
-  #
-  @property
-  def lshift(self):
-    return key_event_t_get_prop_lshift(self.nativeObj);
-
-
-  #
-  # right shift键是否按下。
-  #
-  #
-  @property
-  def rshift(self):
-    return key_event_t_get_prop_rshift(self.nativeObj);
-
-
-  #
-  # left shift键是否按下。
-  #cmd/win键是否按下。
+  # cmd键是否按下。
   #
   #
   @property
   def cmd(self):
-    return key_event_t_get_prop_cmd(self.nativeObj);
+    return pointer_event_t_get_prop_cmd(self.nativeObj);
 
 
   #
@@ -16394,16 +16327,16 @@ class TKeyEvent (TEvent):
   #
   @property
   def menu(self):
-    return key_event_t_get_prop_menu(self.nativeObj);
+    return pointer_event_t_get_prop_menu(self.nativeObj);
 
 
   #
-  # capslock键是否按下。
+  # shift键是否按下。
   #
   #
   @property
-  def capslock(self):
-    return key_event_t_get_prop_capslock(self.nativeObj);
+  def shift(self):
+    return pointer_event_t_get_prop_shift(self.nativeObj);
 
 
 #
@@ -17593,36 +17526,46 @@ class TImageAnimation (TWidget):
 
 
 #
-# 仪表指针控件。
+# 表盘控件。
 #
-#仪表指针就是一张旋转的图片，图片可以是普通图片也可以是SVG图片。
+#表盘控件就是一张图片。
 #
-#在嵌入式平台上，对于旋转的图片，SVG图片的效率比位图高数倍，所以推荐使用SVG图片。
+#guage\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于guage\_t控件。
 #
-#guage\_pointer\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于guage\_pointer\_t控件。
-#
-#在xml中使用"guage\_pointer"标签创建仪表指针控件。如：
+#在xml中使用"guage"标签创建表盘控件。如：
 #
 #```xml
-#<guage_pointer x="c" y="50" w="24" h="140" value="-128" image="guage_pointer" />
+#<guage x="c" y="10" w="240" h="240" image="guage_bg"
 #```
 #
 #> 更多用法请参考：
 #[guage.xml](https://github.com/zlgopen/awtk/blob/master/design/default/ui/guage.xml)
 #
-#在c代码中使用函数guage\_pointer\_create创建仪表指针控件。如：
+#在c代码中使用函数guage\_create创建表盘控件。如：
 #
 #
-#> 创建之后，需要用guage\_pointer\_set\_image设置仪表指针图片。
+#可用通过style来设置控件的显示风格，如背景和边框等。如：
+#
+#```xml
+#<guage>
+#<style name="border">
+#<normal border_color="#000000" bg_color="#e0e0e0" text_color="black"/>
+#</style>
+#</guage>
+#```
+#
+#> 更多用法请参考：
+#[theme
+#default](https://github.com/zlgopen/awtk/blob/master/design/default/styles/default.xml)
 #
 #
-class TGuagePointer (TWidget):
+class TGuage (TWidget):
   def __init__(self, nativeObj):
-    super(TGuagePointer, self).__init__(nativeObj)
+    super(TGuage, self).__init__(nativeObj)
 
 
   #
-  # 创建guage_pointer对象
+  # 创建guage对象
   # 
   # @param parent 父控件
   # @param x x坐标
@@ -17634,77 +17577,53 @@ class TGuagePointer (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TGuagePointer(guage_pointer_create(awtk_get_native_obj(parent), x, y, w, h));
+    return  TGuage(guage_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
-  # 转换为guage_pointer对象(供脚本语言使用)。
+  # 转换为guage对象(供脚本语言使用)。
   # 
-  # @param widget guage_pointer对象。
+  # @param widget guage对象。
   #
-  # @return guage_pointer对象。
+  # @return guage对象。
   #
   @classmethod
   def cast(cls, widget): 
-    return  TGuagePointer(guage_pointer_cast(awtk_get_native_obj(widget)));
+    return  TGuage(guage_cast(awtk_get_native_obj(widget)));
 
 
   #
-  # 设置指针角度。12点钟方向为0度，顺时钟方向为正，单位为度。
+  # 设置背景图片的名称。
   # 
-  # @param angle 指针角度。
+  # @param name 图片名称，该图片必须存在于资源管理器。
   #
   # @return 返回RET_OK表示成功，否则表示失败。
   #
-  def set_angle(self, angle): 
-    return guage_pointer_set_angle(awtk_get_native_obj(self), angle);
+  def set_image(self, name): 
+    return guage_set_image(awtk_get_native_obj(self), name);
 
 
   #
-  # 设置指针的图片。
+  # 设置图片的显示方式。
+  #
+  #> 绘制方式的属性值和枚举值:
+  #[image\_draw\_type\_name\_value](https://github.com/zlgopen/awtk/blob/master/src/base/enums.c#L98)
   # 
-  # @param image 指针的图片。
+  # @param draw_type 显示方式。
   #
   # @return 返回RET_OK表示成功，否则表示失败。
   #
-  def set_image(self, image): 
-    return guage_pointer_set_image(awtk_get_native_obj(self), image);
+  def set_draw_type(self, draw_type): 
+    return guage_set_draw_type(awtk_get_native_obj(self), draw_type);
 
 
   #
-  # 设置指针的旋转锚点。
-  # 
-  # @param anchor_x 指针的锚点坐标x。(后面加上px为像素点，不加px为相对百分比坐标)
-  # @param anchor_y 指针的锚点坐标y。(后面加上px为像素点，不加px为相对百分比坐标)
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_anchor(self, anchor_x, anchor_y): 
-    return guage_pointer_set_anchor(awtk_get_native_obj(self), anchor_x, anchor_y);
-
-
-  #
-  # 指针角度。12点钟方向为0度，顺时钟方向为正，单位为度。
-  #
-  #
-  @property
-  def angle(self):
-    return guage_pointer_t_get_prop_angle(self.nativeObj);
-
-  @angle.setter
-  def angle(self, v):
-   this.set_angle(v);
-
-
-  #
-  # 指针图片。
-  #
-  #图片须垂直向上，图片的中心点为旋转方向。
+  # 背景图片。
   #
   #
   @property
   def image(self):
-    return guage_pointer_t_get_prop_image(self.nativeObj);
+    return guage_t_get_prop_image(self.nativeObj);
 
   @image.setter
   def image(self, v):
@@ -17712,21 +17631,16 @@ class TGuagePointer (TWidget):
 
 
   #
-  # 图片旋转锚点x坐标。(后面加上px为像素点，不加px为相对百分比坐标0.0f到1.0f)
+  # 图片的绘制方式。
   #
   #
   @property
-  def anchor_x(self):
-    return guage_pointer_t_get_prop_anchor_x(self.nativeObj);
+  def draw_type(self):
+    return guage_t_get_prop_draw_type(self.nativeObj);
 
-
-  #
-  # 图片旋转锚点x坐标。(后面加上px为像素点，不加px为相对百分比坐标0.0f到1.0f)
-  #
-  #
-  @property
-  def anchor_y(self):
-    return guage_pointer_t_get_prop_anchor_y(self.nativeObj);
+  @draw_type.setter
+  def draw_type(self, v):
+   this.set_draw_type(v);
 
 
 #
@@ -18511,6 +18425,146 @@ class TCanvasWidget (TWidget):
   @classmethod
   def cast(cls, widget): 
     return  TCanvasWidget(canvas_widget_cast(awtk_get_native_obj(widget)));
+
+
+#
+# 按键事件。
+#
+#
+class TKeyEvent (TEvent):
+  def __init__(self, nativeObj):
+    super(TKeyEvent, self).__init__(nativeObj)
+
+
+  #
+  # 把event对象转key_event_t对象，主要给脚本语言使用。
+  # 
+  # @param event event对象。
+  #
+  # @return event对象。
+  #
+  @classmethod
+  def cast(cls, event): 
+    return  TKeyEvent(key_event_cast(awtk_get_native_obj(event)));
+
+
+  #
+  # 键值。
+  #
+  #
+  @property
+  def key(self):
+    return key_event_t_get_prop_key(self.nativeObj);
+
+
+  #
+  # alt键是否按下。
+  #
+  #
+  @property
+  def alt(self):
+    return key_event_t_get_prop_alt(self.nativeObj);
+
+
+  #
+  # left alt键是否按下。
+  #
+  #
+  @property
+  def lalt(self):
+    return key_event_t_get_prop_lalt(self.nativeObj);
+
+
+  #
+  # right alt键是否按下。
+  #
+  #
+  @property
+  def ralt(self):
+    return key_event_t_get_prop_ralt(self.nativeObj);
+
+
+  #
+  # right alt键是否按下。
+  #ctrl键是否按下。
+  #
+  #
+  @property
+  def ctrl(self):
+    return key_event_t_get_prop_ctrl(self.nativeObj);
+
+
+  #
+  # left ctrl键是否按下。
+  #
+  #
+  @property
+  def lctrl(self):
+    return key_event_t_get_prop_lctrl(self.nativeObj);
+
+
+  #
+  # right ctrl键是否按下。
+  #
+  #
+  @property
+  def rctrl(self):
+    return key_event_t_get_prop_rctrl(self.nativeObj);
+
+
+  #
+  # shift键是否按下。
+  #
+  #
+  @property
+  def shift(self):
+    return key_event_t_get_prop_shift(self.nativeObj);
+
+
+  #
+  # left shift键是否按下。
+  #
+  #
+  @property
+  def lshift(self):
+    return key_event_t_get_prop_lshift(self.nativeObj);
+
+
+  #
+  # right shift键是否按下。
+  #
+  #
+  @property
+  def rshift(self):
+    return key_event_t_get_prop_rshift(self.nativeObj);
+
+
+  #
+  # left shift键是否按下。
+  #cmd/win键是否按下。
+  #
+  #
+  @property
+  def cmd(self):
+    return key_event_t_get_prop_cmd(self.nativeObj);
+
+
+  #
+  # menu键是否按下。
+  #
+  #
+  @property
+  def menu(self):
+    return key_event_t_get_prop_menu(self.nativeObj);
+
+
+  #
+  # capslock键是否按下。
+  #
+  #
+  @property
+  def capslock(self):
+    return key_event_t_get_prop_capslock(self.nativeObj);
 
 
 #
