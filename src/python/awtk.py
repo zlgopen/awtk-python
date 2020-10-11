@@ -3425,247 +3425,247 @@ class TStyleId:
   # 背景颜色。
   #
   #
-  _ID_BG_COLOR = STYLE_ID_BG_COLOR();
+  BG_COLOR = STYLE_ID_BG_COLOR();
 
   #
   # 前景颜色。
   #
   #
-  _ID_FG_COLOR = STYLE_ID_FG_COLOR();
+  FG_COLOR = STYLE_ID_FG_COLOR();
 
   #
   # 蒙版颜色。
   #
   #
-  _ID_MASK_COLOR = STYLE_ID_MASK_COLOR();
+  MASK_COLOR = STYLE_ID_MASK_COLOR();
 
   #
   # 字体名称。
   #
   #
-  _ID_FONT_NAME = STYLE_ID_FONT_NAME();
+  FONT_NAME = STYLE_ID_FONT_NAME();
 
   #
   # 字体大小。
   #
   #
-  _ID_FONT_SIZE = STYLE_ID_FONT_SIZE();
+  FONT_SIZE = STYLE_ID_FONT_SIZE();
 
   #
   # 字体风格(粗体、斜体等)。
   #
   #
-  _ID_FONT_STYLE = STYLE_ID_FONT_STYLE();
+  FONT_STYLE = STYLE_ID_FONT_STYLE();
 
   #
   # 文本颜色。
   #
   #
-  _ID_TEXT_COLOR = STYLE_ID_TEXT_COLOR();
+  TEXT_COLOR = STYLE_ID_TEXT_COLOR();
 
   #
   # 高亮文本的字体名称。
   #
   #
-  _ID_HIGHLIGHT_FONT_NAME = STYLE_ID_HIGHLIGHT_FONT_NAME();
+  HIGHLIGHT_FONT_NAME = STYLE_ID_HIGHLIGHT_FONT_NAME();
 
   #
   # 高亮文本的字体大小。
   #
   #
-  _ID_HIGHLIGHT_FONT_SIZE = STYLE_ID_HIGHLIGHT_FONT_SIZE();
+  HIGHLIGHT_FONT_SIZE = STYLE_ID_HIGHLIGHT_FONT_SIZE();
 
   #
   # 高亮文本的文本颜色。
   #
   #
-  _ID_HIGHLIGHT_TEXT_COLOR = STYLE_ID_HIGHLIGHT_TEXT_COLOR();
+  HIGHLIGHT_TEXT_COLOR = STYLE_ID_HIGHLIGHT_TEXT_COLOR();
 
   #
   # 提示文本颜色。
   #
   #
-  _ID_TIPS_TEXT_COLOR = STYLE_ID_TIPS_TEXT_COLOR();
+  TIPS_TEXT_COLOR = STYLE_ID_TIPS_TEXT_COLOR();
 
   #
   # 文本水平对齐的方式。
   #
   #
-  _ID_TEXT_ALIGN_H = STYLE_ID_TEXT_ALIGN_H();
+  TEXT_ALIGN_H = STYLE_ID_TEXT_ALIGN_H();
 
   #
   # 文本垂直对齐的方式。
   #
   #
-  _ID_TEXT_ALIGN_V = STYLE_ID_TEXT_ALIGN_V();
+  TEXT_ALIGN_V = STYLE_ID_TEXT_ALIGN_V();
 
   #
   # 边框颜色。
   #
   #
-  _ID_BORDER_COLOR = STYLE_ID_BORDER_COLOR();
+  BORDER_COLOR = STYLE_ID_BORDER_COLOR();
 
   #
   # 边框线宽。
   #
   #
-  _ID_BORDER_WIDTH = STYLE_ID_BORDER_WIDTH();
+  BORDER_WIDTH = STYLE_ID_BORDER_WIDTH();
 
   #
   # 边框类型。
   #
   #
-  _ID_BORDER = STYLE_ID_BORDER();
+  BORDER = STYLE_ID_BORDER();
 
   #
   # 图片的名称。
   #
   #
-  _ID_BG_IMAGE = STYLE_ID_BG_IMAGE();
+  BG_IMAGE = STYLE_ID_BG_IMAGE();
 
   #
   # 图片的显示方式。
   #
   #
-  _ID_BG_IMAGE_DRAW_TYPE = STYLE_ID_BG_IMAGE_DRAW_TYPE();
+  BG_IMAGE_DRAW_TYPE = STYLE_ID_BG_IMAGE_DRAW_TYPE();
 
   #
   # 图标的名称。
   #
   #
-  _ID_ICON = STYLE_ID_ICON();
+  ICON = STYLE_ID_ICON();
 
   #
   # 图片的名称。
   #
   #
-  _ID_FG_IMAGE = STYLE_ID_FG_IMAGE();
+  FG_IMAGE = STYLE_ID_FG_IMAGE();
 
   #
   # 图片的显示方式。
   #
   #
-  _ID_FG_IMAGE_DRAW_TYPE = STYLE_ID_FG_IMAGE_DRAW_TYPE();
+  FG_IMAGE_DRAW_TYPE = STYLE_ID_FG_IMAGE_DRAW_TYPE();
 
   #
   # 间距。
   #
   #
-  _ID_SPACER = STYLE_ID_SPACER();
+  SPACER = STYLE_ID_SPACER();
 
   #
   # 边距。
   #
   #
-  _ID_MARGIN = STYLE_ID_MARGIN();
+  MARGIN = STYLE_ID_MARGIN();
 
   #
   # 左边距。
   #
   #
-  _ID_MARGIN_LEFT = STYLE_ID_MARGIN_LEFT();
+  MARGIN_LEFT = STYLE_ID_MARGIN_LEFT();
 
   #
   # 右边距。
   #
   #
-  _ID_MARGIN_RIGHT = STYLE_ID_MARGIN_RIGHT();
+  MARGIN_RIGHT = STYLE_ID_MARGIN_RIGHT();
 
   #
   # 顶边距。
   #
   #
-  _ID_MARGIN_TOP = STYLE_ID_MARGIN_TOP();
+  MARGIN_TOP = STYLE_ID_MARGIN_TOP();
 
   #
   # 底边距。
   #
   #
-  _ID_MARGIN_BOTTOM = STYLE_ID_MARGIN_BOTTOM();
+  MARGIN_BOTTOM = STYLE_ID_MARGIN_BOTTOM();
 
   #
   # 图标的位置。
   #
   #
-  _ID_ICON_AT = STYLE_ID_ICON_AT();
+  ICON_AT = STYLE_ID_ICON_AT();
 
   #
   # Active图标的名称。
   #
   #
-  _ID_ACTIVE_ICON = STYLE_ID_ACTIVE_ICON();
+  ACTIVE_ICON = STYLE_ID_ACTIVE_ICON();
 
   #
   # X方向的偏移，方便实现按下的效果。
   #
   #
-  _ID_X_OFFSET = STYLE_ID_X_OFFSET();
+  X_OFFSET = STYLE_ID_X_OFFSET();
 
   #
   # Y方向的偏移，方便实现按下的效果。
   #
   #
-  _ID_Y_OFFSET = STYLE_ID_Y_OFFSET();
+  Y_OFFSET = STYLE_ID_Y_OFFSET();
 
   #
   # 编辑器中选中区域的背景颜色。
   #
   #
-  _ID_SELECTED_BG_COLOR = STYLE_ID_SELECTED_BG_COLOR();
+  SELECTED_BG_COLOR = STYLE_ID_SELECTED_BG_COLOR();
 
   #
   # 编辑器中选中区域的前景颜色。
   #
   #
-  _ID_SELECTED_FG_COLOR = STYLE_ID_SELECTED_FG_COLOR();
+  SELECTED_FG_COLOR = STYLE_ID_SELECTED_FG_COLOR();
 
   #
   # 编辑器中选中区域的文本颜色。
   #
   #
-  _ID_SELECTED_TEXT_COLOR = STYLE_ID_SELECTED_TEXT_COLOR();
+  SELECTED_TEXT_COLOR = STYLE_ID_SELECTED_TEXT_COLOR();
 
   #
   # 圆角半径(仅在WITH_VGCANVAS定义时生效)。
   #
   #
-  _ID_ROUND_RADIUS = STYLE_ID_ROUND_RADIUS();
+  ROUND_RADIUS = STYLE_ID_ROUND_RADIUS();
 
   #
   # 左上角圆角半径(仅在WITH_VGCANVAS定义时生效)。
   #
   #
-  _ID_ROUND_RADIUS_TOP_LETF = STYLE_ID_ROUND_RADIUS_TOP_LETF();
+  ROUND_RADIUS_TOP_LETF = STYLE_ID_ROUND_RADIUS_TOP_LETF();
 
   #
   # 右上角圆角半径(仅在WITH_VGCANVAS定义时生效)。
   #
   #
-  _ID_ROUND_RADIUS_TOP_RIGHT = STYLE_ID_ROUND_RADIUS_TOP_RIGHT();
+  ROUND_RADIUS_TOP_RIGHT = STYLE_ID_ROUND_RADIUS_TOP_RIGHT();
 
   #
   # 左下角圆角半径(仅在WITH_VGCANVAS定义时生效)。
   #
   #
-  _ID_ROUND_RADIUS_BOTTOM_LETF = STYLE_ID_ROUND_RADIUS_BOTTOM_LETF();
+  ROUND_RADIUS_BOTTOM_LETF = STYLE_ID_ROUND_RADIUS_BOTTOM_LETF();
 
   #
   # 右下角圆角半径(仅在WITH_VGCANVAS定义时生效)。
   #
   #
-  _ID_ROUND_RADIUS_BOTTOM_RIGHT = STYLE_ID_ROUND_RADIUS_BOTTOM_RIGHT();
+  ROUND_RADIUS_BOTTOM_RIGHT = STYLE_ID_ROUND_RADIUS_BOTTOM_RIGHT();
 
   #
   # 子控件布局参数。
   #
   #
-  _ID_CHILDREN_LAYOUT = STYLE_ID_CHILDREN_LAYOUT();
+  CHILDREN_LAYOUT = STYLE_ID_CHILDREN_LAYOUT();
 
   #
   # 控件布局参数。
   #
   #
-  _ID_SELF_LAYOUT = STYLE_ID_SELF_LAYOUT();
+  SELF_LAYOUT = STYLE_ID_SELF_LAYOUT();
 
 #
 # 控件风格。
@@ -4945,6 +4945,18 @@ class TWidgetProp:
   MAX_W = WIDGET_PROP_MAX_W();
 
   #
+  # 根据子控件和文本自动调整大小。
+  #
+  #
+  AUTO_ADJUST_SIZE = WIDGET_PROP_AUTO_ADJUST_SIZE();
+
+  #
+  # 窗口是否保持单例。
+  #
+  #
+  SINGLE_INSTANCE = WIDGET_PROP_SINGLE_INSTANCE();
+
+  #
   # 子控件布局参数。
   #
   #
@@ -5021,6 +5033,12 @@ class TWidgetProp:
   #
   #
   LENGTH = WIDGET_PROP_LENGTH();
+
+  #
+  # 自动换行。
+  #
+  #
+  LINE_WRAP = WIDGET_PROP_LINE_WRAP();
 
   #
   # 文本。
@@ -6078,139 +6096,139 @@ class TWidgetState:
   # 无效状态。
   #
   #
-  STATE_NONE = WIDGET_STATE_NONE();
+  NONE = WIDGET_STATE_NONE();
 
   #
   # 正常状态。
   #
   #
-  STATE_NORMAL = WIDGET_STATE_NORMAL();
+  NORMAL = WIDGET_STATE_NORMAL();
 
   #
   # 内容被修改的状态。
   #
   #
-  STATE_CHANGED = WIDGET_STATE_CHANGED();
+  CHANGED = WIDGET_STATE_CHANGED();
 
   #
   # 指针按下状态。
   #
   #
-  STATE_PRESSED = WIDGET_STATE_PRESSED();
+  PRESSED = WIDGET_STATE_PRESSED();
 
   #
   # 指针悬浮状态。
   #
   #
-  STATE_OVER = WIDGET_STATE_OVER();
+  OVER = WIDGET_STATE_OVER();
 
   #
   # 禁用状态。
   #
   #
-  STATE_DISABLE = WIDGET_STATE_DISABLE();
+  DISABLE = WIDGET_STATE_DISABLE();
 
   #
   # 聚焦状态。
   #
   #
-  STATE_FOCUSED = WIDGET_STATE_FOCUSED();
+  FOCUSED = WIDGET_STATE_FOCUSED();
 
   #
   # 勾选状态。
   #
   #
-  STATE_CHECKED = WIDGET_STATE_CHECKED();
+  CHECKED = WIDGET_STATE_CHECKED();
 
   #
   # 没勾选状态。
   #
   #
-  STATE_UNCHECKED = WIDGET_STATE_UNCHECKED();
+  UNCHECKED = WIDGET_STATE_UNCHECKED();
 
   #
   # 编辑器无内容状态。
   #
   #
-  STATE_EMPTY = WIDGET_STATE_EMPTY();
+  EMPTY = WIDGET_STATE_EMPTY();
 
   #
   # 编辑器无内容同时聚焦的状态。
   #
   #
-  STATE_EMPTY_FOCUS = WIDGET_STATE_EMPTY_FOCUS();
+  EMPTY_FOCUS = WIDGET_STATE_EMPTY_FOCUS();
 
   #
   # 输入错误状态。
   #
   #
-  STATE_ERROR = WIDGET_STATE_ERROR();
+  ERROR = WIDGET_STATE_ERROR();
 
   #
   # 选中状态。
   #
   #
-  STATE_SELECTED = WIDGET_STATE_SELECTED();
+  SELECTED = WIDGET_STATE_SELECTED();
 
   #
   # 正常状态(选中项)。
   #
   #
-  STATE_NORMAL_OF_CHECKED = WIDGET_STATE_NORMAL_OF_CHECKED();
+  NORMAL_OF_CHECKED = WIDGET_STATE_NORMAL_OF_CHECKED();
 
   #
   # 指针按下状态(选中项)。
   #
   #
-  STATE_PRESSED_OF_CHECKED = WIDGET_STATE_PRESSED_OF_CHECKED();
+  PRESSED_OF_CHECKED = WIDGET_STATE_PRESSED_OF_CHECKED();
 
   #
   # 指针悬浮状态(选中项)。
   #
   #
-  STATE_OVER_OF_CHECKED = WIDGET_STATE_OVER_OF_CHECKED();
+  OVER_OF_CHECKED = WIDGET_STATE_OVER_OF_CHECKED();
 
   #
   # 禁用状态(选中项)。
   #
   #
-  STATE_DISABLE_OF_CHECKED = WIDGET_STATE_DISABLE_OF_CHECKED();
+  DISABLE_OF_CHECKED = WIDGET_STATE_DISABLE_OF_CHECKED();
 
   #
   # 焦点状态(选中项)。
   #
   #
-  STATE_FOCUSED_OF_CHECKED = WIDGET_STATE_FOCUSED_OF_CHECKED();
+  FOCUSED_OF_CHECKED = WIDGET_STATE_FOCUSED_OF_CHECKED();
 
   #
   # 正常状态(当前项)。
   #
   #
-  STATE_NORMAL_OF_ACTIVE = WIDGET_STATE_NORMAL_OF_ACTIVE();
+  NORMAL_OF_ACTIVE = WIDGET_STATE_NORMAL_OF_ACTIVE();
 
   #
   # 指针按下状态(当前项)。
   #
   #
-  STATE_PRESSED_OF_ACTIVE = WIDGET_STATE_PRESSED_OF_ACTIVE();
+  PRESSED_OF_ACTIVE = WIDGET_STATE_PRESSED_OF_ACTIVE();
 
   #
   # 指针悬浮状态(当前项)。
   #
   #
-  STATE_OVER_OF_ACTIVE = WIDGET_STATE_OVER_OF_ACTIVE();
+  OVER_OF_ACTIVE = WIDGET_STATE_OVER_OF_ACTIVE();
 
   #
   # 禁用状态(当前项)。
   #
   #
-  STATE_DISABLE_OF_ACTIVE = WIDGET_STATE_DISABLE_OF_ACTIVE();
+  DISABLE_OF_ACTIVE = WIDGET_STATE_DISABLE_OF_ACTIVE();
 
   #
   # 焦点状态(当前项)。
   #
   #
-  STATE_FOCUSED_OF_ACTIVE = WIDGET_STATE_FOCUSED_OF_ACTIVE();
+  FOCUSED_OF_ACTIVE = WIDGET_STATE_FOCUSED_OF_ACTIVE();
 
 #
 # 控件鼠标光标常量定义。
@@ -6688,6 +6706,17 @@ class TWidget(object):
 
 
   #
+  # 设置控件是否根据子控件和文本自动调整控件自身大小。
+  # 
+  # @param auto_adjust_size 是否根据子控件和文本自动调整控件自身大小。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_auto_adjust_size(self, auto_adjust_size): 
+    return widget_set_auto_adjust_size(awtk_get_native_obj(self), auto_adjust_size);
+
+
+  #
   # 设置控件的floating标志。
   #> floating的控件不受父控件的子控件布局参数的影响。
   # 
@@ -6850,12 +6879,11 @@ class TWidget(object):
   # 设置控件的可见性。
   # 
   # @param visible 是否可见。
-  # @param recursive 是否递归设置全部子控件。
   #
   # @return 返回RET_OK表示成功，否则表示失败。
   #
-  def set_visible(self, visible, recursive): 
-    return widget_set_visible(awtk_get_native_obj(self), visible, recursive);
+  def set_visible(self, visible): 
+    return widget_set_visible(awtk_get_native_obj(self), visible);
 
 
   #
@@ -6940,6 +6968,29 @@ class TWidget(object):
   #
   def get_prop_str(self, name, defval): 
     return widget_get_prop_str(awtk_get_native_obj(self), name, defval);
+
+
+  #
+  # 设置指针格式的属性。
+  # 
+  # @param name 属性的名称。
+  # @param v 属性的值。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_prop_pointer(self, name, v): 
+    return widget_set_prop_pointer(awtk_get_native_obj(self), name, v);
+
+
+  #
+  # 获取指针格式的属性。
+  # 
+  # @param name 属性的名称。
+  #
+  # @return 返回属性的值。
+  #
+  def get_prop_pointer(self, name): 
+    return widget_get_prop_pointer(awtk_get_native_obj(self), name);
 
 
   #
@@ -7070,6 +7121,16 @@ class TWidget(object):
   #
   def is_popup(self): 
     return widget_is_popup(awtk_get_native_obj(self));
+
+
+  #
+  # 检查控件是否是overlay窗口类型。
+  # 
+  #
+  # @return 返回FALSE表示不是，否则表示是。
+  #
+  def is_overlay(self): 
+    return widget_is_overlay(awtk_get_native_obj(self));
 
 
   #
@@ -7571,7 +7632,7 @@ class TWidget(object):
 
   @visible.setter
   def visible(self, v):
-    widget_t_set_prop_visible(self.nativeObj, v);
+   this.set_visible(v);
 
 
   #
@@ -7584,7 +7645,7 @@ class TWidget(object):
 
   @sensitive.setter
   def sensitive(self, v):
-    widget_t_set_prop_sensitive(self.nativeObj, v);
+   this.set_sensitive(v);
 
 
   #
@@ -7597,7 +7658,7 @@ class TWidget(object):
 
   @focusable.setter
   def focusable(self, v):
-    widget_t_set_prop_focusable(self.nativeObj, v);
+   this.set_focusable(v);
 
 
   #
@@ -7609,9 +7670,20 @@ class TWidget(object):
   def with_focus_state(self):
     return widget_t_get_prop_with_focus_state(self.nativeObj);
 
-  @with_focus_state.setter
-  def with_focus_state(self, v):
-    widget_t_set_prop_with_focus_state(self.nativeObj, v);
+
+  #
+  # 是否根据子控件和文本自动调整控件自身大小。
+  #
+  #> 为true时，最好不要使用child_layout，否则可能有冲突。
+  #
+  #
+  @property
+  def auto_adjust_size(self):
+    return widget_t_get_prop_auto_adjust_size(self.nativeObj);
+
+  @auto_adjust_size.setter
+  def auto_adjust_size(self, v):
+   this.set_auto_adjust_size(v);
 
 
   #
@@ -9222,7 +9294,7 @@ class TCanvas(object):
 
 
   #
-  # 填充矩形。
+  # 绘制矩形。
   # 
   # @param x x坐标。
   # @param y y坐标。
@@ -9233,6 +9305,20 @@ class TCanvas(object):
   #
   def fill_rect(self, x, y, w, h): 
     return canvas_fill_rect(awtk_get_native_obj(self), x, y, w, h);
+
+
+  #
+  # 填充矩形。
+  # 
+  # @param x x坐标。
+  # @param y y坐标。
+  # @param w 宽度。
+  # @param h 高度。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def clear_rect(self, x, y, w, h): 
+    return canvas_clear_rect(awtk_get_native_obj(self), x, y, w, h);
 
 
   #
@@ -11308,6 +11394,17 @@ class TLabel (TWidget):
 
 
   #
+  # 设置是否自动换行。
+  # 
+  # @param line_wrap 是否自动换行。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_line_wrap(self, line_wrap): 
+    return label_set_line_wrap(awtk_get_native_obj(self), line_wrap);
+
+
+  #
   # 根据文本内容调节控件大小。
   # 
   # @param min_w 最小宽度。
@@ -11345,6 +11442,19 @@ class TLabel (TWidget):
   @length.setter
   def length(self, v):
    this.set_length(v);
+
+
+  #
+  # 是否自动换行。
+  #
+  #
+  @property
+  def line_wrap(self):
+    return label_t_get_prop_line_wrap(self.nativeObj);
+
+  @line_wrap.setter
+  def line_wrap(self, v):
+   this.set_line_wrap(v);
 
 
 #
@@ -16494,6 +16604,31 @@ class TMledit (TWidget):
 
 
   #
+  # 设置编辑器是否在获得焦点时打开输入法。
+  #
+  #> * 设置默认焦点时，打开窗口时不弹出软键盘。
+  #> * 用键盘切换焦点时，编辑器获得焦点时不弹出软键盘。
+  # 
+  # @param open_im_when_focused 是否在获得焦点时打开输入法。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_open_im_when_focused(self, open_im_when_focused): 
+    return mledit_set_open_im_when_focused(awtk_get_native_obj(self), open_im_when_focused);
+
+
+  #
+  # 设置编辑器是否在失去焦点时关闭输入法。
+  # 
+  # @param close_im_when_blured 是否是否在失去焦点时关闭输入法。在失去焦点时关闭输入法。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_close_im_when_blured(self, close_im_when_blured): 
+    return mledit_set_close_im_when_blured(awtk_get_native_obj(self), close_im_when_blured);
+
+
+  #
   # 转换为mledit对象(供脚本语言使用)。
   # 
   # @param widget mledit对象。
@@ -16646,6 +16781,34 @@ class TMledit (TWidget):
   @cancelable.setter
   def cancelable(self, v):
    this.set_cancelable(v);
+
+
+  #
+  # 获得焦点时打开输入法。
+  #
+  #> 主要用于没有指针设备的情况，否则每次切换焦点时都打开输入法。
+  #
+  #
+  @property
+  def open_im_when_focused(self):
+    return mledit_t_get_prop_open_im_when_focused(self.nativeObj);
+
+  @open_im_when_focused.setter
+  def open_im_when_focused(self, v):
+   this.set_open_im_when_focused(v);
+
+
+  #
+  # 是否在失去焦点时关闭输入法(默认是)。
+  #
+  #
+  @property
+  def close_im_when_blured(self):
+    return mledit_t_get_prop_close_im_when_blured(self.nativeObj);
+
+  @close_im_when_blured.setter
+  def close_im_when_blured(self, v):
+   this.set_close_im_when_blured(v);
 
 
 #
@@ -19254,6 +19417,15 @@ class TWindowBase (TWidget):
     return window_base_t_get_prop_move_focus_right_key(self.nativeObj);
 
 
+  #
+  # 单例。如果窗口存在，先关闭再打开。
+  #
+  #
+  @property
+  def single_instance(self):
+    return window_base_t_get_prop_single_instance(self.nativeObj);
+
+
 #
 # 可变的style(可实时修改并生效，主要用于在designer中被编辑的控件，或者一些特殊控件)。
 #
@@ -21154,7 +21326,7 @@ class TDialog (TWindowBase):
   #也就是在dialog_modal调用完成后仍然可以访问dialog中控件，直到本次事件结束。
   # 
   #
-  # @return 返回退出吗。
+  # @return 返回退出码。
   #
   def modal(self): 
     return dialog_modal(awtk_get_native_obj(self));
