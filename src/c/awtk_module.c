@@ -5909,7 +5909,7 @@ pyobject_t wrap_widget_set_prop_pointer(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   widget_t* widget = NULL;
   const char* name = NULL;
-  void** v = NULL;
+  void* v = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&sO&" , &parse_voidp, &widget, &name, &parse_voidp, &v)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
