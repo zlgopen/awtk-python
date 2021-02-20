@@ -140,14 +140,14 @@ class TEmitter(object):
   #
   # 注册指定事件的处理函数。
   # 
-  # @param type 事件类型。
-  # @param on_event 事件处理函数。
+  # @param etype 事件类型。
+  # @param handler 事件处理函数。
   # @param ctx 事件处理函数上下文。
   #
   # @return 返回id，用于emitter_off。
   #
-  def on(self, type, on_event, ctx): 
-    return emitter_on(awtk_get_native_obj(self), type, on_event, ctx);
+  def on(self, etype, handler, ctx): 
+    return emitter_on(awtk_get_native_obj(self), etype, handler, ctx);
 
 
   #
@@ -181,16 +181,6 @@ class TEmitter(object):
   #
   def disable(self): 
     return emitter_disable(awtk_get_native_obj(self));
-
-
-  #
-  # 获取注册的回调函数个数，主要用于辅助测试。
-  # 
-  #
-  # @return 回调函数个数。
-  #
-  def size(self): 
-    return emitter_size(awtk_get_native_obj(self));
 
 
   #
@@ -635,6 +625,18 @@ class TObject (TEmitter):
 
 
   #
+  # 获取指定属性的浮点数类型的值。
+  # 
+  # @param name 属性的名称。
+  # @param defval 缺省值。
+  #
+  # @return 返回指定属性的浮点数类型的值。
+  #
+  def get_prop_double(self, name, defval): 
+    return object_get_prop_double(awtk_get_native_obj(self), name, defval);
+
+
+  #
   # 删除指定属性。
   # 
   # @param name 属性的名称。
@@ -715,6 +717,18 @@ class TObject (TEmitter):
   #
   def set_prop_float(self, name, value): 
     return object_set_prop_float(awtk_get_native_obj(self), name, value);
+
+
+  #
+  # 设置指定属性的浮点数类型的值。
+  # 
+  # @param name 属性的名称。
+  # @param value 属性的值。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_prop_double(self, name, value): 
+    return object_set_prop_double(awtk_get_native_obj(self), name, value);
 
 
   #
@@ -962,6 +976,198 @@ class TObject (TEmitter):
   #
   def execute_by_path(self, path, args): 
     return object_exec_by_path(awtk_get_native_obj(self), path, args);
+
+
+  #
+  # 获取指定属性的int8类型的值。
+  # 
+  # @param name 属性的名称。
+  # @param defval 缺省值。
+  #
+  # @return 返回指定属性的int8类型的值。
+  #
+  def get_prop_int8(self, name, defval): 
+    return object_get_prop_int8(awtk_get_native_obj(self), name, defval);
+
+
+  #
+  # 设置指定属性的int8类型的值。
+  # 
+  # @param name 属性的名称。
+  # @param value 属性的值。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_prop_int8(self, name, value): 
+    return object_set_prop_int8(awtk_get_native_obj(self), name, value);
+
+
+  #
+  # 获取指定属性的uint8类型的值。
+  # 
+  # @param name 属性的名称。
+  # @param defval 缺省值。
+  #
+  # @return 返回指定属性的uint8类型的值。
+  #
+  def get_prop_uint8(self, name, defval): 
+    return object_get_prop_uint8(awtk_get_native_obj(self), name, defval);
+
+
+  #
+  # 设置指定属性的uint8类型的值。
+  # 
+  # @param name 属性的名称。
+  # @param value 属性的值。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_prop_uint8(self, name, value): 
+    return object_set_prop_uint8(awtk_get_native_obj(self), name, value);
+
+
+  #
+  # 获取指定属性的int16类型的值。
+  # 
+  # @param name 属性的名称。
+  # @param defval 缺省值。
+  #
+  # @return 返回指定属性的int16类型的值。
+  #
+  def get_prop_int16(self, name, defval): 
+    return object_get_prop_int16(awtk_get_native_obj(self), name, defval);
+
+
+  #
+  # 设置指定属性的int16类型的值。
+  # 
+  # @param name 属性的名称。
+  # @param value 属性的值。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_prop_int16(self, name, value): 
+    return object_set_prop_int16(awtk_get_native_obj(self), name, value);
+
+
+  #
+  # 获取指定属性的uint16类型的值。
+  # 
+  # @param name 属性的名称。
+  # @param defval 缺省值。
+  #
+  # @return 返回指定属性的uint16类型的值。
+  #
+  def get_prop_uint16(self, name, defval): 
+    return object_get_prop_uint16(awtk_get_native_obj(self), name, defval);
+
+
+  #
+  # 设置指定属性的uint16类型的值。
+  # 
+  # @param name 属性的名称。
+  # @param value 属性的值。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_prop_uint16(self, name, value): 
+    return object_set_prop_uint16(awtk_get_native_obj(self), name, value);
+
+
+  #
+  # 获取指定属性的int32类型的值。
+  # 
+  # @param name 属性的名称。
+  # @param defval 缺省值。
+  #
+  # @return 返回指定属性的int32类型的值。
+  #
+  def get_prop_int32(self, name, defval): 
+    return object_get_prop_int32(awtk_get_native_obj(self), name, defval);
+
+
+  #
+  # 设置指定属性的int32类型的值。
+  # 
+  # @param name 属性的名称。
+  # @param value 属性的值。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_prop_int32(self, name, value): 
+    return object_set_prop_int32(awtk_get_native_obj(self), name, value);
+
+
+  #
+  # 获取指定属性的uint32类型的值。
+  # 
+  # @param name 属性的名称。
+  # @param defval 缺省值。
+  #
+  # @return 返回指定属性的uint32类型的值。
+  #
+  def get_prop_uint32(self, name, defval): 
+    return object_get_prop_uint32(awtk_get_native_obj(self), name, defval);
+
+
+  #
+  # 设置指定属性的uint32类型的值。
+  # 
+  # @param name 属性的名称。
+  # @param value 属性的值。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_prop_uint32(self, name, value): 
+    return object_set_prop_uint32(awtk_get_native_obj(self), name, value);
+
+
+  #
+  # 获取指定属性的int64类型的值。
+  # 
+  # @param name 属性的名称。
+  # @param defval 缺省值。
+  #
+  # @return 返回指定属性的int64类型的值。
+  #
+  def get_prop_int64(self, name, defval): 
+    return object_get_prop_int64(awtk_get_native_obj(self), name, defval);
+
+
+  #
+  # 设置指定属性的int64类型的值。
+  # 
+  # @param name 属性的名称。
+  # @param value 属性的值。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_prop_int64(self, name, value): 
+    return object_set_prop_int64(awtk_get_native_obj(self), name, value);
+
+
+  #
+  # 获取指定属性的uint64类型的值。
+  # 
+  # @param name 属性的名称。
+  # @param defval 缺省值。
+  #
+  # @return 返回指定属性的uint64类型的值。
+  #
+  def get_prop_uint64(self, name, defval): 
+    return object_get_prop_uint64(awtk_get_native_obj(self), name, defval);
+
+
+  #
+  # 设置指定属性的uint64类型的值。
+  # 
+  # @param name 属性的名称。
+  # @param value 属性的值。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_prop_uint64(self, name, value): 
+    return object_set_prop_uint64(awtk_get_native_obj(self), name, value);
 
 
   #
@@ -1437,88 +1643,6 @@ class TGlobal(object):
   @classmethod
   def is_pointer_pressed(cls): 
     return tk_is_pointer_pressed();
-
-
-#
-# 资源管理器。
-#这里的资源管理器并非Windows下的文件浏览器，而是负责对各种资源，比如字体、主题、图片、界面数据、字符串和其它数据的进行集中管理的组件。引入资源管理器的目的有以下几个：
-#
-#* 让上层不需要了解存储的方式。
-#在没有文件系统时或者内存紧缺时，把资源转成常量数组直接编译到代码中。在有文件系统而且内存充足时，资源放在文件系统中。在有网络时，资源也可以存放在服务器上(暂未实现)。资源管理器为上层提供统一的接口，让上层而不用关心底层的存储方式。
-#
-#* 让上层不需要了解资源的具体格式。
-#比如一个名为earth的图片，没有文件系统或内存紧缺，图片直接用位图数据格式存在ROM中，而有文件系统时，则用PNG格式存放在文件系统中。资源管理器让上层不需要关心图片的格式，访问时指定图片的名称即可(不用指定扩展名)。
-#
-#* 让上层不需要了解屏幕的密度。
-#不同的屏幕密度下需要加载不同的图片，比如MacPro的Retina屏就需要用双倍解析度的图片，否则就出现界面模糊。AWTK以后会支持PC软件和手机软件的开发，所以资源管理器需要为此提供支持，让上层不需关心屏幕的密度。
-#
-#* 对资源进行内存缓存。
-#不同类型的资源使用方式是不一样的，比如字体和主题加载之后会一直使用，UI文件在生成界面之后就暂时不需要了，PNG文件解码之后就只需要保留解码的位图数据即可。资源管理器配合图片管理器等其它组件实现资源的自动缓存。
-#
-#当从文件系统加载资源时，目录结构要求如下：
-#
-#```
-#assets/{theme}/raw/
-#fonts   字体
-#images  图片
-#x1   普通密度屏幕的图片。
-#x2   2倍密度屏幕的图片。
-#x3   3倍密度屏幕的图片。
-#xx   密度无关的图片。
-#strings 需要翻译的字符串。
-#styles  主题数据。
-#ui      UI描述数据。
-#```
-#
-#
-class TAssetsManager(object):
-  def __init__(self, nativeObj):
-    self.nativeObj = nativeObj;
-
-
-  #
-  # 获取缺省资源管理器。
-  # 
-  #
-  # @return 返回asset manager对象。
-  #
-  @classmethod
-  def instance(cls): 
-    return  TAssetsManager(assets_manager());
-
-
-  #
-  # 设置当前的主题。
-  # 
-  # @param theme 主题名称。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_theme(self, theme): 
-    return assets_manager_set_theme(awtk_get_native_obj(self), theme);
-
-
-  #
-  # 在资源管理器的缓存中查找指定的资源并引用它，如果缓存中不存在，尝试加载该资源。
-  # 
-  # @param type 资源的类型。
-  # @param name 资源的名称。
-  #
-  # @return 返回资源。
-  #
-  def ref(self, type, name): 
-    return  TAssetInfo(assets_manager_ref(awtk_get_native_obj(self), type, name));
-
-
-  #
-  # 释放指定的资源。
-  # 
-  # @param info 资源。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def unref(self, info): 
-    return assets_manager_unref(awtk_get_native_obj(self), awtk_get_native_obj(info));
 
 
 #
@@ -2518,6 +2642,18 @@ class TEventType:
   TOP_WINDOW_CHANGED = EVT_TOP_WINDOW_CHANGED();
 
   #
+  # 输入法启动(event_t)。
+  #
+  #
+  IM_START = EVT_IM_START();
+
+  #
+  # 输入法停止(event_t)。
+  #
+  #
+  IM_STOP = EVT_IM_STOP();
+
+  #
   # 输入法提交输入的文本事件(im_commit_event_t)。
   #
   #
@@ -2697,6 +2833,30 @@ class TEventType:
   #
   #
   PAGE_CHANGED = EVT_PAGE_CHANGED();
+
+  #
+  # 资源管理加载某个资源(assets_event_t)。
+  #
+  #
+  ASSET_MANAGER_LOAD_ASSET = EVT_ASSET_MANAGER_LOAD_ASSET();
+
+  #
+  # 资源管理卸载某个资源(assets_event_t)。
+  #
+  #
+  ASSET_MANAGER_UNLOAD_ASSET = EVT_ASSET_MANAGER_UNLOAD_ASSET();
+
+  #
+  # 资源管理移除同种资源缓存(assets_event_t)。
+  #
+  #
+  ASSET_MANAGER_CLEAR_CACHE = EVT_ASSET_MANAGER_CLEAR_CACHE();
+
+  #
+  # 定时器(event_t)。
+  #
+  #
+  TIMER = EVT_TIMER();
 
   #
   # event queue其它请求编号起始值。
@@ -4300,6 +4460,18 @@ class TStyle(object):
 
 
   #
+  # 获取指定name的无符号整数格式的值。
+  # 
+  # @param name 属性名。
+  # @param defval 缺省值。
+  #
+  # @return 返回无符号整数格式的值。
+  #
+  def get_uint(self, name, defval): 
+    return style_get_uint(awtk_get_native_obj(self), name, defval);
+
+
+  #
   # 获取指定name的字符串格式的值。
   # 
   # @param name 属性名。
@@ -4325,6 +4497,43 @@ class TStyle(object):
 
 
   #
+  # 把风格对象数据设置到风格对象中
+  # 
+  # @param data 风格对象数据
+  # @param state 风格状态
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_style_data(self, data, state): 
+    return style_set_style_data(awtk_get_native_obj(self), data, state);
+
+
+  #
+  # 更新风格对象的状态以及对应的数据
+  #备注：根据 widget_type 和 style_name 以及 widget_state 在 theme 对象中查找对应的数据并且更新到 style 对象中
+  # 
+  # @param theme theme对象。
+  # @param widget_type 控件的类型名。
+  # @param style_name style的名称。
+  # @param widget_state 控件的状态。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def update_state(self, theme, widget_type, style_name, widget_state): 
+    return style_update_state(awtk_get_native_obj(self), awtk_get_native_obj(theme), widget_type, style_name, widget_state);
+
+
+  #
+  # 获取风格对象的风格状态
+  # 
+  #
+  # @return 返回风格状态。
+  #
+  def get_style_state(self): 
+    return style_get_style_state(awtk_get_native_obj(self));
+
+
+  #
   # 检查style是否是mutable的。
   # 
   #
@@ -4332,6 +4541,16 @@ class TStyle(object):
   #
   def is_mutable(self): 
     return style_is_mutable(awtk_get_native_obj(self));
+
+
+  #
+  # 获取 style 的风格类型。
+  # 
+  #
+  # @return 返回风格类型。
+  #
+  def get_style_type(self): 
+    return style_get_style_type(awtk_get_native_obj(self));
 
 
 #
@@ -5415,6 +5634,12 @@ class TVgcanvasLineCap:
   #
   SQUARE = VGCANVAS_LINE_CAP_SQUARE();
 
+  #
+  # 平头。
+  #
+  #
+  BUTT = VGCANVAS_LINE_CAP_BUTT();
+
 #
 # 线条连接类型。
 #
@@ -5476,10 +5701,52 @@ class TWidgetProp:
   H = WIDGET_PROP_H();
 
   #
+  # 窗口设计时宽度。
+  #
+  #
+  DESIGN_W = WIDGET_PROP_DESIGN_W();
+
+  #
+  # 窗口设计时宽度。
+  #
+  #
+  DESIGN_H = WIDGET_PROP_DESIGN_H();
+
+  #
+  # 窗口大小与设计时大小不同时，是否自动调整子控件的x坐标。
+  #
+  #
+  AUTO_SCALE_CHILDREN_X = WIDGET_PROP_AUTO_SCALE_CHILDREN_X();
+
+  #
+  # 窗口大小与设计时大小不同时，是否自动调整子控件的y坐标。
+  #
+  #
+  AUTO_SCALE_CHILDREN_Y = WIDGET_PROP_AUTO_SCALE_CHILDREN_Y();
+
+  #
+  # 窗口大小与设计时大小不同时，是否自动调整子控件的宽度。
+  #
+  #
+  AUTO_SCALE_CHILDREN_W = WIDGET_PROP_AUTO_SCALE_CHILDREN_W();
+
+  #
+  # 窗口大小与设计时大小不同时，是否自动调整子控件的高度。
+  #
+  #
+  AUTO_SCALE_CHILDREN_H = WIDGET_PROP_AUTO_SCALE_CHILDREN_H();
+
+  #
   # inputing。
   #
   #
   INPUTING = WIDGET_PROP_INPUTING();
+
+  #
+  # always on top。
+  #
+  #
+  ALWAYS_ON_TOP = WIDGET_PROP_ALWAYS_ON_TOP();
 
   #
   # caret x。
@@ -5636,6 +5903,12 @@ class TWidgetProp:
   #
   #
   VALUE = WIDGET_PROP_VALUE();
+
+  #
+  # 进度条反向显示。
+  #
+  #
+  REVERSE = WIDGET_PROP_REVERSE();
 
   #
   # 长度。
@@ -6280,7 +6553,7 @@ class TWidgetProp:
   FOCUSABLE = WIDGET_PROP_FOCUSABLE();
 
   #
-  # 是否支持焦点状态(如果希望style支持焦点状态，但有不希望焦点停留，可用本属性)。
+  # 是否支持焦点状态(如果希望style支持焦点状态，但又不希望焦点停留，可用本属性)。
   #
   #
   WITH_FOCUS_STATE = WIDGET_PROP_WITH_FOCUS_STATE();
@@ -7074,6 +7347,18 @@ class TWidget(object):
 
 
   #
+  # 查询指定的style是否存在。
+  # 
+  # @param style_name style的名称（如果为 NULL，则默认为 default）。
+  # @param state_name state的名称（如果为 NULL，则默认为 normal）。
+  #
+  # @return 存在返回 TRUE，不存在返回 FALSE。
+  #
+  def is_style_exist(self, style_name, state_name): 
+    return widget_is_style_exist(awtk_get_native_obj(self), style_name, state_name);
+
+
+  #
   # 启用指定的style。
   # 
   # @param style style的名称。
@@ -7767,6 +8052,16 @@ class TWidget(object):
 
 
   #
+  # 检查控件弹出对话框控件是否已经打开了（而非挂起状态）。
+  # 
+  #
+  # @return 返回FALSE表示不是，否则表示是。
+  #
+  def is_opened_dialog(self): 
+    return widget_is_opened_dialog(awtk_get_native_obj(self));
+
+
+  #
   # 检查控件弹出窗口控件是否已经打开了（而非挂起状态）。
   # 
   #
@@ -7975,6 +8270,16 @@ class TWidget(object):
   #
   def dispatch_to_key_target(self, e): 
     return widget_dispatch_to_key_target(awtk_get_native_obj(self), awtk_get_native_obj(e));
+
+
+  #
+  # 获取 widget 对应风格类型
+  # 
+  #
+  # @return 返回 widget 的对应风格类型。
+  #
+  def get_style_type(self): 
+    return widget_get_style_type(awtk_get_native_obj(self));
 
 
   #
@@ -8296,7 +8601,7 @@ class TWidget(object):
 
   #
   # 是否支持焦点状态。
-  #> 如果希望style支持焦点状态，但有不希望焦点停留，可用本属性。
+  #> 如果希望style支持焦点状态，但又不希望焦点停留，可用本属性。
   #
   #
   @property
@@ -8358,11 +8663,8 @@ class TWidget(object):
 
 
 #
-# 应用程序的配置信息。
-#
-#底层实现可以是任何格式，比如INI，XML，JSON和UBJSON。
-#
-#对于树状的文档，key可以是多级的，用.分隔。如network.ip。
+# #include "conf_io/app_conf.h"
+#```
 #
 #
 class TAppConf(object):
@@ -8645,6 +8947,12 @@ class TAssetType:
   SCRIPT = ASSET_TYPE_SCRIPT();
 
   #
+  # 流图资源。
+  #
+  #
+  FLOW = ASSET_TYPE_FLOW();
+
+  #
   # 其它数据资源。
   #
   #
@@ -8862,6 +9170,72 @@ class TDateTime(object):
 
 
   #
+  # 设置年。
+  # 
+  # @param year 年。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_year(self, year): 
+    return date_time_set_year(awtk_get_native_obj(self), year);
+
+
+  #
+  # 设置月。
+  # 
+  # @param month 月。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_month(self, month): 
+    return date_time_set_month(awtk_get_native_obj(self), month);
+
+
+  #
+  # 设置日。
+  # 
+  # @param day 日。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_day(self, day): 
+    return date_time_set_day(awtk_get_native_obj(self), day);
+
+
+  #
+  # 设置小时。
+  # 
+  # @param hour 小时。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_hour(self, hour): 
+    return date_time_set_hour(awtk_get_native_obj(self), hour);
+
+
+  #
+  # 设置分钟。
+  # 
+  # @param minute 分钟。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_minute(self, minute): 
+    return date_time_set_minute(awtk_get_native_obj(self), minute);
+
+
+  #
+  # 设置秒。
+  # 
+  # @param second 秒。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_second(self, second): 
+    return date_time_set_second(awtk_get_native_obj(self), second);
+
+
+  #
   # 设置当前时间。
   # 
   #
@@ -8880,6 +9254,16 @@ class TDateTime(object):
   #
   def from_time(self, time): 
     return date_time_from_time(awtk_get_native_obj(self), time);
+
+
+  #
+  # 转换成time。
+  # 
+  #
+  # @return 返回time。
+  #
+  def to_time(self): 
+    return date_time_to_time(awtk_get_native_obj(self));
 
 
   #
@@ -8974,6 +9358,10 @@ class TDateTime(object):
   def second(self):
     return date_time_t_get_prop_second(self.nativeObj);
 
+  @second.setter
+  def second(self, v):
+   this.set_second(v);
+
 
   #
   # 分(0 - 59)。
@@ -8982,6 +9370,10 @@ class TDateTime(object):
   @property
   def minute(self):
     return date_time_t_get_prop_minute(self.nativeObj);
+
+  @minute.setter
+  def minute(self, v):
+   this.set_minute(v);
 
 
   #
@@ -8992,6 +9384,10 @@ class TDateTime(object):
   def hour(self):
     return date_time_t_get_prop_hour(self.nativeObj);
 
+  @hour.setter
+  def hour(self, v):
+   this.set_hour(v);
+
 
   #
   # 日(1-31)。
@@ -9000,6 +9396,10 @@ class TDateTime(object):
   @property
   def day(self):
     return date_time_t_get_prop_day(self.nativeObj);
+
+  @day.setter
+  def day(self, v):
+   this.set_day(v);
 
 
   #
@@ -9019,6 +9419,10 @@ class TDateTime(object):
   def month(self):
     return date_time_t_get_prop_month(self.nativeObj);
 
+  @month.setter
+  def month(self, v):
+   this.set_month(v);
+
 
   #
   # 年。
@@ -9027,6 +9431,10 @@ class TDateTime(object):
   @property
   def year(self):
     return date_time_t_get_prop_year(self.nativeObj);
+
+  @year.setter
+  def year(self, v):
+   this.set_year(v);
 
 
 #
@@ -10348,6 +10756,101 @@ class TValueType:
   TOKEN = VALUE_TYPE_TOKEN();
 
 #
+# 资源管理器。
+#这里的资源管理器并非Windows下的文件浏览器，而是负责对各种资源，比如字体、主题、图片、界面数据、字符串和其它数据的进行集中管理的组件。引入资源管理器的目的有以下几个：
+#
+#* 让上层不需要了解存储的方式。
+#在没有文件系统时或者内存紧缺时，把资源转成常量数组直接编译到代码中。在有文件系统而且内存充足时，资源放在文件系统中。在有网络时，资源也可以存放在服务器上(暂未实现)。资源管理器为上层提供统一的接口，让上层而不用关心底层的存储方式。
+#
+#* 让上层不需要了解资源的具体格式。
+#比如一个名为earth的图片，没有文件系统或内存紧缺，图片直接用位图数据格式存在ROM中，而有文件系统时，则用PNG格式存放在文件系统中。资源管理器让上层不需要关心图片的格式，访问时指定图片的名称即可(不用指定扩展名)。
+#
+#* 让上层不需要了解屏幕的密度。
+#不同的屏幕密度下需要加载不同的图片，比如MacPro的Retina屏就需要用双倍解析度的图片，否则就出现界面模糊。AWTK以后会支持PC软件和手机软件的开发，所以资源管理器需要为此提供支持，让上层不需关心屏幕的密度。
+#
+#* 对资源进行内存缓存。
+#不同类型的资源使用方式是不一样的，比如字体和主题加载之后会一直使用，UI文件在生成界面之后就暂时不需要了，PNG文件解码之后就只需要保留解码的位图数据即可。资源管理器配合图片管理器等其它组件实现资源的自动缓存。
+#
+#当从文件系统加载资源时，目录结构要求如下：
+#
+#```
+#assets/{theme}/raw/
+#fonts   字体
+#images  图片
+#x1   普通密度屏幕的图片。
+#x2   2倍密度屏幕的图片。
+#x3   3倍密度屏幕的图片。
+#xx   密度无关的图片。
+#strings 需要翻译的字符串。
+#styles  主题数据。
+#ui      UI描述数据。
+#```
+#
+#
+class TAssetsManager (TEmitter):
+  def __init__(self, nativeObj):
+    super(TAssetsManager, self).__init__(nativeObj)
+
+
+  #
+  # 获取缺省资源管理器。
+  # 
+  #
+  # @return 返回asset manager对象。
+  #
+  @classmethod
+  def instance(cls): 
+    return  TAssetsManager(assets_manager());
+
+
+  #
+  # 设置当前的主题。
+  # 
+  # @param theme 主题名称。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_theme(self, theme): 
+    return assets_manager_set_theme(awtk_get_native_obj(self), theme);
+
+
+  #
+  # 在资源管理器的缓存中查找指定的资源并引用它，如果缓存中不存在，尝试加载该资源。
+  # 
+  # @param type 资源的类型。
+  # @param name 资源的名称。
+  #
+  # @return 返回资源。
+  #
+  def ref(self, type, name): 
+    return  TAssetInfo(assets_manager_ref(awtk_get_native_obj(self), type, name));
+
+
+  #
+  # 在资源管理器的缓存中查找指定的资源并引用它，如果缓存中不存在，尝试加载该资源。
+  # 
+  # @param type 资源的类型。
+  # @param subtype 资源的子类型。
+  # @param name 资源的名称。
+  #
+  # @return 返回资源。
+  #
+  def ref_ex(self, type, subtype, name): 
+    return  TAssetInfo(assets_manager_ref_ex(awtk_get_native_obj(self), type, subtype, name));
+
+
+  #
+  # 释放指定的资源。
+  # 
+  # @param info 资源。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def unref(self, info): 
+    return assets_manager_unref(awtk_get_native_obj(self), awtk_get_native_obj(info));
+
+
+#
 # 滚轮事件。
 #
 #
@@ -10779,15 +11282,6 @@ class TMultiGestureEvent (TEvent):
 
 
   #
-  # touch device id。
-  #
-  #
-  @property
-  def touch_id(self):
-    return multi_gesture_event_t_get_prop_touch_id(self.nativeObj);
-
-
-  #
   # 中心点x坐标。
   #
   #
@@ -10806,7 +11300,7 @@ class TMultiGestureEvent (TEvent):
 
 
   #
-  # 旋转角度(幅度)增量。
+  # 旋转角度(幅度)增量。（单位弧度）
   #
   #
   @property
@@ -10823,13 +11317,31 @@ class TMultiGestureEvent (TEvent):
     return multi_gesture_event_t_get_prop_distance(self.nativeObj);
 
 
+#
+# 资源事件，由资源管理器触发。
+#
+#
+class TAssetsEvent (TEvent):
+  def __init__(self, nativeObj):
+    super(TAssetsEvent, self).__init__(nativeObj)
+
+
   #
-  # 本事件用到手指数。
+  # 触发事件的资源类型
   #
   #
   @property
-  def fingers(self):
-    return multi_gesture_event_t_get_prop_fingers(self.nativeObj);
+  def type(self):
+    return assets_event_t_get_prop_type(self.nativeObj);
+
+
+  #
+  # 触发事件的资源对象
+  #
+  #
+  @property
+  def asset_info(self):
+    return TAssetInfo(assets_event_t_get_prop_asset_info(self.nativeObj));
 
 
 #
@@ -11101,14 +11613,13 @@ class TStyleMutable (TStyle):
   #
   #> 除了测试程序外不需要直接调用，widget会通过style\_factory\_create创建。
   # 
-  # @param widget 控件
   # @param default_style 缺省的style。
   #
   # @return style对象。
   #
   @classmethod
-  def create(cls, widget, default_style): 
-    return  TStyleMutable(style_mutable_create(awtk_get_native_obj(widget), awtk_get_native_obj(default_style)));
+  def create(cls, default_style): 
+    return  TStyleMutable(style_mutable_create(awtk_get_native_obj(default_style)));
 
 
   #
@@ -11161,6 +11672,60 @@ class TWindowBase (TWidget):
   @property
   def theme(self):
     return window_base_t_get_prop_theme(self.nativeObj);
+
+
+  #
+  # 设计时宽度。
+  #
+  #
+  @property
+  def design_w(self):
+    return window_base_t_get_prop_design_w(self.nativeObj);
+
+
+  #
+  # 设计时高度。
+  #
+  #
+  @property
+  def design_h(self):
+    return window_base_t_get_prop_design_h(self.nativeObj);
+
+
+  #
+  # 窗口大小与设计时大小不同时，是否自动调整子控件的x坐标。
+  #
+  #
+  @property
+  def auto_scale_children_x(self):
+    return window_base_t_get_prop_auto_scale_children_x(self.nativeObj);
+
+
+  #
+  # 窗口大小与设计时大小不同时，是否自动调整子控件的y坐标。
+  #
+  #
+  @property
+  def auto_scale_children_y(self):
+    return window_base_t_get_prop_auto_scale_children_y(self.nativeObj);
+
+
+  #
+  # 窗口大小与设计时大小不同时，是否自动调整子控件的宽度。
+  #
+  #
+  @property
+  def auto_scale_children_w(self):
+    return window_base_t_get_prop_auto_scale_children_w(self.nativeObj);
+
+
+  #
+  # 窗口大小与设计时大小不同时，是否自动调整子控件的高度。
+  #
+  #
+  @property
+  def auto_scale_children_h(self):
+    return window_base_t_get_prop_auto_scale_children_h(self.nativeObj);
 
 
   #
@@ -13596,55 +14161,6 @@ class TMledit (TWidget):
 
 
   #
-  # 编辑器是否为只读。
-  #
-  #
-  @property
-  def readonly(self):
-    return mledit_t_get_prop_readonly(self.nativeObj);
-
-  @readonly.setter
-  def readonly(self, v):
-   this.set_readonly(v);
-
-
-  #
-  # 上边距。
-  #
-  #
-  @property
-  def top_margin(self):
-    return mledit_t_get_prop_top_margin(self.nativeObj);
-
-
-  #
-  # 下边距。
-  #
-  #
-  @property
-  def bottom_margin(self):
-    return mledit_t_get_prop_bottom_margin(self.nativeObj);
-
-
-  #
-  # 左边距。
-  #
-  #
-  @property
-  def left_margin(self):
-    return mledit_t_get_prop_left_margin(self.nativeObj);
-
-
-  #
-  # 右边距。
-  #
-  #
-  @property
-  def right_margin(self):
-    return mledit_t_get_prop_right_margin(self.nativeObj);
-
-
-  #
   # 输入提示。
   #
   #
@@ -13684,19 +14200,6 @@ class TMledit (TWidget):
 
 
   #
-  # 是否自动折行。
-  #
-  #
-  @property
-  def wrap_word(self):
-    return mledit_t_get_prop_wrap_word(self.nativeObj);
-
-  @wrap_word.setter
-  def wrap_word(self, v):
-   this.set_wrap_word(v);
-
-
-  #
   # 最大行数。
   #
   #
@@ -13710,6 +14213,19 @@ class TMledit (TWidget):
 
 
   #
+  # 是否自动折行。
+  #
+  #
+  @property
+  def wrap_word(self):
+    return mledit_t_get_prop_wrap_word(self.nativeObj);
+
+  @wrap_word.setter
+  def wrap_word(self, v):
+   this.set_wrap_word(v);
+
+
+  #
   # 鼠标一次滚动行数。
   #
   #
@@ -13720,6 +14236,19 @@ class TMledit (TWidget):
   @scroll_line.setter
   def scroll_line(self, v):
    this.set_scroll_line(v);
+
+
+  #
+  # 编辑器是否为只读。
+  #
+  #
+  @property
+  def readonly(self):
+    return mledit_t_get_prop_readonly(self.nativeObj);
+
+  @readonly.setter
+  def readonly(self, v):
+   this.set_readonly(v);
 
 
   #
@@ -14185,15 +14714,6 @@ class TRichText (TWidget):
   @property
   def line_gap(self):
     return rich_text_t_get_prop_line_gap(self.nativeObj);
-
-
-  #
-  # 边距。
-  #
-  #
-  @property
-  def margin(self):
-    return rich_text_t_get_prop_margin(self.nativeObj);
 
 
   #
@@ -14726,6 +15246,14 @@ class TListViewH (TWidget):
 #
 #可用通过style来设置控件的显示风格，如背景颜色和边框颜色等(一般情况不需要)。
 #
+#备注：list_view 下的 scroll_view 控件不支持遍历所有子控件的效果。
+#
+#下面是针对 scroll_bar_d （桌面版）有效果，scroll_bar_m（移动版）没有效果。
+#如果 floating_scroll_bar 属性为 TRUE 和 auto_hide_scroll_bar 属性为 TRUE，scroll_view 宽默认为 list_view 的 100% 宽，鼠标在 list_view 上滚动条才显示，不在的就自动隐藏，如果 scroll_view 的高比虚拟高要大的话，滚动条变成不可见，scroll_view 宽不会变。
+#如果 floating_scroll_bar 属性为 TRUE 和 auto_hide_scroll_bar 属性为 FALSE ，scroll_view 宽默认为 list_view 的 100% 宽，滚动条不隐藏，如果 scroll_view 的高比虚拟高要大的话，滚动条变成不可见，scroll_view 宽不会变。
+#如果 floating_scroll_bar 属性为 FALSE 和 auto_hide_scroll_bar 属性为 FALSE，如果 scroll_view 的高比虚拟高要大的话，滚动条变成不可用，scroll_view 宽不会变。
+#如果 floating_scroll_bar 属性为 FALSE 和 auto_hide_scroll_bar 属性为 TRUE，如果 scroll_view 的高比虚拟高要大的话，滚动条变成不可见，scroll_view 宽会合并原来滚动条的宽。
+#
 #
 class TListView (TWidget):
   def __init__(self, nativeObj):
@@ -14779,6 +15307,17 @@ class TListView (TWidget):
   #
   def set_auto_hide_scroll_bar(self, auto_hide_scroll_bar): 
     return list_view_set_auto_hide_scroll_bar(awtk_get_native_obj(self), auto_hide_scroll_bar);
+
+
+  #
+  # 设置滚动条是否悬浮在 scroll_view 上面。
+  # 
+  # @param floating_scroll_bar 滚动条是否悬浮在 scroll_view 上面。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_floating_scroll_bar(self, floating_scroll_bar): 
+    return list_view_set_floating_scroll_bar(awtk_get_native_obj(self), floating_scroll_bar);
 
 
   #
@@ -14840,6 +15379,19 @@ class TListView (TWidget):
   @auto_hide_scroll_bar.setter
   def auto_hide_scroll_bar(self, v):
    this.set_auto_hide_scroll_bar(v);
+
+
+  #
+  # 滚动条是否悬浮在 scroll_view 上面
+  #
+  #
+  @property
+  def floating_scroll_bar(self):
+    return list_view_t_get_prop_floating_scroll_bar(self.nativeObj);
+
+  @floating_scroll_bar.setter
+  def floating_scroll_bar(self, v):
+   this.set_floating_scroll_bar(v);
 
 
 #
@@ -15173,6 +15725,51 @@ class TScrollView (TWidget):
 
 
   #
+  # 设置滚动时offset是否按页面对齐。
+  # 
+  # @param snap_to_page 是否按页面对齐。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_snap_to_page(self, snap_to_page): 
+    return scroll_view_set_snap_to_page(awtk_get_native_obj(self), snap_to_page);
+
+
+  #
+  # 设置滚动时是否每次翻一页
+  #备注：当 snap_to_page 为ture 的时候才有效果，主要用于区分一次翻一页还是一次翻多页。
+  # 
+  # @param move_to_page 是否每次翻一页。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_move_to_page(self, move_to_page): 
+    return scroll_view_set_move_to_page(awtk_get_native_obj(self), move_to_page);
+
+
+  #
+  # 设置是否递归查找全部子控件。
+  # 
+  # @param recursive 是否递归查找全部子控件。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_recursive(self, recursive): 
+    return scroll_view_set_recursive(awtk_get_native_obj(self), recursive);
+
+
+  #
+  # 设置是否递归查找全部子控件。(不触发repaint和relayout)。
+  # 
+  # @param recursive 是否递归查找全部子控件。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_recursive_only(self, recursive): 
+    return scroll_view_set_recursive_only(awtk_get_native_obj(self), recursive);
+
+
+  #
   # 设置偏移量。
   # 
   # @param xoffset x偏移量。
@@ -15187,8 +15784,8 @@ class TScrollView (TWidget):
   #
   # 设置偏移速度比例。
   # 
-  # @param xspeed_scale x偏移速度比例。。
-  # @param yspeed_scale y偏移速度比例。。
+  # @param xspeed_scale x偏移速度比例。
+  # @param yspeed_scale y偏移速度比例。
   #
   # @return 返回RET_OK表示成功，否则表示失败。
   #
@@ -15308,6 +15905,45 @@ class TScrollView (TWidget):
   @yslidable.setter
   def yslidable(self, v):
    this.set_yslidable(v);
+
+
+  #
+  # 滚动时offset是否按页面对齐。
+  #
+  #
+  @property
+  def snap_to_page(self):
+    return scroll_view_t_get_prop_snap_to_page(self.nativeObj);
+
+  @snap_to_page.setter
+  def snap_to_page(self, v):
+   this.set_snap_to_page(v);
+
+
+  #
+  # 是否每次翻一页（当 move_to_page 为ture 的时候才有效果，主要用于区分一次翻一页还是一次翻多页）。
+  #
+  #
+  @property
+  def move_to_page(self):
+    return scroll_view_t_get_prop_move_to_page(self.nativeObj);
+
+  @move_to_page.setter
+  def move_to_page(self, v):
+   this.set_move_to_page(v);
+
+
+  #
+  # 是否递归查找全部子控件。
+  #
+  #
+  @property
+  def recursive(self):
+    return scroll_view_t_get_prop_recursive(self.nativeObj);
+
+  @recursive.setter
+  def recursive(self, v):
+   this.set_recursive(v);
 
 
 #
@@ -15869,7 +16505,7 @@ class TSlideView (TWidget):
 
 
   #
-  # 设置当前页的序号。
+  # 设置当前页的序号(默认启用动画)。
   # 
   # @param index 当前页的序号。
   #
@@ -15877,6 +16513,18 @@ class TSlideView (TWidget):
   #
   def set_active(self, index): 
     return slide_view_set_active(awtk_get_native_obj(self), index);
+
+
+  #
+  # 设置当前页的序号。
+  # 
+  # @param index 当前页的序号。
+  # @param animate 是否启用动画。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_active_ex(self, index, animate): 
+    return slide_view_set_active_ex(awtk_get_native_obj(self), index, animate);
 
 
   #
@@ -16192,6 +16840,20 @@ class TTextSelector (TWidget):
   # @param start 起始值。
   # @param nr 个数。
   # @param step 步长。
+  # @param format 选项的格式化。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_range_options_ex(self, start, nr, step, format): 
+    return text_selector_set_range_options_ex(awtk_get_native_obj(self), start, nr, step, format);
+
+
+  #
+  # 设置一系列的整数选项。
+  # 
+  # @param start 起始值。
+  # @param nr 个数。
+  # @param step 步长。
   #
   # @return 返回RET_OK表示成功，否则表示失败。
   #
@@ -16297,7 +16959,7 @@ class TTextSelector (TWidget):
 
 
   #
-  # 可见的选项数量(只能是3或者5，缺省为5)。
+  # 可见的选项数量(只能是1或者3或者5，缺省为5)。
   #
   #
   @property
@@ -16338,19 +17000,6 @@ class TTextSelector (TWidget):
 
 
   #
-  # 是否本地化(翻译)选项(缺省为FALSE)。
-  #
-  #
-  @property
-  def localize_options(self):
-    return text_selector_t_get_prop_localize_options(self.nativeObj);
-
-  @localize_options.setter
-  def localize_options(self, v):
-   this.set_localize_options(v);
-
-
-  #
   # y偏移速度比例。
   #
   #
@@ -16361,6 +17010,19 @@ class TTextSelector (TWidget):
   @yspeed_scale.setter
   def yspeed_scale(self, v):
    this.set_yspeed_scale(v);
+
+
+  #
+  # 是否本地化(翻译)选项(缺省为FALSE)。
+  #
+  #
+  @property
+  def localize_options(self):
+    return text_selector_t_get_prop_localize_options(self.nativeObj);
+
+  @localize_options.setter
+  def localize_options(self, v):
+   this.set_localize_options(v);
 
 
   #
@@ -16905,7 +17567,7 @@ class TCmdExecEvent (TEvent):
 
 
   #
-  # 执行结果(适用于CAN_EXEC)。
+  # 标识命令是否可以执行(适用于CAN_EXEC)。
   #
   #
   @property
@@ -18250,6 +18912,104 @@ class TEdit (TWidget):
 
 
   #
+  # 输入提示。
+  #
+  #
+  @property
+  def tips(self):
+    return edit_t_get_prop_tips(self.nativeObj);
+
+  @tips.setter
+  def tips(self, v):
+   this.set_tips(v);
+
+
+  #
+  # 保存用于翻译的提示信息。
+  #
+  #
+  @property
+  def tr_tips(self):
+    return edit_t_get_prop_tr_tips(self.nativeObj);
+
+  @tr_tips.setter
+  def tr_tips(self, v):
+   this.set_tr_tips(v);
+
+
+  #
+  # 软键盘上action按钮的文本。内置取值有：
+  #
+  #* next 将焦点切换到下一个控件。
+  #* done 完成，关闭软键盘。
+  #
+  #也可以使用其它文本，比如send表示发送。这个需要自己实现相应的功能，处理EVT\_IM\_ACTION事件即可。
+  #
+  #
+  @property
+  def action_text(self):
+    return edit_t_get_prop_action_text(self.nativeObj);
+
+  @action_text.setter
+  def action_text(self, v):
+   this.set_action_text(v);
+
+
+  #
+  # 自定义软键盘名称。AWTK优先查找keyboard属性设置的键盘文件名（该键盘的XML文件需要在default\raw\ui目录下存在），如果keyboard为空就找input_type设置的键盘类型
+  #
+  #
+  @property
+  def keyboard(self):
+    return edit_t_get_prop_keyboard(self.nativeObj);
+
+  @keyboard.setter
+  def keyboard(self, v):
+   this.set_keyboard(v);
+
+
+  #
+  # 最小值或最小长度。
+  #
+  #
+  @property
+  def min(self):
+    return edit_t_get_prop_min(self.nativeObj);
+
+
+  #
+  # 最大值或最大长度。
+  #
+  #
+  @property
+  def max(self):
+    return edit_t_get_prop_max(self.nativeObj);
+
+
+  #
+  # 步长。
+  #作为数值型编辑器时，一次增加和减少时的数值。
+  #
+  #
+  @property
+  def step(self):
+    return edit_t_get_prop_step(self.nativeObj);
+
+
+  #
+  # 输入类型。
+  #
+  #
+  @property
+  def input_type(self):
+    return edit_t_get_prop_input_type(self.nativeObj);
+
+  @input_type.setter
+  def input_type(self, v):
+   this.set_input_type(v);
+
+
+  #
   # 编辑器是否为只读。
   #
   #
@@ -18329,140 +19089,6 @@ class TEdit (TWidget):
   @close_im_when_blured.setter
   def close_im_when_blured(self, v):
    this.set_close_im_when_blured(v);
-
-
-  #
-  # 上边距。
-  #
-  #
-  @property
-  def top_margin(self):
-    return edit_t_get_prop_top_margin(self.nativeObj);
-
-
-  #
-  # 下边距。
-  #
-  #
-  @property
-  def bottom_margin(self):
-    return edit_t_get_prop_bottom_margin(self.nativeObj);
-
-
-  #
-  # 左边距。
-  #
-  #
-  @property
-  def left_margin(self):
-    return edit_t_get_prop_left_margin(self.nativeObj);
-
-
-  #
-  # 右边距。
-  #
-  #
-  @property
-  def right_margin(self):
-    return edit_t_get_prop_right_margin(self.nativeObj);
-
-
-  #
-  # 输入提示。
-  #
-  #
-  @property
-  def tips(self):
-    return edit_t_get_prop_tips(self.nativeObj);
-
-  @tips.setter
-  def tips(self, v):
-   this.set_tips(v);
-
-
-  #
-  # 保存用于翻译的提示信息。
-  #
-  #
-  @property
-  def tr_tips(self):
-    return edit_t_get_prop_tr_tips(self.nativeObj);
-
-  @tr_tips.setter
-  def tr_tips(self, v):
-   this.set_tr_tips(v);
-
-
-  #
-  # 软键盘上action按钮的文本。内置取值有：
-  #
-  #* next 将焦点切换到下一个控件。
-  #* done 完成，关闭软键盘。
-  #
-  #也可以使用其它文本，比如send表示发送。这个需要自己实现相应的功能，处理EVT\_IM\_ACTION事件即可。
-  #
-  #
-  @property
-  def action_text(self):
-    return edit_t_get_prop_action_text(self.nativeObj);
-
-  @action_text.setter
-  def action_text(self, v):
-   this.set_action_text(v);
-
-
-  #
-  # 自定义软键盘名称。AWTK优先查找keyboard属性设置的键盘文件名（该键盘的XML文件需要在default\raw\ui目录下存在），如果keyboard为空就找input_type设置的键盘类型
-  #
-  #
-  @property
-  def keyboard(self):
-    return edit_t_get_prop_keyboard(self.nativeObj);
-
-  @keyboard.setter
-  def keyboard(self, v):
-   this.set_keyboard(v);
-
-
-  #
-  # 输入类型。
-  #
-  #
-  @property
-  def input_type(self):
-    return edit_t_get_prop_input_type(self.nativeObj);
-
-  @input_type.setter
-  def input_type(self, v):
-   this.set_input_type(v);
-
-
-  #
-  # 最小值或最小长度。
-  #
-  #
-  @property
-  def min(self):
-    return edit_t_get_prop_min(self.nativeObj);
-
-
-  #
-  # 最大值或最大长度。
-  #
-  #
-  @property
-  def max(self):
-    return edit_t_get_prop_max(self.nativeObj);
-
-
-  #
-  # 步长。
-  #作为数值型编辑器时，一次增加和减少时的数值。
-  #
-  #
-  @property
-  def step(self):
-    return edit_t_get_prop_step(self.nativeObj);
 
 
   #
@@ -18760,9 +19386,9 @@ class TLabel (TWidget):
 
 
   #
-  # 设置是否允许单词中换行。(需要开启自动换行才有效果)
+  # 设置是否允许整个单词换行。(需要开启自动换行才有效果)
   # 
-  # @param word_wrap 是否允许单词中换行。
+  # @param word_wrap 是否允许整个单词换行。
   #
   # @return 返回RET_OK表示成功，否则表示失败。
   #
@@ -18824,7 +19450,7 @@ class TLabel (TWidget):
 
 
   #
-  # 是否允许单词中换行。(需要开启自动换行才有效果)
+  # 是否允许整个单词换行。(需要开启自动换行才有效果)
   #
   #
   @property
@@ -19044,6 +19670,17 @@ class TProgressBar (TWidget):
 
 
   #
+  # 设置进度条是否反向。
+  # 
+  # @param reverse 是否反向。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_reverse(self, reverse): 
+    return progress_bar_set_reverse(awtk_get_native_obj(self), reverse);
+
+
+  #
   # 获取进度百分比。
   #
   #> 当max为100时，percent和value取整后一致。
@@ -19105,6 +19742,19 @@ class TProgressBar (TWidget):
   @show_text.setter
   def show_text(self, v):
    this.set_show_text(v);
+
+
+  #
+  # 是否反向显示。如果为TRUE，水平方向从右向左表示增加，垂直方向从上到下表示增加。
+  #
+  #
+  @property
+  def reverse(self):
+    return progress_bar_t_get_prop_reverse(self.nativeObj);
+
+  @reverse.setter
+  def reverse(self, v):
+   this.set_reverse(v);
 
 
 #
@@ -20326,7 +20976,7 @@ class TWindow (TWindowBase):
   #
   # 设置为全屏窗口。
   #
-  #>这里全屏是指与LCD相同大小，而非让SDL窗口全屏。
+  #>如果app_type是SIMULATOR，全屏是指与LCD相同大小，而非让SDL窗口全屏。
   # 
   # @param fullscreen 是否全屏。
   #
@@ -20334,6 +20984,20 @@ class TWindow (TWindowBase):
   #
   def set_fullscreen(self, fullscreen): 
     return window_set_fullscreen(awtk_get_native_obj(self), fullscreen);
+
+
+  #
+  # 当设计分辨率和实际分辨率不一致时，自动调整子控件的位置和大小。
+  #
+  #> 当子控件有self_layout参数或者子控件的父控件有children_layout参数时，不会自动调整。
+  # 
+  # @param design_w 设计时宽度。
+  # @param design_h 设计时高度。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_auto_scale_children(self, design_w, design_h): 
+    return window_set_auto_scale_children(awtk_get_native_obj(self), design_w, design_h);
 
 
   #
@@ -20817,12 +21481,46 @@ class TObjectArray (TObject):
 
 
   #
+  # 在指定位置插入一个元素。
+  # 
+  # @param index 位置。
+  # @param v 值。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def insert(self, index, v): 
+    return object_array_insert(awtk_get_native_obj(self), index, awtk_get_native_obj(v));
+
+
+  #
+  # 追加一个元素。
+  # 
+  # @param v 值。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def push(self, v): 
+    return object_array_push(awtk_get_native_obj(self), awtk_get_native_obj(v));
+
+
+  #
+  # 在指定位置删除一个元素。
+  # 
+  # @param index 位置。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def remove(self, index): 
+    return object_array_remove(awtk_get_native_obj(self), index);
+
+
+  #
   # 属性个数。
   #
   #
   @property
-  def props_size(self):
-    return object_array_t_get_prop_props_size(self.nativeObj);
+  def size(self):
+    return object_array_t_get_prop_size(self.nativeObj);
 
 
 #
@@ -21484,6 +22182,17 @@ class TOverlay (TWindowBase):
 
 
   #
+  # 设置是否总是在最上面。
+  # 
+  # @param always_on_top 是否总是在最上面。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_always_on_top(self, always_on_top): 
+    return overlay_set_always_on_top(awtk_get_native_obj(self), always_on_top);
+
+
+  #
   # 转换为overlay对象(供脚本语言使用)。
   # 
   # @param widget overlay对象。
@@ -21508,6 +22217,21 @@ class TOverlay (TWindowBase):
   @click_through.setter
   def click_through(self, v):
    this.set_click_through(v);
+
+
+  #
+  # 是否总在最上面。
+  #
+  #缺省不启用。
+  #
+  #
+  @property
+  def always_on_top(self):
+    return overlay_t_get_prop_always_on_top(self.nativeObj);
+
+  @always_on_top.setter
+  def always_on_top(self, v):
+   this.set_always_on_top(v);
 
 
 #
