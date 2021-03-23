@@ -23,6 +23,8 @@ elif OS_NAME == "Darwin":
   PYTHON_ROOT="/usr/local/opt/python@"+PYTHON_VERSION+"/Frameworks/Python.framework/Versions/"+PYTHON_VERSION
   PYTHON_LIB_PATH = PYTHON_ROOT + "/lib"
   PYTHON_INC = PYTHON_ROOT + "/include"
+else:
+	PYTHON_LIB_NAME = "python"+str(sys.version_info[0])
 
 APP_LIBS = [PYTHON_LIB_NAME]
 APP_CPPPATH = [PYTHON_INC]
