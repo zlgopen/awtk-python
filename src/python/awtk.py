@@ -12953,30 +12953,30 @@ class TFileChooser (TEmitter):
 #
 #在嵌入式平台上，对于旋转的图片，SVG图片的效率比位图高数倍，所以推荐使用SVG图片。
 #
-#guage\_pointer\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于guage\_pointer\_t控件。
+#gauge\_pointer\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于gauge\_pointer\_t控件。
 #
-#在xml中使用"guage\_pointer"标签创建仪表指针控件。如：
+#在xml中使用"gauge\_pointer"标签创建仪表指针控件。如：
 #
 #```xml
-#<guage_pointer x="c" y="50" w="24" h="140" value="-128" image="guage_pointer" />
+#<gauge_pointer x="c" y="50" w="24" h="140" value="-128" image="gauge_pointer" />
 #```
 #
 #> 更多用法请参考：
-#[guage.xml](https://github.com/zlgopen/awtk/blob/master/design/default/ui/guage.xml)
+#[gauge.xml](https://github.com/zlgopen/awtk/blob/master/design/default/ui/gauge.xml)
 #
-#在c代码中使用函数guage\_pointer\_create创建仪表指针控件。如：
-#
-#
-#> 创建之后，需要用guage\_pointer\_set\_image设置仪表指针图片。
+#在c代码中使用函数gauge\_pointer\_create创建仪表指针控件。如：
 #
 #
-class TGuagePointer (TWidget):
+#> 创建之后，需要用gauge\_pointer\_set\_image设置仪表指针图片。
+#
+#
+class TGaugePointer (TWidget):
   def __init__(self, nativeObj):
-    super(TGuagePointer, self).__init__(nativeObj)
+    super(TGaugePointer, self).__init__(nativeObj)
 
 
   #
-  # 创建guage_pointer对象
+  # 创建gauge_pointer对象
   # 
   # @param parent 父控件
   # @param x x坐标
@@ -12988,19 +12988,19 @@ class TGuagePointer (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TGuagePointer(guage_pointer_create(awtk_get_native_obj(parent), x, y, w, h));
+    return  TGaugePointer(gauge_pointer_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
-  # 转换为guage_pointer对象(供脚本语言使用)。
+  # 转换为gauge_pointer对象(供脚本语言使用)。
   # 
-  # @param widget guage_pointer对象。
+  # @param widget gauge_pointer对象。
   #
-  # @return guage_pointer对象。
+  # @return gauge_pointer对象。
   #
   @classmethod
   def cast(cls, widget): 
-    return  TGuagePointer(guage_pointer_cast(awtk_get_native_obj(widget)));
+    return  TGaugePointer(gauge_pointer_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -13011,7 +13011,7 @@ class TGuagePointer (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_angle(self, angle): 
-    return guage_pointer_set_angle(awtk_get_native_obj(self), angle);
+    return gauge_pointer_set_angle(awtk_get_native_obj(self), angle);
 
 
   #
@@ -13022,7 +13022,7 @@ class TGuagePointer (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_image(self, image): 
-    return guage_pointer_set_image(awtk_get_native_obj(self), image);
+    return gauge_pointer_set_image(awtk_get_native_obj(self), image);
 
 
   #
@@ -13034,7 +13034,7 @@ class TGuagePointer (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_anchor(self, anchor_x, anchor_y): 
-    return guage_pointer_set_anchor(awtk_get_native_obj(self), anchor_x, anchor_y);
+    return gauge_pointer_set_anchor(awtk_get_native_obj(self), anchor_x, anchor_y);
 
 
   #
@@ -13043,7 +13043,7 @@ class TGuagePointer (TWidget):
   #
   @property
   def angle(self):
-    return guage_pointer_t_get_prop_angle(self.nativeObj);
+    return gauge_pointer_t_get_prop_angle(self.nativeObj);
 
   @angle.setter
   def angle(self, v):
@@ -13058,7 +13058,7 @@ class TGuagePointer (TWidget):
   #
   @property
   def image(self):
-    return guage_pointer_t_get_prop_image(self.nativeObj);
+    return gauge_pointer_t_get_prop_image(self.nativeObj);
 
   @image.setter
   def image(self, v):
@@ -13071,7 +13071,7 @@ class TGuagePointer (TWidget):
   #
   @property
   def anchor_x(self):
-    return guage_pointer_t_get_prop_anchor_x(self.nativeObj);
+    return gauge_pointer_t_get_prop_anchor_x(self.nativeObj);
 
 
   #
@@ -13080,7 +13080,7 @@ class TGuagePointer (TWidget):
   #
   @property
   def anchor_y(self):
-    return guage_pointer_t_get_prop_anchor_y(self.nativeObj);
+    return gauge_pointer_t_get_prop_anchor_y(self.nativeObj);
 
 
 #
@@ -13088,28 +13088,28 @@ class TGuagePointer (TWidget):
 #
 #表盘控件就是一张图片。
 #
-#guage\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于guage\_t控件。
+#gauge\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于gauge\_t控件。
 #
-#在xml中使用"guage"标签创建表盘控件。如：
+#在xml中使用"gauge"标签创建表盘控件。如：
 #
 #```xml
-#<guage x="c" y="10" w="240" h="240" image="guage_bg"
+#<gauge x="c" y="10" w="240" h="240" image="gauge_bg"
 #```
 #
 #> 更多用法请参考：
-#[guage.xml](https://github.com/zlgopen/awtk/blob/master/design/default/ui/guage.xml)
+#[gauge.xml](https://github.com/zlgopen/awtk/blob/master/design/default/ui/gauge.xml)
 #
-#在c代码中使用函数guage\_create创建表盘控件。如：
+#在c代码中使用函数gauge\_create创建表盘控件。如：
 #
 #
 #可用通过style来设置控件的显示风格，如背景和边框等。如：
 #
 #```xml
-#<guage>
+#<gauge>
 #<style name="border">
 #<normal border_color="#000000" bg_color="#e0e0e0" text_color="black"/>
 #</style>
-#</guage>
+#</gauge>
 #```
 #
 #> 更多用法请参考：
@@ -13117,13 +13117,13 @@ class TGuagePointer (TWidget):
 #default](https://github.com/zlgopen/awtk/blob/master/design/default/styles/default.xml)
 #
 #
-class TGuage (TWidget):
+class TGauge (TWidget):
   def __init__(self, nativeObj):
-    super(TGuage, self).__init__(nativeObj)
+    super(TGauge, self).__init__(nativeObj)
 
 
   #
-  # 创建guage对象
+  # 创建gauge对象
   # 
   # @param parent 父控件
   # @param x x坐标
@@ -13135,19 +13135,19 @@ class TGuage (TWidget):
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
-    return  TGuage(guage_create(awtk_get_native_obj(parent), x, y, w, h));
+    return  TGauge(gauge_create(awtk_get_native_obj(parent), x, y, w, h));
 
 
   #
-  # 转换为guage对象(供脚本语言使用)。
+  # 转换为gauge对象(供脚本语言使用)。
   # 
-  # @param widget guage对象。
+  # @param widget gauge对象。
   #
-  # @return guage对象。
+  # @return gauge对象。
   #
   @classmethod
   def cast(cls, widget): 
-    return  TGuage(guage_cast(awtk_get_native_obj(widget)));
+    return  TGauge(gauge_cast(awtk_get_native_obj(widget)));
 
 
   #
@@ -13158,7 +13158,7 @@ class TGuage (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_image(self, name): 
-    return guage_set_image(awtk_get_native_obj(self), name);
+    return gauge_set_image(awtk_get_native_obj(self), name);
 
 
   #
@@ -13172,7 +13172,7 @@ class TGuage (TWidget):
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_draw_type(self, draw_type): 
-    return guage_set_draw_type(awtk_get_native_obj(self), draw_type);
+    return gauge_set_draw_type(awtk_get_native_obj(self), draw_type);
 
 
   #
@@ -13181,7 +13181,7 @@ class TGuage (TWidget):
   #
   @property
   def image(self):
-    return guage_t_get_prop_image(self.nativeObj);
+    return gauge_t_get_prop_image(self.nativeObj);
 
   @image.setter
   def image(self, v):
@@ -13194,7 +13194,7 @@ class TGuage (TWidget):
   #
   @property
   def draw_type(self):
-    return guage_t_get_prop_draw_type(self.nativeObj);
+    return gauge_t_get_prop_draw_type(self.nativeObj);
 
   @draw_type.setter
   def draw_type(self, v):
@@ -13401,6 +13401,28 @@ class TImageAnimation (TWidget):
 
 
   #
+  # 设置是否倒序播放。
+  # 
+  # @param reverse 是否倒序播放。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_reverse(self, reverse): 
+    return image_animation_set_reverse(awtk_get_native_obj(self), reverse);
+
+
+  #
+  # 设置结束播放后是否保持显示最后一帧。
+  # 
+  # @param show_when_done 是否继续显示最后一帧。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_show_when_done(self, show_when_done): 
+    return image_animation_set_show_when_done(awtk_get_native_obj(self), show_when_done);
+
+
+  #
   # 转换为image_animation对象(供脚本语言使用)。
   # 
   # @param widget image_animation对象。
@@ -13464,6 +13486,19 @@ class TImageAnimation (TWidget):
   @property
   def end_index(self):
     return image_animation_t_get_prop_end_index(self.nativeObj);
+
+
+  #
+  # 是否倒序播放。
+  #
+  #
+  @property
+  def reverse(self):
+    return image_animation_t_get_prop_reverse(self.nativeObj);
+
+  @reverse.setter
+  def reverse(self, v):
+   this.set_reverse(v);
 
 
   #
@@ -13542,6 +13577,19 @@ class TImageAnimation (TWidget):
   @delay.setter
   def delay(self, v):
    this.set_delay(v);
+
+
+  #
+  # 结束后是否继续显示最后一帧。
+  #
+  #
+  @property
+  def show_when_done(self):
+    return image_animation_t_get_prop_show_when_done(self.nativeObj);
+
+  @show_when_done.setter
+  def show_when_done(self, v):
+   this.set_show_when_done(v);
 
 
 #
