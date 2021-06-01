@@ -4446,6 +4446,18 @@ class TStyleId:
   #
   SELF_LAYOUT = STYLE_ID_SELF_LAYOUT();
 
+  #
+  # 是否支持焦点停留。
+  #
+  #
+  FOCUSABLE = STYLE_ID_FOCUSABLE();
+
+  #
+  # 是否启用按键音、触屏音和震动等反馈。
+  #
+  #
+  FEEDBACK = STYLE_ID_FEEDBACK();
+
 #
 # 控件风格。
 #
@@ -4576,9 +4588,9 @@ class TStyle(object):
 
 
 #
-# 主题。
+# 窗体样式。
 #
-#负责管理缺省的主题数据，方便实现style\_const。
+#负责管理缺省的窗体样式数据，方便实现style\_const。
 #
 #
 class TTheme(object):
@@ -4587,10 +4599,10 @@ class TTheme(object):
 
 
   #
-  # 获取缺省的主题对象。
+  # 获取缺省的窗体样式对象。
   # 
   #
-  # @return 返回主题对象。
+  # @return 返回窗体样式对象。
   #
   @classmethod
   def instance(cls): 
@@ -5873,6 +5885,12 @@ class TWidgetProp:
   SINGLE_INSTANCE = WIDGET_PROP_SINGLE_INSTANCE();
 
   #
+  # 点击非focusable控件时，是否让当前焦点控件失去焦点。比如点击窗口空白区域，是否让编辑器失去焦点。
+  #
+  #
+  STRONGLY_FOCUS = WIDGET_PROP_STRONGLY_FOCUS();
+
+  #
   # 子控件布局参数。
   #
   #
@@ -6293,7 +6311,7 @@ class TWidgetProp:
   STATE_FOR_STYLE = WIDGET_PROP_STATE_FOR_STYLE();
 
   #
-  # 窗口主题名称。
+  # 窗体样式名称。
   #
   #
   THEME = WIDGET_PROP_THEME();
@@ -6329,13 +6347,13 @@ class TWidgetProp:
   FONT_MANAGER = WIDGET_PROP_FONT_MANAGER();
 
   #
-  # 窗口的主题对象。
+  # 窗口的窗体样式对象。
   #
   #
   THEME_OBJ = WIDGET_PROP_THEME_OBJ();
 
   #
-  # 缺省的主题对象。
+  # 缺省的窗体样式对象。
   #
   #
   DEFAULT_THEME_OBJ = WIDGET_PROP_DEFAULT_THEME_OBJ();
@@ -7288,6 +7306,16 @@ class TWidget(object):
 
 
   #
+  # 获取当前窗口中的焦点控件。
+  # 
+  #
+  # @return 焦点控件。
+  #
+  def get_focused_widget(self): 
+    return  TWidget(widget_get_focused_widget(awtk_get_native_obj(self)));
+
+
+  #
   # 获取原生窗口对象。
   # 
   #
@@ -7315,6 +7343,26 @@ class TWidget(object):
   #
   def close_window(self): 
     return widget_close_window(awtk_get_native_obj(self));
+
+
+  #
+  # 请求返回到前一个窗口。
+  # 
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def back(self): 
+    return widget_back(awtk_get_native_obj(self));
+
+
+  #
+  # 请求返回到home窗口。
+  # 
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def back_to_home(self): 
+    return widget_back_to_home(awtk_get_native_obj(self));
 
 
   #
@@ -9053,7 +9101,7 @@ class TAssetType:
   IMAGE = ASSET_TYPE_IMAGE();
 
   #
-  # 主题资源。
+  # 窗体样式资源。
   #
   #
   STYLE = ASSET_TYPE_STYLE();
@@ -10925,7 +10973,7 @@ class TValueType:
 
 #
 # 资源管理器。
-#这里的资源管理器并非Windows下的文件浏览器，而是负责对各种资源，比如字体、主题、图片、界面数据、字符串和其它数据的进行集中管理的组件。引入资源管理器的目的有以下几个：
+#这里的资源管理器并非Windows下的文件浏览器，而是负责对各种资源，比如字体、窗体样式、图片、界面数据、字符串和其它数据的进行集中管理的组件。引入资源管理器的目的有以下几个：
 #
 #* 让上层不需要了解存储的方式。
 #在没有文件系统时或者内存紧缺时，把资源转成常量数组直接编译到代码中。在有文件系统而且内存充足时，资源放在文件系统中。在有网络时，资源也可以存放在服务器上(暂未实现)。资源管理器为上层提供统一的接口，让上层而不用关心底层的存储方式。
@@ -10937,7 +10985,7 @@ class TValueType:
 #不同的屏幕密度下需要加载不同的图片，比如MacPro的Retina屏就需要用双倍解析度的图片，否则就出现界面模糊。AWTK以后会支持PC软件和手机软件的开发，所以资源管理器需要为此提供支持，让上层不需关心屏幕的密度。
 #
 #* 对资源进行内存缓存。
-#不同类型的资源使用方式是不一样的，比如字体和主题加载之后会一直使用，UI文件在生成界面之后就暂时不需要了，PNG文件解码之后就只需要保留解码的位图数据即可。资源管理器配合图片管理器等其它组件实现资源的自动缓存。
+#不同类型的资源使用方式是不一样的，比如字体和窗体样式加载之后会一直使用，UI文件在生成界面之后就暂时不需要了，PNG文件解码之后就只需要保留解码的位图数据即可。资源管理器配合图片管理器等其它组件实现资源的自动缓存。
 #
 #当从文件系统加载资源时，目录结构要求如下：
 #
@@ -10950,7 +10998,7 @@ class TValueType:
 #x3   3倍密度屏幕的图片。
 #xx   密度无关的图片。
 #strings 需要翻译的字符串。
-#styles  主题数据。
+#styles  窗体样式数据。
 #ui      UI描述数据。
 #```
 #
@@ -11804,10 +11852,10 @@ class TWindowBase (TWidget):
 
 
   #
-  # 主题资源的名称。
-  #每个窗口都可以有独立的主题文件，如果没指定，则使用系统缺省的主题文件。
-  #主题是一个XML文件，放在assets/raw/styles目录下。
-  #请参考[主题](https://github.com/zlgopen/awtk/blob/master/docs/theme.md)
+  # 窗体样式资源的名称。
+  #每个窗口都可以有独立的窗体样式文件，如果没指定，则使用系统缺省的窗体样式文件。
+  #窗体样式是一个XML文件，放在assets/raw/styles目录下。
+  #请参考[窗体样式](https://github.com/zlgopen/awtk/blob/master/docs/theme.md)
   #
   #
   @property
@@ -11988,6 +12036,15 @@ class TWindowBase (TWidget):
   @property
   def single_instance(self):
     return window_base_t_get_prop_single_instance(self.nativeObj);
+
+
+  #
+  # 点击非focusable控件时，是否让当前焦点控件失去焦点。比如点击窗口空白区域，是否让编辑器失去焦点。
+  #
+  #
+  @property
+  def strongly_focus(self):
+    return window_base_t_get_prop_strongly_focus(self.nativeObj);
 
 
 #
@@ -14293,6 +14350,17 @@ class TMledit (TWidget):
 
 
   #
+  # 设置编辑器的最大字符数（0 为不限制字符数）。
+  # 
+  # @param max_chars 最大字符数。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_max_chars(self, max_chars): 
+    return mledit_set_max_chars(awtk_get_native_obj(self), max_chars);
+
+
+  #
   # 设置编辑器的输入提示。
   # 
   # @param tips 输入提示。
@@ -14478,6 +14546,19 @@ class TMledit (TWidget):
   @max_lines.setter
   def max_lines(self, v):
    this.set_max_lines(v);
+
+
+  #
+  # 最大字符数。
+  #
+  #
+  @property
+  def max_chars(self):
+    return mledit_t_get_prop_max_chars(self.nativeObj);
+
+  @max_chars.setter
+  def max_chars(self, v):
+   this.set_max_chars(v);
 
 
   #
@@ -18305,7 +18386,7 @@ class TClipView (TWidget):
 #
 # 色块控件。
 #
-#用来显示一个颜色块，它通过属性而不是主题来设置颜色，方便在运行时动态改变颜色。
+#用来显示一个颜色块，它通过属性而不是窗体样式来设置颜色，方便在运行时动态改变颜色。
 #
 #可以使用value属性访问背景颜色的颜色值。
 #
@@ -19685,7 +19766,7 @@ class TLabel (TWidget):
 
 
   #
-  # 设置显示字符的个数(小余0时全部显示)。。
+  # 设置显示字符的个数(小余0时全部显示)。
   # 
   # @param length 最大可显示字符个数。
   #
@@ -19769,7 +19850,7 @@ class TLabel (TWidget):
 
 
   #
-  # 是否自动换行。
+  # 是否自动换行(默认FALSE)。
   #
   #
   @property
@@ -19782,7 +19863,8 @@ class TLabel (TWidget):
 
 
   #
-  # 是否允许整个单词换行。(需要开启自动换行才有效果)
+  # 是否允许整个单词换行(默认FALSE)。
+  #> 需要开启自动换行才有效果
   #
   #
   @property
@@ -21096,7 +21178,7 @@ class TDialog (TWindowBase):
   #
   # 显示『短暂提示信息』对话框。
   #
-  #主题由dialog_toast.xml文件决定。
+  #窗体样式由dialog_toast.xml文件决定。
   # 
   # @param text 文本内容。
   # @param duration 显示时间(单位为毫秒)。
@@ -21111,7 +21193,7 @@ class TDialog (TWindowBase):
   #
   # 显示『提示信息』对话框。
   #
-  #主题由dialog_info.xml文件决定。
+  #窗体样式由dialog_info.xml文件决定。
   # 
   # @param title 标题。
   # @param text 文本内容。
@@ -21126,7 +21208,7 @@ class TDialog (TWindowBase):
   #
   # 显示『警告』对话框。
   #
-  #主题由dialog_warn.xml文件决定。
+  #窗体样式由dialog_warn.xml文件决定。
   # 
   # @param title 标题。
   # @param text 文本内容。
@@ -21141,7 +21223,7 @@ class TDialog (TWindowBase):
   #
   # 显示『确认』对话框。
   #
-  #主题由dialog_confirm.xml文件决定。
+  #窗体样式由dialog_confirm.xml文件决定。
   # 
   # @param title 标题。
   # @param text 文本内容。
@@ -21280,7 +21362,7 @@ class TNativeWindow (TObject):
 #
 #window\_t是[window\_base\_t](window_base_t.md)的子类控件，window\_base\_t的函数均适用于window\_t控件。
 #
-#在xml中使用"window"标签创建窗口。无需指定坐标和大小，可以指定主题和动画名称。如：
+#在xml中使用"window"标签创建窗口。无需指定坐标和大小，可以指定窗体样式和动画名称。如：
 #
 #```xml
 #<window theme="basic" anim_hint="htranslate">
@@ -21430,7 +21512,7 @@ class TWindow (TWindowBase):
   #
   # 是否全屏。
   #
-  #>这里全屏是指与LCD相同大小，而非让SDL窗口全屏。
+  #>对于模拟器，全屏是让窗口和LCD具有相同大小，而非让SDL窗口全屏。
   #
   #
   @property
@@ -21503,6 +21585,36 @@ class TGifImage (TImageBase):
   @classmethod
   def create(cls, parent, x, y, w, h): 
     return  TGifImage(gif_image_create(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 播放。
+  # 
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def play(self): 
+    return gif_image_play(awtk_get_native_obj(self));
+
+
+  #
+  # 停止(并重置index为-1)。
+  # 
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def stop(self): 
+    return gif_image_stop(awtk_get_native_obj(self));
+
+
+  #
+  # 暂停。
+  # 
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def pause(self): 
+    return gif_image_pause(awtk_get_native_obj(self));
 
 
   #
@@ -22131,7 +22243,7 @@ class TCalibrationWin (TWindowBase):
 #</combo_box>
 #```
 #
-#* 1.combobox的下拉按钮的style名称为combobox_down，可以在主题文件中设置。
+#* 1.combobox的下拉按钮的style名称为combobox_down，可以在窗体样式文件中设置。
 #
 #```xml
 #<button>
@@ -22143,7 +22255,7 @@ class TCalibrationWin (TWindowBase):
 #</button>
 #```
 #
-#* 2.combobox的弹出popup窗口的style名称为combobox_popup，可以在主题文件中设置。
+#* 2.combobox的弹出popup窗口的style名称为combobox_popup，可以在窗体样式文件中设置。
 #
 #```xml
 #<popup>
@@ -22508,7 +22620,7 @@ class TImage (TImageBase):
 #
 #overlay\_t是[window\_base\_t](window_base_t.md)的子类控件，window\_base\_t的函数均适用于overlay\_t控件。
 #
-#在xml中使用"overlay"标签创建窗口。需要指定坐标和大小，可以指定主题和动画名称。如：
+#在xml中使用"overlay"标签创建窗口。需要指定坐标和大小，可以指定窗体样式和动画名称。如：
 #
 #```xml
 #<overlay theme="basic" x="100" y="100" w="200" h="300">
