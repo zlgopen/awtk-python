@@ -2298,6 +2298,38 @@ class TClipBoard(object):
 
 
 #
+# 格式化日期时间。
+#
+#格式规则：
+#* Y 代表年(完整显示)
+#* M 代表月(1-12)
+#* D 代表日(1-31)
+#* h 代表时(0-23)
+#* m 代表分(0-59)
+#* s 代表秒(0-59)
+#* w 代表星期(0-6)
+#* W 代表星期的英文缩写(支持翻译)
+#* YY 代表年(只显示末两位)
+#* MM 代表月(01-12)
+#* DD 代表日(01-31)
+#* hh 代表时(00-23)
+#* mm 代表分(00-59)
+#* ss 代表秒(00-59)
+#* MMM 代表月的英文缩写(支持翻译)
+#
+#如 日期时间为：2018/11/12 9:10:20
+#* "Y/M/D"显示为"2018/11/12"
+#* "Y-M-D"显示为"2018-11-12"
+#* "Y-M-D h:m:s"显示为"2018-11-12 9:10:20"
+#* "Y-M-D hh:mm:ss"显示为"2018-11-12 09:10:20"
+#
+#
+class TDataTimeFormat(object):
+  def __init__(self, nativeObj):
+    self.nativeObj = nativeObj;
+
+
+#
 # 对话框退出码。
 #
 #> 一般用作dialog_quit函数的参数。
@@ -6419,6 +6451,12 @@ class TWidgetProp:
   ANIMATABLE = WIDGET_PROP_ANIMATABLE();
 
   #
+  # 是否自动隐藏。
+  #
+  #
+  AUTO_HIDE = WIDGET_PROP_AUTO_HIDE();
+
+  #
   # 是否自动隐藏滚动条。
   #
   #
@@ -9075,6 +9113,30 @@ class TIndicatorDefaultPaint:
   #
   #
   STROKE_RECT = INDICATOR_DEFAULT_PAINT_STROKE_RECT();
+
+#
+# 虚拟页面的事件。
+#
+#
+class TVpageEvent: 
+
+  #
+  # 页面即将打开(动画前)。
+  #
+  #
+  VPAGE_WILL_OPEN = EVT_VPAGE_WILL_OPEN();
+
+  #
+  # 页面打开完成(动画后)。
+  #
+  #
+  VPAGE_OPEN = EVT_VPAGE_OPEN();
+
+  #
+  # 页面已经关闭(动画后)。
+  #
+  #
+  VPAGE_CLOSE = EVT_VPAGE_CLOSE();
 
 #
 # 资源类型常量定义。
@@ -12158,6 +12220,17 @@ class TWindowManager (TWidget):
   #
   def set_show_fps(self, show_fps): 
     return window_manager_set_show_fps(awtk_get_native_obj(self), show_fps);
+
+
+  #
+  # 设置是否忽略用户输入事件。
+  # 
+  # @param ignore_input_events 是否忽略用户输入事件。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_ignore_input_events(self, ignore_input_events): 
+    return window_manager_set_ignore_input_events(awtk_get_native_obj(self), ignore_input_events);
 
 
   #
@@ -15915,6 +15988,19 @@ class TScrollBar (TWidget):
 
 
   #
+  # 设置auto_hide属性。
+  #
+  #>仅对mobile风格的滚动条有效
+  # 
+  # @param auto_hide 值。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_auto_hide(self, auto_hide): 
+    return scroll_bar_set_auto_hide(awtk_get_native_obj(self), auto_hide);
+
+
+  #
   # 判断是否是mobile风格的滚动条。
   # 
   #
@@ -15962,6 +16048,19 @@ class TScrollBar (TWidget):
   @property
   def animatable(self):
     return scroll_bar_t_get_prop_animatable(self.nativeObj);
+
+
+  #
+  # 是否自动隐藏(仅对mobile风格的滚动条有效)。
+  #
+  #
+  @property
+  def auto_hide(self):
+    return scroll_bar_t_get_prop_auto_hide(self.nativeObj);
+
+  @auto_hide.setter
+  def auto_hide(self, v):
+   this.set_auto_hide(v);
 
 
 #
@@ -17727,6 +17826,118 @@ class TTimeClock (TWidget):
   @property
   def second_anchor_y(self):
     return time_clock_t_get_prop_second_anchor_y(self.nativeObj);
+
+
+#
+# 虚拟页面(根据情况自动加载/卸载页面，并提供入场/出场动画)。
+#
+#> 虚拟页面只能作为pages的直接子控件使用。
+#
+#如果指定了ui_asset:
+#
+#* 当页面切换到后台时自动卸载，并触发EVT\_VPAGE\_CLOSE消息。
+#* 当页面切换到前台时自动加载，在动画前出发EVT\_VPAGE\_WILL\_OPEN消息，在动画完成时触发 EVT\_VPAGE\_CLOSE消息。
+#
+#vpage\_t也可以当作普通view嵌入到pages中，让tab控件在切换时具有动画效果。
+#
+#在xml中使用"vpage"标签创建控件。如：
+#
+#```xml
+#<!-- ui -->
+#<vpage x="c" y="50" w="100" h="100" ui_asset="mypage"/>
+#```
+#
+#可用通过style来设置控件的显示风格，如字体的大小和颜色等等(一般无需指定)。如：
+#
+#```xml
+#<!-- style -->
+#<vpage>
+#<style name="default">
+#<normal />
+#</style>
+#</vpage>
+#```
+#
+#
+class TVpage (TWidget):
+  def __init__(self, nativeObj):
+    super(TVpage, self).__init__(nativeObj)
+
+
+  #
+  # 创建vpage对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return vpage对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+    return  TVpage(vpage_create(awtk_get_native_obj(parent), x, y, w, h));
+
+
+  #
+  # 转换为vpage对象(供脚本语言使用)。
+  # 
+  # @param widget vpage对象。
+  #
+  # @return vpage对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+    return  TVpage(vpage_cast(awtk_get_native_obj(widget)));
+
+
+  #
+  # 设置 UI资源名称。
+  # 
+  # @param ui_asset UI资源名称。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_ui_asset(self, ui_asset): 
+    return vpage_set_ui_asset(awtk_get_native_obj(self), ui_asset);
+
+
+  #
+  # 设置动画类型(vtranslate: 垂直平移，htranslate: 水平平移)。
+  # 
+  # @param anim_hint 动画类型。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_anim_hint(self, anim_hint): 
+    return vpage_set_anim_hint(awtk_get_native_obj(self), anim_hint);
+
+
+  #
+  # UI资源名称。
+  #
+  #
+  @property
+  def ui_asset(self):
+    return vpage_t_get_prop_ui_asset(self.nativeObj);
+
+  @ui_asset.setter
+  def ui_asset(self, v):
+   this.set_ui_asset(v);
+
+
+  #
+  # 动画类型(目前支持：vtranslate: 垂直平移，htranslate: 水平平移)。
+  #
+  #
+  @property
+  def anim_hint(self):
+    return vpage_t_get_prop_anim_hint(self.nativeObj);
+
+  @anim_hint.setter
+  def anim_hint(self, v):
+   this.set_anim_hint(v);
 
 
 #
