@@ -15356,6 +15356,20 @@ pyobject_t wrap_text_selector_set_yspeed_scale(pyobject_t self, pyobject_t pyarg
   return Py_BuildValue("i", ret);
 }
 
+pyobject_t wrap_text_selector_set_animating_time(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+  uint32_t animating_time = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&i" , &parse_voidp, &widget, &animating_time)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)text_selector_set_animating_time(widget, animating_time);
+  return Py_BuildValue("i", ret);
+}
+
 pyobject_t wrap_text_selector_t_get_prop_visible_nr(pyobject_t self, pyobject_t pyargs) {
   text_selector_t* obj = NULL;
 
@@ -15398,6 +15412,17 @@ pyobject_t wrap_text_selector_t_get_prop_yspeed_scale(pyobject_t self, pyobject_
   }
 
   return Py_BuildValue("f", obj->yspeed_scale);
+}
+
+pyobject_t wrap_text_selector_t_get_prop_animating_time(pyobject_t self, pyobject_t pyargs) {
+  text_selector_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("i", obj->animating_time);
 }
 
 pyobject_t wrap_text_selector_t_get_prop_localize_options(pyobject_t self, pyobject_t pyargs) {
@@ -21410,10 +21435,12 @@ static PyMethodDef awtk_methods[] = {
 {"text_selector_set_localize_options", wrap_text_selector_set_localize_options, METH_VARARGS, "text_selector_set_localize_options"},
 {"text_selector_set_loop_options", wrap_text_selector_set_loop_options, METH_VARARGS, "text_selector_set_loop_options"},
 {"text_selector_set_yspeed_scale", wrap_text_selector_set_yspeed_scale, METH_VARARGS, "text_selector_set_yspeed_scale"},
+{"text_selector_set_animating_time", wrap_text_selector_set_animating_time, METH_VARARGS, "text_selector_set_animating_time"},
 {"text_selector_t_get_prop_visible_nr", wrap_text_selector_t_get_prop_visible_nr, METH_VARARGS, "text_selector_t_get_prop_visible_nr"},
 {"text_selector_t_get_prop_selected_index", wrap_text_selector_t_get_prop_selected_index, METH_VARARGS, "text_selector_t_get_prop_selected_index"},
 {"text_selector_t_get_prop_options", wrap_text_selector_t_get_prop_options, METH_VARARGS, "text_selector_t_get_prop_options"},
 {"text_selector_t_get_prop_yspeed_scale", wrap_text_selector_t_get_prop_yspeed_scale, METH_VARARGS, "text_selector_t_get_prop_yspeed_scale"},
+{"text_selector_t_get_prop_animating_time", wrap_text_selector_t_get_prop_animating_time, METH_VARARGS, "text_selector_t_get_prop_animating_time"},
 {"text_selector_t_get_prop_localize_options", wrap_text_selector_t_get_prop_localize_options, METH_VARARGS, "text_selector_t_get_prop_localize_options"},
 {"text_selector_t_get_prop_loop_options", wrap_text_selector_t_get_prop_loop_options, METH_VARARGS, "text_selector_t_get_prop_loop_options"},
 {"time_clock_create", wrap_time_clock_create, METH_VARARGS, "time_clock_create"},

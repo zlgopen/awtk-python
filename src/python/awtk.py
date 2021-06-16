@@ -8647,7 +8647,7 @@ class TWidget(object):
 
 
   #
-  # widget_set_style_color(label, "style:normal:bg_color", 0xFF332211);
+  # widget_set_style_color(label, "normal:bg_color", 0xFF332211);
   #```
   # 
   # @param state_and_name 状态和名字，用英文的冒号分隔。
@@ -17407,6 +17407,17 @@ class TTextSelector (TWidget):
 
 
   #
+  # 设置滚动动画播放时间。
+  # 
+  # @param animating_time 滚动动画播放时间。(单位毫秒)
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_animating_time(self, animating_time): 
+    return text_selector_set_animating_time(awtk_get_native_obj(self), animating_time);
+
+
+  #
   # 可见的选项数量(只能是1或者3或者5，缺省为5)。
   #
   #
@@ -17458,6 +17469,19 @@ class TTextSelector (TWidget):
   @yspeed_scale.setter
   def yspeed_scale(self, v):
    this.set_yspeed_scale(v);
+
+
+  #
+  # 滚动动画播放时间。(单位毫秒)
+  #
+  #
+  @property
+  def animating_time(self):
+    return text_selector_t_get_prop_animating_time(self.nativeObj);
+
+  @animating_time.setter
+  def animating_time(self, v):
+   this.set_animating_time(v);
 
 
   #
