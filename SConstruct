@@ -35,4 +35,4 @@ print(PYTHON_ROOT, PYTHON_LIB_PATH, PYTHON_LIB_NAME, PYTHON_INC)
 helper.add_libs(APP_LIBS).add_libpath(APP_LIBPATH).add_cpppath(APP_CPPPATH).call(DefaultEnvironment)
 
 SConscriptFiles = ['src/SConscript']
-SConscript(SConscriptFiles)
+helper.SConscript(SConscriptFiles)
