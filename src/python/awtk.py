@@ -239,6 +239,51 @@ class TPointf(object):
 # 矩形。包括一个x坐标、y坐标、宽度和高度。
 #
 #
+class TRectf(object):
+  def __init__(self, nativeObj):
+    self.nativeObj = nativeObj;
+
+
+  #
+  # x坐标。
+  #
+  #
+  @property
+  def x(self):
+    return rectf_t_get_prop_x(self.nativeObj);
+
+
+  #
+  # y坐标。
+  #
+  #
+  @property
+  def y(self):
+    return rectf_t_get_prop_y(self.nativeObj);
+
+
+  #
+  # 宽度。
+  #
+  #
+  @property
+  def w(self):
+    return rectf_t_get_prop_w(self.nativeObj);
+
+
+  #
+  # 高度。
+  #
+  #
+  @property
+  def h(self):
+    return rectf_t_get_prop_h(self.nativeObj);
+
+
+#
+# 矩形。包括一个x坐标、y坐标、宽度和高度。
+#
+#
 class TRect(object):
   def __init__(self, nativeObj):
     self.nativeObj = nativeObj;
@@ -2295,38 +2340,6 @@ class TClipBoard(object):
   @classmethod
   def get_text(cls): 
     return clip_board_get_text();
-
-
-#
-# 格式化日期时间。
-#
-#格式规则：
-#* Y 代表年(完整显示)
-#* M 代表月(1-12)
-#* D 代表日(1-31)
-#* h 代表时(0-23)
-#* m 代表分(0-59)
-#* s 代表秒(0-59)
-#* w 代表星期(0-6)
-#* W 代表星期的英文缩写(支持翻译)
-#* YY 代表年(只显示末两位)
-#* MM 代表月(01-12)
-#* DD 代表日(01-31)
-#* hh 代表时(00-23)
-#* mm 代表分(00-59)
-#* ss 代表秒(00-59)
-#* MMM 代表月的英文缩写(支持翻译)
-#
-#如 日期时间为：2018/11/12 9:10:20
-#* "Y/M/D"显示为"2018/11/12"
-#* "Y-M-D"显示为"2018-11-12"
-#* "Y-M-D h:m:s"显示为"2018-11-12 9:10:20"
-#* "Y-M-D hh:mm:ss"显示为"2018-11-12 09:10:20"
-#
-#
-class TDataTimeFormat(object):
-  def __init__(self, nativeObj):
-    self.nativeObj = nativeObj;
 
 
 #
@@ -5228,6 +5241,17 @@ class TVgcanvas(object):
   #
   def set_transform(self, a, b, c, d, e, f): 
     return vgcanvas_set_transform(awtk_get_native_obj(self), a, b, c, d, e, f);
+
+
+  #
+  # 使用当前的path裁剪。
+  #>目前只有部分backend支持(如cairo)。
+  # 
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def clip_path(self): 
+    return vgcanvas_clip_path(awtk_get_native_obj(self));
 
 
   #
@@ -12220,6 +12244,19 @@ class TWindowManager (TWidget):
   #
   def set_show_fps(self, show_fps): 
     return window_manager_set_show_fps(awtk_get_native_obj(self), show_fps);
+
+
+  #
+  # 限制最大帧率。
+  #
+  #> TK\_MAX\_LOOP\_FPS/max\_fps最好是整数，比如TK\_MAX\_LOOP\_FPS为120，max\_fps可取60/30/20/10等。
+  # 
+  # @param max_fps 最大帧率。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_max_fps(self, max_fps): 
+    return window_manager_set_max_fps(awtk_get_native_obj(self), max_fps);
 
 
   #

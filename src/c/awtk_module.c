@@ -14,7 +14,6 @@
 #include "base/canvas_offline.h"
 #include "base/canvas.h"
 #include "base/clip_board.h"
-#include "base/date_time_format.h"
 #include "base/dialog.h"
 #include "base/events.h"
 #include "base/font_manager.h"
@@ -297,6 +296,50 @@ pyobject_t wrap_emitter_cast(pyobject_t self, pyobject_t pyargs) {
 
   ret = (emitter_t*)emitter_cast(emitter);
   return PyLong_FromVoidPtr((void*)ret);
+}
+
+pyobject_t wrap_rectf_t_get_prop_x(pyobject_t self, pyobject_t pyargs) {
+  rectf_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("f", obj->x);
+}
+
+pyobject_t wrap_rectf_t_get_prop_y(pyobject_t self, pyobject_t pyargs) {
+  rectf_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("f", obj->y);
+}
+
+pyobject_t wrap_rectf_t_get_prop_w(pyobject_t self, pyobject_t pyargs) {
+  rectf_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("f", obj->w);
+}
+
+pyobject_t wrap_rectf_t_get_prop_h(pyobject_t self, pyobject_t pyargs) {
+  rectf_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("f", obj->h);
 }
 
 pyobject_t wrap_rect_create(pyobject_t self, pyobject_t pyargs) {
@@ -4678,6 +4721,19 @@ pyobject_t wrap_vgcanvas_set_transform(pyobject_t self, pyobject_t pyargs) {
   }
 
   ret = (ret_t)vgcanvas_set_transform(vg, a, b, c, d, e, f);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_vgcanvas_clip_path(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  vgcanvas_t* vg = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&" , &parse_voidp, &vg)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)vgcanvas_clip_path(vg);
   return Py_BuildValue("i", ret);
 }
 
@@ -10843,6 +10899,20 @@ pyobject_t wrap_window_manager_set_show_fps(pyobject_t self, pyobject_t pyargs) 
   }
 
   ret = (ret_t)window_manager_set_show_fps(widget, show_fps);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_window_manager_set_max_fps(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+  uint32_t max_fps = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&i" , &parse_voidp, &widget, &max_fps)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)window_manager_set_max_fps(widget, max_fps);
   return Py_BuildValue("i", ret);
 }
 
@@ -19725,6 +19795,10 @@ static PyMethodDef awtk_methods[] = {
 {"emitter_enable", wrap_emitter_enable, METH_VARARGS, "emitter_enable"},
 {"emitter_disable", wrap_emitter_disable, METH_VARARGS, "emitter_disable"},
 {"emitter_cast", wrap_emitter_cast, METH_VARARGS, "emitter_cast"},
+{"rectf_t_get_prop_x", wrap_rectf_t_get_prop_x, METH_VARARGS, "rectf_t_get_prop_x"},
+{"rectf_t_get_prop_y", wrap_rectf_t_get_prop_y, METH_VARARGS, "rectf_t_get_prop_y"},
+{"rectf_t_get_prop_w", wrap_rectf_t_get_prop_w, METH_VARARGS, "rectf_t_get_prop_w"},
+{"rectf_t_get_prop_h", wrap_rectf_t_get_prop_h, METH_VARARGS, "rectf_t_get_prop_h"},
 {"rect_create", wrap_rect_create, METH_VARARGS, "rect_create"},
 {"rect_set", wrap_rect_set, METH_VARARGS, "rect_set"},
 {"rect_cast", wrap_rect_cast, METH_VARARGS, "rect_cast"},
@@ -20295,6 +20369,7 @@ static PyMethodDef awtk_methods[] = {
 {"vgcanvas_translate", wrap_vgcanvas_translate, METH_VARARGS, "vgcanvas_translate"},
 {"vgcanvas_transform", wrap_vgcanvas_transform, METH_VARARGS, "vgcanvas_transform"},
 {"vgcanvas_set_transform", wrap_vgcanvas_set_transform, METH_VARARGS, "vgcanvas_set_transform"},
+{"vgcanvas_clip_path", wrap_vgcanvas_clip_path, METH_VARARGS, "vgcanvas_clip_path"},
 {"vgcanvas_clip_rect", wrap_vgcanvas_clip_rect, METH_VARARGS, "vgcanvas_clip_rect"},
 {"vgcanvas_intersect_clip_rect", wrap_vgcanvas_intersect_clip_rect, METH_VARARGS, "vgcanvas_intersect_clip_rect"},
 {"vgcanvas_fill", wrap_vgcanvas_fill, METH_VARARGS, "vgcanvas_fill"},
@@ -21092,6 +21167,7 @@ static PyMethodDef awtk_methods[] = {
 {"window_manager_get_pointer_pressed", wrap_window_manager_get_pointer_pressed, METH_VARARGS, "window_manager_get_pointer_pressed"},
 {"window_manager_is_animating", wrap_window_manager_is_animating, METH_VARARGS, "window_manager_is_animating"},
 {"window_manager_set_show_fps", wrap_window_manager_set_show_fps, METH_VARARGS, "window_manager_set_show_fps"},
+{"window_manager_set_max_fps", wrap_window_manager_set_max_fps, METH_VARARGS, "window_manager_set_max_fps"},
 {"window_manager_set_ignore_input_events", wrap_window_manager_set_ignore_input_events, METH_VARARGS, "window_manager_set_ignore_input_events"},
 {"window_manager_set_screen_saver_time", wrap_window_manager_set_screen_saver_time, METH_VARARGS, "window_manager_set_screen_saver_time"},
 {"window_manager_set_cursor", wrap_window_manager_set_cursor, METH_VARARGS, "window_manager_set_cursor"},
