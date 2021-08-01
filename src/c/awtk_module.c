@@ -15074,6 +15074,20 @@ pyobject_t wrap_slide_view_set_loop(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("i", ret);
 }
 
+pyobject_t wrap_slide_view_remove_index(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+  uint32_t index = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&i" , &parse_voidp, &widget, &index)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)slide_view_remove_index(widget, index);
+  return Py_BuildValue("i", ret);
+}
+
 pyobject_t wrap_slide_view_t_get_prop_vertical(pyobject_t self, pyobject_t pyargs) {
   slide_view_t* obj = NULL;
 
@@ -19083,6 +19097,34 @@ pyobject_t wrap_object_array_push(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("i", ret);
 }
 
+pyobject_t wrap_object_array_index_of(pyobject_t self, pyobject_t pyargs) {
+  int32_t ret = 0;
+  object_t* obj = NULL;
+  const value_t* v = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&O&" , &parse_voidp, &obj, &parse_voidp, &v)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (int32_t)object_array_index_of(obj, v);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_object_array_last_index_of(pyobject_t self, pyobject_t pyargs) {
+  int32_t ret = 0;
+  object_t* obj = NULL;
+  const value_t* v = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&O&" , &parse_voidp, &obj, &parse_voidp, &v)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (int32_t)object_array_last_index_of(obj, v);
+  return Py_BuildValue("i", ret);
+}
+
 pyobject_t wrap_object_array_remove(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   object_t* obj = NULL;
@@ -19094,6 +19136,21 @@ pyobject_t wrap_object_array_remove(pyobject_t self, pyobject_t pyargs) {
   }
 
   ret = (ret_t)object_array_remove(obj, index);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_object_array_get_and_remove(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  object_t* obj = NULL;
+  uint32_t index = 0;
+  value_t* v = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&iO&" , &parse_voidp, &obj, &index, &parse_voidp, &v)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)object_array_get_and_remove(obj, index, v);
   return Py_BuildValue("i", ret);
 }
 
@@ -21485,6 +21542,7 @@ static PyMethodDef awtk_methods[] = {
 {"slide_view_set_vertical", wrap_slide_view_set_vertical, METH_VARARGS, "slide_view_set_vertical"},
 {"slide_view_set_anim_hint", wrap_slide_view_set_anim_hint, METH_VARARGS, "slide_view_set_anim_hint"},
 {"slide_view_set_loop", wrap_slide_view_set_loop, METH_VARARGS, "slide_view_set_loop"},
+{"slide_view_remove_index", wrap_slide_view_remove_index, METH_VARARGS, "slide_view_remove_index"},
 {"slide_view_t_get_prop_vertical", wrap_slide_view_t_get_prop_vertical, METH_VARARGS, "slide_view_t_get_prop_vertical"},
 {"slide_view_t_get_prop_auto_play", wrap_slide_view_t_get_prop_auto_play, METH_VARARGS, "slide_view_t_get_prop_auto_play"},
 {"slide_view_t_get_prop_loop", wrap_slide_view_t_get_prop_loop, METH_VARARGS, "slide_view_t_get_prop_loop"},
@@ -21788,7 +21846,10 @@ static PyMethodDef awtk_methods[] = {
 {"object_array_clear_props", wrap_object_array_clear_props, METH_VARARGS, "object_array_clear_props"},
 {"object_array_insert", wrap_object_array_insert, METH_VARARGS, "object_array_insert"},
 {"object_array_push", wrap_object_array_push, METH_VARARGS, "object_array_push"},
+{"object_array_index_of", wrap_object_array_index_of, METH_VARARGS, "object_array_index_of"},
+{"object_array_last_index_of", wrap_object_array_last_index_of, METH_VARARGS, "object_array_last_index_of"},
 {"object_array_remove", wrap_object_array_remove, METH_VARARGS, "object_array_remove"},
+{"object_array_get_and_remove", wrap_object_array_get_and_remove, METH_VARARGS, "object_array_get_and_remove"},
 {"object_array_t_get_prop_size", wrap_object_array_t_get_prop_size, METH_VARARGS, "object_array_t_get_prop_size"},
 {"object_default_create", wrap_object_default_create, METH_VARARGS, "object_default_create"},
 {"object_default_clear_props", wrap_object_default_clear_props, METH_VARARGS, "object_default_clear_props"},

@@ -1,11 +1,11 @@
 ﻿
-from awtk_native import *
-
 def awtk_get_native_obj(obj):
     if(isinstance(obj, int)) :
         return obj;
-    else:
+    elif obj:
         return obj.nativeObj;
+    else: 
+      return 0
 
 #
 # 事件基类。
@@ -17057,6 +17057,17 @@ class TSlideView (TWidget):
 
 
   #
+  # 删除指定序号页面。
+  # 
+  # @param index 删除页面的序号。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def remove_index(self, index): 
+    return slide_view_remove_index(awtk_get_native_obj(self), index);
+
+
+  #
   # 是否为上下滑动模式。
   #
   #
@@ -21920,6 +21931,7 @@ class TGifImage (TImageBase):
 #| INPUT\_HEX      | kb\_hex.xml      |
 #| INPUT\_EMAIL    | kb\_ascii.xml    |
 #| INPUT\_PASSWORD | kb\_ascii.xml    |
+#| INPUT\_ASCII    | kb\_ascii.xml    |
 #| INPUT\_CUSTOM   | 使用自定义的键盘 |
 #| 其它            | kb\_default.xml  |
 #
@@ -22267,6 +22279,28 @@ class TObjectArray (TObject):
 
 
   #
+  # 查找元素出现的第一个位置。
+  # 
+  # @param v 值。
+  #
+  # @return 如果找到返回其位置，否则返回-1。
+  #
+  def index_of(self, v): 
+    return object_array_index_of(awtk_get_native_obj(self), awtk_get_native_obj(v));
+
+
+  #
+  # 查找元素出现的最后一个位置。
+  # 
+  # @param v 值。
+  #
+  # @return 如果找到返回其位置，否则返回-1。
+  #
+  def last_index_of(self, v): 
+    return object_array_last_index_of(awtk_get_native_obj(self), awtk_get_native_obj(v));
+
+
+  #
   # 在指定位置删除一个元素。
   # 
   # @param index 位置。
@@ -22275,6 +22309,18 @@ class TObjectArray (TObject):
   #
   def remove(self, index): 
     return object_array_remove(awtk_get_native_obj(self), index);
+
+
+  #
+  # 在指定位置删除一个元素，并返回它。
+  # 
+  # @param index 位置。
+  # @param v 用于返回值。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def get_and_remove(self, index, v): 
+    return object_array_get_and_remove(awtk_get_native_obj(self), index, awtk_get_native_obj(v));
 
 
   #

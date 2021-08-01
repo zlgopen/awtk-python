@@ -80,10 +80,6 @@ static ret_t idle_info_on_destroy(void* data) {
 int parse_voidp(PyObject* o, void** address) {
   *address = PyLong_AsVoidPtr(o);
 
-  if (*address == NULL) {
-    return 0;
-  }
-
   return 1;
 }
 
