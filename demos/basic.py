@@ -1,8 +1,9 @@
-from awtk import *
-sys.path.insert(0, './demos')
+import os
+import sys
 
-import foobar
-print(foobar.add(100, 200))
+sys.path.insert(0, os.path.normpath(os.path.join(os.getcwd(), 'src/python')))
+
+from awtk import *
 
 def on_close_clicked(ctx, e):
     TGlobal.quit()
@@ -30,4 +31,4 @@ def application_init():
 
     win.layout();
 
-application_init()
+setup(application_init, "demo", 320, 480, TAppType.DESKTOP)

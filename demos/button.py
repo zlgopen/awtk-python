@@ -1,3 +1,8 @@
+import os
+import sys
+
+sys.path.insert(0, os.path.normpath(os.path.join(os.getcwd(), 'src/python')))
+
 from awtk import *
 
 def on_clicked(win, e):
@@ -24,4 +29,5 @@ def application_init():
     print(win.lookup("close", 100).name)
     win.layout();
 
-application_init()
+setup(application_init, "demo", 320, 480, TAppType.DESKTOP)
+

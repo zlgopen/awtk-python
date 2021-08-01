@@ -2,8 +2,6 @@
 
 ZLG 开源 GUI 引擎 [awtk](https://github.com/zlgopen/awtk) 针对 Python [Python](https://python.org) 的绑定。
 
->推荐：本项目目前不支持调试器，需要调试器的朋友请使用 [CUITzhaoqi/awtk-python](https://github.com/CUITzhaoqi/awtk-python)
-
 ## 准备
 
 > 请先安装 Python [Python](https://python.org)
@@ -71,13 +69,13 @@ scons LINUX_FB=true
 * 方式2
 
 ```
-./bin/awtkRun demos/xxxxx.py
+python3 demos/xxxxx.py
 ```
 
 > 请把 xxxx.py 换成具体的 py 文件。
 如：
 ```
-./bin/awtkRun demos/button.py
+python3 demos/button.py
 ```
 
 ## 更新绑定（由本项目的维护人员完成）
@@ -96,14 +94,17 @@ scons LINUX_FB=true
 
 ## 注意事项
 
-* 编译 PC 版本，请把 src/c/main.c 中的 APP\_SIMULATOR 改成 APP\_DESKTOP，并重新编译。
-
 ## sample
 
 ```python
+import os
+import sys
+
+sys.path.insert(0, os.path.normpath(os.path.join(os.getcwd(), 'src/python')))
+
 from awtk import *
 
-def on_clicked(win, e): 
+def on_clicked(win, e):
     evt = TEvent.cast(e);
     btn = TWidget.cast(evt.target);
     p = TPointerEvent.cast(e);
@@ -116,7 +117,7 @@ def on_clicked(win, e):
 
 def application_init():
     win = TWindow.create_default()
-    btn = TButton.create(win, 0, 0, 0, 0); 
+    btn = TButton.create(win, 0, 0, 0, 0);
 
     win.set_name("main");
     btn.set_name("close");
@@ -124,7 +125,9 @@ def application_init():
     btn.set_self_layout_params("center", "middle", "50%", "30");
     btn.on(TEventType.CLICK, on_clicked, win);
 
+    print(win.lookup("close", 100).name)
     win.layout();
 
-application_init()
+setup(application_init, "demo", 320, 480, TAppType.DESKTOP)
+
 ```

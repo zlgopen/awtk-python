@@ -1,9 +1,10 @@
 import os
 import sys
-
-from src.python.awtk import *
-
 import subprocess
+
+sys.path.insert(0, os.path.normpath(os.path.join(os.getcwd(), 'src/python')))
+
+from awtk import *
 
 s_preload_nr = 0
 s_preload_res = ["earth", "dialog_title", "rgb", "rgba"]
@@ -413,7 +414,7 @@ def wm_on_request_quit(ctx, e):
 
 def application_init():
     vm = TWindowManager.instance()
-    vm.set_screen_saver_time(10 * 1000)
+    vm.set_screen_saver_time(1000 * 1000)
     vm.on(TEventType.SCREEN_SAVER, on_screen_saver, None)
     vm.on(TEventType.KEY_DOWN, on_key_back_or_back_to_home, vm)
     vm.on(TEventType.BEFORE_PAINT, wm_on_before_paint, vm)
@@ -428,4 +429,4 @@ def application_init():
     win.layout();
 
 
-application_init()
+setup(application_init, "demo", 320, 480, TAppType.DESKTOP)

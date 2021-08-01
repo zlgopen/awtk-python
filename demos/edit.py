@@ -1,3 +1,8 @@
+import os
+import sys
+
+sys.path.insert(0, os.path.normpath(os.path.join(os.getcwd(), 'src/python')))
+
 from awtk import *
 
 def on_clicked(win, e):
@@ -17,11 +22,11 @@ def application_init():
     edit = TEdit.create(win, 0, 0, 0, 0);
     mledit = TMledit.create(win, 0, 0, 0, 0);
 
-    edit.set_input_tips("title");
+    edit.set_tips("title");
     edit.set_self_layout_params("10", "10", "50%", "30");
     edit.on(TEventType.VALUE_CHANGED, on_edit_changed, win);
 
-    mledit.set_input_tips("content");
+    mledit.set_tips("content");
     mledit.set_self_layout_params("10", "50", "-20", "-120");
     mledit.on(TEventType.VALUE_CHANGED, on_edit_changed, win);
 
@@ -32,4 +37,4 @@ def application_init():
 
     win.layout();
 
-application_init()
+setup(application_init, "demo", 320, 480, TAppType.DESKTOP)
