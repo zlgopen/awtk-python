@@ -1,4 +1,9 @@
 ﻿
+from awtk_native import *;
+
+def assets_init():
+  return tk_assets_init();
+
 def awtk_get_native_obj(obj):
     if(isinstance(obj, int)) :
         return obj;
@@ -6,6 +11,14 @@ def awtk_get_native_obj(obj):
         return obj.nativeObj;
     else: 
       return 0
+
+def setup(application_init, name, w, h, type):
+  TGlobal.init(w, h, type, name, "./") 
+
+  assets_init()
+  application_init()
+
+  TGlobal.run()
 
 #
 # 事件基类。

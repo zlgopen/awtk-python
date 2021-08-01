@@ -19837,6 +19837,7 @@ pyobject_t wrap_combo_box_ex_create(pyobject_t self, pyobject_t pyargs) {
 
 
 static PyMethodDef awtk_methods[] = {    
+{"tk_assets_init", wrap_tk_assets_init, METH_VARARGS, "tk_assets_init"},
 {"event_cast", wrap_event_cast, METH_VARARGS, "event_cast"},
 {"event_get_type", wrap_event_get_type, METH_VARARGS, "event_get_type"},
 {"event_create", wrap_event_create, METH_VARARGS, "event_create"},

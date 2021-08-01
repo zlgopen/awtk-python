@@ -25,7 +25,6 @@ def on_dec_clicked(win, e):
 
 def application_init():
     win = TWindow.open("basic");
-    win.lookup("close", True).on(TEventType.CLICK, on_close_clicked, win);
     win.lookup("inc_value", True).on(TEventType.CLICK, on_inc_clicked, win);
     win.lookup("dec_value", True).on(TEventType.CLICK, on_dec_clicked, win);
 

@@ -32,30 +32,50 @@ python ./scripts/update_res.py all
 
 > 或者通过 designer 生成资源
 
+* 编译 PC 版本
 
-* 编译PC版本
+> 如果希望通过 awtkRun 运行，适合调试原生模块，请按下面的方式编译：
 
 ```
 scons
 ```
 
-* 编译LINUX FB版本
+> 如果希望通过 python 运行，适合调试 python 程序，请按下面的方式编译，：
+
+```
+sudo python3 setup.py install
+```
+
+* 编译 LINUX FB 版本
 
 ```
 scons LINUX_FB=true
 ```
 
-> 完整编译选项请参考[编译选项](https://github.com/zlgopen/awtk-widget-generator/blob/master/docs/build_options.md)
-
+> 完整编译选项请参考 [编译选项](https://github.com/zlgopen/awtk-widget-generator/blob/master/docs/build_options.md)
 
 ## 运行
 
+* 方式1
+
+```
+./bin/awtkRun demos/xxxxx.py
+```
+
+> 请把 xxxx.py 换成具体的 py 文件。
+如：
 ```
 ./bin/awtkRun demos/button.py
 ```
 
-> 请把 xxxx.py 换成具体的 py 文件。
+* 方式2
 
+```
+./bin/awtkRun demos/xxxxx.py
+```
+
+> 请把 xxxx.py 换成具体的 py 文件。
+如：
 ```
 ./bin/awtkRun demos/button.py
 ```

@@ -197,3 +197,10 @@ pyobject_t wrap_widget_foreach(pyobject_t self, pyobject_t args) {
   return Py_BuildValue("i", ret);
 }
 
+extern ret_t assets_init(void);
+
+pyobject_t wrap_tk_assets_init(pyobject_t self, pyobject_t pyargs) {
+  assets_init();
+
+  return Py_BuildValue("i", RET_OK);
+}
