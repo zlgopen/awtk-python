@@ -1257,7 +1257,7 @@ class TObject (TEmitter):
 
   @name.setter
   def name(self, v):
-   this.set_name(v);
+   self.set_name(v);
 
 
 #
@@ -2302,7 +2302,7 @@ class TCanvas(object):
 
   @global_alpha.setter
   def global_alpha(self, v):
-   this.set_global_alpha(v);
+   self.set_global_alpha(v);
 
 
 #
@@ -5617,7 +5617,7 @@ class TVgcanvas(object):
 
   @line_width.setter
   def line_width(self, v):
-   this.set_line_width(v);
+   self.set_line_width(v);
 
 
   #
@@ -5630,7 +5630,7 @@ class TVgcanvas(object):
 
   @global_alpha.setter
   def global_alpha(self, v):
-   this.set_global_alpha(v);
+   self.set_global_alpha(v);
 
 
   #
@@ -5644,7 +5644,7 @@ class TVgcanvas(object):
 
   @miter_limit.setter
   def miter_limit(self, v):
-   this.set_miter_limit(v);
+   self.set_miter_limit(v);
 
 
   #
@@ -5658,7 +5658,7 @@ class TVgcanvas(object):
 
   @line_cap.setter
   def line_cap(self, v):
-   this.set_line_cap(v);
+   self.set_line_cap(v);
 
 
   #
@@ -5672,7 +5672,7 @@ class TVgcanvas(object):
 
   @line_join.setter
   def line_join(self, v):
-   this.set_line_join(v);
+   self.set_line_join(v);
 
 
   #
@@ -5685,7 +5685,7 @@ class TVgcanvas(object):
 
   @font.setter
   def font(self, v):
-   this.set_font(v);
+   self.set_font(v);
 
 
   #
@@ -5698,7 +5698,7 @@ class TVgcanvas(object):
 
   @font_size.setter
   def font_size(self, v):
-   this.set_font_size(v);
+   self.set_font_size(v);
 
 
   #
@@ -5713,7 +5713,7 @@ class TVgcanvas(object):
 
   @text_align.setter
   def text_align(self, v):
-   this.set_text_align(v);
+   self.set_text_align(v);
 
 
   #
@@ -5728,7 +5728,7 @@ class TVgcanvas(object):
 
   @text_baseline.setter
   def text_baseline(self, v):
-   this.set_text_baseline(v);
+   self.set_text_baseline(v);
 
 
 #
@@ -8742,7 +8742,7 @@ class TWidget(object):
 
   @name.setter
   def name(self, v):
-   this.set_name(v);
+   self.set_name(v);
 
 
   #
@@ -8755,7 +8755,7 @@ class TWidget(object):
 
   @pointer_cursor.setter
   def pointer_cursor(self, v):
-   this.set_pointer_cursor(v);
+   self.set_pointer_cursor(v);
 
 
   #
@@ -8768,7 +8768,7 @@ class TWidget(object):
 
   @tr_text.setter
   def tr_text(self, v):
-   this.set_tr_text(v);
+   self.set_tr_text(v);
 
 
   #
@@ -8790,7 +8790,7 @@ class TWidget(object):
 
   @animation.setter
   def animation(self, v):
-   this.set_animation(v);
+   self.set_animation(v);
 
 
   #
@@ -8803,7 +8803,7 @@ class TWidget(object):
 
   @enable.setter
   def enable(self, v):
-   this.set_enable(v);
+   self.set_enable(v);
 
 
   #
@@ -8816,7 +8816,7 @@ class TWidget(object):
 
   @feedback.setter
   def feedback(self, v):
-   this.set_feedback(v);
+   self.set_feedback(v);
 
 
   #
@@ -8829,7 +8829,7 @@ class TWidget(object):
 
   @visible.setter
   def visible(self, v):
-   this.set_visible(v);
+   self.set_visible(v);
 
 
   #
@@ -8842,7 +8842,7 @@ class TWidget(object):
 
   @sensitive.setter
   def sensitive(self, v):
-   this.set_sensitive(v);
+   self.set_sensitive(v);
 
 
   #
@@ -8855,7 +8855,7 @@ class TWidget(object):
 
   @focusable.setter
   def focusable(self, v):
-   this.set_focusable(v);
+   self.set_focusable(v);
 
 
   #
@@ -8881,7 +8881,7 @@ class TWidget(object):
 
   @auto_adjust_size.setter
   def auto_adjust_size(self, v):
-   this.set_auto_adjust_size(v);
+   self.set_auto_adjust_size(v);
 
 
   #
@@ -8894,7 +8894,7 @@ class TWidget(object):
 
   @floating.setter
   def floating(self, v):
-   this.set_floating(v);
+   self.set_floating(v);
 
 
   #
@@ -8909,7 +8909,7 @@ class TWidget(object):
 
   @dirty_rect_tolerance.setter
   def dirty_rect_tolerance(self, v):
-   this.set_dirty_rect_tolerance(v);
+   self.set_dirty_rect_tolerance(v);
 
 
   #
@@ -9675,7 +9675,7 @@ class TDateTime(object):
 
   @second.setter
   def second(self, v):
-   this.set_second(v);
+   self.set_second(v);
 
 
   #
@@ -9688,7 +9688,7 @@ class TDateTime(object):
 
   @minute.setter
   def minute(self, v):
-   this.set_minute(v);
+   self.set_minute(v);
 
 
   #
@@ -9701,7 +9701,7 @@ class TDateTime(object):
 
   @hour.setter
   def hour(self, v):
-   this.set_hour(v);
+   self.set_hour(v);
 
 
   #
@@ -9714,7 +9714,7 @@ class TDateTime(object):
 
   @day.setter
   def day(self, v):
-   this.set_day(v);
+   self.set_day(v);
 
 
   #
@@ -9736,7 +9736,7 @@ class TDateTime(object):
 
   @month.setter
   def month(self, v):
-   this.set_month(v);
+   self.set_month(v);
 
 
   #
@@ -9749,7 +9749,7 @@ class TDateTime(object):
 
   @year.setter
   def year(self, v):
-   this.set_year(v);
+   self.set_year(v);
 
 
 #
@@ -10613,7 +10613,7 @@ class TNamedValue(object):
 
   @name.setter
   def name(self, v):
-   this.set_name(v);
+   self.set_name(v);
 
 
 #
@@ -11758,7 +11758,7 @@ class TImageBase (TWidget):
 
   @image.setter
   def image(self, v):
-   this.set_image(v);
+   self.set_image(v);
 
 
   #
@@ -11807,7 +11807,7 @@ class TImageBase (TWidget):
 
   @rotation.setter
   def rotation(self, v):
-   this.set_rotation(v);
+   self.set_rotation(v);
 
 
   #
@@ -11820,7 +11820,7 @@ class TImageBase (TWidget):
 
   @clickable.setter
   def clickable(self, v):
-   this.set_clickable(v);
+   self.set_clickable(v);
 
 
   #
@@ -11833,7 +11833,7 @@ class TImageBase (TWidget):
 
   @selectable.setter
   def selectable(self, v):
-   this.set_selectable(v);
+   self.set_selectable(v);
 
 
   #
@@ -11846,7 +11846,7 @@ class TImageBase (TWidget):
 
   @selected.setter
   def selected(self, v):
-   this.set_selected(v);
+   self.set_selected(v);
 
 
 #
@@ -11920,7 +11920,7 @@ class TStyleMutable (TStyle):
 
   @name.setter
   def name(self, v):
-   this.set_name(v);
+   self.set_name(v);
 
 
 #
@@ -12692,7 +12692,7 @@ class TDraggable (TWidget):
 
   @top.setter
   def top(self, v):
-   this.set_top(v);
+   self.set_top(v);
 
 
   #
@@ -12705,7 +12705,7 @@ class TDraggable (TWidget):
 
   @bottom.setter
   def bottom(self, v):
-   this.set_bottom(v);
+   self.set_bottom(v);
 
 
   #
@@ -12718,7 +12718,7 @@ class TDraggable (TWidget):
 
   @left.setter
   def left(self, v):
-   this.set_left(v);
+   self.set_left(v);
 
 
   #
@@ -12731,7 +12731,7 @@ class TDraggable (TWidget):
 
   @right.setter
   def right(self, v):
-   this.set_right(v);
+   self.set_right(v);
 
 
   #
@@ -12744,7 +12744,7 @@ class TDraggable (TWidget):
 
   @vertical_only.setter
   def vertical_only(self, v):
-   this.set_vertical_only(v);
+   self.set_vertical_only(v);
 
 
   #
@@ -12757,7 +12757,7 @@ class TDraggable (TWidget):
 
   @horizontal_only.setter
   def horizontal_only(self, v):
-   this.set_horizontal_only(v);
+   self.set_horizontal_only(v);
 
 
   #
@@ -12770,7 +12770,7 @@ class TDraggable (TWidget):
 
   @drag_window.setter
   def drag_window(self, v):
-   this.set_drag_window(v);
+   self.set_drag_window(v);
 
 
 #
@@ -12976,7 +12976,7 @@ class TFileBrowserView (TWidget):
 
   @init_dir.setter
   def init_dir(self, v):
-   this.set_init_dir(v);
+   self.set_init_dir(v);
 
 
   #
@@ -12989,7 +12989,7 @@ class TFileBrowserView (TWidget):
 
   @top_dir.setter
   def top_dir(self, v):
-   this.set_top_dir(v);
+   self.set_top_dir(v);
 
 
   #
@@ -13002,7 +13002,7 @@ class TFileBrowserView (TWidget):
 
   @filter.setter
   def filter(self, v):
-   this.set_filter(v);
+   self.set_filter(v);
 
 
   #
@@ -13015,7 +13015,7 @@ class TFileBrowserView (TWidget):
 
   @ignore_hidden_files.setter
   def ignore_hidden_files(self, v):
-   this.set_ignore_hidden_files(v);
+   self.set_ignore_hidden_files(v);
 
 
   #
@@ -13028,7 +13028,7 @@ class TFileBrowserView (TWidget):
 
   @sort_ascending.setter
   def sort_ascending(self, v):
-   this.set_sort_ascending(v);
+   self.set_sort_ascending(v);
 
 
   #
@@ -13041,7 +13041,7 @@ class TFileBrowserView (TWidget):
 
   @show_check_button.setter
   def show_check_button(self, v):
-   this.set_show_check_button(v);
+   self.set_show_check_button(v);
 
 
   #
@@ -13054,7 +13054,7 @@ class TFileBrowserView (TWidget):
 
   @sort_by.setter
   def sort_by(self, v):
-   this.set_sort_by(v);
+   self.set_sort_by(v);
 
 
 #
@@ -13284,7 +13284,7 @@ class TGaugePointer (TWidget):
 
   @angle.setter
   def angle(self, v):
-   this.set_angle(v);
+   self.set_angle(v);
 
 
   #
@@ -13299,7 +13299,7 @@ class TGaugePointer (TWidget):
 
   @image.setter
   def image(self, v):
-   this.set_image(v);
+   self.set_image(v);
 
 
   #
@@ -13422,7 +13422,7 @@ class TGauge (TWidget):
 
   @image.setter
   def image(self, v):
-   this.set_image(v);
+   self.set_image(v);
 
 
   #
@@ -13435,7 +13435,7 @@ class TGauge (TWidget):
 
   @draw_type.setter
   def draw_type(self, v):
-   this.set_draw_type(v);
+   self.set_draw_type(v);
 
 
 #
@@ -13691,7 +13691,7 @@ class TImageAnimation (TWidget):
 
   @image.setter
   def image(self, v):
-   this.set_image(v);
+   self.set_image(v);
 
 
   #
@@ -13704,7 +13704,7 @@ class TImageAnimation (TWidget):
 
   @sequence.setter
   def sequence(self, v):
-   this.set_sequence(v);
+   self.set_sequence(v);
 
 
   #
@@ -13735,7 +13735,7 @@ class TImageAnimation (TWidget):
 
   @reverse.setter
   def reverse(self, v):
-   this.set_reverse(v);
+   self.set_reverse(v);
 
 
   #
@@ -13748,7 +13748,7 @@ class TImageAnimation (TWidget):
 
   @loop.setter
   def loop(self, v):
-   this.set_loop(v);
+   self.set_loop(v);
 
 
   #
@@ -13761,7 +13761,7 @@ class TImageAnimation (TWidget):
 
   @auto_play.setter
   def auto_play(self, v):
-   this.set_auto_play(v);
+   self.set_auto_play(v);
 
 
   #
@@ -13774,7 +13774,7 @@ class TImageAnimation (TWidget):
 
   @unload_after_paint.setter
   def unload_after_paint(self, v):
-   this.set_unload_after_paint(v);
+   self.set_unload_after_paint(v);
 
 
   #
@@ -13787,7 +13787,7 @@ class TImageAnimation (TWidget):
 
   @format.setter
   def format(self, v):
-   this.set_format(v);
+   self.set_format(v);
 
 
   #
@@ -13800,7 +13800,7 @@ class TImageAnimation (TWidget):
 
   @interval.setter
   def interval(self, v):
-   this.set_interval(v);
+   self.set_interval(v);
 
 
   #
@@ -13813,7 +13813,7 @@ class TImageAnimation (TWidget):
 
   @delay.setter
   def delay(self, v):
-   this.set_delay(v);
+   self.set_delay(v);
 
 
   #
@@ -13826,7 +13826,7 @@ class TImageAnimation (TWidget):
 
   @show_when_done.setter
   def show_when_done(self, v):
-   this.set_show_when_done(v);
+   self.set_show_when_done(v);
 
 
 #
@@ -13972,7 +13972,7 @@ class TImageValue (TWidget):
 
   @image.setter
   def image(self, v):
-   this.set_image(v);
+   self.set_image(v);
 
 
   #
@@ -13985,7 +13985,7 @@ class TImageValue (TWidget):
 
   @format.setter
   def format(self, v):
-   this.set_format(v);
+   self.set_format(v);
 
 
   #
@@ -13998,7 +13998,7 @@ class TImageValue (TWidget):
 
   @click_add_delta.setter
   def click_add_delta(self, v):
-   this.set_click_add_delta(v);
+   self.set_click_add_delta(v);
 
 
   #
@@ -14011,7 +14011,7 @@ class TImageValue (TWidget):
 
   @value.setter
   def value(self, v):
-   this.set_value(v);
+   self.set_value(v);
 
 
   #
@@ -14024,7 +14024,7 @@ class TImageValue (TWidget):
 
   @min.setter
   def min(self, v):
-   this.set_min(v);
+   self.set_min(v);
 
 
   #
@@ -14037,7 +14037,7 @@ class TImageValue (TWidget):
 
   @max.setter
   def max(self, v):
-   this.set_max(v);
+   self.set_max(v);
 
 
 #
@@ -14141,7 +14141,7 @@ class TCandidates (TWidget):
 
   @pre.setter
   def pre(self, v):
-   this.set_pre(v);
+   self.set_pre(v);
 
 
   #
@@ -14154,7 +14154,7 @@ class TCandidates (TWidget):
 
   @select_by_num.setter
   def select_by_num(self, v):
-   this.set_select_by_num(v);
+   self.set_select_by_num(v);
 
 
   #
@@ -14167,7 +14167,7 @@ class TCandidates (TWidget):
 
   @auto_hide.setter
   def auto_hide(self, v):
-   this.set_auto_hide(v);
+   self.set_auto_hide(v);
 
 
   #
@@ -14180,7 +14180,7 @@ class TCandidates (TWidget):
 
   @button_style.setter
   def button_style(self, v):
-   this.set_button_style(v);
+   self.set_button_style(v);
 
 
 #
@@ -14260,7 +14260,7 @@ class TLangIndicator (TWidget):
 
   @image.setter
   def image(self, v):
-   this.set_image(v);
+   self.set_image(v);
 
 
 #
@@ -14629,7 +14629,7 @@ class TMledit (TWidget):
 
   @tips.setter
   def tips(self, v):
-   this.set_tips(v);
+   self.set_tips(v);
 
 
   #
@@ -14642,7 +14642,7 @@ class TMledit (TWidget):
 
   @tr_tips.setter
   def tr_tips(self, v):
-   this.set_tr_tips(v);
+   self.set_tr_tips(v);
 
 
   #
@@ -14655,7 +14655,7 @@ class TMledit (TWidget):
 
   @keyboard.setter
   def keyboard(self, v):
-   this.set_keyboard(v);
+   self.set_keyboard(v);
 
 
   #
@@ -14668,7 +14668,7 @@ class TMledit (TWidget):
 
   @max_lines.setter
   def max_lines(self, v):
-   this.set_max_lines(v);
+   self.set_max_lines(v);
 
 
   #
@@ -14681,7 +14681,7 @@ class TMledit (TWidget):
 
   @max_chars.setter
   def max_chars(self, v):
-   this.set_max_chars(v);
+   self.set_max_chars(v);
 
 
   #
@@ -14694,7 +14694,7 @@ class TMledit (TWidget):
 
   @wrap_word.setter
   def wrap_word(self, v):
-   this.set_wrap_word(v);
+   self.set_wrap_word(v);
 
 
   #
@@ -14707,7 +14707,7 @@ class TMledit (TWidget):
 
   @scroll_line.setter
   def scroll_line(self, v):
-   this.set_scroll_line(v);
+   self.set_scroll_line(v);
 
 
   #
@@ -14720,7 +14720,7 @@ class TMledit (TWidget):
 
   @readonly.setter
   def readonly(self, v):
-   this.set_readonly(v);
+   self.set_readonly(v);
 
 
   #
@@ -14736,7 +14736,7 @@ class TMledit (TWidget):
 
   @cancelable.setter
   def cancelable(self, v):
-   this.set_cancelable(v);
+   self.set_cancelable(v);
 
 
   #
@@ -14751,7 +14751,7 @@ class TMledit (TWidget):
 
   @open_im_when_focused.setter
   def open_im_when_focused(self, v):
-   this.set_open_im_when_focused(v);
+   self.set_open_im_when_focused(v);
 
 
   #
@@ -14764,7 +14764,7 @@ class TMledit (TWidget):
 
   @close_im_when_blured.setter
   def close_im_when_blured(self, v):
-   this.set_close_im_when_blured(v);
+   self.set_close_im_when_blured(v);
 
 
 #
@@ -14932,7 +14932,7 @@ class TProgressCircle (TWidget):
 
   @value.setter
   def value(self, v):
-   this.set_value(v);
+   self.set_value(v);
 
 
   #
@@ -14945,7 +14945,7 @@ class TProgressCircle (TWidget):
 
   @max.setter
   def max(self, v):
-   this.set_max(v);
+   self.set_max(v);
 
 
   #
@@ -14958,7 +14958,7 @@ class TProgressCircle (TWidget):
 
   @format.setter
   def format(self, v):
-   this.set_format(v);
+   self.set_format(v);
 
 
   #
@@ -14971,7 +14971,7 @@ class TProgressCircle (TWidget):
 
   @start_angle.setter
   def start_angle(self, v):
-   this.set_start_angle(v);
+   self.set_start_angle(v);
 
 
   #
@@ -14984,7 +14984,7 @@ class TProgressCircle (TWidget):
 
   @line_width.setter
   def line_width(self, v):
-   this.set_line_width(v);
+   self.set_line_width(v);
 
 
   #
@@ -14997,7 +14997,7 @@ class TProgressCircle (TWidget):
 
   @line_cap.setter
   def line_cap(self, v):
-   this.set_line_cap(v);
+   self.set_line_cap(v);
 
 
   #
@@ -15010,7 +15010,7 @@ class TProgressCircle (TWidget):
 
   @counter_clock_wise.setter
   def counter_clock_wise(self, v):
-   this.set_counter_clock_wise(v);
+   self.set_counter_clock_wise(v);
 
 
   #
@@ -15023,7 +15023,7 @@ class TProgressCircle (TWidget):
 
   @show_text.setter
   def show_text(self, v):
-   this.set_show_text(v);
+   self.set_show_text(v);
 
 
 #
@@ -15198,7 +15198,7 @@ class TRichText (TWidget):
 
   @yslidable.setter
   def yslidable(self, v):
-   this.set_yslidable(v);
+   self.set_yslidable(v);
 
 
 #
@@ -15380,7 +15380,7 @@ class THscrollLabel (TWidget):
 
   @only_focus.setter
   def only_focus(self, v):
-   this.set_only_focus(v);
+   self.set_only_focus(v);
 
 
   #
@@ -15393,7 +15393,7 @@ class THscrollLabel (TWidget):
 
   @only_parent_focus.setter
   def only_parent_focus(self, v):
-   this.set_only_parent_focus(v);
+   self.set_only_parent_focus(v);
 
 
   #
@@ -15406,7 +15406,7 @@ class THscrollLabel (TWidget):
 
   @loop.setter
   def loop(self, v):
-   this.set_loop(v);
+   self.set_loop(v);
 
 
   #
@@ -15419,7 +15419,7 @@ class THscrollLabel (TWidget):
 
   @yoyo.setter
   def yoyo(self, v):
-   this.set_yoyo(v);
+   self.set_yoyo(v);
 
 
   #
@@ -15432,7 +15432,7 @@ class THscrollLabel (TWidget):
 
   @ellipses.setter
   def ellipses(self, v):
-   this.set_ellipses(v);
+   self.set_ellipses(v);
 
 
   #
@@ -15445,7 +15445,7 @@ class THscrollLabel (TWidget):
 
   @lull.setter
   def lull(self, v):
-   this.set_lull(v);
+   self.set_lull(v);
 
 
   #
@@ -15458,7 +15458,7 @@ class THscrollLabel (TWidget):
 
   @duration.setter
   def duration(self, v):
-   this.set_duration(v);
+   self.set_duration(v);
 
 
   #
@@ -15471,7 +15471,7 @@ class THscrollLabel (TWidget):
 
   @xoffset.setter
   def xoffset(self, v):
-   this.set_xoffset(v);
+   self.set_xoffset(v);
 
 
   #
@@ -15657,7 +15657,7 @@ class TListViewH (TWidget):
 
   @item_width.setter
   def item_width(self, v):
-   this.set_item_width(v);
+   self.set_item_width(v);
 
 
   #
@@ -15670,7 +15670,7 @@ class TListViewH (TWidget):
 
   @spacing.setter
   def spacing(self, v):
-   this.set_spacing(v);
+   self.set_spacing(v);
 
 
 #
@@ -15824,7 +15824,7 @@ class TListView (TWidget):
 
   @item_height.setter
   def item_height(self, v):
-   this.set_item_height(v);
+   self.set_item_height(v);
 
 
   #
@@ -15837,7 +15837,7 @@ class TListView (TWidget):
 
   @default_item_height.setter
   def default_item_height(self, v):
-   this.set_default_item_height(v);
+   self.set_default_item_height(v);
 
 
   #
@@ -15850,7 +15850,7 @@ class TListView (TWidget):
 
   @auto_hide_scroll_bar.setter
   def auto_hide_scroll_bar(self, v):
-   this.set_auto_hide_scroll_bar(v);
+   self.set_auto_hide_scroll_bar(v);
 
 
   #
@@ -15863,7 +15863,7 @@ class TListView (TWidget):
 
   @floating_scroll_bar.setter
   def floating_scroll_bar(self, v):
-   this.set_floating_scroll_bar(v);
+   self.set_floating_scroll_bar(v);
 
 
 #
@@ -16079,7 +16079,7 @@ class TScrollBar (TWidget):
 
   @value.setter
   def value(self, v):
-   this.set_value(v);
+   self.set_value(v);
 
 
   #
@@ -16110,7 +16110,7 @@ class TScrollBar (TWidget):
 
   @auto_hide.setter
   def auto_hide(self, v):
-   this.set_auto_hide(v);
+   self.set_auto_hide(v);
 
 
 #
@@ -16327,7 +16327,7 @@ class TScrollView (TWidget):
 
   @virtual_w.setter
   def virtual_w(self, v):
-   this.set_virtual_w(v);
+   self.set_virtual_w(v);
 
 
   #
@@ -16340,7 +16340,7 @@ class TScrollView (TWidget):
 
   @virtual_h.setter
   def virtual_h(self, v):
-   this.set_virtual_h(v);
+   self.set_virtual_h(v);
 
 
   #
@@ -16389,7 +16389,7 @@ class TScrollView (TWidget):
 
   @xslidable.setter
   def xslidable(self, v):
-   this.set_xslidable(v);
+   self.set_xslidable(v);
 
 
   #
@@ -16402,7 +16402,7 @@ class TScrollView (TWidget):
 
   @yslidable.setter
   def yslidable(self, v):
-   this.set_yslidable(v);
+   self.set_yslidable(v);
 
 
   #
@@ -16415,7 +16415,7 @@ class TScrollView (TWidget):
 
   @snap_to_page.setter
   def snap_to_page(self, v):
-   this.set_snap_to_page(v);
+   self.set_snap_to_page(v);
 
 
   #
@@ -16428,7 +16428,7 @@ class TScrollView (TWidget):
 
   @move_to_page.setter
   def move_to_page(self, v):
-   this.set_move_to_page(v);
+   self.set_move_to_page(v);
 
 
   #
@@ -16441,7 +16441,7 @@ class TScrollView (TWidget):
 
   @recursive.setter
   def recursive(self, v):
-   this.set_recursive(v);
+   self.set_recursive(v);
 
 
 #
@@ -16566,7 +16566,7 @@ class TSlideMenu (TWidget):
 
   @value.setter
   def value(self, v):
-   this.set_value(v);
+   self.set_value(v);
 
 
   #
@@ -16579,7 +16579,7 @@ class TSlideMenu (TWidget):
 
   @align_v.setter
   def align_v(self, v):
-   this.set_align_v(v);
+   self.set_align_v(v);
 
 
   #
@@ -16592,7 +16592,7 @@ class TSlideMenu (TWidget):
 
   @min_scale.setter
   def min_scale(self, v):
-   this.set_min_scale(v);
+   self.set_min_scale(v);
 
 
 #
@@ -16802,7 +16802,7 @@ class TSlideIndicator (TWidget):
 
   @value.setter
   def value(self, v):
-   this.set_value(v);
+   self.set_value(v);
 
 
   #
@@ -16815,7 +16815,7 @@ class TSlideIndicator (TWidget):
 
   @max.setter
   def max(self, v):
-   this.set_max(v);
+   self.set_max(v);
 
 
   #
@@ -16828,7 +16828,7 @@ class TSlideIndicator (TWidget):
 
   @default_paint.setter
   def default_paint(self, v):
-   this.set_default_paint(v);
+   self.set_default_paint(v);
 
 
   #
@@ -16841,7 +16841,7 @@ class TSlideIndicator (TWidget):
 
   @auto_hide.setter
   def auto_hide(self, v):
-   this.set_auto_hide(v);
+   self.set_auto_hide(v);
 
 
   #
@@ -16854,7 +16854,7 @@ class TSlideIndicator (TWidget):
 
   @margin.setter
   def margin(self, v):
-   this.set_margin(v);
+   self.set_margin(v);
 
 
   #
@@ -16867,7 +16867,7 @@ class TSlideIndicator (TWidget):
 
   @spacing.setter
   def spacing(self, v):
-   this.set_spacing(v);
+   self.set_spacing(v);
 
 
   #
@@ -16880,7 +16880,7 @@ class TSlideIndicator (TWidget):
 
   @size.setter
   def size(self, v):
-   this.set_size(v);
+   self.set_size(v);
 
 
   #
@@ -16911,7 +16911,7 @@ class TSlideIndicator (TWidget):
 
   @indicated_target.setter
   def indicated_target(self, v):
-   this.set_indicated_target(v);
+   self.set_indicated_target(v);
 
 
 #
@@ -17090,7 +17090,7 @@ class TSlideView (TWidget):
 
   @vertical.setter
   def vertical(self, v):
-   this.set_vertical(v);
+   self.set_vertical(v);
 
 
   #
@@ -17103,7 +17103,7 @@ class TSlideView (TWidget):
 
   @auto_play.setter
   def auto_play(self, v):
-   this.set_auto_play(v);
+   self.set_auto_play(v);
 
 
   #
@@ -17119,7 +17119,7 @@ class TSlideView (TWidget):
 
   @loop.setter
   def loop(self, v):
-   this.set_loop(v);
+   self.set_loop(v);
 
 
   #
@@ -17132,7 +17132,7 @@ class TSlideView (TWidget):
 
   @anim_hint.setter
   def anim_hint(self, v):
-   this.set_anim_hint(v);
+   self.set_anim_hint(v);
 
 
 #
@@ -17221,7 +17221,7 @@ class TSwitch (TWidget):
 
   @value.setter
   def value(self, v):
-   this.set_value(v);
+   self.set_value(v);
 
 
   #
@@ -17488,7 +17488,7 @@ class TTextSelector (TWidget):
 
   @visible_nr.setter
   def visible_nr(self, v):
-   this.set_visible_nr(v);
+   self.set_visible_nr(v);
 
 
   #
@@ -17501,7 +17501,7 @@ class TTextSelector (TWidget):
 
   @selected_index.setter
   def selected_index(self, v):
-   this.set_selected_index(v);
+   self.set_selected_index(v);
 
 
   #
@@ -17516,7 +17516,7 @@ class TTextSelector (TWidget):
 
   @options.setter
   def options(self, v):
-   this.set_options(v);
+   self.set_options(v);
 
 
   #
@@ -17529,7 +17529,7 @@ class TTextSelector (TWidget):
 
   @yspeed_scale.setter
   def yspeed_scale(self, v):
-   this.set_yspeed_scale(v);
+   self.set_yspeed_scale(v);
 
 
   #
@@ -17542,7 +17542,7 @@ class TTextSelector (TWidget):
 
   @animating_time.setter
   def animating_time(self, v):
-   this.set_animating_time(v);
+   self.set_animating_time(v);
 
 
   #
@@ -17555,7 +17555,7 @@ class TTextSelector (TWidget):
 
   @localize_options.setter
   def localize_options(self, v):
-   this.set_localize_options(v);
+   self.set_localize_options(v);
 
 
   #
@@ -17568,7 +17568,7 @@ class TTextSelector (TWidget):
 
   @loop_options.setter
   def loop_options(self, v):
-   this.set_loop_options(v);
+   self.set_loop_options(v);
 
 
 #
@@ -17765,7 +17765,7 @@ class TTimeClock (TWidget):
 
   @hour.setter
   def hour(self, v):
-   this.set_hour(v);
+   self.set_hour(v);
 
 
   #
@@ -17778,7 +17778,7 @@ class TTimeClock (TWidget):
 
   @minute.setter
   def minute(self, v):
-   this.set_minute(v);
+   self.set_minute(v);
 
 
   #
@@ -17791,7 +17791,7 @@ class TTimeClock (TWidget):
 
   @second.setter
   def second(self, v):
-   this.set_second(v);
+   self.set_second(v);
 
 
   #
@@ -17804,7 +17804,7 @@ class TTimeClock (TWidget):
 
   @image.setter
   def image(self, v):
-   this.set_image(v);
+   self.set_image(v);
 
 
   #
@@ -17817,7 +17817,7 @@ class TTimeClock (TWidget):
 
   @bg_image.setter
   def bg_image(self, v):
-   this.set_bg_image(v);
+   self.set_bg_image(v);
 
 
   #
@@ -17830,7 +17830,7 @@ class TTimeClock (TWidget):
 
   @hour_image.setter
   def hour_image(self, v):
-   this.set_hour_image(v);
+   self.set_hour_image(v);
 
 
   #
@@ -17843,7 +17843,7 @@ class TTimeClock (TWidget):
 
   @minute_image.setter
   def minute_image(self, v):
-   this.set_minute_image(v);
+   self.set_minute_image(v);
 
 
   #
@@ -17856,7 +17856,7 @@ class TTimeClock (TWidget):
 
   @second_image.setter
   def second_image(self, v):
-   this.set_second_image(v);
+   self.set_second_image(v);
 
 
   #
@@ -18009,7 +18009,7 @@ class TVpage (TWidget):
 
   @ui_asset.setter
   def ui_asset(self, v):
-   this.set_ui_asset(v);
+   self.set_ui_asset(v);
 
 
   #
@@ -18022,7 +18022,7 @@ class TVpage (TWidget):
 
   @anim_hint.setter
   def anim_hint(self, v):
-   this.set_anim_hint(v);
+   self.set_anim_hint(v);
 
 
 #
@@ -18466,7 +18466,7 @@ class TButton (TWidget):
 
   @repeat.setter
   def repeat(self, v):
-   this.set_repeat(v);
+   self.set_repeat(v);
 
 
   #
@@ -18482,7 +18482,7 @@ class TButton (TWidget):
 
   @enable_long_press.setter
   def enable_long_press(self, v):
-   this.set_enable_long_press(v);
+   self.set_enable_long_press(v);
 
 
   #
@@ -18495,7 +18495,7 @@ class TButton (TWidget):
 
   @long_press_time.setter
   def long_press_time(self, v):
-   this.set_long_press_time(v);
+   self.set_long_press_time(v);
 
 
 #
@@ -18615,7 +18615,7 @@ class TCheckButton (TWidget):
 
   @value.setter
   def value(self, v):
-   this.set_value(v);
+   self.set_value(v);
 
 
 #
@@ -18776,7 +18776,7 @@ class TColorTile (TWidget):
 
   @bg_color.setter
   def bg_color(self, v):
-   this.set_bg_color(v);
+   self.set_bg_color(v);
 
 
   #
@@ -18921,7 +18921,7 @@ class TComboBoxItem (TWidget):
 
   @value.setter
   def value(self, v):
-   this.set_value(v);
+   self.set_value(v);
 
 
   #
@@ -18934,7 +18934,7 @@ class TComboBoxItem (TWidget):
 
   @checked.setter
   def checked(self, v):
-   this.set_checked(v);
+   self.set_checked(v);
 
 
 #
@@ -19161,7 +19161,7 @@ class TDigitClock (TWidget):
 
   @format.setter
   def format(self, v):
-   this.set_format(v);
+   self.set_format(v);
 
 
 #
@@ -19619,7 +19619,7 @@ class TEdit (TWidget):
 
   @tips.setter
   def tips(self, v):
-   this.set_tips(v);
+   self.set_tips(v);
 
 
   #
@@ -19632,7 +19632,7 @@ class TEdit (TWidget):
 
   @tr_tips.setter
   def tr_tips(self, v):
-   this.set_tr_tips(v);
+   self.set_tr_tips(v);
 
 
   #
@@ -19650,7 +19650,7 @@ class TEdit (TWidget):
 
   @action_text.setter
   def action_text(self, v):
-   this.set_action_text(v);
+   self.set_action_text(v);
 
 
   #
@@ -19663,7 +19663,7 @@ class TEdit (TWidget):
 
   @keyboard.setter
   def keyboard(self, v):
-   this.set_keyboard(v);
+   self.set_keyboard(v);
 
 
   #
@@ -19704,7 +19704,7 @@ class TEdit (TWidget):
 
   @input_type.setter
   def input_type(self, v):
-   this.set_input_type(v);
+   self.set_input_type(v);
 
 
   #
@@ -19717,7 +19717,7 @@ class TEdit (TWidget):
 
   @readonly.setter
   def readonly(self, v):
-   this.set_readonly(v);
+   self.set_readonly(v);
 
 
   #
@@ -19730,7 +19730,7 @@ class TEdit (TWidget):
 
   @password_visible.setter
   def password_visible(self, v):
-   this.set_password_visible(v);
+   self.set_password_visible(v);
 
 
   #
@@ -19743,7 +19743,7 @@ class TEdit (TWidget):
 
   @auto_fix.setter
   def auto_fix(self, v):
-   this.set_auto_fix(v);
+   self.set_auto_fix(v);
 
 
   #
@@ -19758,7 +19758,7 @@ class TEdit (TWidget):
 
   @select_none_when_focused.setter
   def select_none_when_focused(self, v):
-   this.set_select_none_when_focused(v);
+   self.set_select_none_when_focused(v);
 
 
   #
@@ -19773,7 +19773,7 @@ class TEdit (TWidget):
 
   @open_im_when_focused.setter
   def open_im_when_focused(self, v):
-   this.set_open_im_when_focused(v);
+   self.set_open_im_when_focused(v);
 
 
   #
@@ -19786,7 +19786,7 @@ class TEdit (TWidget):
 
   @close_im_when_blured.setter
   def close_im_when_blured(self, v):
-   this.set_close_im_when_blured(v);
+   self.set_close_im_when_blured(v);
 
 
   #
@@ -19802,7 +19802,7 @@ class TEdit (TWidget):
 
   @cancelable.setter
   def cancelable(self, v):
-   this.set_cancelable(v);
+   self.set_cancelable(v);
 
 
 #
@@ -20142,7 +20142,7 @@ class TLabel (TWidget):
 
   @length.setter
   def length(self, v):
-   this.set_length(v);
+   self.set_length(v);
 
 
   #
@@ -20155,7 +20155,7 @@ class TLabel (TWidget):
 
   @line_wrap.setter
   def line_wrap(self, v):
-   this.set_line_wrap(v);
+   self.set_line_wrap(v);
 
 
   #
@@ -20169,7 +20169,7 @@ class TLabel (TWidget):
 
   @word_wrap.setter
   def word_wrap(self, v):
-   this.set_word_wrap(v);
+   self.set_word_wrap(v);
 
 
   #
@@ -20183,7 +20183,7 @@ class TLabel (TWidget):
 
   @max_w.setter
   def max_w(self, v):
-   this.set_max_w(v);
+   self.set_max_w(v);
 
 
 #
@@ -20277,7 +20277,7 @@ class TPages (TWidget):
 
   @active.setter
   def active(self, v):
-   this.set_active(v);
+   self.set_active(v);
 
 
 #
@@ -20437,7 +20437,7 @@ class TProgressBar (TWidget):
 
   @value.setter
   def value(self, v):
-   this.set_value(v);
+   self.set_value(v);
 
 
   #
@@ -20450,7 +20450,7 @@ class TProgressBar (TWidget):
 
   @max.setter
   def max(self, v):
-   this.set_max(v);
+   self.set_max(v);
 
 
   #
@@ -20463,7 +20463,7 @@ class TProgressBar (TWidget):
 
   @format.setter
   def format(self, v):
-   this.set_format(v);
+   self.set_format(v);
 
 
   #
@@ -20476,7 +20476,7 @@ class TProgressBar (TWidget):
 
   @vertical.setter
   def vertical(self, v):
-   this.set_vertical(v);
+   self.set_vertical(v);
 
 
   #
@@ -20489,7 +20489,7 @@ class TProgressBar (TWidget):
 
   @show_text.setter
   def show_text(self, v):
-   this.set_show_text(v);
+   self.set_show_text(v);
 
 
   #
@@ -20502,7 +20502,7 @@ class TProgressBar (TWidget):
 
   @reverse.setter
   def reverse(self, v):
-   this.set_reverse(v);
+   self.set_reverse(v);
 
 
 #
@@ -20713,7 +20713,7 @@ class TSlider (TWidget):
 
   @value.setter
   def value(self, v):
-   this.set_value(v);
+   self.set_value(v);
 
 
   #
@@ -20726,7 +20726,7 @@ class TSlider (TWidget):
 
   @min.setter
   def min(self, v):
-   this.set_min(v);
+   self.set_min(v);
 
 
   #
@@ -20739,7 +20739,7 @@ class TSlider (TWidget):
 
   @max.setter
   def max(self, v):
-   this.set_max(v);
+   self.set_max(v);
 
 
   #
@@ -20752,7 +20752,7 @@ class TSlider (TWidget):
 
   @step.setter
   def step(self, v):
-   this.set_step(v);
+   self.set_step(v);
 
 
   #
@@ -20765,7 +20765,7 @@ class TSlider (TWidget):
 
   @vertical.setter
   def vertical(self, v):
-   this.set_vertical(v);
+   self.set_vertical(v);
 
 
   #
@@ -20778,7 +20778,7 @@ class TSlider (TWidget):
 
   @bar_size.setter
   def bar_size(self, v):
-   this.set_bar_size(v);
+   self.set_bar_size(v);
 
 
   #
@@ -20905,7 +20905,7 @@ class TTabButtonGroup (TWidget):
 
   @compact.setter
   def compact(self, v):
-   this.set_compact(v);
+   self.set_compact(v);
 
 
   #
@@ -20920,7 +20920,7 @@ class TTabButtonGroup (TWidget):
 
   @scrollable.setter
   def scrollable(self, v):
-   this.set_scrollable(v);
+   self.set_scrollable(v);
 
 
 #
@@ -21071,7 +21071,7 @@ class TTabButton (TWidget):
 
   @value.setter
   def value(self, v):
-   this.set_value(v);
+   self.set_value(v);
 
 
   #
@@ -21084,7 +21084,7 @@ class TTabButton (TWidget):
 
   @load_ui.setter
   def load_ui(self, v):
-   this.set_load_ui(v);
+   self.set_load_ui(v);
 
 
   #
@@ -21097,7 +21097,7 @@ class TTabButton (TWidget):
 
   @active_icon.setter
   def active_icon(self, v):
-   this.set_active_icon(v);
+   self.set_active_icon(v);
 
 
   #
@@ -21110,7 +21110,7 @@ class TTabButton (TWidget):
 
   @icon.setter
   def icon(self, v):
-   this.set_icon(v);
+   self.set_icon(v);
 
 
 #
@@ -21258,7 +21258,7 @@ class TView (TWidget):
 
   @default_focused_child.setter
   def default_focused_child(self, v):
-   this.set_default_focused_child(v);
+   self.set_default_focused_child(v);
 
 
 #
@@ -21817,7 +21817,7 @@ class TWindow (TWindowBase):
 
   @fullscreen.setter
   def fullscreen(self, v):
-   this.set_fullscreen(v);
+   self.set_fullscreen(v);
 
 
 #
@@ -22761,7 +22761,7 @@ class TComboBox (TEdit):
 
   @open_window.setter
   def open_window(self, v):
-   this.set_open_window(v);
+   self.set_open_window(v);
 
 
   #
@@ -22774,7 +22774,7 @@ class TComboBox (TEdit):
 
   @selected_index.setter
   def selected_index(self, v):
-   this.set_selected_index(v);
+   self.set_selected_index(v);
 
 
   #
@@ -22787,7 +22787,7 @@ class TComboBox (TEdit):
 
   @value.setter
   def value(self, v):
-   this.set_value(v);
+   self.set_value(v);
 
 
   #
@@ -22800,7 +22800,7 @@ class TComboBox (TEdit):
 
   @localize_options.setter
   def localize_options(self, v):
-   this.set_localize_options(v);
+   self.set_localize_options(v);
 
 
   #
@@ -22813,7 +22813,7 @@ class TComboBox (TEdit):
 
   @options.setter
   def options(self, v):
-   this.set_options(v);
+   self.set_options(v);
 
 
   #
@@ -22826,7 +22826,7 @@ class TComboBox (TEdit):
 
   @item_height.setter
   def item_height(self, v):
-   this.set_item_height(v);
+   self.set_item_height(v);
 
 
 #
@@ -22939,7 +22939,7 @@ class TImage (TImageBase):
 
   @draw_type.setter
   def draw_type(self, v):
-   this.set_draw_type(v);
+   self.set_draw_type(v);
 
 
 #
@@ -23047,7 +23047,7 @@ class TOverlay (TWindowBase):
 
   @click_through.setter
   def click_through(self, v):
-   this.set_click_through(v);
+   self.set_click_through(v);
 
 
   #
@@ -23062,7 +23062,7 @@ class TOverlay (TWindowBase):
 
   @always_on_top.setter
   def always_on_top(self, v):
-   this.set_always_on_top(v);
+   self.set_always_on_top(v);
 
 
 #
@@ -23186,7 +23186,7 @@ class TPopup (TWindowBase):
 
   @close_when_click.setter
   def close_when_click(self, v):
-   this.set_close_when_click(v);
+   self.set_close_when_click(v);
 
 
   #
@@ -23199,7 +23199,7 @@ class TPopup (TWindowBase):
 
   @close_when_click_outside.setter
   def close_when_click_outside(self, v):
-   this.set_close_when_click_outside(v);
+   self.set_close_when_click_outside(v);
 
 
   #
@@ -23212,7 +23212,7 @@ class TPopup (TWindowBase):
 
   @close_when_timeout.setter
   def close_when_timeout(self, v):
-   this.set_close_when_timeout(v);
+   self.set_close_when_timeout(v);
 
 
 #
