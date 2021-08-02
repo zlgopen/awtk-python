@@ -2,6 +2,8 @@ import sys
 import platform
 from distutils.core import setup, Extension
 
+##adapted from https://github.com/CUITzhaoqi/awtk-python/blob/master/setup.py
+
 sys.path.insert(0, '../awtk/')
 sys.path.insert(0, 'build/awtk/')
 import awtk_config as awtk
@@ -49,6 +51,8 @@ AUTHOR = 'Li XianJing'
 EMAIL = 'lixianjing@zlg.cn'
 DESCRIPTION = 'awtk python binding.'
 URL = 'https://github.com/zlgopen/awtk-python'
+LICENSE="LGPL-2.0"
+PLATFORM=platform.machine()
 
 setup(name="awtk", 
       url=URL,
@@ -56,11 +60,13 @@ setup(name="awtk",
       author=AUTHOR,
       author_email=EMAIL,
       description=DESCRIPTION,
+      license=LICENSE,
+      platforms=['any'],
+      long_description=DESCRIPTION,
       ext_modules=[Extension("awtk_native",
                              ["src/c/awtk_module.c",
                               "src/assets.c"],
                              include_dirs=include_dirs,
-                             # extra_compile_args=extra_compile_args,
                              define_macros=extra_define_macros,
                              library_dirs=library_dirs,
                              libraries=extra_lib,
