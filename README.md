@@ -44,6 +44,12 @@ scons
 sudo python3 setup.py install
 ```
 
+> Windows 下要在管理员权限下运行:
+
+```
+python3 setup.py install
+```
+
 * 编译 LINUX FB 版本
 
 ```
