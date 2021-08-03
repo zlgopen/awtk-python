@@ -1,6 +1,8 @@
 import os
 import sys
 
+sys.path.insert(0, os.path.normpath(os.path.join(os.getcwd(), 'src/python')))
+
 from awtk import *
 
 def on_clicked(win, e):

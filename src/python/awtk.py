@@ -1,4 +1,8 @@
 ﻿
+import os
+import sys
+sys.path.insert(0, os.path.dirname(os.path.normpath(os.path.abspath(__file__))))
+
 from awtk_native import *;
 
 def assets_init():
