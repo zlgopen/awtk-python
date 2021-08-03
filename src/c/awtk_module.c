@@ -30,6 +30,7 @@
 #include "base/widget_consts.h"
 #include "base/widget.h"
 #include "conf_io/app_conf.h"
+#include "ext_widgets/ext_widgets.h"
 #include "slide_view/slide_indicator.h"
 #include "vpage/vpage.h"
 #include "tkc/asset_info.h"
@@ -8292,6 +8293,18 @@ pyobject_t wrap_app_conf_remove(pyobject_t self, pyobject_t pyargs) {
   }
 
   ret = (ret_t)app_conf_remove(key);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_tk_ext_widgets_init(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "" )) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)tk_ext_widgets_init();
   return Py_BuildValue("i", ret);
 }
 
@@ -20896,6 +20909,7 @@ static PyMethodDef awtk_methods[] = {
 {"app_conf_get_double", wrap_app_conf_get_double, METH_VARARGS, "app_conf_get_double"},
 {"app_conf_get_str", wrap_app_conf_get_str, METH_VARARGS, "app_conf_get_str"},
 {"app_conf_remove", wrap_app_conf_remove, METH_VARARGS, "app_conf_remove"},
+{"tk_ext_widgets_init", wrap_tk_ext_widgets_init, METH_VARARGS, "tk_ext_widgets_init"},
 {"INDICATOR_DEFAULT_PAINT_AUTO", get_INDICATOR_DEFAULT_PAINT_AUTO, METH_VARARGS, "INDICATOR_DEFAULT_PAINT_AUTO"},
 {"INDICATOR_DEFAULT_PAINT_FILL_DOT", get_INDICATOR_DEFAULT_PAINT_FILL_DOT, METH_VARARGS, "INDICATOR_DEFAULT_PAINT_FILL_DOT"},
 {"INDICATOR_DEFAULT_PAINT_STROKE_DOT", get_INDICATOR_DEFAULT_PAINT_STROKE_DOT, METH_VARARGS, "INDICATOR_DEFAULT_PAINT_STROKE_DOT"},

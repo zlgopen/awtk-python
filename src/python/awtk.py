@@ -2,19 +2,19 @@
 from awtk_native import *;
 
 def assets_init():
-  return tk_assets_init();
+  return tk_assets_init()
 
 def awtk_get_native_obj(obj):
-    if(isinstance(obj, int)) :
-        return obj;
+    if(isinstance(obj, int)):
+        return obj
     elif obj:
-        return obj.nativeObj;
+        return obj.nativeObj
     else: 
       return 0
 
 def setup(application_init, name, w, h, type):
   TGlobal.init(w, h, type, name, "./") 
-
+  TExtWidgets.init()
   assets_init()
   application_init()
 
@@ -38,7 +38,7 @@ class TEmitter(object):
           return instance
     
   def __init__(self, nativeObj):
-    self.nativeObj = nativeObj;
+    self.nativeObj = nativeObj
 
 
   def __eq__(self, other: 'TWidget'):
@@ -170,7 +170,7 @@ class TPoint(object):
           return instance
     
   def __init__(self, nativeObj):
-    self.nativeObj = nativeObj;
+    self.nativeObj = nativeObj
 
 
   def __eq__(self, other: 'TWidget'):
@@ -196,7 +196,7 @@ class TPointf(object):
           return instance
     
   def __init__(self, nativeObj):
-    self.nativeObj = nativeObj;
+    self.nativeObj = nativeObj
 
 
   def __eq__(self, other: 'TWidget'):
@@ -222,7 +222,7 @@ class TRectf(object):
           return instance
     
   def __init__(self, nativeObj):
-    self.nativeObj = nativeObj;
+    self.nativeObj = nativeObj
 
 
   def __eq__(self, other: 'TWidget'):
@@ -236,7 +236,7 @@ class TRectf(object):
   #
   @property
   def x(self):
-    return rectf_t_get_prop_x(self.nativeObj);
+    return rectf_t_get_prop_x(self.nativeObj)
 
 
   #
@@ -245,7 +245,7 @@ class TRectf(object):
   #
   @property
   def y(self):
-    return rectf_t_get_prop_y(self.nativeObj);
+    return rectf_t_get_prop_y(self.nativeObj)
 
 
   #
@@ -254,7 +254,7 @@ class TRectf(object):
   #
   @property
   def w(self):
-    return rectf_t_get_prop_w(self.nativeObj);
+    return rectf_t_get_prop_w(self.nativeObj)
 
 
   #
@@ -263,7 +263,7 @@ class TRectf(object):
   #
   @property
   def h(self):
-    return rectf_t_get_prop_h(self.nativeObj);
+    return rectf_t_get_prop_h(self.nativeObj)
 
 
 #
@@ -284,7 +284,7 @@ class TRect(object):
           return instance
     
   def __init__(self, nativeObj):
-    self.nativeObj = nativeObj;
+    self.nativeObj = nativeObj
 
 
   def __eq__(self, other: 'TWidget'):
@@ -357,7 +357,7 @@ class TRect(object):
   #
   @property
   def x(self):
-    return rect_t_get_prop_x(self.nativeObj);
+    return rect_t_get_prop_x(self.nativeObj)
 
 
   #
@@ -366,7 +366,7 @@ class TRect(object):
   #
   @property
   def y(self):
-    return rect_t_get_prop_y(self.nativeObj);
+    return rect_t_get_prop_y(self.nativeObj)
 
 
   #
@@ -375,7 +375,7 @@ class TRect(object):
   #
   @property
   def w(self):
-    return rect_t_get_prop_w(self.nativeObj);
+    return rect_t_get_prop_w(self.nativeObj)
 
 
   #
@@ -384,7 +384,7 @@ class TRect(object):
   #
   @property
   def h(self):
-    return rect_t_get_prop_h(self.nativeObj);
+    return rect_t_get_prop_h(self.nativeObj)
 
 
 #
@@ -405,7 +405,7 @@ class TBitmap(object):
           return instance
     
   def __init__(self, nativeObj):
-    self.nativeObj = nativeObj;
+    self.nativeObj = nativeObj
 
 
   def __eq__(self, other: 'TWidget'):
@@ -477,7 +477,7 @@ class TBitmap(object):
   #
   @property
   def w(self):
-    return bitmap_t_get_prop_w(self.nativeObj);
+    return bitmap_t_get_prop_w(self.nativeObj)
 
 
   #
@@ -486,7 +486,7 @@ class TBitmap(object):
   #
   @property
   def h(self):
-    return bitmap_t_get_prop_h(self.nativeObj);
+    return bitmap_t_get_prop_h(self.nativeObj)
 
 
   #
@@ -495,7 +495,7 @@ class TBitmap(object):
   #
   @property
   def line_length(self):
-    return bitmap_t_get_prop_line_length(self.nativeObj);
+    return bitmap_t_get_prop_line_length(self.nativeObj)
 
 
   #
@@ -504,7 +504,7 @@ class TBitmap(object):
   #
   @property
   def flags(self):
-    return bitmap_t_get_prop_flags(self.nativeObj);
+    return bitmap_t_get_prop_flags(self.nativeObj)
 
 
   #
@@ -513,7 +513,7 @@ class TBitmap(object):
   #
   @property
   def format(self):
-    return bitmap_t_get_prop_format(self.nativeObj);
+    return bitmap_t_get_prop_format(self.nativeObj)
 
 
   #
@@ -522,7 +522,7 @@ class TBitmap(object):
   #
   @property
   def name(self):
-    return bitmap_t_get_prop_name(self.nativeObj);
+    return bitmap_t_get_prop_name(self.nativeObj)
 
 
 #
@@ -1268,7 +1268,7 @@ class TObject (TEmitter):
   #
   @property
   def ref_count(self):
-    return object_t_get_prop_ref_count(self.nativeObj);
+    return object_t_get_prop_ref_count(self.nativeObj)
 
 
   #
@@ -1277,7 +1277,7 @@ class TObject (TEmitter):
   #
   @property
   def name(self):
-    return object_t_get_prop_name(self.nativeObj);
+    return object_t_get_prop_name(self.nativeObj)
 
   @name.setter
   def name(self, v):
@@ -1307,7 +1307,7 @@ class TValue(object):
           return instance
     
   def __init__(self, nativeObj):
-    self.nativeObj = nativeObj;
+    self.nativeObj = nativeObj
 
 
   def __eq__(self, other: 'TWidget'):
@@ -1764,43 +1764,43 @@ class TBidiType:
   # 自动检查。
   #
   #
-  AUTO = BIDI_TYPE_AUTO();
+  AUTO = BIDI_TYPE_AUTO()
 
   #
   # Left-To-Right letter。
   #
   #
-  LTR = BIDI_TYPE_LTR();
+  LTR = BIDI_TYPE_LTR()
 
   #
   # Right-To-Left letter。
   #
   #
-  RTL = BIDI_TYPE_RTL();
+  RTL = BIDI_TYPE_RTL()
 
   #
   # Left-To-Right letter Override。
   #
   #
-  LRO = BIDI_TYPE_LRO();
+  LRO = BIDI_TYPE_LRO()
 
   #
   # Right-To-Left letter Override。
   #
   #
-  RLO = BIDI_TYPE_RLO();
+  RLO = BIDI_TYPE_RLO()
 
   #
   # Weak Left To Right paragraph。
   #
   #
-  WLTR = BIDI_TYPE_WLTR();
+  WLTR = BIDI_TYPE_WLTR()
 
   #
   # Weak Right To Left paragraph。
   #
   #
-  WRTL = BIDI_TYPE_WRTL();
+  WRTL = BIDI_TYPE_WRTL()
 
 #
 # 图片绘制方法常量定义。
@@ -1812,108 +1812,108 @@ class TImageDrawType:
   # 缺省显示。将图片按原大小显示在目标矩形的左上角。
   #
   #
-  DEFAULT = IMAGE_DRAW_DEFAULT();
+  DEFAULT = IMAGE_DRAW_DEFAULT()
 
   #
   # 居中显示。将图片按原大小显示在目标矩形的中央。
   #
   #
-  CENTER = IMAGE_DRAW_CENTER();
+  CENTER = IMAGE_DRAW_CENTER()
 
   #
   # 图标显示。同居中显示，但会根据屏幕密度调整大小。
   #
   #
-  ICON = IMAGE_DRAW_ICON();
+  ICON = IMAGE_DRAW_ICON()
 
   #
   # 缩放显示。将图片缩放至目标矩形的大小(不保证宽高成比例)。
   #
   #
-  SCALE = IMAGE_DRAW_SCALE();
+  SCALE = IMAGE_DRAW_SCALE()
 
   #
   # 自动缩放显示。将图片缩放至目标矩形的宽度或高度(选取最小的比例)，并居中显示。
   #
   #
-  SCALE_AUTO = IMAGE_DRAW_SCALE_AUTO();
+  SCALE_AUTO = IMAGE_DRAW_SCALE_AUTO()
 
   #
   # 如果图片比目标矩形大，自动缩小显示，否则居中显示。
   #
   #
-  SCALE_DOWN = IMAGE_DRAW_SCALE_DOWN();
+  SCALE_DOWN = IMAGE_DRAW_SCALE_DOWN()
 
   #
   # 宽度缩放显示。 将图片缩放至目标矩形的宽度，高度按此比例进行缩放，超出不部分不显示。
   #
   #
-  SCALE_W = IMAGE_DRAW_SCALE_W();
+  SCALE_W = IMAGE_DRAW_SCALE_W()
 
   #
   # 高度缩放显示。将图片缩放至目标矩形的高度，宽度按此比例进行缩放，超出不部分不显示。
   #
   #
-  SCALE_H = IMAGE_DRAW_SCALE_H();
+  SCALE_H = IMAGE_DRAW_SCALE_H()
 
   #
   # 平铺显示。
   #
   #
-  REPEAT = IMAGE_DRAW_REPEAT();
+  REPEAT = IMAGE_DRAW_REPEAT()
 
   #
   # 水平方向平铺显示，垂直方向缩放。
   #
   #
-  REPEAT_X = IMAGE_DRAW_REPEAT_X();
+  REPEAT_X = IMAGE_DRAW_REPEAT_X()
 
   #
   # 垂直方向平铺显示，水平方向缩放。
   #
   #
-  REPEAT_Y = IMAGE_DRAW_REPEAT_Y();
+  REPEAT_Y = IMAGE_DRAW_REPEAT_Y()
 
   #
   # 垂直方向平铺显示，水平方向缩放(从底部到顶部)。
   #
   #
-  REPEAT_Y_INVERSE = IMAGE_DRAW_REPEAT_Y_INVERSE();
+  REPEAT_Y_INVERSE = IMAGE_DRAW_REPEAT_Y_INVERSE()
 
   #
   # 9宫格显示。
   #将图片分成等大小的9块，4个角按原大小显示在目标矩形的4个角，左右上下和中间5块分别缩放显示在对应的目标区域。
   #
   #
-  PATCH9 = IMAGE_DRAW_PATCH9();
+  PATCH9 = IMAGE_DRAW_PATCH9()
 
   #
   # 水平方向3宫格显示，垂直方向居中显示。
   #将图片在水平方向上分成等大小的3块，左右两块按原大小显示在目标矩形的左右，中间一块缩放显示在目标区域中间剩余部分。
   #
   #
-  PATCH3_X = IMAGE_DRAW_PATCH3_X();
+  PATCH3_X = IMAGE_DRAW_PATCH3_X()
 
   #
   # 垂直方向3宫格显示，水平方向居中显示。
   #将图片在垂直方向上分成等大小的3块，上下两块按原大小显示在目标矩形的上下，中间一块缩放显示在目标区域中间剩余部分。
   #
   #
-  PATCH3_Y = IMAGE_DRAW_PATCH3_Y();
+  PATCH3_Y = IMAGE_DRAW_PATCH3_Y()
 
   #
   # 水平方向3宫格显示，垂直方向缩放显示。
   #将图片在水平方向上分成等大小的3块，左右两块按原大小显示在目标矩形的左右，中间一块缩放显示在目标区域中间剩余部分。
   #
   #
-  PATCH3_X_SCALE_Y = IMAGE_DRAW_PATCH3_X_SCALE_Y();
+  PATCH3_X_SCALE_Y = IMAGE_DRAW_PATCH3_X_SCALE_Y()
 
   #
   # 垂直方向3宫格显示，水平方向缩放显示。
   #将图片在垂直方向上分成等大小的3块，上下两块按原大小显示在目标矩形的上下，中间一块缩放显示在目标区域中间剩余部分。
   #
   #
-  PATCH3_Y_SCALE_X = IMAGE_DRAW_PATCH3_Y_SCALE_X();
+  PATCH3_Y_SCALE_X = IMAGE_DRAW_PATCH3_Y_SCALE_X()
 
   #
   # 平铺9宫格显示。
@@ -1924,7 +1924,7 @@ class TImageDrawType:
   #中间一块数据根据上面两条规则组成4中情况，分别是一列一行数据，一列两行数据，两列一行数据和两行两列数据
   #
   #
-  REPEAT9 = IMAGE_DRAW_REPEAT9();
+  REPEAT9 = IMAGE_DRAW_REPEAT9()
 
   #
   # 水平方向3宫格显示，垂直方向居中显示。
@@ -1932,7 +1932,7 @@ class TImageDrawType:
   #左右两块按原大小显示在目标矩形的左右，中间一列像素点平铺显示在目标区域中间剩余部分。
   #
   #
-  REPEAT3_X = IMAGE_DRAW_REPEAT3_X();
+  REPEAT3_X = IMAGE_DRAW_REPEAT3_X()
 
   #
   # 垂直方向3宫格显示，水平方向居中显示。
@@ -1940,7 +1940,7 @@ class TImageDrawType:
   #上下两块按原大小显示在目标矩形的上下，中间一块平铺显示在目标区域中间剩余部分。
   #
   #
-  REPEAT3_Y = IMAGE_DRAW_REPEAT3_Y();
+  REPEAT3_Y = IMAGE_DRAW_REPEAT3_Y()
 
 #
 # 离线画布 canvas。
@@ -1960,7 +1960,7 @@ class TCanvasOffline(object):
           return instance
     
   def __init__(self, nativeObj):
-    self.nativeObj = nativeObj;
+    self.nativeObj = nativeObj
 
 
   def __eq__(self, other: 'TWidget'):
@@ -1986,7 +1986,7 @@ class TCanvas(object):
           return instance
     
   def __init__(self, nativeObj):
-    self.nativeObj = nativeObj;
+    self.nativeObj = nativeObj
 
 
   def __eq__(self, other: 'TWidget'):
@@ -2337,7 +2337,7 @@ class TCanvas(object):
   #
   @property
   def ox(self):
-    return canvas_t_get_prop_ox(self.nativeObj);
+    return canvas_t_get_prop_ox(self.nativeObj)
 
 
   #
@@ -2346,7 +2346,7 @@ class TCanvas(object):
   #
   @property
   def oy(self):
-    return canvas_t_get_prop_oy(self.nativeObj);
+    return canvas_t_get_prop_oy(self.nativeObj)
 
 
   #
@@ -2355,7 +2355,7 @@ class TCanvas(object):
   #
   @property
   def font_name(self):
-    return canvas_t_get_prop_font_name(self.nativeObj);
+    return canvas_t_get_prop_font_name(self.nativeObj)
 
 
   #
@@ -2364,7 +2364,7 @@ class TCanvas(object):
   #
   @property
   def font_size(self):
-    return canvas_t_get_prop_font_size(self.nativeObj);
+    return canvas_t_get_prop_font_size(self.nativeObj)
 
 
   #
@@ -2373,7 +2373,7 @@ class TCanvas(object):
   #
   @property
   def global_alpha(self):
-    return canvas_t_get_prop_global_alpha(self.nativeObj);
+    return canvas_t_get_prop_global_alpha(self.nativeObj)
 
   @global_alpha.setter
   def global_alpha(self, v):
@@ -2390,13 +2390,13 @@ class TClipBoardDataType:
   # 无数据。
   #
   #
-  NONE = CLIP_BOARD_DATA_TYPE_NONE();
+  NONE = CLIP_BOARD_DATA_TYPE_NONE()
 
   #
   # UTF8文本。
   #
   #
-  TEXT = CLIP_BOARD_DATA_TYPE_TEXT();
+  TEXT = CLIP_BOARD_DATA_TYPE_TEXT()
 
 #
 # 剪切板接口。
@@ -2416,7 +2416,7 @@ class TClipBoard(object):
           return instance
     
   def __init__(self, nativeObj):
-    self.nativeObj = nativeObj;
+    self.nativeObj = nativeObj
 
 
   def __eq__(self, other: 'TWidget'):
@@ -2459,37 +2459,37 @@ class TDialogQuitCode:
   # 对话框被强行关闭或不关心关闭原因。
   #
   #
-  NONE = DIALOG_QUIT_NONE();
+  NONE = DIALOG_QUIT_NONE()
 
   #
   # 点击“OK”按钮关闭。
   #
   #
-  OK = DIALOG_QUIT_OK();
+  OK = DIALOG_QUIT_OK()
 
   #
   # 点击“YES”按钮关闭。
   #
   #
-  YES = DIALOG_QUIT_YES();
+  YES = DIALOG_QUIT_YES()
 
   #
   # 点击“CANCEL”按钮关闭。
   #
   #
-  CANCEL = DIALOG_QUIT_CANCEL();
+  CANCEL = DIALOG_QUIT_CANCEL()
 
   #
   # 点击“NO”按钮关闭。
   #
   #
-  NO = DIALOG_QUIT_NO();
+  NO = DIALOG_QUIT_NO()
 
   #
   # 点击其它按钮关闭。
   #
   #
-  OTHER = DIALOG_QUIT_OTHER();
+  OTHER = DIALOG_QUIT_OTHER()
 
 #
 # 类型常量定义。
@@ -2501,612 +2501,612 @@ class TEventType:
   # 指针按下事件名(pointer_event_t)。
   #
   #
-  POINTER_DOWN = EVT_POINTER_DOWN();
+  POINTER_DOWN = EVT_POINTER_DOWN()
 
   #
   # 指针按下事件名，在子控件处理之前触发(pointer_event_t)。
   #
   #
-  POINTER_DOWN_BEFORE_CHILDREN = EVT_POINTER_DOWN_BEFORE_CHILDREN();
+  POINTER_DOWN_BEFORE_CHILDREN = EVT_POINTER_DOWN_BEFORE_CHILDREN()
 
   #
   # 指针移动事件名(pointer_event_t)。
   #
   #
-  POINTER_MOVE = EVT_POINTER_MOVE();
+  POINTER_MOVE = EVT_POINTER_MOVE()
 
   #
   # 指针移动事件名，在子控件处理之前触发(pointer_event_t)。
   #
   #
-  POINTER_MOVE_BEFORE_CHILDREN = EVT_POINTER_MOVE_BEFORE_CHILDREN();
+  POINTER_MOVE_BEFORE_CHILDREN = EVT_POINTER_MOVE_BEFORE_CHILDREN()
 
   #
   # 指针抬起事件名(pointer_event_t)。
   #
   #
-  POINTER_UP = EVT_POINTER_UP();
+  POINTER_UP = EVT_POINTER_UP()
 
   #
   # 指针抬起事件名，在子控件处理之前触发(pointer_event_t)。
   #
   #
-  POINTER_UP_BEFORE_CHILDREN = EVT_POINTER_UP_BEFORE_CHILDREN();
+  POINTER_UP_BEFORE_CHILDREN = EVT_POINTER_UP_BEFORE_CHILDREN()
 
   #
   # 滚轮事件名(wheel_event_t)。
   #
   #
-  WHEEL = EVT_WHEEL();
+  WHEEL = EVT_WHEEL()
 
   #
   # 鼠标滚轮事件名，在子控件处理之前触发(wheel_event_t)。
   #
   #
-  WHEEL_BEFORE_CHILDREN = EVT_WHEEL_BEFORE_CHILDREN();
+  WHEEL_BEFORE_CHILDREN = EVT_WHEEL_BEFORE_CHILDREN()
 
   #
   # 取消前一个指针按下事件名(pointer_event_t)。
   #
   #
-  POINTER_DOWN_ABORT = EVT_POINTER_DOWN_ABORT();
+  POINTER_DOWN_ABORT = EVT_POINTER_DOWN_ABORT()
 
   #
   # 右键/长按弹出上下文菜单的事件名(pointer_event_t)。
   #
   #
-  CONTEXT_MENU = EVT_CONTEXT_MENU();
+  CONTEXT_MENU = EVT_CONTEXT_MENU()
 
   #
   # 指针进入事件名(pointer_event_t)。
   #
   #
-  POINTER_ENTER = EVT_POINTER_ENTER();
+  POINTER_ENTER = EVT_POINTER_ENTER()
 
   #
   # 指针离开事件名(pointer_event_t)。
   #
   #
-  POINTER_LEAVE = EVT_POINTER_LEAVE();
+  POINTER_LEAVE = EVT_POINTER_LEAVE()
 
   #
   # 长按事件名(pointer_event_t)。
   #
   #
-  LONG_PRESS = EVT_LONG_PRESS();
+  LONG_PRESS = EVT_LONG_PRESS()
 
   #
   # 点击事件名(pointer_event_t)。
   #
   #
-  CLICK = EVT_CLICK();
+  CLICK = EVT_CLICK()
 
   #
   # 得到焦点事件名(event_t)。
   #
   #
-  FOCUS = EVT_FOCUS();
+  FOCUS = EVT_FOCUS()
 
   #
   # 失去焦点事件名(event_t)。
   #
   #
-  BLUR = EVT_BLUR();
+  BLUR = EVT_BLUR()
 
   #
   # 键按下事件名(key_event_t)。
   #
   #
-  KEY_DOWN = EVT_KEY_DOWN();
+  KEY_DOWN = EVT_KEY_DOWN()
 
   #
   # 键长按事件名(key_event_t)。
   #
   #
-  KEY_LONG_PRESS = EVT_KEY_LONG_PRESS();
+  KEY_LONG_PRESS = EVT_KEY_LONG_PRESS()
 
   #
   # 键按下事件名，在子控件处理之前触发(key_event_t)。
   #
   #
-  KEY_DOWN_BEFORE_CHILDREN = EVT_KEY_DOWN_BEFORE_CHILDREN();
+  KEY_DOWN_BEFORE_CHILDREN = EVT_KEY_DOWN_BEFORE_CHILDREN()
 
   #
   # 按键repeat事件名(key_event_t)。
   #
   #
-  KEY_REPEAT = EVT_KEY_REPEAT();
+  KEY_REPEAT = EVT_KEY_REPEAT()
 
   #
   # 键抬起事件名(key_event_t)。
   #
   #
-  KEY_UP = EVT_KEY_UP();
+  KEY_UP = EVT_KEY_UP()
 
   #
   # 键抬起事件名，在子控件处理之前触发(key_event_t)。
   #
   #
-  KEY_UP_BEFORE_CHILDREN = EVT_KEY_UP_BEFORE_CHILDREN();
+  KEY_UP_BEFORE_CHILDREN = EVT_KEY_UP_BEFORE_CHILDREN()
 
   #
   # 即将移动Widget的事件名(event_t)。
   #
   #
-  WILL_MOVE = EVT_WILL_MOVE();
+  WILL_MOVE = EVT_WILL_MOVE()
 
   #
   # 移动Widget的事件名(event_t)。
   #
   #
-  MOVE = EVT_MOVE();
+  MOVE = EVT_MOVE()
 
   #
   # 即将调整Widget大小的事件名(event_t)。
   #
   #
-  WILL_RESIZE = EVT_WILL_RESIZE();
+  WILL_RESIZE = EVT_WILL_RESIZE()
 
   #
   # 调整Widget大小的事件名(event_t)。
   #
   #
-  RESIZE = EVT_RESIZE();
+  RESIZE = EVT_RESIZE()
 
   #
   # 即将调整Widget大小/位置的事件名(event_t)。
   #
   #
-  WILL_MOVE_RESIZE = EVT_WILL_MOVE_RESIZE();
+  WILL_MOVE_RESIZE = EVT_WILL_MOVE_RESIZE()
 
   #
   # 调整Widget大小/位置的事件名(event_t)。
   #
   #
-  MOVE_RESIZE = EVT_MOVE_RESIZE();
+  MOVE_RESIZE = EVT_MOVE_RESIZE()
 
   #
   # 控件的值即将改变的事件名(value_change_event_t)。
   #
   #
-  VALUE_WILL_CHANGE = EVT_VALUE_WILL_CHANGE();
+  VALUE_WILL_CHANGE = EVT_VALUE_WILL_CHANGE()
 
   #
   # 控件的值改变的事件名(value_change_event_t)。
   #
   #
-  VALUE_CHANGED = EVT_VALUE_CHANGED();
+  VALUE_CHANGED = EVT_VALUE_CHANGED()
 
   #
   # 控件的值持续改变(如编辑器正在编辑)的事件名(value_change_event_t)。
   #
   #
-  VALUE_CHANGING = EVT_VALUE_CHANGING();
+  VALUE_CHANGING = EVT_VALUE_CHANGING()
 
   #
   # 绘制的事件名(paint_event_t)。
   #
   #
-  PAINT = EVT_PAINT();
+  PAINT = EVT_PAINT()
 
   #
   # 即将绘制的事件名(paint_event_t)。
   #
   #
-  BEFORE_PAINT = EVT_BEFORE_PAINT();
+  BEFORE_PAINT = EVT_BEFORE_PAINT()
 
   #
   # 绘制完成的事件名(paint_event_t)。
   #
   #
-  AFTER_PAINT = EVT_AFTER_PAINT();
+  AFTER_PAINT = EVT_AFTER_PAINT()
 
   #
   # 绘制完成(canvas状态已经恢复)的事件名(paint_event_t)。
   #
   #
-  PAINT_DONE = EVT_PAINT_DONE();
+  PAINT_DONE = EVT_PAINT_DONE()
 
   #
   # locale改变的事件(event_t)。
   #
   #
-  LOCALE_CHANGED = EVT_LOCALE_CHANGED();
+  LOCALE_CHANGED = EVT_LOCALE_CHANGED()
 
   #
   # 控件动画开始事件(event_t)。
   #
   #
-  ANIM_START = EVT_ANIM_START();
+  ANIM_START = EVT_ANIM_START()
 
   #
   # 控件动画被主动停止的事件(event_t)。
   #
   #
-  ANIM_STOP = EVT_ANIM_STOP();
+  ANIM_STOP = EVT_ANIM_STOP()
 
   #
   # 控件动画被暂停的事件(event_t)。
   #
   #
-  ANIM_PAUSE = EVT_ANIM_PAUSE();
+  ANIM_PAUSE = EVT_ANIM_PAUSE()
 
   #
   # 控件动画yoyo/repeat时，完成一次的事件(event_t)。
   #
   #
-  ANIM_ONCE = EVT_ANIM_ONCE();
+  ANIM_ONCE = EVT_ANIM_ONCE()
 
   #
   # 控件动画完成事件(event_t)。
   #
   #
-  ANIM_END = EVT_ANIM_END();
+  ANIM_END = EVT_ANIM_END()
 
   #
   # 窗口加载完成事件(event_t)。
   #
   #
-  WINDOW_LOAD = EVT_WINDOW_LOAD();
+  WINDOW_LOAD = EVT_WINDOW_LOAD()
 
   #
   # 控件加载完成事件(event_t)。
   #
   #
-  WIDGET_LOAD = EVT_WIDGET_LOAD();
+  WIDGET_LOAD = EVT_WIDGET_LOAD()
 
   #
   # 窗口即将打开事件(event_t)。
   #如果有窗口动画，在窗口动画开始前触发。如果没有窗口动画，在窗口被加载后的下一次循环中触发。
   #
   #
-  WINDOW_WILL_OPEN = EVT_WINDOW_WILL_OPEN();
+  WINDOW_WILL_OPEN = EVT_WINDOW_WILL_OPEN()
 
   #
   # 窗口打开事件(event_t)。
   #如果有窗口动画，在窗口动画完成时触发。如果没有窗口动画，在窗口被加载后的下一次循环中触发。
   #
   #
-  WINDOW_OPEN = EVT_WINDOW_OPEN();
+  WINDOW_OPEN = EVT_WINDOW_OPEN()
 
   #
   # 窗口被切换到后台事件(event_t)。
   #打开新窗口时，当前窗口被切换到后台时，对当前窗口触发本事件。
   #
   #
-  WINDOW_TO_BACKGROUND = EVT_WINDOW_TO_BACKGROUND();
+  WINDOW_TO_BACKGROUND = EVT_WINDOW_TO_BACKGROUND()
 
   #
   # 窗口被切换到前台事件(event_t)。
   #关闭当前窗口时，前一个窗口被切换到前台时，对前一个窗口触发本事件。
   #
   #
-  WINDOW_TO_FOREGROUND = EVT_WINDOW_TO_FOREGROUND();
+  WINDOW_TO_FOREGROUND = EVT_WINDOW_TO_FOREGROUND()
 
   #
   # 窗口关闭事件。
   #
   #
-  WINDOW_CLOSE = EVT_WINDOW_CLOSE();
+  WINDOW_CLOSE = EVT_WINDOW_CLOSE()
 
   #
   # 请求关闭窗口的事件(event_t)。
   #
   #
-  REQUEST_CLOSE_WINDOW = EVT_REQUEST_CLOSE_WINDOW();
+  REQUEST_CLOSE_WINDOW = EVT_REQUEST_CLOSE_WINDOW()
 
   #
   # 顶层窗口改变的事件(window_event_t)。
   #
   #
-  TOP_WINDOW_CHANGED = EVT_TOP_WINDOW_CHANGED();
+  TOP_WINDOW_CHANGED = EVT_TOP_WINDOW_CHANGED()
 
   #
   # 输入法启动(event_t)。
   #
   #
-  IM_START = EVT_IM_START();
+  IM_START = EVT_IM_START()
 
   #
   # 输入法停止(event_t)。
   #
   #
-  IM_STOP = EVT_IM_STOP();
+  IM_STOP = EVT_IM_STOP()
 
   #
   # 输入法提交输入的文本事件(im_commit_event_t)。
   #
   #
-  IM_COMMIT = EVT_IM_COMMIT();
+  IM_COMMIT = EVT_IM_COMMIT()
 
   #
   # 清除编辑器内容(event_t)。
   #
   #
-  IM_CLEAR = EVT_IM_CLEAR();
+  IM_CLEAR = EVT_IM_CLEAR()
 
   #
   # 取消编辑，恢复之前的内容(event_t)。
   #
   #
-  IM_CANCEL = EVT_IM_CANCEL();
+  IM_CANCEL = EVT_IM_CANCEL()
 
   #
   # 进入预编辑状态(event_t)。
   #
   #
-  IM_PREEDIT = EVT_IM_PREEDIT();
+  IM_PREEDIT = EVT_IM_PREEDIT()
 
   #
   # 确认预编辑内容，退出预编辑状态(event_t)。
   #
   #
-  IM_PREEDIT_CONFIRM = EVT_IM_PREEDIT_CONFIRM();
+  IM_PREEDIT_CONFIRM = EVT_IM_PREEDIT_CONFIRM()
 
   #
   # 删除预编辑内容，退出预编辑状态event_t)。
   #
   #
-  IM_PREEDIT_ABORT = EVT_IM_PREEDIT_ABORT();
+  IM_PREEDIT_ABORT = EVT_IM_PREEDIT_ABORT()
 
   #
   # 输入法请求显示候选字事件(im_candidates_event_t)。
   #
   #
-  IM_SHOW_CANDIDATES = EVT_IM_SHOW_CANDIDATES();
+  IM_SHOW_CANDIDATES = EVT_IM_SHOW_CANDIDATES()
 
   #
   # 输入法请求显示预候选字事件(im_candidates_event_t)。
   #
   #
-  IM_SHOW_PRE_CANDIDATES = EVT_IM_SHOW_PRE_CANDIDATES();
+  IM_SHOW_PRE_CANDIDATES = EVT_IM_SHOW_PRE_CANDIDATES()
 
   #
   # 输入法语言改变事件(event_t)。
   #
   #
-  IM_LANG_CHANGED = EVT_IM_LANG_CHANGED();
+  IM_LANG_CHANGED = EVT_IM_LANG_CHANGED()
 
   #
   # 软键盘Action点击事件(event_t)。
   #
   #
-  IM_ACTION = EVT_IM_ACTION();
+  IM_ACTION = EVT_IM_ACTION()
 
   #
   # 请求更新软键盘上的Action按钮的信息(im_action_button_info_event_t)。
   #
   #
-  IM_ACTION_INFO = EVT_IM_ACTION_INFO();
+  IM_ACTION_INFO = EVT_IM_ACTION_INFO()
 
   #
   # 开始拖动(event_t)。
   #
   #
-  DRAG_START = EVT_DRAG_START();
+  DRAG_START = EVT_DRAG_START()
 
   #
   # 拖动(event_t)。
   #
   #
-  DRAG = EVT_DRAG();
+  DRAG = EVT_DRAG()
 
   #
   # 结束拖动(event_t)。
   #
   #
-  DRAG_END = EVT_DRAG_END();
+  DRAG_END = EVT_DRAG_END()
 
   #
   # Reset(event_t)。
   #
   #
-  RESET = EVT_RESET();
+  RESET = EVT_RESET()
 
   #
   # 在指定的时间内(WITH_SCREEN_SAVER_TIME)，没有用户输入事件，由窗口管理器触发。
   #
   #
-  SCREEN_SAVER = EVT_SCREEN_SAVER();
+  SCREEN_SAVER = EVT_SCREEN_SAVER()
 
   #
   # 内存不足(event_t)。
   #
   #
-  LOW_MEMORY = EVT_LOW_MEMORY();
+  LOW_MEMORY = EVT_LOW_MEMORY()
 
   #
   # 内存耗尽(event_t)。
   #
   #
-  OUT_OF_MEMORY = EVT_OUT_OF_MEMORY();
+  OUT_OF_MEMORY = EVT_OUT_OF_MEMORY()
 
   #
   # 屏幕即将旋转(event_t)。
   #
   #
-  ORIENTATION_WILL_CHANGED = EVT_ORIENTATION_WILL_CHANGED();
+  ORIENTATION_WILL_CHANGED = EVT_ORIENTATION_WILL_CHANGED()
 
   #
   # 屏幕旋转(event_t)。
   #
   #
-  ORIENTATION_CHANGED = EVT_ORIENTATION_CHANGED();
+  ORIENTATION_CHANGED = EVT_ORIENTATION_CHANGED()
 
   #
   # 控件创建事件(event_t)。
   #
   #
-  WIDGET_CREATED = EVT_WIDGET_CREATED();
+  WIDGET_CREATED = EVT_WIDGET_CREATED()
 
   #
   # 请求退出应用程序事件。
   #点击原生窗口关闭按钮时，通过窗口管理器触发，注册该事件并返回RET_STOP，可以阻止窗口关闭。
   #
   #
-  REQUEST_QUIT_APP = EVT_REQUEST_QUIT_APP();
+  REQUEST_QUIT_APP = EVT_REQUEST_QUIT_APP()
 
   #
   # 主题变化(event_t)。
   #
   #
-  THEME_CHANGED = EVT_THEME_CHANGED();
+  THEME_CHANGED = EVT_THEME_CHANGED()
 
   #
   # 控件加载新的子控件(event_t)。
   #
   #
-  WIDGET_ADD_CHILD = EVT_WIDGET_ADD_CHILD();
+  WIDGET_ADD_CHILD = EVT_WIDGET_ADD_CHILD()
 
   #
   # 控件移除子控件(event_t)。
   #
   #
-  WIDGET_REMOVE_CHILD = EVT_WIDGET_REMOVE_CHILD();
+  WIDGET_REMOVE_CHILD = EVT_WIDGET_REMOVE_CHILD()
 
   #
   # scroll view开始滚动(event_t)。
   #
   #
-  SCROLL_START = EVT_SCROLL_START();
+  SCROLL_START = EVT_SCROLL_START()
 
   #
   # scroll view滚动(event_t)。
   #
   #
-  SCROLL = EVT_SCROLL();
+  SCROLL = EVT_SCROLL()
 
   #
   # scroll view结束滚动(event_t)。
   #
   #
-  SCROLL_END = EVT_SCROLL_END();
+  SCROLL_END = EVT_SCROLL_END()
 
   #
   # 多点触摸手势(multi_gesture_event_t)。
   #
   #
-  MULTI_GESTURE = EVT_MULTI_GESTURE();
+  MULTI_GESTURE = EVT_MULTI_GESTURE()
 
   #
   # 页面改变了(event_t)。
   #
   #
-  PAGE_CHANGED = EVT_PAGE_CHANGED();
+  PAGE_CHANGED = EVT_PAGE_CHANGED()
 
   #
   # 资源管理加载某个资源(assets_event_t)。
   #
   #
-  ASSET_MANAGER_LOAD_ASSET = EVT_ASSET_MANAGER_LOAD_ASSET();
+  ASSET_MANAGER_LOAD_ASSET = EVT_ASSET_MANAGER_LOAD_ASSET()
 
   #
   # 资源管理卸载某个资源(assets_event_t)。
   #
   #
-  ASSET_MANAGER_UNLOAD_ASSET = EVT_ASSET_MANAGER_UNLOAD_ASSET();
+  ASSET_MANAGER_UNLOAD_ASSET = EVT_ASSET_MANAGER_UNLOAD_ASSET()
 
   #
   # 资源管理移除同种资源缓存(assets_event_t)。
   #
   #
-  ASSET_MANAGER_CLEAR_CACHE = EVT_ASSET_MANAGER_CLEAR_CACHE();
+  ASSET_MANAGER_CLEAR_CACHE = EVT_ASSET_MANAGER_CLEAR_CACHE()
 
   #
   # 定时器(event_t)。
   #
   #
-  TIMER = EVT_TIMER();
+  TIMER = EVT_TIMER()
 
   #
   # event queue其它请求编号起始值。
   #
   #
-  REQ_START = EVT_REQ_START();
+  REQ_START = EVT_REQ_START()
 
   #
   # 用户定义事件起始值。
   #
   #
-  USER_START = EVT_USER_START();
+  USER_START = EVT_USER_START()
 
   #
   # 无效事件名称。
   #
   #
-  NONE = EVT_NONE();
+  NONE = EVT_NONE()
 
   #
   # 对象的属性即将改变的事件名(prop_change_event_t)。
   #
   #
-  PROP_WILL_CHANGE = EVT_PROP_WILL_CHANGE();
+  PROP_WILL_CHANGE = EVT_PROP_WILL_CHANGE()
 
   #
   # 对象的属性改变的事件名(prop_change_event_t)。
   #
   #
-  PROP_CHANGED = EVT_PROP_CHANGED();
+  PROP_CHANGED = EVT_PROP_CHANGED()
 
   #
   # 对象即将执行命令(cmd_exec_event_t)。
   #
   #
-  CMD_WILL_EXEC = EVT_CMD_WILL_EXEC();
+  CMD_WILL_EXEC = EVT_CMD_WILL_EXEC()
 
   #
   # 对象完成执行命令(cmd_exec_event_t)。
   #
   #
-  CMD_EXECED = EVT_CMD_EXECED();
+  CMD_EXECED = EVT_CMD_EXECED()
 
   #
   # 对象命令是否能执行指定的命令(cmd_exec_event_t)。
   #
   #
-  CMD_CAN_EXEC = EVT_CMD_CAN_EXEC();
+  CMD_CAN_EXEC = EVT_CMD_CAN_EXEC()
 
   #
   # 即将增加和删除集合中的项目(event_t)。
   #
   #
-  ITEMS_WILL_CHANGE = EVT_ITEMS_WILL_CHANGE();
+  ITEMS_WILL_CHANGE = EVT_ITEMS_WILL_CHANGE()
 
   #
   # 完成增加和删除集合中的项目(event_t)。
   #
   #
-  ITEMS_CHANGED = EVT_ITEMS_CHANGED();
+  ITEMS_CHANGED = EVT_ITEMS_CHANGED()
 
   #
   # 对象的属性改变的事件名(props_event_t)。
   #
   #
-  PROPS_CHANGED = EVT_PROPS_CHANGED();
+  PROPS_CHANGED = EVT_PROPS_CHANGED()
 
   #
   # 进度状态(progress_event_t)。
   #
   #
-  PROGRESS = EVT_PROGRESS();
+  PROGRESS = EVT_PROGRESS()
 
   #
   # 完成(done_event_t)。
   #
   #
-  DONE = EVT_DONE();
+  DONE = EVT_DONE()
 
   #
   # 错误(error_event_t)。
   #
   #
-  ERROR = EVT_ERROR();
+  ERROR = EVT_ERROR()
 
   #
   # 对象销毁事件名(event_t)。
   #
   #
-  DESTROY = EVT_DESTROY();
+  DESTROY = EVT_DESTROY()
 
 #
 # 事件基类。
@@ -3126,7 +3126,7 @@ class TEvent(object):
           return instance
     
   def __init__(self, nativeObj):
-    self.nativeObj = nativeObj;
+    self.nativeObj = nativeObj
 
 
   def __eq__(self, other: 'TWidget'):
@@ -3202,7 +3202,7 @@ class TEvent(object):
   #
   @property
   def type(self):
-    return event_t_get_prop_type(self.nativeObj);
+    return event_t_get_prop_type(self.nativeObj)
 
 
   #
@@ -3211,7 +3211,7 @@ class TEvent(object):
   #
   @property
   def size(self):
-    return event_t_get_prop_size(self.nativeObj);
+    return event_t_get_prop_size(self.nativeObj)
 
 
   #
@@ -3220,7 +3220,7 @@ class TEvent(object):
   #
   @property
   def time(self):
-    return event_t_get_prop_time(self.nativeObj);
+    return event_t_get_prop_time(self.nativeObj)
 
 
   #
@@ -3229,7 +3229,7 @@ class TEvent(object):
   #
   @property
   def target(self):
-    return event_t_get_prop_target(self.nativeObj);
+    return event_t_get_prop_target(self.nativeObj)
 
 
 #
@@ -3251,7 +3251,7 @@ class TFontManager(object):
           return instance
     
   def __init__(self, nativeObj):
-    self.nativeObj = nativeObj;
+    self.nativeObj = nativeObj
 
 
   def __eq__(self, other: 'TWidget'):
@@ -3302,19 +3302,19 @@ class TGlyphFormat:
   # 每个像素占用1个字节(缺省)。
   #
   #
-  ALPHA = GLYPH_FMT_ALPHA();
+  ALPHA = GLYPH_FMT_ALPHA()
 
   #
   # 每个像素占用1个比特。
   #
   #
-  MONO = GLYPH_FMT_MONO();
+  MONO = GLYPH_FMT_MONO()
 
   #
   # 每个像素占用4个字节。
   #
   #
-  RGBA = GLYPH_FMT_RGBA();
+  RGBA = GLYPH_FMT_RGBA()
 
 #
 # idle可以看作是duration为0的定时器。
@@ -3384,7 +3384,7 @@ class TImageManager(object):
           return instance
     
   def __init__(self, nativeObj):
-    self.nativeObj = nativeObj;
+    self.nativeObj = nativeObj
 
 
   def __eq__(self, other: 'TWidget'):
@@ -3437,97 +3437,97 @@ class TInputType:
   # 文本。字符串属性值：text
   #
   #
-  TEXT = INPUT_TEXT();
+  TEXT = INPUT_TEXT()
 
   #
   # 整数。字符串属性值：int
   #
   #
-  INT = INPUT_INT();
+  INT = INPUT_INT()
 
   #
   # 非负整数。字符串属性值：uint
   #
   #
-  UINT = INPUT_UINT();
+  UINT = INPUT_UINT()
 
   #
   # 16进制整数。字符串属性值：hex
   #
   #
-  HEX = INPUT_HEX();
+  HEX = INPUT_HEX()
 
   #
   # 浮点数。字符串属性值：float
   #
   #
-  FLOAT = INPUT_FLOAT();
+  FLOAT = INPUT_FLOAT()
 
   #
   # 非负浮点数。字符串属性值：ufloat
   #
   #
-  UFLOAT = INPUT_UFLOAT();
+  UFLOAT = INPUT_UFLOAT()
 
   #
   # 邮件地址。字符串属性值：email
   #
   #
-  EMAIL = INPUT_EMAIL();
+  EMAIL = INPUT_EMAIL()
 
   #
   # 密码。字符串属性值：password
   #
   #
-  PASSWORD = INPUT_PASSWORD();
+  PASSWORD = INPUT_PASSWORD()
 
   #
   # 电话号码。字符串属性值：phone
   #
   #
-  PHONE = INPUT_PHONE();
+  PHONE = INPUT_PHONE()
 
   #
   # IP Addr V4(如：192.168.1.1)。字符串属性值：ipv4
   #
   #
-  IPV4 = INPUT_IPV4();
+  IPV4 = INPUT_IPV4()
 
   #
   # 日期(如：2020/02/20)。字符串属性值：date
   #
   #
-  DATE = INPUT_DATE();
+  DATE = INPUT_DATE()
 
   #
   # 时间(时分，如：12:00)。字符串属性值：time
   #
   #
-  TIME = INPUT_TIME();
+  TIME = INPUT_TIME()
 
   #
   # 时间(时分秒，如：12:00:00)。字符串属性值：time_full
   #
   #
-  TIME_FULL = INPUT_TIME_FULL();
+  TIME_FULL = INPUT_TIME_FULL()
 
   #
   # 使用自定义的软键盘(如计算器等应用不希望弹出系统软键盘)。字符串属性值：custom
   #
   #
-  CUSTOM = INPUT_CUSTOM();
+  CUSTOM = INPUT_CUSTOM()
 
   #
   # 使用自定义的密码软键盘。字符串属性值：custom_password
   #
   #
-  CUSTOM_PASSWORD = INPUT_CUSTOM_PASSWORD();
+  CUSTOM_PASSWORD = INPUT_CUSTOM_PASSWORD()
 
   #
   # 纯英文文本。字符串属性值：ascii
   #
   #
-  ASCII = INPUT_ASCII();
+  ASCII = INPUT_ASCII()
 
 #
 # 输入法接口。
@@ -3559,7 +3559,7 @@ class TInputMethod(object):
           return instance
     
   def __init__(self, nativeObj):
-    self.nativeObj = nativeObj;
+    self.nativeObj = nativeObj
 
 
   def __eq__(self, other: 'TWidget'):
@@ -3677,793 +3677,793 @@ class TKeyCode:
   # TK_KEY_RETURN
   #
   #
-  KEY_RETURN = TK_KEY_RETURN();
+  KEY_RETURN = TK_KEY_RETURN()
 
   #
   # TK_KEY_ESCAPE
   #
   #
-  KEY_ESCAPE = TK_KEY_ESCAPE();
+  KEY_ESCAPE = TK_KEY_ESCAPE()
 
   #
   # TK_KEY_BACKSPACE
   #
   #
-  KEY_BACKSPACE = TK_KEY_BACKSPACE();
+  KEY_BACKSPACE = TK_KEY_BACKSPACE()
 
   #
   # TK_KEY_TAB
   #
   #
-  KEY_TAB = TK_KEY_TAB();
+  KEY_TAB = TK_KEY_TAB()
 
   #
   # TK_KEY_SPACE
   #
   #
-  KEY_SPACE = TK_KEY_SPACE();
+  KEY_SPACE = TK_KEY_SPACE()
 
   #
   # TK_KEY_EXCLAIM
   #
   #
-  KEY_EXCLAIM = TK_KEY_EXCLAIM();
+  KEY_EXCLAIM = TK_KEY_EXCLAIM()
 
   #
   # TK_KEY_QUOTEDBL
   #
   #
-  KEY_QUOTEDBL = TK_KEY_QUOTEDBL();
+  KEY_QUOTEDBL = TK_KEY_QUOTEDBL()
 
   #
   # TK_KEY_HASH
   #
   #
-  KEY_HASH = TK_KEY_HASH();
+  KEY_HASH = TK_KEY_HASH()
 
   #
   # TK_KEY_PERCENT
   #
   #
-  KEY_PERCENT = TK_KEY_PERCENT();
+  KEY_PERCENT = TK_KEY_PERCENT()
 
   #
   # TK_KEY_DOLLAR
   #
   #
-  KEY_DOLLAR = TK_KEY_DOLLAR();
+  KEY_DOLLAR = TK_KEY_DOLLAR()
 
   #
   # TK_KEY_AMPERSAND
   #
   #
-  KEY_AMPERSAND = TK_KEY_AMPERSAND();
+  KEY_AMPERSAND = TK_KEY_AMPERSAND()
 
   #
   # TK_KEY_QUOTE
   #
   #
-  KEY_QUOTE = TK_KEY_QUOTE();
+  KEY_QUOTE = TK_KEY_QUOTE()
 
   #
   # TK_KEY_LEFTPAREN
   #
   #
-  KEY_LEFTPAREN = TK_KEY_LEFTPAREN();
+  KEY_LEFTPAREN = TK_KEY_LEFTPAREN()
 
   #
   # TK_KEY_RIGHTPAREN
   #
   #
-  KEY_RIGHTPAREN = TK_KEY_RIGHTPAREN();
+  KEY_RIGHTPAREN = TK_KEY_RIGHTPAREN()
 
   #
   # TK_KEY_ASTERISK
   #
   #
-  KEY_ASTERISK = TK_KEY_ASTERISK();
+  KEY_ASTERISK = TK_KEY_ASTERISK()
 
   #
   # TK_KEY_PLUS
   #
   #
-  KEY_PLUS = TK_KEY_PLUS();
+  KEY_PLUS = TK_KEY_PLUS()
 
   #
   # TK_KEY_COMMA
   #
   #
-  KEY_COMMA = TK_KEY_COMMA();
+  KEY_COMMA = TK_KEY_COMMA()
 
   #
   # TK_KEY_MINUS
   #
   #
-  KEY_MINUS = TK_KEY_MINUS();
+  KEY_MINUS = TK_KEY_MINUS()
 
   #
   # TK_KEY_PERIOD
   #
   #
-  KEY_PERIOD = TK_KEY_PERIOD();
+  KEY_PERIOD = TK_KEY_PERIOD()
 
   #
   # TK_KEY_SLASH
   #
   #
-  KEY_SLASH = TK_KEY_SLASH();
+  KEY_SLASH = TK_KEY_SLASH()
 
   #
   # TK_KEY_0
   #
   #
-  KEY_0 = TK_KEY_0();
+  KEY_0 = TK_KEY_0()
 
   #
   # TK_KEY_1
   #
   #
-  KEY_1 = TK_KEY_1();
+  KEY_1 = TK_KEY_1()
 
   #
   # TK_KEY_2
   #
   #
-  KEY_2 = TK_KEY_2();
+  KEY_2 = TK_KEY_2()
 
   #
   # TK_KEY_3
   #
   #
-  KEY_3 = TK_KEY_3();
+  KEY_3 = TK_KEY_3()
 
   #
   # TK_KEY_4
   #
   #
-  KEY_4 = TK_KEY_4();
+  KEY_4 = TK_KEY_4()
 
   #
   # TK_KEY_5
   #
   #
-  KEY_5 = TK_KEY_5();
+  KEY_5 = TK_KEY_5()
 
   #
   # TK_KEY_6
   #
   #
-  KEY_6 = TK_KEY_6();
+  KEY_6 = TK_KEY_6()
 
   #
   # TK_KEY_7
   #
   #
-  KEY_7 = TK_KEY_7();
+  KEY_7 = TK_KEY_7()
 
   #
   # TK_KEY_8
   #
   #
-  KEY_8 = TK_KEY_8();
+  KEY_8 = TK_KEY_8()
 
   #
   # TK_KEY_9
   #
   #
-  KEY_9 = TK_KEY_9();
+  KEY_9 = TK_KEY_9()
 
   #
   # TK_KEY_COLON
   #
   #
-  KEY_COLON = TK_KEY_COLON();
+  KEY_COLON = TK_KEY_COLON()
 
   #
   # TK_KEY_SEMICOLON
   #
   #
-  KEY_SEMICOLON = TK_KEY_SEMICOLON();
+  KEY_SEMICOLON = TK_KEY_SEMICOLON()
 
   #
   # TK_KEY_LESS
   #
   #
-  KEY_LESS = TK_KEY_LESS();
+  KEY_LESS = TK_KEY_LESS()
 
   #
   # TK_KEY_EQUAL
   #
   #
-  KEY_EQUAL = TK_KEY_EQUAL();
+  KEY_EQUAL = TK_KEY_EQUAL()
 
   #
   # TK_KEY_GREATER
   #
   #
-  KEY_GREATER = TK_KEY_GREATER();
+  KEY_GREATER = TK_KEY_GREATER()
 
   #
   # TK_KEY_QUESTION
   #
   #
-  KEY_QUESTION = TK_KEY_QUESTION();
+  KEY_QUESTION = TK_KEY_QUESTION()
 
   #
   # TK_KEY_AT
   #
   #
-  KEY_AT = TK_KEY_AT();
+  KEY_AT = TK_KEY_AT()
 
   #
   # TK_KEY_LEFTBRACKET
   #
   #
-  KEY_LEFTBRACKET = TK_KEY_LEFTBRACKET();
+  KEY_LEFTBRACKET = TK_KEY_LEFTBRACKET()
 
   #
   # TK_KEY_BACKSLASH
   #
   #
-  KEY_BACKSLASH = TK_KEY_BACKSLASH();
+  KEY_BACKSLASH = TK_KEY_BACKSLASH()
 
   #
   # TK_KEY_RIGHTBRACKET
   #
   #
-  KEY_RIGHTBRACKET = TK_KEY_RIGHTBRACKET();
+  KEY_RIGHTBRACKET = TK_KEY_RIGHTBRACKET()
 
   #
   # TK_KEY_CARET
   #
   #
-  KEY_CARET = TK_KEY_CARET();
+  KEY_CARET = TK_KEY_CARET()
 
   #
   # TK_KEY_UNDERSCORE
   #
   #
-  KEY_UNDERSCORE = TK_KEY_UNDERSCORE();
+  KEY_UNDERSCORE = TK_KEY_UNDERSCORE()
 
   #
   # TK_KEY_BACKQUOTE
   #
   #
-  KEY_BACKQUOTE = TK_KEY_BACKQUOTE();
+  KEY_BACKQUOTE = TK_KEY_BACKQUOTE()
 
   #
   # TK_KEY_a
   #
   #
-  KEY_a = TK_KEY_a();
+  KEY_a = TK_KEY_a()
 
   #
   # TK_KEY_b
   #
   #
-  KEY_b = TK_KEY_b();
+  KEY_b = TK_KEY_b()
 
   #
   # TK_KEY_c
   #
   #
-  KEY_c = TK_KEY_c();
+  KEY_c = TK_KEY_c()
 
   #
   # TK_KEY_d
   #
   #
-  KEY_d = TK_KEY_d();
+  KEY_d = TK_KEY_d()
 
   #
   # TK_KEY_e
   #
   #
-  KEY_e = TK_KEY_e();
+  KEY_e = TK_KEY_e()
 
   #
   # TK_KEY_f
   #
   #
-  KEY_f = TK_KEY_f();
+  KEY_f = TK_KEY_f()
 
   #
   # TK_KEY_g
   #
   #
-  KEY_g = TK_KEY_g();
+  KEY_g = TK_KEY_g()
 
   #
   # TK_KEY_h
   #
   #
-  KEY_h = TK_KEY_h();
+  KEY_h = TK_KEY_h()
 
   #
   # TK_KEY_i
   #
   #
-  KEY_i = TK_KEY_i();
+  KEY_i = TK_KEY_i()
 
   #
   # TK_KEY_j
   #
   #
-  KEY_j = TK_KEY_j();
+  KEY_j = TK_KEY_j()
 
   #
   # TK_KEY_k
   #
   #
-  KEY_k = TK_KEY_k();
+  KEY_k = TK_KEY_k()
 
   #
   # TK_KEY_l
   #
   #
-  KEY_l = TK_KEY_l();
+  KEY_l = TK_KEY_l()
 
   #
   # TK_KEY_m
   #
   #
-  KEY_m = TK_KEY_m();
+  KEY_m = TK_KEY_m()
 
   #
   # TK_KEY_n
   #
   #
-  KEY_n = TK_KEY_n();
+  KEY_n = TK_KEY_n()
 
   #
   # TK_KEY_o
   #
   #
-  KEY_o = TK_KEY_o();
+  KEY_o = TK_KEY_o()
 
   #
   # TK_KEY_p
   #
   #
-  KEY_p = TK_KEY_p();
+  KEY_p = TK_KEY_p()
 
   #
   # TK_KEY_q
   #
   #
-  KEY_q = TK_KEY_q();
+  KEY_q = TK_KEY_q()
 
   #
   # TK_KEY_r
   #
   #
-  KEY_r = TK_KEY_r();
+  KEY_r = TK_KEY_r()
 
   #
   # TK_KEY_s
   #
   #
-  KEY_s = TK_KEY_s();
+  KEY_s = TK_KEY_s()
 
   #
   # TK_KEY_t
   #
   #
-  KEY_t = TK_KEY_t();
+  KEY_t = TK_KEY_t()
 
   #
   # TK_KEY_u
   #
   #
-  KEY_u = TK_KEY_u();
+  KEY_u = TK_KEY_u()
 
   #
   # TK_KEY_v
   #
   #
-  KEY_v = TK_KEY_v();
+  KEY_v = TK_KEY_v()
 
   #
   # TK_KEY_w
   #
   #
-  KEY_w = TK_KEY_w();
+  KEY_w = TK_KEY_w()
 
   #
   # TK_KEY_x
   #
   #
-  KEY_x = TK_KEY_x();
+  KEY_x = TK_KEY_x()
 
   #
   # TK_KEY_y
   #
   #
-  KEY_y = TK_KEY_y();
+  KEY_y = TK_KEY_y()
 
   #
   # TK_KEY_z
   #
   #
-  KEY_z = TK_KEY_z();
+  KEY_z = TK_KEY_z()
 
   #
   # TK_KEY_A
   #
   #
-  KEY_A = TK_KEY_A();
+  KEY_A = TK_KEY_A()
 
   #
   # TK_KEY_B
   #
   #
-  KEY_B = TK_KEY_B();
+  KEY_B = TK_KEY_B()
 
   #
   # TK_KEY_C
   #
   #
-  KEY_C = TK_KEY_C();
+  KEY_C = TK_KEY_C()
 
   #
   # TK_KEY_D
   #
   #
-  KEY_D = TK_KEY_D();
+  KEY_D = TK_KEY_D()
 
   #
   # TK_KEY_E
   #
   #
-  KEY_E = TK_KEY_E();
+  KEY_E = TK_KEY_E()
 
   #
   # TK_KEY_F
   #
   #
-  KEY_F = TK_KEY_F();
+  KEY_F = TK_KEY_F()
 
   #
   # TK_KEY_G
   #
   #
-  KEY_G = TK_KEY_G();
+  KEY_G = TK_KEY_G()
 
   #
   # TK_KEY_H
   #
   #
-  KEY_H = TK_KEY_H();
+  KEY_H = TK_KEY_H()
 
   #
   # TK_KEY_I
   #
   #
-  KEY_I = TK_KEY_I();
+  KEY_I = TK_KEY_I()
 
   #
   # TK_KEY_J
   #
   #
-  KEY_J = TK_KEY_J();
+  KEY_J = TK_KEY_J()
 
   #
   # TK_KEY_K
   #
   #
-  KEY_K = TK_KEY_K();
+  KEY_K = TK_KEY_K()
 
   #
   # TK_KEY_L
   #
   #
-  KEY_L = TK_KEY_L();
+  KEY_L = TK_KEY_L()
 
   #
   # TK_KEY_M
   #
   #
-  KEY_M = TK_KEY_M();
+  KEY_M = TK_KEY_M()
 
   #
   # TK_KEY_N
   #
   #
-  KEY_N = TK_KEY_N();
+  KEY_N = TK_KEY_N()
 
   #
   # TK_KEY_O
   #
   #
-  KEY_O = TK_KEY_O();
+  KEY_O = TK_KEY_O()
 
   #
   # TK_KEY_P
   #
   #
-  KEY_P = TK_KEY_P();
+  KEY_P = TK_KEY_P()
 
   #
   # TK_KEY_Q
   #
   #
-  KEY_Q = TK_KEY_Q();
+  KEY_Q = TK_KEY_Q()
 
   #
   # TK_KEY_R
   #
   #
-  KEY_R = TK_KEY_R();
+  KEY_R = TK_KEY_R()
 
   #
   # TK_KEY_S
   #
   #
-  KEY_S = TK_KEY_S();
+  KEY_S = TK_KEY_S()
 
   #
   # TK_KEY_T
   #
   #
-  KEY_T = TK_KEY_T();
+  KEY_T = TK_KEY_T()
 
   #
   # TK_KEY_U
   #
   #
-  KEY_U = TK_KEY_U();
+  KEY_U = TK_KEY_U()
 
   #
   # TK_KEY_V
   #
   #
-  KEY_V = TK_KEY_V();
+  KEY_V = TK_KEY_V()
 
   #
   # TK_KEY_W
   #
   #
-  KEY_W = TK_KEY_W();
+  KEY_W = TK_KEY_W()
 
   #
   # TK_KEY_X
   #
   #
-  KEY_X = TK_KEY_X();
+  KEY_X = TK_KEY_X()
 
   #
   # TK_KEY_Y
   #
   #
-  KEY_Y = TK_KEY_Y();
+  KEY_Y = TK_KEY_Y()
 
   #
   # TK_KEY_Z
   #
   #
-  KEY_Z = TK_KEY_Z();
+  KEY_Z = TK_KEY_Z()
 
   #
   # TK_KEY_DOT
   #
   #
-  KEY_DOT = TK_KEY_DOT();
+  KEY_DOT = TK_KEY_DOT()
 
   #
   # TK_KEY_DELETE
   #
   #
-  KEY_DELETE = TK_KEY_DELETE();
+  KEY_DELETE = TK_KEY_DELETE()
 
   #
   # TK_KEY_LEFTBRACE
   #
   #
-  KEY_LEFTBRACE = TK_KEY_LEFTBRACE();
+  KEY_LEFTBRACE = TK_KEY_LEFTBRACE()
 
   #
   # TK_KEY_RIGHTBRACE
   #
   #
-  KEY_RIGHTBRACE = TK_KEY_RIGHTBRACE();
+  KEY_RIGHTBRACE = TK_KEY_RIGHTBRACE()
 
   #
   # TK_KEY_LSHIFT
   #
   #
-  KEY_LSHIFT = TK_KEY_LSHIFT();
+  KEY_LSHIFT = TK_KEY_LSHIFT()
 
   #
   # TK_KEY_RSHIFT
   #
   #
-  KEY_RSHIFT = TK_KEY_RSHIFT();
+  KEY_RSHIFT = TK_KEY_RSHIFT()
 
   #
   # TK_KEY_LCTRL
   #
   #
-  KEY_LCTRL = TK_KEY_LCTRL();
+  KEY_LCTRL = TK_KEY_LCTRL()
 
   #
   # TK_KEY_RCTRL
   #
   #
-  KEY_RCTRL = TK_KEY_RCTRL();
+  KEY_RCTRL = TK_KEY_RCTRL()
 
   #
   # TK_KEY_LALT
   #
   #
-  KEY_LALT = TK_KEY_LALT();
+  KEY_LALT = TK_KEY_LALT()
 
   #
   # TK_KEY_RALT
   #
   #
-  KEY_RALT = TK_KEY_RALT();
+  KEY_RALT = TK_KEY_RALT()
 
   #
   # TK_KEY_CAPSLOCK
   #
   #
-  KEY_CAPSLOCK = TK_KEY_CAPSLOCK();
+  KEY_CAPSLOCK = TK_KEY_CAPSLOCK()
 
   #
   # TK_KEY_HOME
   #
   #
-  KEY_HOME = TK_KEY_HOME();
+  KEY_HOME = TK_KEY_HOME()
 
   #
   # TK_KEY_END
   #
   #
-  KEY_END = TK_KEY_END();
+  KEY_END = TK_KEY_END()
 
   #
   # TK_KEY_INSERT
   #
   #
-  KEY_INSERT = TK_KEY_INSERT();
+  KEY_INSERT = TK_KEY_INSERT()
 
   #
   # TK_KEY_UP
   #
   #
-  KEY_UP = TK_KEY_UP();
+  KEY_UP = TK_KEY_UP()
 
   #
   # TK_KEY_DOWN
   #
   #
-  KEY_DOWN = TK_KEY_DOWN();
+  KEY_DOWN = TK_KEY_DOWN()
 
   #
   # TK_KEY_LEFT
   #
   #
-  KEY_LEFT = TK_KEY_LEFT();
+  KEY_LEFT = TK_KEY_LEFT()
 
   #
   # TK_KEY_RIGHT
   #
   #
-  KEY_RIGHT = TK_KEY_RIGHT();
+  KEY_RIGHT = TK_KEY_RIGHT()
 
   #
   # TK_KEY_PAGEUP
   #
   #
-  KEY_PAGEUP = TK_KEY_PAGEUP();
+  KEY_PAGEUP = TK_KEY_PAGEUP()
 
   #
   # TK_KEY_PAGEDOWN
   #
   #
-  KEY_PAGEDOWN = TK_KEY_PAGEDOWN();
+  KEY_PAGEDOWN = TK_KEY_PAGEDOWN()
 
   #
   # TK_KEY_F1
   #
   #
-  KEY_F1 = TK_KEY_F1();
+  KEY_F1 = TK_KEY_F1()
 
   #
   # TK_KEY_F2
   #
   #
-  KEY_F2 = TK_KEY_F2();
+  KEY_F2 = TK_KEY_F2()
 
   #
   # TK_KEY_F3
   #
   #
-  KEY_F3 = TK_KEY_F3();
+  KEY_F3 = TK_KEY_F3()
 
   #
   # TK_KEY_F4
   #
   #
-  KEY_F4 = TK_KEY_F4();
+  KEY_F4 = TK_KEY_F4()
 
   #
   # TK_KEY_F5
   #
   #
-  KEY_F5 = TK_KEY_F5();
+  KEY_F5 = TK_KEY_F5()
 
   #
   # TK_KEY_F6
   #
   #
-  KEY_F6 = TK_KEY_F6();
+  KEY_F6 = TK_KEY_F6()
 
   #
   # TK_KEY_F7
   #
   #
-  KEY_F7 = TK_KEY_F7();
+  KEY_F7 = TK_KEY_F7()
 
   #
   # TK_KEY_F8
   #
   #
-  KEY_F8 = TK_KEY_F8();
+  KEY_F8 = TK_KEY_F8()
 
   #
   # TK_KEY_F9
   #
   #
-  KEY_F9 = TK_KEY_F9();
+  KEY_F9 = TK_KEY_F9()
 
   #
   # TK_KEY_F10
   #
   #
-  KEY_F10 = TK_KEY_F10();
+  KEY_F10 = TK_KEY_F10()
 
   #
   # TK_KEY_F11
   #
   #
-  KEY_F11 = TK_KEY_F11();
+  KEY_F11 = TK_KEY_F11()
 
   #
   # TK_KEY_F12
   #
   #
-  KEY_F12 = TK_KEY_F12();
+  KEY_F12 = TK_KEY_F12()
 
   #
   # TK_KEY_MENU
   #
   #
-  KEY_MENU = TK_KEY_MENU();
+  KEY_MENU = TK_KEY_MENU()
 
   #
   # TK_KEY_COMMAND
   #
   #
-  KEY_COMMAND = TK_KEY_COMMAND();
+  KEY_COMMAND = TK_KEY_COMMAND()
 
   #
   # TK_KEY_BACK
   #
   #
-  KEY_BACK = TK_KEY_BACK();
+  KEY_BACK = TK_KEY_BACK()
 
   #
   # TK_KEY_CANCEL
   #
   #
-  KEY_CANCEL = TK_KEY_CANCEL();
+  KEY_CANCEL = TK_KEY_CANCEL()
 
   #
   # TK_KEY_WHEEL
   #
   #
-  KEY_WHEEL = TK_KEY_WHEEL();
+  KEY_WHEEL = TK_KEY_WHEEL()
 
 #
 # 本地化信息。提供字符串翻译数据管理，当前语言改变的事件通知等等。
@@ -4483,7 +4483,7 @@ class TLocaleInfo(object):
           return instance
     
   def __init__(self, nativeObj):
-    self.nativeObj = nativeObj;
+    self.nativeObj = nativeObj
 
 
   def __eq__(self, other: 'TWidget'):
@@ -4546,259 +4546,259 @@ class TStyleId:
   # 背景颜色。
   #
   #
-  BG_COLOR = STYLE_ID_BG_COLOR();
+  BG_COLOR = STYLE_ID_BG_COLOR()
 
   #
   # 前景颜色。
   #
   #
-  FG_COLOR = STYLE_ID_FG_COLOR();
+  FG_COLOR = STYLE_ID_FG_COLOR()
 
   #
   # 蒙版颜色。
   #
   #
-  MASK_COLOR = STYLE_ID_MASK_COLOR();
+  MASK_COLOR = STYLE_ID_MASK_COLOR()
 
   #
   # 字体名称。
   #
   #
-  FONT_NAME = STYLE_ID_FONT_NAME();
+  FONT_NAME = STYLE_ID_FONT_NAME()
 
   #
   # 字体大小。
   #
   #
-  FONT_SIZE = STYLE_ID_FONT_SIZE();
+  FONT_SIZE = STYLE_ID_FONT_SIZE()
 
   #
   # 字体风格(粗体、斜体等)。
   #
   #
-  FONT_STYLE = STYLE_ID_FONT_STYLE();
+  FONT_STYLE = STYLE_ID_FONT_STYLE()
 
   #
   # 文本颜色。
   #
   #
-  TEXT_COLOR = STYLE_ID_TEXT_COLOR();
+  TEXT_COLOR = STYLE_ID_TEXT_COLOR()
 
   #
   # 高亮文本的字体名称。
   #
   #
-  HIGHLIGHT_FONT_NAME = STYLE_ID_HIGHLIGHT_FONT_NAME();
+  HIGHLIGHT_FONT_NAME = STYLE_ID_HIGHLIGHT_FONT_NAME()
 
   #
   # 高亮文本的字体大小。
   #
   #
-  HIGHLIGHT_FONT_SIZE = STYLE_ID_HIGHLIGHT_FONT_SIZE();
+  HIGHLIGHT_FONT_SIZE = STYLE_ID_HIGHLIGHT_FONT_SIZE()
 
   #
   # 高亮文本的文本颜色。
   #
   #
-  HIGHLIGHT_TEXT_COLOR = STYLE_ID_HIGHLIGHT_TEXT_COLOR();
+  HIGHLIGHT_TEXT_COLOR = STYLE_ID_HIGHLIGHT_TEXT_COLOR()
 
   #
   # 提示文本颜色。
   #
   #
-  TIPS_TEXT_COLOR = STYLE_ID_TIPS_TEXT_COLOR();
+  TIPS_TEXT_COLOR = STYLE_ID_TIPS_TEXT_COLOR()
 
   #
   # 文本水平对齐的方式。
   #
   #
-  TEXT_ALIGN_H = STYLE_ID_TEXT_ALIGN_H();
+  TEXT_ALIGN_H = STYLE_ID_TEXT_ALIGN_H()
 
   #
   # 文本垂直对齐的方式。
   #
   #
-  TEXT_ALIGN_V = STYLE_ID_TEXT_ALIGN_V();
+  TEXT_ALIGN_V = STYLE_ID_TEXT_ALIGN_V()
 
   #
   # 边框颜色。
   #
   #
-  BORDER_COLOR = STYLE_ID_BORDER_COLOR();
+  BORDER_COLOR = STYLE_ID_BORDER_COLOR()
 
   #
   # 边框线宽。
   #
   #
-  BORDER_WIDTH = STYLE_ID_BORDER_WIDTH();
+  BORDER_WIDTH = STYLE_ID_BORDER_WIDTH()
 
   #
   # 边框类型。
   #
   #
-  BORDER = STYLE_ID_BORDER();
+  BORDER = STYLE_ID_BORDER()
 
   #
   # 图片的名称。
   #
   #
-  BG_IMAGE = STYLE_ID_BG_IMAGE();
+  BG_IMAGE = STYLE_ID_BG_IMAGE()
 
   #
   # 图片的显示方式。
   #
   #
-  BG_IMAGE_DRAW_TYPE = STYLE_ID_BG_IMAGE_DRAW_TYPE();
+  BG_IMAGE_DRAW_TYPE = STYLE_ID_BG_IMAGE_DRAW_TYPE()
 
   #
   # 图标的名称。
   #
   #
-  ICON = STYLE_ID_ICON();
+  ICON = STYLE_ID_ICON()
 
   #
   # 图片的名称。
   #
   #
-  FG_IMAGE = STYLE_ID_FG_IMAGE();
+  FG_IMAGE = STYLE_ID_FG_IMAGE()
 
   #
   # 图片的显示方式。
   #
   #
-  FG_IMAGE_DRAW_TYPE = STYLE_ID_FG_IMAGE_DRAW_TYPE();
+  FG_IMAGE_DRAW_TYPE = STYLE_ID_FG_IMAGE_DRAW_TYPE()
 
   #
   # 间距。
   #
   #
-  SPACER = STYLE_ID_SPACER();
+  SPACER = STYLE_ID_SPACER()
 
   #
   # 边距。
   #
   #
-  MARGIN = STYLE_ID_MARGIN();
+  MARGIN = STYLE_ID_MARGIN()
 
   #
   # 左边距。
   #
   #
-  MARGIN_LEFT = STYLE_ID_MARGIN_LEFT();
+  MARGIN_LEFT = STYLE_ID_MARGIN_LEFT()
 
   #
   # 右边距。
   #
   #
-  MARGIN_RIGHT = STYLE_ID_MARGIN_RIGHT();
+  MARGIN_RIGHT = STYLE_ID_MARGIN_RIGHT()
 
   #
   # 顶边距。
   #
   #
-  MARGIN_TOP = STYLE_ID_MARGIN_TOP();
+  MARGIN_TOP = STYLE_ID_MARGIN_TOP()
 
   #
   # 底边距。
   #
   #
-  MARGIN_BOTTOM = STYLE_ID_MARGIN_BOTTOM();
+  MARGIN_BOTTOM = STYLE_ID_MARGIN_BOTTOM()
 
   #
   # 图标的位置。
   #
   #
-  ICON_AT = STYLE_ID_ICON_AT();
+  ICON_AT = STYLE_ID_ICON_AT()
 
   #
   # Active图标的名称。
   #
   #
-  ACTIVE_ICON = STYLE_ID_ACTIVE_ICON();
+  ACTIVE_ICON = STYLE_ID_ACTIVE_ICON()
 
   #
   # X方向的偏移，方便实现按下的效果。
   #
   #
-  X_OFFSET = STYLE_ID_X_OFFSET();
+  X_OFFSET = STYLE_ID_X_OFFSET()
 
   #
   # Y方向的偏移，方便实现按下的效果。
   #
   #
-  Y_OFFSET = STYLE_ID_Y_OFFSET();
+  Y_OFFSET = STYLE_ID_Y_OFFSET()
 
   #
   # 编辑器中选中区域的背景颜色。
   #
   #
-  SELECTED_BG_COLOR = STYLE_ID_SELECTED_BG_COLOR();
+  SELECTED_BG_COLOR = STYLE_ID_SELECTED_BG_COLOR()
 
   #
   # 编辑器中选中区域的前景颜色。
   #
   #
-  SELECTED_FG_COLOR = STYLE_ID_SELECTED_FG_COLOR();
+  SELECTED_FG_COLOR = STYLE_ID_SELECTED_FG_COLOR()
 
   #
   # 编辑器中选中区域的文本颜色。
   #
   #
-  SELECTED_TEXT_COLOR = STYLE_ID_SELECTED_TEXT_COLOR();
+  SELECTED_TEXT_COLOR = STYLE_ID_SELECTED_TEXT_COLOR()
 
   #
   # 圆角半径(仅在WITH_VGCANVAS定义时生效)。
   #
   #
-  ROUND_RADIUS = STYLE_ID_ROUND_RADIUS();
+  ROUND_RADIUS = STYLE_ID_ROUND_RADIUS()
 
   #
   # 左上角圆角半径(仅在WITH_VGCANVAS定义时生效)。
   #
   #
-  ROUND_RADIUS_TOP_LETF = STYLE_ID_ROUND_RADIUS_TOP_LETF();
+  ROUND_RADIUS_TOP_LETF = STYLE_ID_ROUND_RADIUS_TOP_LETF()
 
   #
   # 右上角圆角半径(仅在WITH_VGCANVAS定义时生效)。
   #
   #
-  ROUND_RADIUS_TOP_RIGHT = STYLE_ID_ROUND_RADIUS_TOP_RIGHT();
+  ROUND_RADIUS_TOP_RIGHT = STYLE_ID_ROUND_RADIUS_TOP_RIGHT()
 
   #
   # 左下角圆角半径(仅在WITH_VGCANVAS定义时生效)。
   #
   #
-  ROUND_RADIUS_BOTTOM_LETF = STYLE_ID_ROUND_RADIUS_BOTTOM_LETF();
+  ROUND_RADIUS_BOTTOM_LETF = STYLE_ID_ROUND_RADIUS_BOTTOM_LETF()
 
   #
   # 右下角圆角半径(仅在WITH_VGCANVAS定义时生效)。
   #
   #
-  ROUND_RADIUS_BOTTOM_RIGHT = STYLE_ID_ROUND_RADIUS_BOTTOM_RIGHT();
+  ROUND_RADIUS_BOTTOM_RIGHT = STYLE_ID_ROUND_RADIUS_BOTTOM_RIGHT()
 
   #
   # 子控件布局参数。
   #
   #
-  CHILDREN_LAYOUT = STYLE_ID_CHILDREN_LAYOUT();
+  CHILDREN_LAYOUT = STYLE_ID_CHILDREN_LAYOUT()
 
   #
   # 控件布局参数。
   #
   #
-  SELF_LAYOUT = STYLE_ID_SELF_LAYOUT();
+  SELF_LAYOUT = STYLE_ID_SELF_LAYOUT()
 
   #
   # 是否支持焦点停留。
   #
   #
-  FOCUSABLE = STYLE_ID_FOCUSABLE();
+  FOCUSABLE = STYLE_ID_FOCUSABLE()
 
   #
   # 是否启用按键音、触屏音和震动等反馈。
   #
   #
-  FEEDBACK = STYLE_ID_FEEDBACK();
+  FEEDBACK = STYLE_ID_FEEDBACK()
 
 #
 # 控件风格。
@@ -4823,7 +4823,7 @@ class TStyle(object):
           return instance
     
   def __init__(self, nativeObj):
-    self.nativeObj = nativeObj;
+    self.nativeObj = nativeObj
 
 
   def __eq__(self, other: 'TWidget'):
@@ -4966,7 +4966,7 @@ class TTheme(object):
           return instance
     
   def __init__(self, nativeObj):
-    self.nativeObj = nativeObj;
+    self.nativeObj = nativeObj
 
 
   def __eq__(self, other: 'TWidget'):
@@ -5094,25 +5094,25 @@ class TAlignV:
   # 无效对齐方式。
   #
   #
-  NONE = ALIGN_V_NONE();
+  NONE = ALIGN_V_NONE()
 
   #
   # 居中对齐。
   #
   #
-  MIDDLE = ALIGN_V_MIDDLE();
+  MIDDLE = ALIGN_V_MIDDLE()
 
   #
   # 顶部对齐。
   #
   #
-  TOP = ALIGN_V_TOP();
+  TOP = ALIGN_V_TOP()
 
   #
   # 底部对齐。
   #
   #
-  BOTTOM = ALIGN_V_BOTTOM();
+  BOTTOM = ALIGN_V_BOTTOM()
 
 #
 # 水平对齐的常量定义。
@@ -5124,25 +5124,25 @@ class TAlignH:
   # 无效对齐方式。
   #
   #
-  NONE = ALIGN_H_NONE();
+  NONE = ALIGN_H_NONE()
 
   #
   # 居中对齐。
   #
   #
-  CENTER = ALIGN_H_CENTER();
+  CENTER = ALIGN_H_CENTER()
 
   #
   # 左边对齐。
   #
   #
-  LEFT = ALIGN_H_LEFT();
+  LEFT = ALIGN_H_LEFT()
 
   #
   # 右边对齐。
   #
   #
-  RIGHT = ALIGN_H_RIGHT();
+  RIGHT = ALIGN_H_RIGHT()
 
 #
 # 应用程序类型。
@@ -5154,19 +5154,19 @@ class TAppType:
   # 嵌入式或移动APP
   #
   #
-  MOBILE = APP_MOBILE();
+  MOBILE = APP_MOBILE()
 
   #
   # 模拟器。
   #
   #
-  SIMULATOR = APP_SIMULATOR();
+  SIMULATOR = APP_SIMULATOR()
 
   #
   # 桌面应用程序。
   #
   #
-  DESKTOP = APP_DESKTOP();
+  DESKTOP = APP_DESKTOP()
 
 #
 # 位图格式常量定义。
@@ -5178,67 +5178,67 @@ class TBitmapFormat:
   # 无效格式。
   #
   #
-  NONE = BITMAP_FMT_NONE();
+  NONE = BITMAP_FMT_NONE()
 
   #
   # 一个像素占用4个字节，RGBA占一个字节，按内存地址递增。
   #
   #
-  RGBA8888 = BITMAP_FMT_RGBA8888();
+  RGBA8888 = BITMAP_FMT_RGBA8888()
 
   #
   # 一个像素占用4个字节，ABGR占一个字节，按内存地址递增。
   #
   #
-  ABGR8888 = BITMAP_FMT_ABGR8888();
+  ABGR8888 = BITMAP_FMT_ABGR8888()
 
   #
   # 一个像素占用4个字节，BGRA占一个字节，按内存地址递增。
   #
   #
-  BGRA8888 = BITMAP_FMT_BGRA8888();
+  BGRA8888 = BITMAP_FMT_BGRA8888()
 
   #
   # 一个像素占用4个字节，ARGB占一个字节，按内存地址递增。
   #
   #
-  ARGB8888 = BITMAP_FMT_ARGB8888();
+  ARGB8888 = BITMAP_FMT_ARGB8888()
 
   #
   # 一个像素占用2个字节，RGB分别占用5,6,5位, 按内存地址递增。
   #
   #
-  RGB565 = BITMAP_FMT_RGB565();
+  RGB565 = BITMAP_FMT_RGB565()
 
   #
   # 一个像素占用2个字节，BGR分别占用5,6,5位, 按内存地址递增。
   #
   #
-  BGR565 = BITMAP_FMT_BGR565();
+  BGR565 = BITMAP_FMT_BGR565()
 
   #
   # 一个像素占用3个字节，RGB占一个字节，按内存地址递增。
   #
   #
-  RGB888 = BITMAP_FMT_RGB888();
+  RGB888 = BITMAP_FMT_RGB888()
 
   #
   # 一个像素占用3个字节，RGB占一个字节，按内存地址递增。
   #
   #
-  BGR888 = BITMAP_FMT_BGR888();
+  BGR888 = BITMAP_FMT_BGR888()
 
   #
   # 一个像素占用1个字节。
   #
   #
-  GRAY = BITMAP_FMT_GRAY();
+  GRAY = BITMAP_FMT_GRAY()
 
   #
   # 一个像素占用1比特。
   #
   #
-  MONO = BITMAP_FMT_MONO();
+  MONO = BITMAP_FMT_MONO()
 
 #
 # 位图标志常量定义。
@@ -5250,37 +5250,37 @@ class TBitmapFlag:
   # 无特殊标志。
   #
   #
-  NONE = BITMAP_FLAG_NONE();
+  NONE = BITMAP_FLAG_NONE()
 
   #
   # 不透明图片。
   #
   #
-  OPAQUE = BITMAP_FLAG_OPAQUE();
+  OPAQUE = BITMAP_FLAG_OPAQUE()
 
   #
   # 图片内容不会变化。
   #
   #
-  IMMUTABLE = BITMAP_FLAG_IMMUTABLE();
+  IMMUTABLE = BITMAP_FLAG_IMMUTABLE()
 
   #
   # OpenGL Texture, bitmap的id是有效的texture id。
   #
   #
-  TEXTURE = BITMAP_FLAG_TEXTURE();
+  TEXTURE = BITMAP_FLAG_TEXTURE()
 
   #
   # 如果是MUTABLE的图片，更新时需要设置此标志，底层可能会做特殊处理，比如更新图片到GPU。
   #
   #
-  CHANGED = BITMAP_FLAG_CHANGED();
+  CHANGED = BITMAP_FLAG_CHANGED()
 
   #
   # 预乘alpha。
   #
   #
-  PREMULTI_ALPHA = BITMAP_FLAG_PREMULTI_ALPHA();
+  PREMULTI_ALPHA = BITMAP_FLAG_PREMULTI_ALPHA()
 
 #
 # 矢量图画布抽象基类。
@@ -5319,7 +5319,7 @@ class TVgcanvas(object):
           return instance
     
   def __init__(self, nativeObj):
-    self.nativeObj = nativeObj;
+    self.nativeObj = nativeObj
 
 
   def __eq__(self, other: 'TWidget'):
@@ -5903,7 +5903,7 @@ class TVgcanvas(object):
   #
   @property
   def w(self):
-    return vgcanvas_t_get_prop_w(self.nativeObj);
+    return vgcanvas_t_get_prop_w(self.nativeObj)
 
 
   #
@@ -5912,7 +5912,7 @@ class TVgcanvas(object):
   #
   @property
   def h(self):
-    return vgcanvas_t_get_prop_h(self.nativeObj);
+    return vgcanvas_t_get_prop_h(self.nativeObj)
 
 
   #
@@ -5921,7 +5921,7 @@ class TVgcanvas(object):
   #
   @property
   def stride(self):
-    return vgcanvas_t_get_prop_stride(self.nativeObj);
+    return vgcanvas_t_get_prop_stride(self.nativeObj)
 
 
   #
@@ -5930,7 +5930,7 @@ class TVgcanvas(object):
   #
   @property
   def ratio(self):
-    return vgcanvas_t_get_prop_ratio(self.nativeObj);
+    return vgcanvas_t_get_prop_ratio(self.nativeObj)
 
 
   #
@@ -5939,7 +5939,7 @@ class TVgcanvas(object):
   #
   @property
   def anti_alias(self):
-    return vgcanvas_t_get_prop_anti_alias(self.nativeObj);
+    return vgcanvas_t_get_prop_anti_alias(self.nativeObj)
 
 
   #
@@ -5948,7 +5948,7 @@ class TVgcanvas(object):
   #
   @property
   def line_width(self):
-    return vgcanvas_t_get_prop_line_width(self.nativeObj);
+    return vgcanvas_t_get_prop_line_width(self.nativeObj)
 
   @line_width.setter
   def line_width(self, v):
@@ -5961,7 +5961,7 @@ class TVgcanvas(object):
   #
   @property
   def global_alpha(self):
-    return vgcanvas_t_get_prop_global_alpha(self.nativeObj);
+    return vgcanvas_t_get_prop_global_alpha(self.nativeObj)
 
   @global_alpha.setter
   def global_alpha(self, v):
@@ -5975,7 +5975,7 @@ class TVgcanvas(object):
   #
   @property
   def miter_limit(self):
-    return vgcanvas_t_get_prop_miter_limit(self.nativeObj);
+    return vgcanvas_t_get_prop_miter_limit(self.nativeObj)
 
   @miter_limit.setter
   def miter_limit(self, v):
@@ -5989,7 +5989,7 @@ class TVgcanvas(object):
   #
   @property
   def line_cap(self):
-    return vgcanvas_t_get_prop_line_cap(self.nativeObj);
+    return vgcanvas_t_get_prop_line_cap(self.nativeObj)
 
   @line_cap.setter
   def line_cap(self, v):
@@ -6003,7 +6003,7 @@ class TVgcanvas(object):
   #
   @property
   def line_join(self):
-    return vgcanvas_t_get_prop_line_join(self.nativeObj);
+    return vgcanvas_t_get_prop_line_join(self.nativeObj)
 
   @line_join.setter
   def line_join(self, v):
@@ -6016,7 +6016,7 @@ class TVgcanvas(object):
   #
   @property
   def font(self):
-    return vgcanvas_t_get_prop_font(self.nativeObj);
+    return vgcanvas_t_get_prop_font(self.nativeObj)
 
   @font.setter
   def font(self, v):
@@ -6029,7 +6029,7 @@ class TVgcanvas(object):
   #
   @property
   def font_size(self):
-    return vgcanvas_t_get_prop_font_size(self.nativeObj);
+    return vgcanvas_t_get_prop_font_size(self.nativeObj)
 
   @font_size.setter
   def font_size(self, v):
@@ -6044,7 +6044,7 @@ class TVgcanvas(object):
   #
   @property
   def text_align(self):
-    return vgcanvas_t_get_prop_text_align(self.nativeObj);
+    return vgcanvas_t_get_prop_text_align(self.nativeObj)
 
   @text_align.setter
   def text_align(self, v):
@@ -6059,7 +6059,7 @@ class TVgcanvas(object):
   #
   @property
   def text_baseline(self):
-    return vgcanvas_t_get_prop_text_baseline(self.nativeObj);
+    return vgcanvas_t_get_prop_text_baseline(self.nativeObj)
 
   @text_baseline.setter
   def text_baseline(self, v):
@@ -6076,19 +6076,19 @@ class TVgcanvasLineCap:
   # 圆头。
   #
   #
-  ROUND = VGCANVAS_LINE_CAP_ROUND();
+  ROUND = VGCANVAS_LINE_CAP_ROUND()
 
   #
   # 方头。
   #
   #
-  SQUARE = VGCANVAS_LINE_CAP_SQUARE();
+  SQUARE = VGCANVAS_LINE_CAP_SQUARE()
 
   #
   # 平头。
   #
   #
-  BUTT = VGCANVAS_LINE_CAP_BUTT();
+  BUTT = VGCANVAS_LINE_CAP_BUTT()
 
 #
 # 线条连接类型。
@@ -6100,19 +6100,19 @@ class TVgcanvasLineJoin:
   # round。
   #
   #
-  ROUND = VGCANVAS_LINE_JOIN_ROUND();
+  ROUND = VGCANVAS_LINE_JOIN_ROUND()
 
   #
   # bevel。
   #
   #
-  BEVEL = VGCANVAS_LINE_JOIN_BEVEL();
+  BEVEL = VGCANVAS_LINE_JOIN_BEVEL()
 
   #
   # mitter。
   #
   #
-  MITTER = VGCANVAS_LINE_JOIN_MITTER();
+  MITTER = VGCANVAS_LINE_JOIN_MITTER()
 
 #
 # 控件的属性。
@@ -6124,943 +6124,943 @@ class TWidgetProp:
   # 用于执行某些特殊的命令（比如控制动画的启停），主要是方便MVVM通过属性来控制动画。
   #
   #
-  EXEC = WIDGET_PROP_EXEC();
+  EXEC = WIDGET_PROP_EXEC()
 
   #
   # X坐标。
   #
   #
-  X = WIDGET_PROP_X();
+  X = WIDGET_PROP_X()
 
   #
   # Y坐标。
   #
   #
-  Y = WIDGET_PROP_Y();
+  Y = WIDGET_PROP_Y()
 
   #
   # 宽度。
   #
   #
-  W = WIDGET_PROP_W();
+  W = WIDGET_PROP_W()
 
   #
   # 高度。
   #
   #
-  H = WIDGET_PROP_H();
+  H = WIDGET_PROP_H()
 
   #
   # 最大高度。
   #
   #
-  MAX_H = WIDGET_PROP_MAX_H();
+  MAX_H = WIDGET_PROP_MAX_H()
 
   #
   # 窗口设计时宽度。
   #
   #
-  DESIGN_W = WIDGET_PROP_DESIGN_W();
+  DESIGN_W = WIDGET_PROP_DESIGN_W()
 
   #
   # 窗口设计时宽度。
   #
   #
-  DESIGN_H = WIDGET_PROP_DESIGN_H();
+  DESIGN_H = WIDGET_PROP_DESIGN_H()
 
   #
   # 窗口大小与设计时大小不同时，是否自动调整子控件的x坐标。
   #
   #
-  AUTO_SCALE_CHILDREN_X = WIDGET_PROP_AUTO_SCALE_CHILDREN_X();
+  AUTO_SCALE_CHILDREN_X = WIDGET_PROP_AUTO_SCALE_CHILDREN_X()
 
   #
   # 窗口大小与设计时大小不同时，是否自动调整子控件的y坐标。
   #
   #
-  AUTO_SCALE_CHILDREN_Y = WIDGET_PROP_AUTO_SCALE_CHILDREN_Y();
+  AUTO_SCALE_CHILDREN_Y = WIDGET_PROP_AUTO_SCALE_CHILDREN_Y()
 
   #
   # 窗口大小与设计时大小不同时，是否自动调整子控件的宽度。
   #
   #
-  AUTO_SCALE_CHILDREN_W = WIDGET_PROP_AUTO_SCALE_CHILDREN_W();
+  AUTO_SCALE_CHILDREN_W = WIDGET_PROP_AUTO_SCALE_CHILDREN_W()
 
   #
   # 窗口大小与设计时大小不同时，是否自动调整子控件的高度。
   #
   #
-  AUTO_SCALE_CHILDREN_H = WIDGET_PROP_AUTO_SCALE_CHILDREN_H();
+  AUTO_SCALE_CHILDREN_H = WIDGET_PROP_AUTO_SCALE_CHILDREN_H()
 
   #
   # inputing。
   #
   #
-  INPUTING = WIDGET_PROP_INPUTING();
+  INPUTING = WIDGET_PROP_INPUTING()
 
   #
   # always on top。
   #
   #
-  ALWAYS_ON_TOP = WIDGET_PROP_ALWAYS_ON_TOP();
+  ALWAYS_ON_TOP = WIDGET_PROP_ALWAYS_ON_TOP()
 
   #
   # caret x。
   #
   #
-  CARET_X = WIDGET_PROP_CARET_X();
+  CARET_X = WIDGET_PROP_CARET_X()
 
   #
   # caret y。
   #
   #
-  CARET_Y = WIDGET_PROP_CARET_Y();
+  CARET_Y = WIDGET_PROP_CARET_Y()
 
   #
   # 脏矩形超出控件本身大小的最大范围。
   #
   #
-  DIRTY_RECT_TOLERANCE = WIDGET_PROP_DIRTY_RECT_TOLERANCE();
+  DIRTY_RECT_TOLERANCE = WIDGET_PROP_DIRTY_RECT_TOLERANCE()
 
   #
   # bidi type(rtl,ltr,auto,wrtl,wltr,lro,rlo)。
   #
   #
-  BIDI = WIDGET_PROP_BIDI();
+  BIDI = WIDGET_PROP_BIDI()
 
   #
   # Canvas。
   #
   #
-  CANVAS = WIDGET_PROP_CANVAS();
+  CANVAS = WIDGET_PROP_CANVAS()
 
   #
   # Canvas。
   #
   #
-  LOCALIZE_OPTIONS = WIDGET_PROP_LOCALIZE_OPTIONS();
+  LOCALIZE_OPTIONS = WIDGET_PROP_LOCALIZE_OPTIONS()
 
   #
   # Native Window。
   #
   #
-  NATIVE_WINDOW = WIDGET_PROP_NATIVE_WINDOW();
+  NATIVE_WINDOW = WIDGET_PROP_NATIVE_WINDOW()
 
   #
   # dialog highlight。
   #
   #
-  HIGHLIGHT = WIDGET_PROP_HIGHLIGHT();
+  HIGHLIGHT = WIDGET_PROP_HIGHLIGHT()
 
   #
   # slider中的bar的的宽度或高度。
   #
   #
-  BAR_SIZE = WIDGET_PROP_BAR_SIZE();
+  BAR_SIZE = WIDGET_PROP_BAR_SIZE()
 
   #
   # 不透明度。
   #
   #
-  OPACITY = WIDGET_PROP_OPACITY();
+  OPACITY = WIDGET_PROP_OPACITY()
 
   #
   # 最小宽度。
   #
   #
-  MIN_W = WIDGET_PROP_MIN_W();
+  MIN_W = WIDGET_PROP_MIN_W()
 
   #
   # 最大宽度。
   #
   #
-  MAX_W = WIDGET_PROP_MAX_W();
+  MAX_W = WIDGET_PROP_MAX_W()
 
   #
   # 根据子控件和文本自动调整大小。
   #
   #
-  AUTO_ADJUST_SIZE = WIDGET_PROP_AUTO_ADJUST_SIZE();
+  AUTO_ADJUST_SIZE = WIDGET_PROP_AUTO_ADJUST_SIZE()
 
   #
   # 窗口是否保持单例。
   #
   #
-  SINGLE_INSTANCE = WIDGET_PROP_SINGLE_INSTANCE();
+  SINGLE_INSTANCE = WIDGET_PROP_SINGLE_INSTANCE()
 
   #
   # 点击非focusable控件时，是否让当前焦点控件失去焦点。比如点击窗口空白区域，是否让编辑器失去焦点。
   #
   #
-  STRONGLY_FOCUS = WIDGET_PROP_STRONGLY_FOCUS();
+  STRONGLY_FOCUS = WIDGET_PROP_STRONGLY_FOCUS()
 
   #
   # 子控件布局参数。
   #
   #
-  CHILDREN_LAYOUT = WIDGET_PROP_CHILDREN_LAYOUT();
+  CHILDREN_LAYOUT = WIDGET_PROP_CHILDREN_LAYOUT()
 
   #
   # 子控件布局参数(过时)。
   #
   #
-  LAYOUT = WIDGET_PROP_LAYOUT();
+  LAYOUT = WIDGET_PROP_LAYOUT()
 
   #
   # 控件布局参数。
   #
   #
-  SELF_LAYOUT = WIDGET_PROP_SELF_LAYOUT();
+  SELF_LAYOUT = WIDGET_PROP_SELF_LAYOUT()
 
   #
   # layout宽度。
   #
   #
-  LAYOUT_W = WIDGET_PROP_LAYOUT_W();
+  LAYOUT_W = WIDGET_PROP_LAYOUT_W()
 
   #
   # layout高度。
   #
   #
-  LAYOUT_H = WIDGET_PROP_LAYOUT_H();
+  LAYOUT_H = WIDGET_PROP_LAYOUT_H()
 
   #
   # 虚拟宽度。
   #
   #
-  VIRTUAL_W = WIDGET_PROP_VIRTUAL_W();
+  VIRTUAL_W = WIDGET_PROP_VIRTUAL_W()
 
   #
   # 虚拟高度。
   #
   #
-  VIRTUAL_H = WIDGET_PROP_VIRTUAL_H();
+  VIRTUAL_H = WIDGET_PROP_VIRTUAL_H()
 
   #
   # 名称。
   #
   #
-  NAME = WIDGET_PROP_NAME();
+  NAME = WIDGET_PROP_NAME()
 
   #
   # 类型。
   #
   #
-  TYPE = WIDGET_PROP_TYPE();
+  TYPE = WIDGET_PROP_TYPE()
 
   #
   # 是否可以关闭。
   #
   #
-  CLOSABLE = WIDGET_PROP_CLOSABLE();
+  CLOSABLE = WIDGET_PROP_CLOSABLE()
 
   #
   # 鼠标指针。
   #
   #
-  POINTER_CURSOR = WIDGET_PROP_POINTER_CURSOR();
+  POINTER_CURSOR = WIDGET_PROP_POINTER_CURSOR()
 
   #
   # 值。
   #
   #
-  VALUE = WIDGET_PROP_VALUE();
+  VALUE = WIDGET_PROP_VALUE()
 
   #
   # 进度条反向显示。
   #
   #
-  REVERSE = WIDGET_PROP_REVERSE();
+  REVERSE = WIDGET_PROP_REVERSE()
 
   #
   # 长度。
   #
   #
-  LENGTH = WIDGET_PROP_LENGTH();
+  LENGTH = WIDGET_PROP_LENGTH()
 
   #
   # 自动换行。
   #
   #
-  LINE_WRAP = WIDGET_PROP_LINE_WRAP();
+  LINE_WRAP = WIDGET_PROP_LINE_WRAP()
 
   #
   # 是否允许单词中换行。
   #
   #
-  WORD_WRAP = WIDGET_PROP_WORD_WRAP();
+  WORD_WRAP = WIDGET_PROP_WORD_WRAP()
 
   #
   # 文本。
   #
   #
-  TEXT = WIDGET_PROP_TEXT();
+  TEXT = WIDGET_PROP_TEXT()
 
   #
   # 待翻译文本。
   #
   #
-  TR_TEXT = WIDGET_PROP_TR_TEXT();
+  TR_TEXT = WIDGET_PROP_TR_TEXT()
 
   #
   # style。
   #
   #
-  STYLE = WIDGET_PROP_STYLE();
+  STYLE = WIDGET_PROP_STYLE()
 
   #
   # 是否启用。
   #
   #
-  ENABLE = WIDGET_PROP_ENABLE();
+  ENABLE = WIDGET_PROP_ENABLE()
 
   #
   # 是否启用按键音等反馈。
   #
   #
-  FEEDBACK = WIDGET_PROP_FEEDBACK();
+  FEEDBACK = WIDGET_PROP_FEEDBACK()
 
   #
   # 是否启用floating布局。
   #
   #
-  FLOATING = WIDGET_PROP_FLOATING();
+  FLOATING = WIDGET_PROP_FLOATING()
 
   #
   # 边距。
   #
   #
-  MARGIN = WIDGET_PROP_MARGIN();
+  MARGIN = WIDGET_PROP_MARGIN()
 
   #
   # 间距。
   #
   #
-  SPACING = WIDGET_PROP_SPACING();
+  SPACING = WIDGET_PROP_SPACING()
 
   #
   # 左边距。
   #
   #
-  LEFT_MARGIN = WIDGET_PROP_LEFT_MARGIN();
+  LEFT_MARGIN = WIDGET_PROP_LEFT_MARGIN()
 
   #
   # 右边距。
   #
   #
-  RIGHT_MARGIN = WIDGET_PROP_RIGHT_MARGIN();
+  RIGHT_MARGIN = WIDGET_PROP_RIGHT_MARGIN()
 
   #
   # 顶边距。
   #
   #
-  TOP_MARGIN = WIDGET_PROP_TOP_MARGIN();
+  TOP_MARGIN = WIDGET_PROP_TOP_MARGIN()
 
   #
   # 底边距。
   #
   #
-  BOTTOM_MARGIN = WIDGET_PROP_BOTTOM_MARGIN();
+  BOTTOM_MARGIN = WIDGET_PROP_BOTTOM_MARGIN()
 
   #
   # 步长。
   #
   #
-  STEP = WIDGET_PROP_STEP();
+  STEP = WIDGET_PROP_STEP()
 
   #
   # 是否可见。
   #
   #
-  VISIBLE = WIDGET_PROP_VISIBLE();
+  VISIBLE = WIDGET_PROP_VISIBLE()
 
   #
   # 是否接受用户事件。
   #
   #
-  SENSITIVE = WIDGET_PROP_SENSITIVE();
+  SENSITIVE = WIDGET_PROP_SENSITIVE()
 
   #
   # 控件动画。
   #
   #
-  ANIMATION = WIDGET_PROP_ANIMATION();
+  ANIMATION = WIDGET_PROP_ANIMATION()
 
   #
   # 窗口动画。
   #
   #
-  ANIM_HINT = WIDGET_PROP_ANIM_HINT();
+  ANIM_HINT = WIDGET_PROP_ANIM_HINT()
 
   #
   # 窗口设置为全部大小。
   #
   #
-  FULLSCREEN = WIDGET_PROP_FULLSCREEN();
+  FULLSCREEN = WIDGET_PROP_FULLSCREEN()
 
   #
   # 禁用窗口动画。
   #
   #
-  DISABLE_ANIM = WIDGET_PROP_DISABLE_ANIM();
+  DISABLE_ANIM = WIDGET_PROP_DISABLE_ANIM()
 
   #
   # 打开窗口时的动画。
   #
   #
-  OPEN_ANIM_HINT = WIDGET_PROP_OPEN_ANIM_HINT();
+  OPEN_ANIM_HINT = WIDGET_PROP_OPEN_ANIM_HINT()
 
   #
   # 关闭窗口时的动画。
   #
   #
-  CLOSE_ANIM_HINT = WIDGET_PROP_CLOSE_ANIM_HINT();
+  CLOSE_ANIM_HINT = WIDGET_PROP_CLOSE_ANIM_HINT()
 
   #
   # 最小值。
   #
   #
-  MIN = WIDGET_PROP_MIN();
+  MIN = WIDGET_PROP_MIN()
 
   #
   # 软键盘上action按钮的文本。
   #
   #
-  ACTION_TEXT = WIDGET_PROP_ACTION_TEXT();
+  ACTION_TEXT = WIDGET_PROP_ACTION_TEXT()
 
   #
   # 提示信息。
   #
   #
-  TIPS = WIDGET_PROP_TIPS();
+  TIPS = WIDGET_PROP_TIPS()
 
   #
   # 需要翻译的提示信息。
   #
   #
-  TR_TIPS = WIDGET_PROP_TR_TIPS();
+  TR_TIPS = WIDGET_PROP_TR_TIPS()
 
   #
   # 输入类型。
   #
   #
-  INPUT_TYPE = WIDGET_PROP_INPUT_TYPE();
+  INPUT_TYPE = WIDGET_PROP_INPUT_TYPE()
 
   #
   # 自定义软键盘资源名称。
   #
   #
-  KEYBOARD = WIDGET_PROP_KEYBOARD();
+  KEYBOARD = WIDGET_PROP_KEYBOARD()
 
   #
   # 缺省获得焦点的子控件(可用控件名或类型)。
   #
   #
-  DEFAULT_FOCUSED_CHILD = WIDGET_PROP_DEFAULT_FOCUSED_CHILD();
+  DEFAULT_FOCUSED_CHILD = WIDGET_PROP_DEFAULT_FOCUSED_CHILD()
 
   #
   # 只读模式。
   #
   #
-  READONLY = WIDGET_PROP_READONLY();
+  READONLY = WIDGET_PROP_READONLY()
 
   #
   # 是否可取消。
   #
   #
-  CANCELABLE = WIDGET_PROP_CANCELABLE();
+  CANCELABLE = WIDGET_PROP_CANCELABLE()
 
   #
   # 密码是否可见。
   #
   #
-  PASSWORD_VISIBLE = WIDGET_PROP_PASSWORD_VISIBLE();
+  PASSWORD_VISIBLE = WIDGET_PROP_PASSWORD_VISIBLE()
 
   #
   # 是否处于active状态。
   #
   #
-  ACTIVE = WIDGET_PROP_ACTIVE();
+  ACTIVE = WIDGET_PROP_ACTIVE()
 
   #
   # 当前页。
   #
   #
-  CURR_PAGE = WIDGET_PROP_CURR_PAGE();
+  CURR_PAGE = WIDGET_PROP_CURR_PAGE()
 
   #
   # 页面最大个数。
   #
   #
-  PAGE_MAX_NUMBER = WIDGET_PROP_PAGE_MAX_NUMBER();
+  PAGE_MAX_NUMBER = WIDGET_PROP_PAGE_MAX_NUMBER()
 
   #
   # 是否为垂直模式。
   #
   #
-  VERTICAL = WIDGET_PROP_VERTICAL();
+  VERTICAL = WIDGET_PROP_VERTICAL()
 
   #
   # 是否显示文本。
   #
   #
-  SHOW_TEXT = WIDGET_PROP_SHOW_TEXT();
+  SHOW_TEXT = WIDGET_PROP_SHOW_TEXT()
 
   #
   # X方向的偏移。
   #
   #
-  XOFFSET = WIDGET_PROP_XOFFSET();
+  XOFFSET = WIDGET_PROP_XOFFSET()
 
   #
   # Y方向的偏移。
   #
   #
-  YOFFSET = WIDGET_PROP_YOFFSET();
+  YOFFSET = WIDGET_PROP_YOFFSET()
 
   #
   # 垂直对齐模式。
   #
   #
-  ALIGN_V = WIDGET_PROP_ALIGN_V();
+  ALIGN_V = WIDGET_PROP_ALIGN_V()
 
   #
   # 水平对齐模式。
   #
   #
-  ALIGN_H = WIDGET_PROP_ALIGN_H();
+  ALIGN_H = WIDGET_PROP_ALIGN_H()
 
   #
   # 是否自动播放或指定播放的时间。
   #
   #
-  AUTO_PLAY = WIDGET_PROP_AUTO_PLAY();
+  AUTO_PLAY = WIDGET_PROP_AUTO_PLAY()
 
   #
   # 是否循环播放或循环播放的次数。
   #
   #
-  LOOP = WIDGET_PROP_LOOP();
+  LOOP = WIDGET_PROP_LOOP()
 
   #
   # 是否启用自动更正功能。
   #
   #
-  AUTO_FIX = WIDGET_PROP_AUTO_FIX();
+  AUTO_FIX = WIDGET_PROP_AUTO_FIX()
 
   #
   # 编辑器在获得焦点时是否不选中文本。
   #
   #
-  SELECT_NONE_WHEN_FOCUSED = WIDGET_PROP_SELECT_NONE_WHEN_FOCUSED();
+  SELECT_NONE_WHEN_FOCUSED = WIDGET_PROP_SELECT_NONE_WHEN_FOCUSED()
 
   #
   # 编辑器在获得焦点时是否打开输入法。
   #
   #
-  OPEN_IM_WHEN_FOCUSED = WIDGET_PROP_OPEN_IM_WHEN_FOCUSED();
+  OPEN_IM_WHEN_FOCUSED = WIDGET_PROP_OPEN_IM_WHEN_FOCUSED()
 
   #
   # 编辑器在失去焦点时是否关闭输入法。
   #
   #
-  CLOSE_IM_WHEN_BLURED = WIDGET_PROP_CLOSE_IM_WHEN_BLURED();
+  CLOSE_IM_WHEN_BLURED = WIDGET_PROP_CLOSE_IM_WHEN_BLURED()
 
   #
   # X最小值。
   #
   #
-  X_MIN = WIDGET_PROP_X_MIN();
+  X_MIN = WIDGET_PROP_X_MIN()
 
   #
   # X最大值。
   #
   #
-  X_MAX = WIDGET_PROP_X_MAX();
+  X_MAX = WIDGET_PROP_X_MAX()
 
   #
   # Y最小值。
   #
   #
-  Y_MIN = WIDGET_PROP_Y_MIN();
+  Y_MIN = WIDGET_PROP_Y_MIN()
 
   #
   # Y最大值。
   #
   #
-  Y_MAX = WIDGET_PROP_Y_MAX();
+  Y_MAX = WIDGET_PROP_Y_MAX()
 
   #
   # 最大值。
   #
   #
-  MAX = WIDGET_PROP_MAX();
+  MAX = WIDGET_PROP_MAX()
 
   #
   # 让窗口管理器直接把按键发给自己。
   #
   #
-  GRAB_KEYS = WIDGET_PROP_GRAB_KEYS();
+  GRAB_KEYS = WIDGET_PROP_GRAB_KEYS()
 
   #
   # 行数或每行的高度。
   #
   #
-  ROW = WIDGET_PROP_ROW();
+  ROW = WIDGET_PROP_ROW()
 
   #
   # 控件状态。
   #
   #
-  STATE_FOR_STYLE = WIDGET_PROP_STATE_FOR_STYLE();
+  STATE_FOR_STYLE = WIDGET_PROP_STATE_FOR_STYLE()
 
   #
   # 窗体样式名称。
   #
   #
-  THEME = WIDGET_PROP_THEME();
+  THEME = WIDGET_PROP_THEME()
 
   #
   # window stage
   #
   #
-  STAGE = WIDGET_PROP_STAGE();
+  STAGE = WIDGET_PROP_STAGE()
 
   #
   # 图片管理器。
   #
   #
-  IMAGE_MANAGER = WIDGET_PROP_IMAGE_MANAGER();
+  IMAGE_MANAGER = WIDGET_PROP_IMAGE_MANAGER()
 
   #
   # 资源管理器。
   #
   #
-  ASSETS_MANAGER = WIDGET_PROP_ASSETS_MANAGER();
+  ASSETS_MANAGER = WIDGET_PROP_ASSETS_MANAGER()
 
   #
   # locale_info。
   #
   #
-  LOCALE_INFO = WIDGET_PROP_LOCALE_INFO();
+  LOCALE_INFO = WIDGET_PROP_LOCALE_INFO()
 
   #
   # 字体管理器。
   #
   #
-  FONT_MANAGER = WIDGET_PROP_FONT_MANAGER();
+  FONT_MANAGER = WIDGET_PROP_FONT_MANAGER()
 
   #
   # 窗口的窗体样式对象。
   #
   #
-  THEME_OBJ = WIDGET_PROP_THEME_OBJ();
+  THEME_OBJ = WIDGET_PROP_THEME_OBJ()
 
   #
   # 缺省的窗体样式对象。
   #
   #
-  DEFAULT_THEME_OBJ = WIDGET_PROP_DEFAULT_THEME_OBJ();
+  DEFAULT_THEME_OBJ = WIDGET_PROP_DEFAULT_THEME_OBJ()
 
   #
   # 项的宽度。
   #
   #
-  ITEM_WIDTH = WIDGET_PROP_ITEM_WIDTH();
+  ITEM_WIDTH = WIDGET_PROP_ITEM_WIDTH()
 
   #
   # 项的高度。
   #
   #
-  ITEM_HEIGHT = WIDGET_PROP_ITEM_HEIGHT();
+  ITEM_HEIGHT = WIDGET_PROP_ITEM_HEIGHT()
 
   #
   # 项的缺省高度。
   #
   #
-  DEFAULT_ITEM_HEIGHT = WIDGET_PROP_DEFAULT_ITEM_HEIGHT();
+  DEFAULT_ITEM_HEIGHT = WIDGET_PROP_DEFAULT_ITEM_HEIGHT()
 
   #
   # X方向是否可拖动。
   #
   #
-  XSLIDABLE = WIDGET_PROP_XSLIDABLE();
+  XSLIDABLE = WIDGET_PROP_XSLIDABLE()
 
   #
   # Y方向是否可拖动。
   #
   #
-  YSLIDABLE = WIDGET_PROP_YSLIDABLE();
+  YSLIDABLE = WIDGET_PROP_YSLIDABLE()
 
   #
   # 重复次数。
   #
   #
-  REPEAT = WIDGET_PROP_REPEAT();
+  REPEAT = WIDGET_PROP_REPEAT()
 
   #
   # 触发长按事件的时间(ms)。
   #
   #
-  LONG_PRESS_TIME = WIDGET_PROP_LONG_PRESS_TIME();
+  LONG_PRESS_TIME = WIDGET_PROP_LONG_PRESS_TIME()
 
   #
   # 是否启用长按。
   #
   #
-  ENABLE_LONG_PRESS = WIDGET_PROP_ENABLE_LONG_PRESS();
+  ENABLE_LONG_PRESS = WIDGET_PROP_ENABLE_LONG_PRESS()
 
   #
   # 是否启用点击穿透。
   #
   #
-  CLICK_THROUGH = WIDGET_PROP_CLICK_THROUGH();
+  CLICK_THROUGH = WIDGET_PROP_CLICK_THROUGH()
 
   #
   # 是否启用动画。
   #
   #
-  ANIMATABLE = WIDGET_PROP_ANIMATABLE();
+  ANIMATABLE = WIDGET_PROP_ANIMATABLE()
 
   #
   # 是否自动隐藏。
   #
   #
-  AUTO_HIDE = WIDGET_PROP_AUTO_HIDE();
+  AUTO_HIDE = WIDGET_PROP_AUTO_HIDE()
 
   #
   # 是否自动隐藏滚动条。
   #
   #
-  AUTO_HIDE_SCROLL_BAR = WIDGET_PROP_AUTO_HIDE_SCROLL_BAR();
+  AUTO_HIDE_SCROLL_BAR = WIDGET_PROP_AUTO_HIDE_SCROLL_BAR()
 
   #
   # 图片名称。
   #
   #
-  IMAGE = WIDGET_PROP_IMAGE();
+  IMAGE = WIDGET_PROP_IMAGE()
 
   #
   # 显示格式。
   #
   #
-  FORMAT = WIDGET_PROP_FORMAT();
+  FORMAT = WIDGET_PROP_FORMAT()
 
   #
   # 图片绘制类型。
   #
   #
-  DRAW_TYPE = WIDGET_PROP_DRAW_TYPE();
+  DRAW_TYPE = WIDGET_PROP_DRAW_TYPE()
 
   #
   # 是否可选择。
   #
   #
-  SELECTABLE = WIDGET_PROP_SELECTABLE();
+  SELECTABLE = WIDGET_PROP_SELECTABLE()
 
   #
   # 是否可点击。
   #
   #
-  CLICKABLE = WIDGET_PROP_CLICKABLE();
+  CLICKABLE = WIDGET_PROP_CLICKABLE()
 
   #
   # X方向缩放比例。
   #
   #
-  SCALE_X = WIDGET_PROP_SCALE_X();
+  SCALE_X = WIDGET_PROP_SCALE_X()
 
   #
   # Y方向缩放比例。
   #
   #
-  SCALE_Y = WIDGET_PROP_SCALE_Y();
+  SCALE_Y = WIDGET_PROP_SCALE_Y()
 
   #
   # x锚点。
   #
   #
-  ANCHOR_X = WIDGET_PROP_ANCHOR_X();
+  ANCHOR_X = WIDGET_PROP_ANCHOR_X()
 
   #
   # y锚点。
   #
   #
-  ANCHOR_Y = WIDGET_PROP_ANCHOR_Y();
+  ANCHOR_Y = WIDGET_PROP_ANCHOR_Y()
 
   #
   # 选中角度(幅度)
   #
   #
-  ROTATION = WIDGET_PROP_ROTATION();
+  ROTATION = WIDGET_PROP_ROTATION()
 
   #
   # 紧凑模式。
   #
   #
-  COMPACT = WIDGET_PROP_COMPACT();
+  COMPACT = WIDGET_PROP_COMPACT()
 
   #
   # 是否支持滚动。
   #
   #
-  SCROLLABLE = WIDGET_PROP_SCROLLABLE();
+  SCROLLABLE = WIDGET_PROP_SCROLLABLE()
 
   #
   # 图标名称。
   #
   #
-  ICON = WIDGET_PROP_ICON();
+  ICON = WIDGET_PROP_ICON()
 
   #
   # 选项集合。
   #
   #
-  OPTIONS = WIDGET_PROP_OPTIONS();
+  OPTIONS = WIDGET_PROP_OPTIONS()
 
   #
   # 是否被选中。
   #
   #
-  SELECTED = WIDGET_PROP_SELECTED();
+  SELECTED = WIDGET_PROP_SELECTED()
 
   #
   # 是否被勾选。
   #
   #
-  CHECKED = WIDGET_PROP_CHECKED();
+  CHECKED = WIDGET_PROP_CHECKED()
 
   #
   # active状态下的图标。
   #
   #
-  ACTIVE_ICON = WIDGET_PROP_ACTIVE_ICON();
+  ACTIVE_ICON = WIDGET_PROP_ACTIVE_ICON()
 
   #
   # 动态加载UI名字。
   #
   #
-  LOAD_UI = WIDGET_PROP_LOAD_UI();
+  LOAD_UI = WIDGET_PROP_LOAD_UI()
 
   #
   # 要打开窗口的名称。
   #
   #
-  OPEN_WINDOW = WIDGET_PROP_OPEN_WINDOW();
+  OPEN_WINDOW = WIDGET_PROP_OPEN_WINDOW()
 
   #
   # 被选中项的索引。
   #
   #
-  SELECTED_INDEX = WIDGET_PROP_SELECTED_INDEX();
+  SELECTED_INDEX = WIDGET_PROP_SELECTED_INDEX()
 
   #
   # 点击窗口时关闭窗口。
   #
   #
-  CLOSE_WHEN_CLICK = WIDGET_PROP_CLOSE_WHEN_CLICK();
+  CLOSE_WHEN_CLICK = WIDGET_PROP_CLOSE_WHEN_CLICK()
 
   #
   # 点击窗口外部时关闭窗口。
   #
   #
-  CLOSE_WHEN_CLICK_OUTSIDE = WIDGET_PROP_CLOSE_WHEN_CLICK_OUTSIDE();
+  CLOSE_WHEN_CLICK_OUTSIDE = WIDGET_PROP_CLOSE_WHEN_CLICK_OUTSIDE()
 
   #
   # 超时后关闭窗口。
   #
   #
-  CLOSE_WHEN_TIMEOUT = WIDGET_PROP_CLOSE_WHEN_TIMEOUT();
+  CLOSE_WHEN_TIMEOUT = WIDGET_PROP_CLOSE_WHEN_TIMEOUT()
 
   #
   # 行间距。
   #
   #
-  LINE_GAP = WIDGET_PROP_LINE_GAP();
+  LINE_GAP = WIDGET_PROP_LINE_GAP()
 
   #
   # 背景颜色(仅仅使用于color tile)。
   #
   #
-  BG_COLOR = WIDGET_PROP_BG_COLOR();
+  BG_COLOR = WIDGET_PROP_BG_COLOR()
 
   #
   # 边框颜色(仅仅使用于color tile)。
   #
   #
-  BORDER_COLOR = WIDGET_PROP_BORDER_COLOR();
+  BORDER_COLOR = WIDGET_PROP_BORDER_COLOR()
 
   #
   # 延迟时间(毫秒)
   #
   #
-  DELAY = WIDGET_PROP_DELAY();
+  DELAY = WIDGET_PROP_DELAY()
 
   #
   # 是否为键盘。
   #
   #
-  IS_KEYBOARD = WIDGET_PROP_IS_KEYBOARD();
+  IS_KEYBOARD = WIDGET_PROP_IS_KEYBOARD()
 
   #
   # 是否为焦点控件。
   #
   #
-  FOCUSED = WIDGET_PROP_FOCUSED();
+  FOCUSED = WIDGET_PROP_FOCUSED()
 
   #
   # (过时请用focused)。
   #
   #
-  FOCUS = WIDGET_PROP_FOCUS();
+  FOCUS = WIDGET_PROP_FOCUS()
 
   #
   # 是否支持焦点停留。
   #
   #
-  FOCUSABLE = WIDGET_PROP_FOCUSABLE();
+  FOCUSABLE = WIDGET_PROP_FOCUSABLE()
 
   #
   # 是否支持焦点状态(如果希望style支持焦点状态，但又不希望焦点停留，可用本属性)。
   #
   #
-  WITH_FOCUS_STATE = WIDGET_PROP_WITH_FOCUS_STATE();
+  WITH_FOCUS_STATE = WIDGET_PROP_WITH_FOCUS_STATE()
 
   #
   # 将焦点移到前一个的键值。
   #
   #
-  MOVE_FOCUS_PREV_KEY = WIDGET_PROP_MOVE_FOCUS_PREV_KEY();
+  MOVE_FOCUS_PREV_KEY = WIDGET_PROP_MOVE_FOCUS_PREV_KEY()
 
   #
   # 将焦点移到后一个的键值。
   #
   #
-  MOVE_FOCUS_NEXT_KEY = WIDGET_PROP_MOVE_FOCUS_NEXT_KEY();
+  MOVE_FOCUS_NEXT_KEY = WIDGET_PROP_MOVE_FOCUS_NEXT_KEY()
 
   #
   # 将焦点向上移动的键值。
   #
   #
-  MOVE_FOCUS_UP_KEY = WIDGET_PROP_MOVE_FOCUS_UP_KEY();
+  MOVE_FOCUS_UP_KEY = WIDGET_PROP_MOVE_FOCUS_UP_KEY()
 
   #
   # 将焦点向下移动的键值。
   #
   #
-  MOVE_FOCUS_DOWN_KEY = WIDGET_PROP_MOVE_FOCUS_DOWN_KEY();
+  MOVE_FOCUS_DOWN_KEY = WIDGET_PROP_MOVE_FOCUS_DOWN_KEY()
 
   #
   # 将焦点向左移动的键值。
   #
   #
-  MOVE_FOCUS_LEFT_KEY = WIDGET_PROP_MOVE_FOCUS_LEFT_KEY();
+  MOVE_FOCUS_LEFT_KEY = WIDGET_PROP_MOVE_FOCUS_LEFT_KEY()
 
   #
   # 将焦点向右移动的键值。
   #
   #
-  MOVE_FOCUS_RIGHT_KEY = WIDGET_PROP_MOVE_FOCUS_RIGHT_KEY();
+  MOVE_FOCUS_RIGHT_KEY = WIDGET_PROP_MOVE_FOCUS_RIGHT_KEY()
 
 #
 # 控件的类型。
@@ -7072,331 +7072,331 @@ class TWidgetType:
   # 无特殊类型。
   #
   #
-  NONE = WIDGET_TYPE_NONE();
+  NONE = WIDGET_TYPE_NONE()
 
   #
   # 窗口管理器。
   #
   #
-  WINDOW_MANAGER = WIDGET_TYPE_WINDOW_MANAGER();
+  WINDOW_MANAGER = WIDGET_TYPE_WINDOW_MANAGER()
 
   #
   # 普通窗口。
   #
   #
-  NORMAL_WINDOW = WIDGET_TYPE_NORMAL_WINDOW();
+  NORMAL_WINDOW = WIDGET_TYPE_NORMAL_WINDOW()
 
   #
   # overlay窗口。
   #
   #
-  OVERLAY = WIDGET_TYPE_OVERLAY();
+  OVERLAY = WIDGET_TYPE_OVERLAY()
 
   #
   # 工具条。
   #
   #
-  TOOL_BAR = WIDGET_TYPE_TOOL_BAR();
+  TOOL_BAR = WIDGET_TYPE_TOOL_BAR()
 
   #
   # 对话框。
   #
   #
-  DIALOG = WIDGET_TYPE_DIALOG();
+  DIALOG = WIDGET_TYPE_DIALOG()
 
   #
   # 弹出窗口。
   #
   #
-  POPUP = WIDGET_TYPE_POPUP();
+  POPUP = WIDGET_TYPE_POPUP()
 
   #
   # system bar window
   #
   #
-  SYSTEM_BAR = WIDGET_TYPE_SYSTEM_BAR();
+  SYSTEM_BAR = WIDGET_TYPE_SYSTEM_BAR()
 
   #
   # system bar window ato bottom
   #
   #
-  SYSTEM_BAR_BOTTOM = WIDGET_TYPE_SYSTEM_BAR_BOTTOM();
+  SYSTEM_BAR_BOTTOM = WIDGET_TYPE_SYSTEM_BAR_BOTTOM()
 
   #
   # 精灵窗口。
   #
   #
-  SPRITE = WIDGET_TYPE_SPRITE();
+  SPRITE = WIDGET_TYPE_SPRITE()
 
   #
   # 键盘窗口。
   #
   #
-  KEYBOARD = WIDGET_TYPE_KEYBOARD();
+  KEYBOARD = WIDGET_TYPE_KEYBOARD()
 
   #
   # 拖放状态窗口。
   #
   #
-  DND = WIDGET_TYPE_DND();
+  DND = WIDGET_TYPE_DND()
 
   #
   # 文本控件。
   #
   #
-  LABEL = WIDGET_TYPE_LABEL();
+  LABEL = WIDGET_TYPE_LABEL()
 
   #
   # 按钮控件。
   #
   #
-  BUTTON = WIDGET_TYPE_BUTTON();
+  BUTTON = WIDGET_TYPE_BUTTON()
 
   #
   # 图片控件。
   #
   #
-  IMAGE = WIDGET_TYPE_IMAGE();
+  IMAGE = WIDGET_TYPE_IMAGE()
 
   #
   # 文本编辑控件。
   #
   #
-  EDIT = WIDGET_TYPE_EDIT();
+  EDIT = WIDGET_TYPE_EDIT()
 
   #
   # 进度条控件。
   #
   #
-  PROGRESS_BAR = WIDGET_TYPE_PROGRESS_BAR();
+  PROGRESS_BAR = WIDGET_TYPE_PROGRESS_BAR()
 
   #
   # 分组控件。
   #
   #
-  GROUP_BOX = WIDGET_TYPE_GROUP_BOX();
+  GROUP_BOX = WIDGET_TYPE_GROUP_BOX()
 
   #
   # 多选按钮控件。
   #
   #
-  CHECK_BUTTON = WIDGET_TYPE_CHECK_BUTTON();
+  CHECK_BUTTON = WIDGET_TYPE_CHECK_BUTTON()
 
   #
   # 单选按钮控件。
   #
   #
-  RADIO_BUTTON = WIDGET_TYPE_RADIO_BUTTON();
+  RADIO_BUTTON = WIDGET_TYPE_RADIO_BUTTON()
 
   #
   # 对话框标题。
   #
   #
-  DIALOG_TITLE = WIDGET_TYPE_DIALOG_TITLE();
+  DIALOG_TITLE = WIDGET_TYPE_DIALOG_TITLE()
 
   #
   # 对话框客户区域。
   #
   #
-  DIALOG_CLIENT = WIDGET_TYPE_DIALOG_CLIENT();
+  DIALOG_CLIENT = WIDGET_TYPE_DIALOG_CLIENT()
 
   #
   # 滑块控件。
   #
   #
-  SLIDER = WIDGET_TYPE_SLIDER();
+  SLIDER = WIDGET_TYPE_SLIDER()
 
   #
   # 视图控件。
   #
   #
-  VIEW = WIDGET_TYPE_VIEW();
+  VIEW = WIDGET_TYPE_VIEW()
 
   #
   # 下拉选择框控件。
   #
   #
-  COMBO_BOX = WIDGET_TYPE_COMBO_BOX();
+  COMBO_BOX = WIDGET_TYPE_COMBO_BOX()
 
   #
   # 下拉选择框的列表项控件。
   #
   #
-  COMBO_BOX_ITEM = WIDGET_TYPE_COMBO_BOX_ITEM();
+  COMBO_BOX_ITEM = WIDGET_TYPE_COMBO_BOX_ITEM()
 
   #
   # 滑动视图控件。
   #
   #
-  SLIDE_VIEW = WIDGET_TYPE_SLIDE_VIEW();
+  SLIDE_VIEW = WIDGET_TYPE_SLIDE_VIEW()
 
   #
   # 滑动视图的指示器控件。
   #
   #
-  SLIDE_INDICATOR = WIDGET_TYPE_SLIDE_INDICATOR();
+  SLIDE_INDICATOR = WIDGET_TYPE_SLIDE_INDICATOR()
 
   #
   # 滑动视图的指示器控件（圆弧显示）。
   #
   #
-  SLIDE_INDICATOR_ARC = WIDGET_TYPE_SLIDE_INDICATOR_ARC();
+  SLIDE_INDICATOR_ARC = WIDGET_TYPE_SLIDE_INDICATOR_ARC()
 
   #
   # 多页控件。
   #
   #
-  PAGES = WIDGET_TYPE_PAGES();
+  PAGES = WIDGET_TYPE_PAGES()
 
   #
   # 标签按钮控件。
   #
   #
-  TAB_BUTTON = WIDGET_TYPE_TAB_BUTTON();
+  TAB_BUTTON = WIDGET_TYPE_TAB_BUTTON()
 
   #
   # 标签控件。
   #
   #
-  TAB_CONTROL = WIDGET_TYPE_TAB_CONTROL();
+  TAB_CONTROL = WIDGET_TYPE_TAB_CONTROL()
 
   #
   # 标签按钮分组控件。
   #
   #
-  TAB_BUTTON_GROUP = WIDGET_TYPE_TAB_BUTTON_GROUP();
+  TAB_BUTTON_GROUP = WIDGET_TYPE_TAB_BUTTON_GROUP()
 
   #
   # 按钮分组控件。
   #
   #
-  BUTTON_GROUP = WIDGET_TYPE_BUTTON_GROUP();
+  BUTTON_GROUP = WIDGET_TYPE_BUTTON_GROUP()
 
   #
   # 候选字控件。
   #
   #
-  CANDIDATES = WIDGET_TYPE_CANDIDATES();
+  CANDIDATES = WIDGET_TYPE_CANDIDATES()
 
   #
   # 数值编辑控件。
   #
   #
-  SPIN_BOX = WIDGET_TYPE_SPIN_BOX();
+  SPIN_BOX = WIDGET_TYPE_SPIN_BOX()
 
   #
   # 拖动块控件。
   #
   #
-  DRAGGER = WIDGET_TYPE_DRAGGER();
+  DRAGGER = WIDGET_TYPE_DRAGGER()
 
   #
   # 滚动条控件。
   #
   #
-  SCROLL_BAR = WIDGET_TYPE_SCROLL_BAR();
+  SCROLL_BAR = WIDGET_TYPE_SCROLL_BAR()
 
   #
   # 桌面版滚动条控件。
   #
   #
-  SCROLL_BAR_DESKTOP = WIDGET_TYPE_SCROLL_BAR_DESKTOP();
+  SCROLL_BAR_DESKTOP = WIDGET_TYPE_SCROLL_BAR_DESKTOP()
 
   #
   # 移动版滚动条控件。
   #
   #
-  SCROLL_BAR_MOBILE = WIDGET_TYPE_SCROLL_BAR_MOBILE();
+  SCROLL_BAR_MOBILE = WIDGET_TYPE_SCROLL_BAR_MOBILE()
 
   #
   # 滚动视图控件。
   #
   #
-  SCROLL_VIEW = WIDGET_TYPE_SCROLL_VIEW();
+  SCROLL_VIEW = WIDGET_TYPE_SCROLL_VIEW()
 
   #
   # 列表视图控件。
   #
   #
-  LIST_VIEW = WIDGET_TYPE_LIST_VIEW();
+  LIST_VIEW = WIDGET_TYPE_LIST_VIEW()
 
   #
   # 水平列表视图控件。
   #
   #
-  LIST_VIEW_H = WIDGET_TYPE_LIST_VIEW_H();
+  LIST_VIEW_H = WIDGET_TYPE_LIST_VIEW_H()
 
   #
   # 列表项控件。
   #
   #
-  LIST_ITEM = WIDGET_TYPE_LIST_ITEM();
+  LIST_ITEM = WIDGET_TYPE_LIST_ITEM()
 
   #
   # 颜色选择器控件。
   #
   #
-  COLOR_PICKER = WIDGET_TYPE_COLOR_PICKER();
+  COLOR_PICKER = WIDGET_TYPE_COLOR_PICKER()
 
   #
   # 颜色选择器组件控件。
   #
   #
-  COLOR_COMPONENT = WIDGET_TYPE_COLOR_COMPONENT();
+  COLOR_COMPONENT = WIDGET_TYPE_COLOR_COMPONENT()
 
   #
   # 颜色块控件。
   #
   #
-  COLOR_TILE = WIDGET_TYPE_COLOR_TILE();
+  COLOR_TILE = WIDGET_TYPE_COLOR_TILE()
 
   #
   # 裁剪控件。
   #
   #
-  CLIP_VIEW = WIDGET_TYPE_CLIP_VIEW();
+  CLIP_VIEW = WIDGET_TYPE_CLIP_VIEW()
 
   #
   # 富文本控件。
   #
   #
-  RICH_TEXT = WIDGET_TYPE_RICH_TEXT();
+  RICH_TEXT = WIDGET_TYPE_RICH_TEXT()
 
   #
   # AppBar控件。
   #
   #
-  APP_BAR = WIDGET_TYPE_APP_BAR();
+  APP_BAR = WIDGET_TYPE_APP_BAR()
 
   #
   # 网格控件。
   #
   #
-  GRID = WIDGET_TYPE_GRID();
+  GRID = WIDGET_TYPE_GRID()
 
   #
   # 网格项目控件。
   #
   #
-  GRID_ITEM = WIDGET_TYPE_GRID_ITEM();
+  GRID_ITEM = WIDGET_TYPE_GRID_ITEM()
 
   #
   # 行控件。
   #
   #
-  ROW = WIDGET_TYPE_ROW();
+  ROW = WIDGET_TYPE_ROW()
 
   #
   # 列控件。
   #
   #
-  COLUMN = WIDGET_TYPE_COLUMN();
+  COLUMN = WIDGET_TYPE_COLUMN()
 
   #
   # 电阻屏校准窗口。
   #
   #
-  CALIBRATION_WIN = WIDGET_TYPE_CALIBRATION_WIN();
+  CALIBRATION_WIN = WIDGET_TYPE_CALIBRATION_WIN()
 
 #
 # 窗口的生命周期常量定义。
@@ -7408,37 +7408,37 @@ class TWindowStage:
   # 初始状态。
   #
   #
-  NONE = WINDOW_STAGE_NONE();
+  NONE = WINDOW_STAGE_NONE()
 
   #
   # 从UI资源加载完成。
   #
   #
-  LOADED = WINDOW_STAGE_LOADED();
+  LOADED = WINDOW_STAGE_LOADED()
 
   #
   # 创建完成。
   #
   #
-  CREATED = WINDOW_STAGE_CREATED();
+  CREATED = WINDOW_STAGE_CREATED()
 
   #
   # 窗口已经打开(窗口打开动画完成后)
   #
   #
-  OPENED = WINDOW_STAGE_OPENED();
+  OPENED = WINDOW_STAGE_OPENED()
 
   #
   # 窗口已关闭。
   #
   #
-  CLOSED = WINDOW_STAGE_CLOSED();
+  CLOSED = WINDOW_STAGE_CLOSED()
 
   #
   # 窗口挂起状态。
   #
   #
-  SUSPEND = WINDOW_STAGE_SUSPEND();
+  SUSPEND = WINDOW_STAGE_SUSPEND()
 
 #
 # 窗口的closable常量定义。
@@ -7450,19 +7450,19 @@ class TWindowClosable:
   # 窗口可关闭。
   #
   #
-  YES = WINDOW_CLOSABLE_YES();
+  YES = WINDOW_CLOSABLE_YES()
 
   #
   # 窗口不可关闭。
   #
   #
-  NO = WINDOW_CLOSABLE_NO();
+  NO = WINDOW_CLOSABLE_NO()
 
   #
   # 窗口需要确认后才能关闭。
   #
   #
-  CONFIRM = WINDOW_CLOSABLE_CONFIRM();
+  CONFIRM = WINDOW_CLOSABLE_CONFIRM()
 
 #
 # 控件状态常量定义。
@@ -7476,139 +7476,139 @@ class TWidgetState:
   # 无效状态。
   #
   #
-  NONE = WIDGET_STATE_NONE();
+  NONE = WIDGET_STATE_NONE()
 
   #
   # 正常状态。
   #
   #
-  NORMAL = WIDGET_STATE_NORMAL();
+  NORMAL = WIDGET_STATE_NORMAL()
 
   #
   # 内容被修改的状态。
   #
   #
-  CHANGED = WIDGET_STATE_CHANGED();
+  CHANGED = WIDGET_STATE_CHANGED()
 
   #
   # 指针按下状态。
   #
   #
-  PRESSED = WIDGET_STATE_PRESSED();
+  PRESSED = WIDGET_STATE_PRESSED()
 
   #
   # 指针悬浮状态。
   #
   #
-  OVER = WIDGET_STATE_OVER();
+  OVER = WIDGET_STATE_OVER()
 
   #
   # 禁用状态。
   #
   #
-  DISABLE = WIDGET_STATE_DISABLE();
+  DISABLE = WIDGET_STATE_DISABLE()
 
   #
   # 聚焦状态。
   #
   #
-  FOCUSED = WIDGET_STATE_FOCUSED();
+  FOCUSED = WIDGET_STATE_FOCUSED()
 
   #
   # 勾选状态。
   #
   #
-  CHECKED = WIDGET_STATE_CHECKED();
+  CHECKED = WIDGET_STATE_CHECKED()
 
   #
   # 没勾选状态。
   #
   #
-  UNCHECKED = WIDGET_STATE_UNCHECKED();
+  UNCHECKED = WIDGET_STATE_UNCHECKED()
 
   #
   # 编辑器无内容状态。
   #
   #
-  EMPTY = WIDGET_STATE_EMPTY();
+  EMPTY = WIDGET_STATE_EMPTY()
 
   #
   # 编辑器无内容同时聚焦的状态。
   #
   #
-  EMPTY_FOCUS = WIDGET_STATE_EMPTY_FOCUS();
+  EMPTY_FOCUS = WIDGET_STATE_EMPTY_FOCUS()
 
   #
   # 输入错误状态。
   #
   #
-  ERROR = WIDGET_STATE_ERROR();
+  ERROR = WIDGET_STATE_ERROR()
 
   #
   # 选中状态。
   #
   #
-  SELECTED = WIDGET_STATE_SELECTED();
+  SELECTED = WIDGET_STATE_SELECTED()
 
   #
   # 正常状态(选中项)。
   #
   #
-  NORMAL_OF_CHECKED = WIDGET_STATE_NORMAL_OF_CHECKED();
+  NORMAL_OF_CHECKED = WIDGET_STATE_NORMAL_OF_CHECKED()
 
   #
   # 指针按下状态(选中项)。
   #
   #
-  PRESSED_OF_CHECKED = WIDGET_STATE_PRESSED_OF_CHECKED();
+  PRESSED_OF_CHECKED = WIDGET_STATE_PRESSED_OF_CHECKED()
 
   #
   # 指针悬浮状态(选中项)。
   #
   #
-  OVER_OF_CHECKED = WIDGET_STATE_OVER_OF_CHECKED();
+  OVER_OF_CHECKED = WIDGET_STATE_OVER_OF_CHECKED()
 
   #
   # 禁用状态(选中项)。
   #
   #
-  DISABLE_OF_CHECKED = WIDGET_STATE_DISABLE_OF_CHECKED();
+  DISABLE_OF_CHECKED = WIDGET_STATE_DISABLE_OF_CHECKED()
 
   #
   # 焦点状态(选中项)。
   #
   #
-  FOCUSED_OF_CHECKED = WIDGET_STATE_FOCUSED_OF_CHECKED();
+  FOCUSED_OF_CHECKED = WIDGET_STATE_FOCUSED_OF_CHECKED()
 
   #
   # 正常状态(当前项)。
   #
   #
-  NORMAL_OF_ACTIVE = WIDGET_STATE_NORMAL_OF_ACTIVE();
+  NORMAL_OF_ACTIVE = WIDGET_STATE_NORMAL_OF_ACTIVE()
 
   #
   # 指针按下状态(当前项)。
   #
   #
-  PRESSED_OF_ACTIVE = WIDGET_STATE_PRESSED_OF_ACTIVE();
+  PRESSED_OF_ACTIVE = WIDGET_STATE_PRESSED_OF_ACTIVE()
 
   #
   # 指针悬浮状态(当前项)。
   #
   #
-  OVER_OF_ACTIVE = WIDGET_STATE_OVER_OF_ACTIVE();
+  OVER_OF_ACTIVE = WIDGET_STATE_OVER_OF_ACTIVE()
 
   #
   # 禁用状态(当前项)。
   #
   #
-  DISABLE_OF_ACTIVE = WIDGET_STATE_DISABLE_OF_ACTIVE();
+  DISABLE_OF_ACTIVE = WIDGET_STATE_DISABLE_OF_ACTIVE()
 
   #
   # 焦点状态(当前项)。
   #
   #
-  FOCUSED_OF_ACTIVE = WIDGET_STATE_FOCUSED_OF_ACTIVE();
+  FOCUSED_OF_ACTIVE = WIDGET_STATE_FOCUSED_OF_ACTIVE()
 
 #
 # 控件鼠标光标常量定义。
@@ -7620,67 +7620,67 @@ class TWidgetCursor:
   # 默认光标。
   #
   #
-  CURSOR_DEFAULT = WIDGET_CURSOR_DEFAULT();
+  CURSOR_DEFAULT = WIDGET_CURSOR_DEFAULT()
 
   #
   # 文本选择光标。
   #
   #
-  CURSOR_EDIT = WIDGET_CURSOR_EDIT();
+  CURSOR_EDIT = WIDGET_CURSOR_EDIT()
 
   #
   # 手指光标。
   #
   #
-  CURSOR_HAND = WIDGET_CURSOR_HAND();
+  CURSOR_HAND = WIDGET_CURSOR_HAND()
 
   #
   # 等待光标。
   #
   #
-  CURSOR_WAIT = WIDGET_CURSOR_WAIT();
+  CURSOR_WAIT = WIDGET_CURSOR_WAIT()
 
   #
   # 叉光标。
   #
   #
-  CURSOR_CROSS = WIDGET_CURSOR_CROSS();
+  CURSOR_CROSS = WIDGET_CURSOR_CROSS()
 
   #
   # Slashed circle or crossbones。
   #
   #
-  CURSOR_NO = WIDGET_CURSOR_NO();
+  CURSOR_NO = WIDGET_CURSOR_NO()
 
   #
   # Double arrow pointing northwest and southeast。
   #
   #
-  CURSOR_SIZENWSE = WIDGET_CURSOR_SIZENWSE();
+  CURSOR_SIZENWSE = WIDGET_CURSOR_SIZENWSE()
 
   #
   # Double arrow pointing northeast and southwest。
   #
   #
-  CURSOR_SIZENESW = WIDGET_CURSOR_SIZENESW();
+  CURSOR_SIZENESW = WIDGET_CURSOR_SIZENESW()
 
   #
   # Double arrow pointing west and east。
   #
   #
-  CURSOR_SIZEWE = WIDGET_CURSOR_SIZEWE();
+  CURSOR_SIZEWE = WIDGET_CURSOR_SIZEWE()
 
   #
   # Double arrow pointing north and south。
   #
   #
-  CURSOR_SIZENS = WIDGET_CURSOR_SIZENS();
+  CURSOR_SIZENS = WIDGET_CURSOR_SIZENS()
 
   #
   # Four pointed arrow pointing north, south, east, and west。
   #
   #
-  CURSOR_SIZEALL = WIDGET_CURSOR_SIZEALL();
+  CURSOR_SIZEALL = WIDGET_CURSOR_SIZEALL()
 
 #
 # widget_t* button = button_create(win, 10, 10, 128, 30);
@@ -7703,7 +7703,7 @@ class TWidget(object):
           return instance
     
   def __init__(self, nativeObj):
-    self.nativeObj = nativeObj;
+    self.nativeObj = nativeObj
 
 
   def __eq__(self, other: 'TWidget'):
@@ -9054,7 +9054,7 @@ class TWidget(object):
   #
   @property
   def x(self):
-    return widget_t_get_prop_x(self.nativeObj);
+    return widget_t_get_prop_x(self.nativeObj)
 
 
   #
@@ -9063,7 +9063,7 @@ class TWidget(object):
   #
   @property
   def y(self):
-    return widget_t_get_prop_y(self.nativeObj);
+    return widget_t_get_prop_y(self.nativeObj)
 
 
   #
@@ -9072,7 +9072,7 @@ class TWidget(object):
   #
   @property
   def w(self):
-    return widget_t_get_prop_w(self.nativeObj);
+    return widget_t_get_prop_w(self.nativeObj)
 
 
   #
@@ -9081,7 +9081,7 @@ class TWidget(object):
   #
   @property
   def h(self):
-    return widget_t_get_prop_h(self.nativeObj);
+    return widget_t_get_prop_h(self.nativeObj)
 
 
   #
@@ -9090,7 +9090,7 @@ class TWidget(object):
   #
   @property
   def name(self):
-    return widget_t_get_prop_name(self.nativeObj);
+    return widget_t_get_prop_name(self.nativeObj)
 
   @name.setter
   def name(self, v):
@@ -9103,7 +9103,7 @@ class TWidget(object):
   #
   @property
   def pointer_cursor(self):
-    return widget_t_get_prop_pointer_cursor(self.nativeObj);
+    return widget_t_get_prop_pointer_cursor(self.nativeObj)
 
   @pointer_cursor.setter
   def pointer_cursor(self, v):
@@ -9116,7 +9116,7 @@ class TWidget(object):
   #
   @property
   def tr_text(self):
-    return widget_t_get_prop_tr_text(self.nativeObj);
+    return widget_t_get_prop_tr_text(self.nativeObj)
 
   @tr_text.setter
   def tr_text(self, v):
@@ -9129,7 +9129,7 @@ class TWidget(object):
   #
   @property
   def style(self):
-    return widget_t_get_prop_style(self.nativeObj);
+    return widget_t_get_prop_style(self.nativeObj)
 
 
   #
@@ -9138,7 +9138,7 @@ class TWidget(object):
   #
   @property
   def animation(self):
-    return widget_t_get_prop_animation(self.nativeObj);
+    return widget_t_get_prop_animation(self.nativeObj)
 
   @animation.setter
   def animation(self, v):
@@ -9151,7 +9151,7 @@ class TWidget(object):
   #
   @property
   def enable(self):
-    return widget_t_get_prop_enable(self.nativeObj);
+    return widget_t_get_prop_enable(self.nativeObj)
 
   @enable.setter
   def enable(self, v):
@@ -9164,7 +9164,7 @@ class TWidget(object):
   #
   @property
   def feedback(self):
-    return widget_t_get_prop_feedback(self.nativeObj);
+    return widget_t_get_prop_feedback(self.nativeObj)
 
   @feedback.setter
   def feedback(self, v):
@@ -9177,7 +9177,7 @@ class TWidget(object):
   #
   @property
   def visible(self):
-    return widget_t_get_prop_visible(self.nativeObj);
+    return widget_t_get_prop_visible(self.nativeObj)
 
   @visible.setter
   def visible(self, v):
@@ -9190,7 +9190,7 @@ class TWidget(object):
   #
   @property
   def sensitive(self):
-    return widget_t_get_prop_sensitive(self.nativeObj);
+    return widget_t_get_prop_sensitive(self.nativeObj)
 
   @sensitive.setter
   def sensitive(self, v):
@@ -9203,7 +9203,7 @@ class TWidget(object):
   #
   @property
   def focusable(self):
-    return widget_t_get_prop_focusable(self.nativeObj);
+    return widget_t_get_prop_focusable(self.nativeObj)
 
   @focusable.setter
   def focusable(self, v):
@@ -9217,7 +9217,7 @@ class TWidget(object):
   #
   @property
   def with_focus_state(self):
-    return widget_t_get_prop_with_focus_state(self.nativeObj);
+    return widget_t_get_prop_with_focus_state(self.nativeObj)
 
 
   #
@@ -9229,7 +9229,7 @@ class TWidget(object):
   #
   @property
   def auto_adjust_size(self):
-    return widget_t_get_prop_auto_adjust_size(self.nativeObj);
+    return widget_t_get_prop_auto_adjust_size(self.nativeObj)
 
   @auto_adjust_size.setter
   def auto_adjust_size(self, v):
@@ -9242,7 +9242,7 @@ class TWidget(object):
   #
   @property
   def floating(self):
-    return widget_t_get_prop_floating(self.nativeObj);
+    return widget_t_get_prop_floating(self.nativeObj)
 
   @floating.setter
   def floating(self, v):
@@ -9257,7 +9257,7 @@ class TWidget(object):
   #
   @property
   def dirty_rect_tolerance(self):
-    return widget_t_get_prop_dirty_rect_tolerance(self.nativeObj);
+    return widget_t_get_prop_dirty_rect_tolerance(self.nativeObj)
 
   @dirty_rect_tolerance.setter
   def dirty_rect_tolerance(self, v):
@@ -9270,7 +9270,7 @@ class TWidget(object):
   #
   @property
   def parent(self):
-    return TWidget(widget_t_get_prop_parent(self.nativeObj));
+    return TWidget(widget_t_get_prop_parent(self.nativeObj))
 
 
 #
@@ -9468,6 +9468,43 @@ class TAppConf(object):
 
 
 #
+# 扩展控件。
+#
+#
+class TExtWidgets(object):
+
+  def __new__(cls, native_obj=0):
+      if native_obj == 0:
+          return None
+      else:
+          if super().__new__ == object.__new__:
+              instance = super().__new__(cls)
+          else:
+              instance = super().__new__(cls, native_obj)
+          instance.nativeObj = native_obj
+          return instance
+    
+  def __init__(self, nativeObj):
+    self.nativeObj = nativeObj
+
+
+  def __eq__(self, other: 'TWidget'):
+      if other is None:
+          return self.nativeObj == 0
+      return self.nativeObj == other.nativeObj
+    
+  #
+  # 初始化AWTK扩展控件。
+  # 
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  @classmethod
+  def init(cls): 
+      return tk_ext_widgets_init()
+
+
+#
 # 指示器默认绘制的类型。
 #
 #
@@ -9477,31 +9514,31 @@ class TIndicatorDefaultPaint:
   # 自动选择。
   #
   #
-  AUTO = INDICATOR_DEFAULT_PAINT_AUTO();
+  AUTO = INDICATOR_DEFAULT_PAINT_AUTO()
 
   #
   # 实心圆点指示器，当前项填充selected_fg_color，其他填充fg_color。
   #
   #
-  FILL_DOT = INDICATOR_DEFAULT_PAINT_FILL_DOT();
+  FILL_DOT = INDICATOR_DEFAULT_PAINT_FILL_DOT()
 
   #
   # 镂空圆点指示器，当前项填充selected_fg_color，其他镂空fg_color。
   #
   #
-  STROKE_DOT = INDICATOR_DEFAULT_PAINT_STROKE_DOT();
+  STROKE_DOT = INDICATOR_DEFAULT_PAINT_STROKE_DOT()
 
   #
   # 实心矩形指示器，当前项填充selected_fg_color，其他填充fg_color。
   #
   #
-  FILL_RECT = INDICATOR_DEFAULT_PAINT_FILL_RECT();
+  FILL_RECT = INDICATOR_DEFAULT_PAINT_FILL_RECT()
 
   #
   # 镂空矩形指示器，当前项填充selected_fg_color，其他镂空fg_color。
   #
   #
-  STROKE_RECT = INDICATOR_DEFAULT_PAINT_STROKE_RECT();
+  STROKE_RECT = INDICATOR_DEFAULT_PAINT_STROKE_RECT()
 
 #
 # 虚拟页面的事件。
@@ -9513,19 +9550,19 @@ class TVpageEvent:
   # 页面即将打开(动画前)。
   #
   #
-  VPAGE_WILL_OPEN = EVT_VPAGE_WILL_OPEN();
+  VPAGE_WILL_OPEN = EVT_VPAGE_WILL_OPEN()
 
   #
   # 页面打开完成(动画后)。
   #
   #
-  VPAGE_OPEN = EVT_VPAGE_OPEN();
+  VPAGE_OPEN = EVT_VPAGE_OPEN()
 
   #
   # 页面已经关闭(动画后)。
   #
   #
-  VPAGE_CLOSE = EVT_VPAGE_CLOSE();
+  VPAGE_CLOSE = EVT_VPAGE_CLOSE()
 
 #
 # 资源类型常量定义。
@@ -9537,61 +9574,61 @@ class TAssetType:
   # 无效资源。
   #
   #
-  NONE = ASSET_TYPE_NONE();
+  NONE = ASSET_TYPE_NONE()
 
   #
   # 字体资源。
   #
   #
-  FONT = ASSET_TYPE_FONT();
+  FONT = ASSET_TYPE_FONT()
 
   #
   # 图片资源。
   #
   #
-  IMAGE = ASSET_TYPE_IMAGE();
+  IMAGE = ASSET_TYPE_IMAGE()
 
   #
   # 窗体样式资源。
   #
   #
-  STYLE = ASSET_TYPE_STYLE();
+  STYLE = ASSET_TYPE_STYLE()
 
   #
   # UI数据资源。
   #
   #
-  UI = ASSET_TYPE_UI();
+  UI = ASSET_TYPE_UI()
 
   #
   # XML数据资源。
   #
   #
-  XML = ASSET_TYPE_XML();
+  XML = ASSET_TYPE_XML()
 
   #
   # 字符串数据资源。
   #
   #
-  STRINGS = ASSET_TYPE_STRINGS();
+  STRINGS = ASSET_TYPE_STRINGS()
 
   #
   # JS等脚本资源。
   #
   #
-  SCRIPT = ASSET_TYPE_SCRIPT();
+  SCRIPT = ASSET_TYPE_SCRIPT()
 
   #
   # 流图资源。
   #
   #
-  FLOW = ASSET_TYPE_FLOW();
+  FLOW = ASSET_TYPE_FLOW()
 
   #
   # 其它数据资源。
   #
   #
-  DATA = ASSET_TYPE_DATA();
+  DATA = ASSET_TYPE_DATA()
 
 #
 # 单个资源的描述信息。
@@ -9611,7 +9648,7 @@ class TAssetInfo(object):
           return instance
     
   def __init__(self, nativeObj):
-    self.nativeObj = nativeObj;
+    self.nativeObj = nativeObj
 
 
   def __eq__(self, other: 'TWidget'):
@@ -9645,7 +9682,7 @@ class TAssetInfo(object):
   #
   @property
   def type(self):
-    return asset_info_t_get_prop_type(self.nativeObj);
+    return asset_info_t_get_prop_type(self.nativeObj)
 
 
   #
@@ -9654,7 +9691,7 @@ class TAssetInfo(object):
   #
   @property
   def subtype(self):
-    return asset_info_t_get_prop_subtype(self.nativeObj);
+    return asset_info_t_get_prop_subtype(self.nativeObj)
 
 
   #
@@ -9663,7 +9700,7 @@ class TAssetInfo(object):
   #
   @property
   def is_in_rom(self):
-    return asset_info_t_get_prop_is_in_rom(self.nativeObj);
+    return asset_info_t_get_prop_is_in_rom(self.nativeObj)
 
 
   #
@@ -9672,7 +9709,7 @@ class TAssetInfo(object):
   #
   @property
   def size(self):
-    return asset_info_t_get_prop_size(self.nativeObj);
+    return asset_info_t_get_prop_size(self.nativeObj)
 
 
   #
@@ -9682,7 +9719,7 @@ class TAssetInfo(object):
   #
   @property
   def refcount(self):
-    return asset_info_t_get_prop_refcount(self.nativeObj);
+    return asset_info_t_get_prop_refcount(self.nativeObj)
 
 
   #
@@ -9691,7 +9728,7 @@ class TAssetInfo(object):
   #
   @property
   def name(self):
-    return asset_info_t_get_prop_name(self.nativeObj);
+    return asset_info_t_get_prop_name(self.nativeObj)
 
 
 #
@@ -9712,7 +9749,7 @@ class TColor(object):
           return instance
     
   def __init__(self, nativeObj):
-    self.nativeObj = nativeObj;
+    self.nativeObj = nativeObj
 
 
   def __eq__(self, other: 'TWidget'):
@@ -9841,11 +9878,11 @@ class TColor(object):
   #
   @property
   def color(self):
-    return color_t_get_prop_color(self.nativeObj);
+    return color_t_get_prop_color(self.nativeObj)
 
   @color.setter
   def color(self, v):
-    color_t_set_prop_color(self.nativeObj, v);
+    color_t_set_prop_color(self.nativeObj, v)
 
 
 #
@@ -9868,7 +9905,7 @@ class TDateTime(object):
           return instance
     
   def __init__(self, nativeObj):
-    self.nativeObj = nativeObj;
+    self.nativeObj = nativeObj
 
 
   def __eq__(self, other: 'TWidget'):
@@ -10074,7 +10111,7 @@ class TDateTime(object):
   #
   @property
   def second(self):
-    return date_time_t_get_prop_second(self.nativeObj);
+    return date_time_t_get_prop_second(self.nativeObj)
 
   @second.setter
   def second(self, v):
@@ -10087,7 +10124,7 @@ class TDateTime(object):
   #
   @property
   def minute(self):
-    return date_time_t_get_prop_minute(self.nativeObj);
+    return date_time_t_get_prop_minute(self.nativeObj)
 
   @minute.setter
   def minute(self, v):
@@ -10100,7 +10137,7 @@ class TDateTime(object):
   #
   @property
   def hour(self):
-    return date_time_t_get_prop_hour(self.nativeObj);
+    return date_time_t_get_prop_hour(self.nativeObj)
 
   @hour.setter
   def hour(self, v):
@@ -10113,7 +10150,7 @@ class TDateTime(object):
   #
   @property
   def day(self):
-    return date_time_t_get_prop_day(self.nativeObj);
+    return date_time_t_get_prop_day(self.nativeObj)
 
   @day.setter
   def day(self, v):
@@ -10126,7 +10163,7 @@ class TDateTime(object):
   #
   @property
   def wday(self):
-    return date_time_t_get_prop_wday(self.nativeObj);
+    return date_time_t_get_prop_wday(self.nativeObj)
 
 
   #
@@ -10135,7 +10172,7 @@ class TDateTime(object):
   #
   @property
   def month(self):
-    return date_time_t_get_prop_month(self.nativeObj);
+    return date_time_t_get_prop_month(self.nativeObj)
 
   @month.setter
   def month(self, v):
@@ -10148,7 +10185,7 @@ class TDateTime(object):
   #
   @property
   def year(self):
-    return date_time_t_get_prop_year(self.nativeObj);
+    return date_time_t_get_prop_year(self.nativeObj)
 
   @year.setter
   def year(self, v):
@@ -10165,145 +10202,145 @@ class TEasingType:
   # EASING_LINEAR。
   #
   #
-  LINEAR = EASING_LINEAR();
+  LINEAR = EASING_LINEAR()
 
   #
   # EASING_QUADRATIC_IN
   #
   #
-  QUADRATIC_IN = EASING_QUADRATIC_IN();
+  QUADRATIC_IN = EASING_QUADRATIC_IN()
 
   #
   # EASING_QUADRATIC_OUT
   #
   #
-  QUADRATIC_OUT = EASING_QUADRATIC_OUT();
+  QUADRATIC_OUT = EASING_QUADRATIC_OUT()
 
   #
   # EASING_QUADRATIC_INOUT
   #
   #
-  QUADRATIC_INOUT = EASING_QUADRATIC_INOUT();
+  QUADRATIC_INOUT = EASING_QUADRATIC_INOUT()
 
   #
   # EASING_CUBIC_IN
   #
   #
-  CUBIC_IN = EASING_CUBIC_IN();
+  CUBIC_IN = EASING_CUBIC_IN()
 
   #
   # EASING_CUBIC_OUT
   #
   #
-  CUBIC_OUT = EASING_CUBIC_OUT();
+  CUBIC_OUT = EASING_CUBIC_OUT()
 
   #
   # EASING_SIN_IN
   #
   #
-  SIN_IN = EASING_SIN_IN();
+  SIN_IN = EASING_SIN_IN()
 
   #
   # EASING_SIN_OUT
   #
   #
-  SIN_OUT = EASING_SIN_OUT();
+  SIN_OUT = EASING_SIN_OUT()
 
   #
   # EASING_SIN_OUT
   #
   #
-  SIN_INOUT = EASING_SIN_INOUT();
+  SIN_INOUT = EASING_SIN_INOUT()
 
   #
   # EASING_POW_IN
   #
   #
-  POW_IN = EASING_POW_IN();
+  POW_IN = EASING_POW_IN()
 
   #
   # EASING_POW_OUT
   #
   #
-  POW_OUT = EASING_POW_OUT();
+  POW_OUT = EASING_POW_OUT()
 
   #
   # EASING_POW_INOUT
   #
   #
-  POW_INOUT = EASING_POW_INOUT();
+  POW_INOUT = EASING_POW_INOUT()
 
   #
   # EASING_CIRCULAR_IN
   #
   #
-  CIRCULAR_IN = EASING_CIRCULAR_IN();
+  CIRCULAR_IN = EASING_CIRCULAR_IN()
 
   #
   # EASING_CIRCULAR_OUT
   #
   #
-  CIRCULAR_OUT = EASING_CIRCULAR_OUT();
+  CIRCULAR_OUT = EASING_CIRCULAR_OUT()
 
   #
   # EASING_CIRCULAR_INOUT
   #
   #
-  CIRCULAR_INOUT = EASING_CIRCULAR_INOUT();
+  CIRCULAR_INOUT = EASING_CIRCULAR_INOUT()
 
   #
   # EASING_ELASTIC_IN
   #
   #
-  ELASTIC_IN = EASING_ELASTIC_IN();
+  ELASTIC_IN = EASING_ELASTIC_IN()
 
   #
   # EASING_ELASTIC_OUT
   #
   #
-  ELASTIC_OUT = EASING_ELASTIC_OUT();
+  ELASTIC_OUT = EASING_ELASTIC_OUT()
 
   #
   # EASING_ELASTIC_INOUT
   #
   #
-  ELASTIC_INOUT = EASING_ELASTIC_INOUT();
+  ELASTIC_INOUT = EASING_ELASTIC_INOUT()
 
   #
   # EASING_BACK_IN
   #
   #
-  BACK_IN = EASING_BACK_IN();
+  BACK_IN = EASING_BACK_IN()
 
   #
   # EASING_BACK_OUT
   #
   #
-  BACK_OUT = EASING_BACK_OUT();
+  BACK_OUT = EASING_BACK_OUT()
 
   #
   # EASING_BACK_INOUT
   #
   #
-  BACK_INOUT = EASING_BACK_INOUT();
+  BACK_INOUT = EASING_BACK_INOUT()
 
   #
   # EASING_BOUNCE_IN
   #
   #
-  BOUNCE_IN = EASING_BOUNCE_IN();
+  BOUNCE_IN = EASING_BOUNCE_IN()
 
   #
   # EASING_BOUNCE_OUT
   #
   #
-  BOUNCE_OUT = EASING_BOUNCE_OUT();
+  BOUNCE_OUT = EASING_BOUNCE_OUT()
 
   #
   # EASING_BOUNCE_INOUT
   #
   #
-  BOUNCE_INOUT = EASING_BOUNCE_INOUT();
+  BOUNCE_INOUT = EASING_BOUNCE_INOUT()
 
 #
 # idle_manager_t管理器。
@@ -10323,7 +10360,7 @@ class TIdleManager(object):
           return instance
     
   def __init__(self, nativeObj):
-    self.nativeObj = nativeObj;
+    self.nativeObj = nativeObj
 
 
   def __eq__(self, other: 'TWidget'):
@@ -10341,613 +10378,613 @@ class TMIME_TYPE:
   # "application/envoy"。
   #
   #
-  APPLICATION_ENVOY = MIME_TYPE_APPLICATION_ENVOY();
+  APPLICATION_ENVOY = MIME_TYPE_APPLICATION_ENVOY()
 
   #
   # "application/fractals"。
   #
   #
-  APPLICATION_FRACTALS = MIME_TYPE_APPLICATION_FRACTALS();
+  APPLICATION_FRACTALS = MIME_TYPE_APPLICATION_FRACTALS()
 
   #
   # "application/futuresplash"。
   #
   #
-  APPLICATION_FUTURESPLASH = MIME_TYPE_APPLICATION_FUTURESPLASH();
+  APPLICATION_FUTURESPLASH = MIME_TYPE_APPLICATION_FUTURESPLASH()
 
   #
   # "application/hta"。
   #
   #
-  APPLICATION_HTA = MIME_TYPE_APPLICATION_HTA();
+  APPLICATION_HTA = MIME_TYPE_APPLICATION_HTA()
 
   #
   # "application/json"。
   #
   #
-  APPLICATION_JSON = MIME_TYPE_APPLICATION_JSON();
+  APPLICATION_JSON = MIME_TYPE_APPLICATION_JSON()
 
   #
   # "application/ubjson"。
   #
   #
-  APPLICATION_UBJSON = MIME_TYPE_APPLICATION_UBJSON();
+  APPLICATION_UBJSON = MIME_TYPE_APPLICATION_UBJSON()
 
   #
   # "application/mac-binhex40"。
   #
   #
-  APPLICATION_MAC_BINHEX40 = MIME_TYPE_APPLICATION_MAC_BINHEX40();
+  APPLICATION_MAC_BINHEX40 = MIME_TYPE_APPLICATION_MAC_BINHEX40()
 
   #
   # "application/msword"。
   #
   #
-  APPLICATION_MSWORD = MIME_TYPE_APPLICATION_MSWORD();
+  APPLICATION_MSWORD = MIME_TYPE_APPLICATION_MSWORD()
 
   #
   # "application/octet-stream"。
   #
   #
-  APPLICATION_OCTET_STREAM = MIME_TYPE_APPLICATION_OCTET_STREAM();
+  APPLICATION_OCTET_STREAM = MIME_TYPE_APPLICATION_OCTET_STREAM()
 
   #
   # "application/oda"。
   #
   #
-  APPLICATION_ODA = MIME_TYPE_APPLICATION_ODA();
+  APPLICATION_ODA = MIME_TYPE_APPLICATION_ODA()
 
   #
   # "application/olescript"。
   #
   #
-  APPLICATION_OLESCRIPT = MIME_TYPE_APPLICATION_OLESCRIPT();
+  APPLICATION_OLESCRIPT = MIME_TYPE_APPLICATION_OLESCRIPT()
 
   #
   # "application/pdf"。
   #
   #
-  APPLICATION_PDF = MIME_TYPE_APPLICATION_PDF();
+  APPLICATION_PDF = MIME_TYPE_APPLICATION_PDF()
 
   #
   # "application/pics-rules"。
   #
   #
-  APPLICATION_PICS_RULES = MIME_TYPE_APPLICATION_PICS_RULES();
+  APPLICATION_PICS_RULES = MIME_TYPE_APPLICATION_PICS_RULES()
 
   #
   # "application/pkcs10"。
   #
   #
-  APPLICATION_PKCS10 = MIME_TYPE_APPLICATION_PKCS10();
+  APPLICATION_PKCS10 = MIME_TYPE_APPLICATION_PKCS10()
 
   #
   # "application/pkix-crl"。
   #
   #
-  APPLICATION_PKIX_CRL = MIME_TYPE_APPLICATION_PKIX_CRL();
+  APPLICATION_PKIX_CRL = MIME_TYPE_APPLICATION_PKIX_CRL()
 
   #
   # "application/postscript"。
   #
   #
-  APPLICATION_POSTSCRIPT = MIME_TYPE_APPLICATION_POSTSCRIPT();
+  APPLICATION_POSTSCRIPT = MIME_TYPE_APPLICATION_POSTSCRIPT()
 
   #
   # "application/rtf"。
   #
   #
-  APPLICATION_RTF = MIME_TYPE_APPLICATION_RTF();
+  APPLICATION_RTF = MIME_TYPE_APPLICATION_RTF()
 
   #
   # "application/vnd.ms-excel"。
   #
   #
-  APPLICATION_VND_MS_EXCEL = MIME_TYPE_APPLICATION_VND_MS_EXCEL();
+  APPLICATION_VND_MS_EXCEL = MIME_TYPE_APPLICATION_VND_MS_EXCEL()
 
   #
   # "application/vnd.ms-outlook"。
   #
   #
-  APPLICATION_VND_MS_OUTLOOK = MIME_TYPE_APPLICATION_VND_MS_OUTLOOK();
+  APPLICATION_VND_MS_OUTLOOK = MIME_TYPE_APPLICATION_VND_MS_OUTLOOK()
 
   #
   # "application/vnd.ms-pkicertstore"。
   #
   #
-  APPLICATION_VND_MS_PKICERTSTORE = MIME_TYPE_APPLICATION_VND_MS_PKICERTSTORE();
+  APPLICATION_VND_MS_PKICERTSTORE = MIME_TYPE_APPLICATION_VND_MS_PKICERTSTORE()
 
   #
   # "application/vnd.ms-pkiseccat"。
   #
   #
-  APPLICATION_VND_MS_PKISECCAT = MIME_TYPE_APPLICATION_VND_MS_PKISECCAT();
+  APPLICATION_VND_MS_PKISECCAT = MIME_TYPE_APPLICATION_VND_MS_PKISECCAT()
 
   #
   # "application/vnd.ms-pkistl"。
   #
   #
-  APPLICATION_VND_MS_PKISTL = MIME_TYPE_APPLICATION_VND_MS_PKISTL();
+  APPLICATION_VND_MS_PKISTL = MIME_TYPE_APPLICATION_VND_MS_PKISTL()
 
   #
   # "application/vnd.ms-powerpoint"。
   #
   #
-  APPLICATION_VND_MS_POWERPOINT = MIME_TYPE_APPLICATION_VND_MS_POWERPOINT();
+  APPLICATION_VND_MS_POWERPOINT = MIME_TYPE_APPLICATION_VND_MS_POWERPOINT()
 
   #
   # "application/vnd.ms-project"。
   #
   #
-  APPLICATION_VND_MS_PROJECT = MIME_TYPE_APPLICATION_VND_MS_PROJECT();
+  APPLICATION_VND_MS_PROJECT = MIME_TYPE_APPLICATION_VND_MS_PROJECT()
 
   #
   # "application/vnd.ms-works"。
   #
   #
-  APPLICATION_VND_MS_WORKS = MIME_TYPE_APPLICATION_VND_MS_WORKS();
+  APPLICATION_VND_MS_WORKS = MIME_TYPE_APPLICATION_VND_MS_WORKS()
 
   #
   # "application/winhlp"。
   #
   #
-  APPLICATION_WINHLP = MIME_TYPE_APPLICATION_WINHLP();
+  APPLICATION_WINHLP = MIME_TYPE_APPLICATION_WINHLP()
 
   #
   # "application/x-bcpio"。
   #
   #
-  APPLICATION_X_BCPIO = MIME_TYPE_APPLICATION_X_BCPIO();
+  APPLICATION_X_BCPIO = MIME_TYPE_APPLICATION_X_BCPIO()
 
   #
   # "application/x-cdf"。
   #
   #
-  APPLICATION_X_CDF = MIME_TYPE_APPLICATION_X_CDF();
+  APPLICATION_X_CDF = MIME_TYPE_APPLICATION_X_CDF()
 
   #
   # "application/x-compress"。
   #
   #
-  APPLICATION_X_COMPRESS = MIME_TYPE_APPLICATION_X_COMPRESS();
+  APPLICATION_X_COMPRESS = MIME_TYPE_APPLICATION_X_COMPRESS()
 
   #
   # "application/x-compressed"。
   #
   #
-  APPLICATION_X_COMPRESSED = MIME_TYPE_APPLICATION_X_COMPRESSED();
+  APPLICATION_X_COMPRESSED = MIME_TYPE_APPLICATION_X_COMPRESSED()
 
   #
   # "application/x-cpio"。
   #
   #
-  APPLICATION_X_CPIO = MIME_TYPE_APPLICATION_X_CPIO();
+  APPLICATION_X_CPIO = MIME_TYPE_APPLICATION_X_CPIO()
 
   #
   # "application/x-csh"。
   #
   #
-  APPLICATION_X_CSH = MIME_TYPE_APPLICATION_X_CSH();
+  APPLICATION_X_CSH = MIME_TYPE_APPLICATION_X_CSH()
 
   #
   # "application/x-director"。
   #
   #
-  APPLICATION_X_DIRECTOR = MIME_TYPE_APPLICATION_X_DIRECTOR();
+  APPLICATION_X_DIRECTOR = MIME_TYPE_APPLICATION_X_DIRECTOR()
 
   #
   # "application/x-dvi"。
   #
   #
-  APPLICATION_X_DVI = MIME_TYPE_APPLICATION_X_DVI();
+  APPLICATION_X_DVI = MIME_TYPE_APPLICATION_X_DVI()
 
   #
   # "application/x-gtar"。
   #
   #
-  APPLICATION_X_GTAR = MIME_TYPE_APPLICATION_X_GTAR();
+  APPLICATION_X_GTAR = MIME_TYPE_APPLICATION_X_GTAR()
 
   #
   # "application/x-gzip"。
   #
   #
-  APPLICATION_X_GZIP = MIME_TYPE_APPLICATION_X_GZIP();
+  APPLICATION_X_GZIP = MIME_TYPE_APPLICATION_X_GZIP()
 
   #
   # "application/x-hdf"。
   #
   #
-  APPLICATION_X_HDF = MIME_TYPE_APPLICATION_X_HDF();
+  APPLICATION_X_HDF = MIME_TYPE_APPLICATION_X_HDF()
 
   #
   # "application/x-iphone"。
   #
   #
-  APPLICATION_X_IPHONE = MIME_TYPE_APPLICATION_X_IPHONE();
+  APPLICATION_X_IPHONE = MIME_TYPE_APPLICATION_X_IPHONE()
 
   #
   # "application/x-javascript"。
   #
   #
-  APPLICATION_X_JAVASCRIPT = MIME_TYPE_APPLICATION_X_JAVASCRIPT();
+  APPLICATION_X_JAVASCRIPT = MIME_TYPE_APPLICATION_X_JAVASCRIPT()
 
   #
   # "application/x-latex"。
   #
   #
-  APPLICATION_X_LATEX = MIME_TYPE_APPLICATION_X_LATEX();
+  APPLICATION_X_LATEX = MIME_TYPE_APPLICATION_X_LATEX()
 
   #
   # "application/x-msaccess"。
   #
   #
-  APPLICATION_X_MSACCESS = MIME_TYPE_APPLICATION_X_MSACCESS();
+  APPLICATION_X_MSACCESS = MIME_TYPE_APPLICATION_X_MSACCESS()
 
   #
   # "application/x-mscardfile"。
   #
   #
-  APPLICATION_X_MSCARDFILE = MIME_TYPE_APPLICATION_X_MSCARDFILE();
+  APPLICATION_X_MSCARDFILE = MIME_TYPE_APPLICATION_X_MSCARDFILE()
 
   #
   # "application/x-msclip"。
   #
   #
-  APPLICATION_X_MSCLIP = MIME_TYPE_APPLICATION_X_MSCLIP();
+  APPLICATION_X_MSCLIP = MIME_TYPE_APPLICATION_X_MSCLIP()
 
   #
   # "application/x-msdownload"。
   #
   #
-  APPLICATION_X_MSDOWNLOAD = MIME_TYPE_APPLICATION_X_MSDOWNLOAD();
+  APPLICATION_X_MSDOWNLOAD = MIME_TYPE_APPLICATION_X_MSDOWNLOAD()
 
   #
   # "application/x-msmediaview"。
   #
   #
-  APPLICATION_X_MSMEDIAVIEW = MIME_TYPE_APPLICATION_X_MSMEDIAVIEW();
+  APPLICATION_X_MSMEDIAVIEW = MIME_TYPE_APPLICATION_X_MSMEDIAVIEW()
 
   #
   # "application/x-msmetafile"。
   #
   #
-  APPLICATION_X_MSMETAFILE = MIME_TYPE_APPLICATION_X_MSMETAFILE();
+  APPLICATION_X_MSMETAFILE = MIME_TYPE_APPLICATION_X_MSMETAFILE()
 
   #
   # "application/x-msmoney"。
   #
   #
-  APPLICATION_X_MSMONEY = MIME_TYPE_APPLICATION_X_MSMONEY();
+  APPLICATION_X_MSMONEY = MIME_TYPE_APPLICATION_X_MSMONEY()
 
   #
   # "application/x-mspublisher"。
   #
   #
-  APPLICATION_X_MSPUBLISHER = MIME_TYPE_APPLICATION_X_MSPUBLISHER();
+  APPLICATION_X_MSPUBLISHER = MIME_TYPE_APPLICATION_X_MSPUBLISHER()
 
   #
   # "application/x-msschedule"。
   #
   #
-  APPLICATION_X_MSSCHEDULE = MIME_TYPE_APPLICATION_X_MSSCHEDULE();
+  APPLICATION_X_MSSCHEDULE = MIME_TYPE_APPLICATION_X_MSSCHEDULE()
 
   #
   # "application/x-msterminal"。
   #
   #
-  APPLICATION_X_MSTERMINAL = MIME_TYPE_APPLICATION_X_MSTERMINAL();
+  APPLICATION_X_MSTERMINAL = MIME_TYPE_APPLICATION_X_MSTERMINAL()
 
   #
   # "application/x-mswrite"。
   #
   #
-  APPLICATION_X_MSWRITE = MIME_TYPE_APPLICATION_X_MSWRITE();
+  APPLICATION_X_MSWRITE = MIME_TYPE_APPLICATION_X_MSWRITE()
 
   #
   # "application/x-netcdf"。
   #
   #
-  APPLICATION_X_NETCDF = MIME_TYPE_APPLICATION_X_NETCDF();
+  APPLICATION_X_NETCDF = MIME_TYPE_APPLICATION_X_NETCDF()
 
   #
   # "application/x-perfmon"。
   #
   #
-  APPLICATION_X_PERFMON = MIME_TYPE_APPLICATION_X_PERFMON();
+  APPLICATION_X_PERFMON = MIME_TYPE_APPLICATION_X_PERFMON()
 
   #
   # "application/x-pkcs12"。
   #
   #
-  APPLICATION_X_PKCS12 = MIME_TYPE_APPLICATION_X_PKCS12();
+  APPLICATION_X_PKCS12 = MIME_TYPE_APPLICATION_X_PKCS12()
 
   #
   # "application/x-sh"。
   #
   #
-  APPLICATION_X_SH = MIME_TYPE_APPLICATION_X_SH();
+  APPLICATION_X_SH = MIME_TYPE_APPLICATION_X_SH()
 
   #
   # "application/x-shar"。
   #
   #
-  APPLICATION_X_SHAR = MIME_TYPE_APPLICATION_X_SHAR();
+  APPLICATION_X_SHAR = MIME_TYPE_APPLICATION_X_SHAR()
 
   #
   # "application/x-shockwave-flash"。
   #
   #
-  APPLICATION_X_SHOCKWAVE_FLASH = MIME_TYPE_APPLICATION_X_SHOCKWAVE_FLASH();
+  APPLICATION_X_SHOCKWAVE_FLASH = MIME_TYPE_APPLICATION_X_SHOCKWAVE_FLASH()
 
   #
   # "application/x-stuffit"。
   #
   #
-  APPLICATION_X_STUFFIT = MIME_TYPE_APPLICATION_X_STUFFIT();
+  APPLICATION_X_STUFFIT = MIME_TYPE_APPLICATION_X_STUFFIT()
 
   #
   # "application/x-sv4cpio"。
   #
   #
-  APPLICATION_X_SV4CPIO = MIME_TYPE_APPLICATION_X_SV4CPIO();
+  APPLICATION_X_SV4CPIO = MIME_TYPE_APPLICATION_X_SV4CPIO()
 
   #
   # "application/x-sv4crc"。
   #
   #
-  APPLICATION_X_SV4CRC = MIME_TYPE_APPLICATION_X_SV4CRC();
+  APPLICATION_X_SV4CRC = MIME_TYPE_APPLICATION_X_SV4CRC()
 
   #
   # "application/x-tar"。
   #
   #
-  APPLICATION_X_TAR = MIME_TYPE_APPLICATION_X_TAR();
+  APPLICATION_X_TAR = MIME_TYPE_APPLICATION_X_TAR()
 
   #
   # "application/x-tcl"。
   #
   #
-  APPLICATION_X_TCL = MIME_TYPE_APPLICATION_X_TCL();
+  APPLICATION_X_TCL = MIME_TYPE_APPLICATION_X_TCL()
 
   #
   # "application/x-tex"。
   #
   #
-  APPLICATION_X_TEX = MIME_TYPE_APPLICATION_X_TEX();
+  APPLICATION_X_TEX = MIME_TYPE_APPLICATION_X_TEX()
 
   #
   # "application/x-texinfo"。
   #
   #
-  APPLICATION_X_TEXINFO = MIME_TYPE_APPLICATION_X_TEXINFO();
+  APPLICATION_X_TEXINFO = MIME_TYPE_APPLICATION_X_TEXINFO()
 
   #
   # "application/x-troff"。
   #
   #
-  APPLICATION_X_TROFF = MIME_TYPE_APPLICATION_X_TROFF();
+  APPLICATION_X_TROFF = MIME_TYPE_APPLICATION_X_TROFF()
 
   #
   # "application/x-ustar"。
   #
   #
-  APPLICATION_X_USTAR = MIME_TYPE_APPLICATION_X_USTAR();
+  APPLICATION_X_USTAR = MIME_TYPE_APPLICATION_X_USTAR()
 
   #
   # "application/zip"。
   #
   #
-  APPLICATION_ZIP = MIME_TYPE_APPLICATION_ZIP();
+  APPLICATION_ZIP = MIME_TYPE_APPLICATION_ZIP()
 
   #
   # "audio/basic"。
   #
   #
-  AUDIO_BASIC = MIME_TYPE_AUDIO_BASIC();
+  AUDIO_BASIC = MIME_TYPE_AUDIO_BASIC()
 
   #
   # "audio/mid"。
   #
   #
-  AUDIO_MID = MIME_TYPE_AUDIO_MID();
+  AUDIO_MID = MIME_TYPE_AUDIO_MID()
 
   #
   # "audio/mpeg"。
   #
   #
-  AUDIO_MPEG = MIME_TYPE_AUDIO_MPEG();
+  AUDIO_MPEG = MIME_TYPE_AUDIO_MPEG()
 
   #
   # "audio/x-aiff"。
   #
   #
-  AUDIO_X_AIFF = MIME_TYPE_AUDIO_X_AIFF();
+  AUDIO_X_AIFF = MIME_TYPE_AUDIO_X_AIFF()
 
   #
   # "audio/x-mpegurl"。
   #
   #
-  AUDIO_X_MPEGURL = MIME_TYPE_AUDIO_X_MPEGURL();
+  AUDIO_X_MPEGURL = MIME_TYPE_AUDIO_X_MPEGURL()
 
   #
   # "audio/x-wav"。
   #
   #
-  AUDIO_X_WAV = MIME_TYPE_AUDIO_X_WAV();
+  AUDIO_X_WAV = MIME_TYPE_AUDIO_X_WAV()
 
   #
   # "image/bmp"。
   #
   #
-  IMAGE_BMP = MIME_TYPE_IMAGE_BMP();
+  IMAGE_BMP = MIME_TYPE_IMAGE_BMP()
 
   #
   # "image/cis-cod"。
   #
   #
-  IMAGE_CIS_COD = MIME_TYPE_IMAGE_CIS_COD();
+  IMAGE_CIS_COD = MIME_TYPE_IMAGE_CIS_COD()
 
   #
   # "image/gif"。
   #
   #
-  IMAGE_GIF = MIME_TYPE_IMAGE_GIF();
+  IMAGE_GIF = MIME_TYPE_IMAGE_GIF()
 
   #
   # "image/ief"。
   #
   #
-  IMAGE_IEF = MIME_TYPE_IMAGE_IEF();
+  IMAGE_IEF = MIME_TYPE_IMAGE_IEF()
 
   #
   # "image/jpeg"。
   #
   #
-  IMAGE_JPEG = MIME_TYPE_IMAGE_JPEG();
+  IMAGE_JPEG = MIME_TYPE_IMAGE_JPEG()
 
   #
   # "image/pipeg"。
   #
   #
-  IMAGE_PIPEG = MIME_TYPE_IMAGE_PIPEG();
+  IMAGE_PIPEG = MIME_TYPE_IMAGE_PIPEG()
 
   #
   # "image/svg+xml"。
   #
   #
-  IMAGE_SVG_XML = MIME_TYPE_IMAGE_SVG_XML();
+  IMAGE_SVG_XML = MIME_TYPE_IMAGE_SVG_XML()
 
   #
   # "image/tiff"。
   #
   #
-  IMAGE_TIFF = MIME_TYPE_IMAGE_TIFF();
+  IMAGE_TIFF = MIME_TYPE_IMAGE_TIFF()
 
   #
   # "image/x-cmx"。
   #
   #
-  IMAGE_X_CMX = MIME_TYPE_IMAGE_X_CMX();
+  IMAGE_X_CMX = MIME_TYPE_IMAGE_X_CMX()
 
   #
   # "image/x-icon"。
   #
   #
-  IMAGE_X_ICON = MIME_TYPE_IMAGE_X_ICON();
+  IMAGE_X_ICON = MIME_TYPE_IMAGE_X_ICON()
 
   #
   # "image/x-rgb"。
   #
   #
-  IMAGE_X_RGB = MIME_TYPE_IMAGE_X_RGB();
+  IMAGE_X_RGB = MIME_TYPE_IMAGE_X_RGB()
 
   #
   # "image/x-xbitmap"。
   #
   #
-  IMAGE_X_XBITMAP = MIME_TYPE_IMAGE_X_XBITMAP();
+  IMAGE_X_XBITMAP = MIME_TYPE_IMAGE_X_XBITMAP()
 
   #
   # "image/x-xpixmap"。
   #
   #
-  IMAGE_X_XPIXMAP = MIME_TYPE_IMAGE_X_XPIXMAP();
+  IMAGE_X_XPIXMAP = MIME_TYPE_IMAGE_X_XPIXMAP()
 
   #
   # "image/x-xwindowdump"。
   #
   #
-  IMAGE_X_XWINDOWDUMP = MIME_TYPE_IMAGE_X_XWINDOWDUMP();
+  IMAGE_X_XWINDOWDUMP = MIME_TYPE_IMAGE_X_XWINDOWDUMP()
 
   #
   # "message/rfc822"。
   #
   #
-  MESSAGE_RFC822 = MIME_TYPE_MESSAGE_RFC822();
+  MESSAGE_RFC822 = MIME_TYPE_MESSAGE_RFC822()
 
   #
   # "text/css"。
   #
   #
-  TEXT_CSS = MIME_TYPE_TEXT_CSS();
+  TEXT_CSS = MIME_TYPE_TEXT_CSS()
 
   #
   # "text/h323"。
   #
   #
-  TEXT_H323 = MIME_TYPE_TEXT_H323();
+  TEXT_H323 = MIME_TYPE_TEXT_H323()
 
   #
   # "text/html"。
   #
   #
-  TEXT_HTML = MIME_TYPE_TEXT_HTML();
+  TEXT_HTML = MIME_TYPE_TEXT_HTML()
 
   #
   # "text/iuls"。
   #
   #
-  TEXT_IULS = MIME_TYPE_TEXT_IULS();
+  TEXT_IULS = MIME_TYPE_TEXT_IULS()
 
   #
   # "text/plain"。
   #
   #
-  TEXT_PLAIN = MIME_TYPE_TEXT_PLAIN();
+  TEXT_PLAIN = MIME_TYPE_TEXT_PLAIN()
 
   #
   # "text/richtext"。
   #
   #
-  TEXT_RICHTEXT = MIME_TYPE_TEXT_RICHTEXT();
+  TEXT_RICHTEXT = MIME_TYPE_TEXT_RICHTEXT()
 
   #
   # "text/scriptlet"。
   #
   #
-  TEXT_SCRIPTLET = MIME_TYPE_TEXT_SCRIPTLET();
+  TEXT_SCRIPTLET = MIME_TYPE_TEXT_SCRIPTLET()
 
   #
   # "text/webviewhtml"。
   #
   #
-  TEXT_WEBVIEWHTML = MIME_TYPE_TEXT_WEBVIEWHTML();
+  TEXT_WEBVIEWHTML = MIME_TYPE_TEXT_WEBVIEWHTML()
 
   #
   # "text/x-component"。
   #
   #
-  TEXT_X_COMPONENT = MIME_TYPE_TEXT_X_COMPONENT();
+  TEXT_X_COMPONENT = MIME_TYPE_TEXT_X_COMPONENT()
 
   #
   # "text/x-setext"。
   #
   #
-  TEXT_X_SETEXT = MIME_TYPE_TEXT_X_SETEXT();
+  TEXT_X_SETEXT = MIME_TYPE_TEXT_X_SETEXT()
 
   #
   # "text/x-vcard"。
   #
   #
-  TEXT_X_VCARD = MIME_TYPE_TEXT_X_VCARD();
+  TEXT_X_VCARD = MIME_TYPE_TEXT_X_VCARD()
 
   #
   # "video/mpeg"。
   #
   #
-  VIDEO_MPEG = MIME_TYPE_VIDEO_MPEG();
+  VIDEO_MPEG = MIME_TYPE_VIDEO_MPEG()
 
   #
   # "video/quicktime"。
   #
   #
-  VIDEO_QUICKTIME = MIME_TYPE_VIDEO_QUICKTIME();
+  VIDEO_QUICKTIME = MIME_TYPE_VIDEO_QUICKTIME()
 
   #
   # "video/x-msvideo"。
   #
   #
-  VIDEO_X_MSVIDEO = MIME_TYPE_VIDEO_X_MSVIDEO();
+  VIDEO_X_MSVIDEO = MIME_TYPE_VIDEO_X_MSVIDEO()
 
 #
 # 命名的值。
@@ -10967,7 +11004,7 @@ class TNamedValue(object):
           return instance
     
   def __init__(self, nativeObj):
-    self.nativeObj = nativeObj;
+    self.nativeObj = nativeObj
 
 
   def __eq__(self, other: 'TWidget'):
@@ -11046,7 +11083,7 @@ class TNamedValue(object):
   #
   @property
   def name(self):
-    return named_value_t_get_prop_name(self.nativeObj);
+    return named_value_t_get_prop_name(self.nativeObj)
 
   @name.setter
   def name(self, v):
@@ -11063,69 +11100,69 @@ class TObjectCmd:
   # 保存命令
   #
   #
-  SAVE = OBJECT_CMD_SAVE();
+  SAVE = OBJECT_CMD_SAVE()
 
   #
   # 重新加载命令
   #
   #
-  RELOAD = OBJECT_CMD_RELOAD();
+  RELOAD = OBJECT_CMD_RELOAD()
 
   #
   # 和前一个属性交换位置
   #>参数为属性的名称或路径。
   #
   #
-  MOVE_UP = OBJECT_CMD_MOVE_UP();
+  MOVE_UP = OBJECT_CMD_MOVE_UP()
 
   #
   # 和后一个属性交换位置
   #>参数为属性的名称或路径。
   #
   #
-  MOVE_DOWN = OBJECT_CMD_MOVE_DOWN();
+  MOVE_DOWN = OBJECT_CMD_MOVE_DOWN()
 
   #
   # 删除属性。
   #>参数为属性的名称或路径。
   #
   #
-  REMOVE = OBJECT_CMD_REMOVE();
+  REMOVE = OBJECT_CMD_REMOVE()
 
   #
   # 删除勾选的属性。
   #>参数为属性的名称或路径。
   #
   #
-  REMOVE_CHECKED = OBJECT_CMD_REMOVE_CHECKED();
+  REMOVE_CHECKED = OBJECT_CMD_REMOVE_CHECKED()
 
   #
   # 清除全部属性。
   #>参数为属性的名称或路径。
   #
   #
-  CLEAR = OBJECT_CMD_CLEAR();
+  CLEAR = OBJECT_CMD_CLEAR()
 
   #
   # 增加子项。
   #>参数为属性的名称或路径。
   #
   #
-  ADD = OBJECT_CMD_ADD();
+  ADD = OBJECT_CMD_ADD()
 
   #
   # 显示对象详细信息。
   #>参数为属性的名称或路径。
   #
   #
-  DETAIL = OBJECT_CMD_DETAIL();
+  DETAIL = OBJECT_CMD_DETAIL()
 
   #
   # 编辑子项。
   #>参数为属性的名称或路径。
   #
   #
-  EDIT = OBJECT_CMD_EDIT();
+  EDIT = OBJECT_CMD_EDIT()
 
 #
 # 对象常见属性定义
@@ -11137,13 +11174,13 @@ class TObjectProp:
   # 属性的个数。
   #
   #
-  SIZE = OBJECT_PROP_SIZE();
+  SIZE = OBJECT_PROP_SIZE()
 
   #
   # 属性是否勾选。
   #
   #
-  CHECKED = OBJECT_PROP_CHECKED();
+  CHECKED = OBJECT_PROP_CHECKED()
 
 #
 # 循环记录日志(支持多线程访问)。
@@ -11168,7 +11205,7 @@ class TRlog(object):
           return instance
     
   def __init__(self, nativeObj):
-    self.nativeObj = nativeObj;
+    self.nativeObj = nativeObj
 
 
   def __eq__(self, other: 'TWidget'):
@@ -11263,7 +11300,7 @@ class TTimerManager(object):
           return instance
     
   def __init__(self, nativeObj):
-    self.nativeObj = nativeObj;
+    self.nativeObj = nativeObj
 
 
   def __eq__(self, other: 'TWidget'):
@@ -11281,133 +11318,133 @@ class TRet:
   # 成功。
   #
   #
-  OK = RET_OK();
+  OK = RET_OK()
 
   #
   # Out of memory。
   #
   #
-  OOM = RET_OOM();
+  OOM = RET_OOM()
 
   #
   # 失败。
   #
   #
-  FAIL = RET_FAIL();
+  FAIL = RET_FAIL()
 
   #
   # 没有实现/不支持。
   #
   #
-  NOT_IMPL = RET_NOT_IMPL();
+  NOT_IMPL = RET_NOT_IMPL()
 
   #
   # 退出。通常用于主循环。
   #
   #
-  QUIT = RET_QUIT();
+  QUIT = RET_QUIT()
 
   #
   # 找到。
   #
   #
-  FOUND = RET_FOUND();
+  FOUND = RET_FOUND()
 
   #
   # 对象忙。
   #
   #
-  BUSY = RET_BUSY();
+  BUSY = RET_BUSY()
 
   #
   # 移出。通常用于定时器。
   #
   #
-  REMOVE = RET_REMOVE();
+  REMOVE = RET_REMOVE()
 
   #
   # 重复。通常用于定时器。
   #
   #
-  REPEAT = RET_REPEAT();
+  REPEAT = RET_REPEAT()
 
   #
   # 没找到。
   #
   #
-  NOT_FOUND = RET_NOT_FOUND();
+  NOT_FOUND = RET_NOT_FOUND()
 
   #
   # 操作完成。
   #
   #
-  DONE = RET_DONE();
+  DONE = RET_DONE()
 
   #
   # 停止后续操作。
   #
   #
-  STOP = RET_STOP();
+  STOP = RET_STOP()
 
   #
   # 跳过当前项。
   #
   #
-  SKIP = RET_SKIP();
+  SKIP = RET_SKIP()
 
   #
   # 继续后续操作。
   #
   #
-  CONTINUE = RET_CONTINUE();
+  CONTINUE = RET_CONTINUE()
 
   #
   # 对象属性变化。
   #
   #
-  OBJECT_CHANGED = RET_OBJECT_CHANGED();
+  OBJECT_CHANGED = RET_OBJECT_CHANGED()
 
   #
   # 集合数目变化。
   #
   #
-  ITEMS_CHANGED = RET_ITEMS_CHANGED();
+  ITEMS_CHANGED = RET_ITEMS_CHANGED()
 
   #
   # 无效参数。
   #
   #
-  BAD_PARAMS = RET_BAD_PARAMS();
+  BAD_PARAMS = RET_BAD_PARAMS()
 
   #
   # 超时。
   #
   #
-  TIMEOUT = RET_TIMEOUT();
+  TIMEOUT = RET_TIMEOUT()
 
   #
   # CRC错误。
   #
   #
-  CRC = RET_CRC();
+  CRC = RET_CRC()
 
   #
   # IO错误。
   #
   #
-  IO = RET_IO();
+  IO = RET_IO()
 
   #
   # End of Stream
   #
   #
-  EOS = RET_EOS();
+  EOS = RET_EOS()
 
   #
   # 没有改变。
   #
   #
-  NOT_MODIFIED = RET_NOT_MODIFIED();
+  NOT_MODIFIED = RET_NOT_MODIFIED()
 
 #
 # 类型常量定义。
@@ -11419,127 +11456,127 @@ class TValueType:
   # 无效类型。
   #
   #
-  INVALID = VALUE_TYPE_INVALID();
+  INVALID = VALUE_TYPE_INVALID()
 
   #
   # BOOL类型。
   #
   #
-  BOOL = VALUE_TYPE_BOOL();
+  BOOL = VALUE_TYPE_BOOL()
 
   #
   # int8_t类型。
   #
   #
-  INT8 = VALUE_TYPE_INT8();
+  INT8 = VALUE_TYPE_INT8()
 
   #
   # uint8_t类型。
   #
   #
-  UINT8 = VALUE_TYPE_UINT8();
+  UINT8 = VALUE_TYPE_UINT8()
 
   #
   # int16_t类型。
   #
   #
-  INT16 = VALUE_TYPE_INT16();
+  INT16 = VALUE_TYPE_INT16()
 
   #
   # uint16_t类型。
   #
   #
-  UINT16 = VALUE_TYPE_UINT16();
+  UINT16 = VALUE_TYPE_UINT16()
 
   #
   # int32_t类型。
   #
   #
-  INT32 = VALUE_TYPE_INT32();
+  INT32 = VALUE_TYPE_INT32()
 
   #
   # uint32_t类型。
   #
   #
-  UINT32 = VALUE_TYPE_UINT32();
+  UINT32 = VALUE_TYPE_UINT32()
 
   #
   # int64_t类型。
   #
   #
-  INT64 = VALUE_TYPE_INT64();
+  INT64 = VALUE_TYPE_INT64()
 
   #
   # uint64_t类型。
   #
   #
-  UINT64 = VALUE_TYPE_UINT64();
+  UINT64 = VALUE_TYPE_UINT64()
 
   #
   # void*类型。
   #
   #
-  POINTER = VALUE_TYPE_POINTER();
+  POINTER = VALUE_TYPE_POINTER()
 
   #
   # float_t类型。
   #
   #
-  FLOAT = VALUE_TYPE_FLOAT();
+  FLOAT = VALUE_TYPE_FLOAT()
 
   #
   # float类型。
   #
   #
-  FLOAT32 = VALUE_TYPE_FLOAT32();
+  FLOAT32 = VALUE_TYPE_FLOAT32()
 
   #
   # double类型。
   #
   #
-  DOUBLE = VALUE_TYPE_DOUBLE();
+  DOUBLE = VALUE_TYPE_DOUBLE()
 
   #
   # char*类型。
   #
   #
-  STRING = VALUE_TYPE_STRING();
+  STRING = VALUE_TYPE_STRING()
 
   #
   # wchar_t*类型。
   #
   #
-  WSTRING = VALUE_TYPE_WSTRING();
+  WSTRING = VALUE_TYPE_WSTRING()
 
   #
   # object_t*类型。
   #
   #
-  OBJECT = VALUE_TYPE_OBJECT();
+  OBJECT = VALUE_TYPE_OBJECT()
 
   #
   # 带长度的字符串。
   #
   #
-  SIZED_STRING = VALUE_TYPE_SIZED_STRING();
+  SIZED_STRING = VALUE_TYPE_SIZED_STRING()
 
   #
   # 二进制数据。
   #
   #
-  BINARY = VALUE_TYPE_BINARY();
+  BINARY = VALUE_TYPE_BINARY()
 
   #
   # 二进制数据(UBJSON)。
   #
   #
-  UBJSON = VALUE_TYPE_UBJSON();
+  UBJSON = VALUE_TYPE_UBJSON()
 
   #
   # 特殊用途。
   #
   #
-  TOKEN = VALUE_TYPE_TOKEN();
+  TOKEN = VALUE_TYPE_TOKEN()
 
 #
 # 资源管理器。
@@ -11697,7 +11734,7 @@ class TWheelEvent (TEvent):
   #
   @property
   def dy(self):
-    return wheel_event_t_get_prop_dy(self.nativeObj);
+    return wheel_event_t_get_prop_dy(self.nativeObj)
 
 
   #
@@ -11706,7 +11743,7 @@ class TWheelEvent (TEvent):
   #
   @property
   def alt(self):
-    return wheel_event_t_get_prop_alt(self.nativeObj);
+    return wheel_event_t_get_prop_alt(self.nativeObj)
 
 
   #
@@ -11715,7 +11752,7 @@ class TWheelEvent (TEvent):
   #
   @property
   def ctrl(self):
-    return wheel_event_t_get_prop_ctrl(self.nativeObj);
+    return wheel_event_t_get_prop_ctrl(self.nativeObj)
 
 
   #
@@ -11724,7 +11761,7 @@ class TWheelEvent (TEvent):
   #
   @property
   def shift(self):
-    return wheel_event_t_get_prop_shift(self.nativeObj);
+    return wheel_event_t_get_prop_shift(self.nativeObj)
 
 
 #
@@ -11771,7 +11808,7 @@ class TOrientationEvent (TEvent):
   #
   @property
   def orientation(self):
-    return orientation_event_t_get_prop_orientation(self.nativeObj);
+    return orientation_event_t_get_prop_orientation(self.nativeObj)
 
 
 #
@@ -11856,7 +11893,7 @@ class TPointerEvent (TEvent):
   #
   @property
   def x(self):
-    return pointer_event_t_get_prop_x(self.nativeObj);
+    return pointer_event_t_get_prop_x(self.nativeObj)
 
 
   #
@@ -11865,7 +11902,7 @@ class TPointerEvent (TEvent):
   #
   @property
   def y(self):
-    return pointer_event_t_get_prop_y(self.nativeObj);
+    return pointer_event_t_get_prop_y(self.nativeObj)
 
 
   #
@@ -11874,7 +11911,7 @@ class TPointerEvent (TEvent):
   #
   @property
   def button(self):
-    return pointer_event_t_get_prop_button(self.nativeObj);
+    return pointer_event_t_get_prop_button(self.nativeObj)
 
 
   #
@@ -11883,7 +11920,7 @@ class TPointerEvent (TEvent):
   #
   @property
   def pressed(self):
-    return pointer_event_t_get_prop_pressed(self.nativeObj);
+    return pointer_event_t_get_prop_pressed(self.nativeObj)
 
 
   #
@@ -11892,7 +11929,7 @@ class TPointerEvent (TEvent):
   #
   @property
   def alt(self):
-    return pointer_event_t_get_prop_alt(self.nativeObj);
+    return pointer_event_t_get_prop_alt(self.nativeObj)
 
 
   #
@@ -11901,7 +11938,7 @@ class TPointerEvent (TEvent):
   #
   @property
   def ctrl(self):
-    return pointer_event_t_get_prop_ctrl(self.nativeObj);
+    return pointer_event_t_get_prop_ctrl(self.nativeObj)
 
 
   #
@@ -11910,7 +11947,7 @@ class TPointerEvent (TEvent):
   #
   @property
   def cmd(self):
-    return pointer_event_t_get_prop_cmd(self.nativeObj);
+    return pointer_event_t_get_prop_cmd(self.nativeObj)
 
 
   #
@@ -11919,7 +11956,7 @@ class TPointerEvent (TEvent):
   #
   @property
   def menu(self):
-    return pointer_event_t_get_prop_menu(self.nativeObj);
+    return pointer_event_t_get_prop_menu(self.nativeObj)
 
 
   #
@@ -11928,7 +11965,7 @@ class TPointerEvent (TEvent):
   #
   @property
   def shift(self):
-    return pointer_event_t_get_prop_shift(self.nativeObj);
+    return pointer_event_t_get_prop_shift(self.nativeObj)
 
 
 #
@@ -11975,7 +12012,7 @@ class TKeyEvent (TEvent):
   #
   @property
   def key(self):
-    return key_event_t_get_prop_key(self.nativeObj);
+    return key_event_t_get_prop_key(self.nativeObj)
 
 
   #
@@ -11984,7 +12021,7 @@ class TKeyEvent (TEvent):
   #
   @property
   def alt(self):
-    return key_event_t_get_prop_alt(self.nativeObj);
+    return key_event_t_get_prop_alt(self.nativeObj)
 
 
   #
@@ -11993,7 +12030,7 @@ class TKeyEvent (TEvent):
   #
   @property
   def lalt(self):
-    return key_event_t_get_prop_lalt(self.nativeObj);
+    return key_event_t_get_prop_lalt(self.nativeObj)
 
 
   #
@@ -12002,7 +12039,7 @@ class TKeyEvent (TEvent):
   #
   @property
   def ralt(self):
-    return key_event_t_get_prop_ralt(self.nativeObj);
+    return key_event_t_get_prop_ralt(self.nativeObj)
 
 
   #
@@ -12012,7 +12049,7 @@ class TKeyEvent (TEvent):
   #
   @property
   def ctrl(self):
-    return key_event_t_get_prop_ctrl(self.nativeObj);
+    return key_event_t_get_prop_ctrl(self.nativeObj)
 
 
   #
@@ -12021,7 +12058,7 @@ class TKeyEvent (TEvent):
   #
   @property
   def lctrl(self):
-    return key_event_t_get_prop_lctrl(self.nativeObj);
+    return key_event_t_get_prop_lctrl(self.nativeObj)
 
 
   #
@@ -12030,7 +12067,7 @@ class TKeyEvent (TEvent):
   #
   @property
   def rctrl(self):
-    return key_event_t_get_prop_rctrl(self.nativeObj);
+    return key_event_t_get_prop_rctrl(self.nativeObj)
 
 
   #
@@ -12039,7 +12076,7 @@ class TKeyEvent (TEvent):
   #
   @property
   def shift(self):
-    return key_event_t_get_prop_shift(self.nativeObj);
+    return key_event_t_get_prop_shift(self.nativeObj)
 
 
   #
@@ -12048,7 +12085,7 @@ class TKeyEvent (TEvent):
   #
   @property
   def lshift(self):
-    return key_event_t_get_prop_lshift(self.nativeObj);
+    return key_event_t_get_prop_lshift(self.nativeObj)
 
 
   #
@@ -12057,7 +12094,7 @@ class TKeyEvent (TEvent):
   #
   @property
   def rshift(self):
-    return key_event_t_get_prop_rshift(self.nativeObj);
+    return key_event_t_get_prop_rshift(self.nativeObj)
 
 
   #
@@ -12067,7 +12104,7 @@ class TKeyEvent (TEvent):
   #
   @property
   def cmd(self):
-    return key_event_t_get_prop_cmd(self.nativeObj);
+    return key_event_t_get_prop_cmd(self.nativeObj)
 
 
   #
@@ -12076,7 +12113,7 @@ class TKeyEvent (TEvent):
   #
   @property
   def menu(self):
-    return key_event_t_get_prop_menu(self.nativeObj);
+    return key_event_t_get_prop_menu(self.nativeObj)
 
 
   #
@@ -12085,7 +12122,7 @@ class TKeyEvent (TEvent):
   #
   @property
   def capslock(self):
-    return key_event_t_get_prop_capslock(self.nativeObj);
+    return key_event_t_get_prop_capslock(self.nativeObj)
 
 
 #
@@ -12132,7 +12169,7 @@ class TPaintEvent (TEvent):
   #
   @property
   def c(self):
-    return TCanvas(paint_event_t_get_prop_c(self.nativeObj));
+    return TCanvas(paint_event_t_get_prop_c(self.nativeObj))
 
 
 #
@@ -12179,7 +12216,7 @@ class TWindowEvent (TEvent):
   #
   @property
   def window(self):
-    return TWidget(window_event_t_get_prop_window(self.nativeObj));
+    return TWidget(window_event_t_get_prop_window(self.nativeObj))
 
 
 #
@@ -12226,7 +12263,7 @@ class TMultiGestureEvent (TEvent):
   #
   @property
   def x(self):
-    return multi_gesture_event_t_get_prop_x(self.nativeObj);
+    return multi_gesture_event_t_get_prop_x(self.nativeObj)
 
 
   #
@@ -12235,7 +12272,7 @@ class TMultiGestureEvent (TEvent):
   #
   @property
   def y(self):
-    return multi_gesture_event_t_get_prop_y(self.nativeObj);
+    return multi_gesture_event_t_get_prop_y(self.nativeObj)
 
 
   #
@@ -12244,7 +12281,7 @@ class TMultiGestureEvent (TEvent):
   #
   @property
   def rotation(self):
-    return multi_gesture_event_t_get_prop_rotation(self.nativeObj);
+    return multi_gesture_event_t_get_prop_rotation(self.nativeObj)
 
 
   #
@@ -12253,7 +12290,7 @@ class TMultiGestureEvent (TEvent):
   #
   @property
   def distance(self):
-    return multi_gesture_event_t_get_prop_distance(self.nativeObj);
+    return multi_gesture_event_t_get_prop_distance(self.nativeObj)
 
 
 #
@@ -12395,7 +12432,7 @@ class TImageBase (TWidget):
   #
   @property
   def image(self):
-    return image_base_t_get_prop_image(self.nativeObj);
+    return image_base_t_get_prop_image(self.nativeObj)
 
   @image.setter
   def image(self, v):
@@ -12408,7 +12445,7 @@ class TImageBase (TWidget):
   #
   @property
   def anchor_x(self):
-    return image_base_t_get_prop_anchor_x(self.nativeObj);
+    return image_base_t_get_prop_anchor_x(self.nativeObj)
 
 
   #
@@ -12417,7 +12454,7 @@ class TImageBase (TWidget):
   #
   @property
   def anchor_y(self):
-    return image_base_t_get_prop_anchor_y(self.nativeObj);
+    return image_base_t_get_prop_anchor_y(self.nativeObj)
 
 
   #
@@ -12426,7 +12463,7 @@ class TImageBase (TWidget):
   #
   @property
   def scale_x(self):
-    return image_base_t_get_prop_scale_x(self.nativeObj);
+    return image_base_t_get_prop_scale_x(self.nativeObj)
 
 
   #
@@ -12435,7 +12472,7 @@ class TImageBase (TWidget):
   #
   @property
   def scale_y(self):
-    return image_base_t_get_prop_scale_y(self.nativeObj);
+    return image_base_t_get_prop_scale_y(self.nativeObj)
 
 
   #
@@ -12444,7 +12481,7 @@ class TImageBase (TWidget):
   #
   @property
   def rotation(self):
-    return image_base_t_get_prop_rotation(self.nativeObj);
+    return image_base_t_get_prop_rotation(self.nativeObj)
 
   @rotation.setter
   def rotation(self, v):
@@ -12457,7 +12494,7 @@ class TImageBase (TWidget):
   #
   @property
   def clickable(self):
-    return image_base_t_get_prop_clickable(self.nativeObj);
+    return image_base_t_get_prop_clickable(self.nativeObj)
 
   @clickable.setter
   def clickable(self, v):
@@ -12470,7 +12507,7 @@ class TImageBase (TWidget):
   #
   @property
   def selectable(self):
-    return image_base_t_get_prop_selectable(self.nativeObj);
+    return image_base_t_get_prop_selectable(self.nativeObj)
 
   @selectable.setter
   def selectable(self, v):
@@ -12483,7 +12520,7 @@ class TImageBase (TWidget):
   #
   @property
   def selected(self):
-    return image_base_t_get_prop_selected(self.nativeObj);
+    return image_base_t_get_prop_selected(self.nativeObj)
 
   @selected.setter
   def selected(self, v):
@@ -12574,7 +12611,7 @@ class TStyleMutable (TStyle):
   #
   @property
   def name(self):
-    return style_mutable_t_get_prop_name(self.nativeObj);
+    return style_mutable_t_get_prop_name(self.nativeObj)
 
   @name.setter
   def name(self, v):
@@ -12634,7 +12671,7 @@ class TWindowBase (TWidget):
   #
   @property
   def theme(self):
-    return window_base_t_get_prop_theme(self.nativeObj);
+    return window_base_t_get_prop_theme(self.nativeObj)
 
 
   #
@@ -12643,7 +12680,7 @@ class TWindowBase (TWidget):
   #
   @property
   def design_w(self):
-    return window_base_t_get_prop_design_w(self.nativeObj);
+    return window_base_t_get_prop_design_w(self.nativeObj)
 
 
   #
@@ -12652,7 +12689,7 @@ class TWindowBase (TWidget):
   #
   @property
   def design_h(self):
-    return window_base_t_get_prop_design_h(self.nativeObj);
+    return window_base_t_get_prop_design_h(self.nativeObj)
 
 
   #
@@ -12661,7 +12698,7 @@ class TWindowBase (TWidget):
   #
   @property
   def auto_scale_children_x(self):
-    return window_base_t_get_prop_auto_scale_children_x(self.nativeObj);
+    return window_base_t_get_prop_auto_scale_children_x(self.nativeObj)
 
 
   #
@@ -12670,7 +12707,7 @@ class TWindowBase (TWidget):
   #
   @property
   def auto_scale_children_y(self):
-    return window_base_t_get_prop_auto_scale_children_y(self.nativeObj);
+    return window_base_t_get_prop_auto_scale_children_y(self.nativeObj)
 
 
   #
@@ -12679,7 +12716,7 @@ class TWindowBase (TWidget):
   #
   @property
   def auto_scale_children_w(self):
-    return window_base_t_get_prop_auto_scale_children_w(self.nativeObj);
+    return window_base_t_get_prop_auto_scale_children_w(self.nativeObj)
 
 
   #
@@ -12688,7 +12725,7 @@ class TWindowBase (TWidget):
   #
   @property
   def auto_scale_children_h(self):
-    return window_base_t_get_prop_auto_scale_children_h(self.nativeObj);
+    return window_base_t_get_prop_auto_scale_children_h(self.nativeObj)
 
 
   #
@@ -12697,7 +12734,7 @@ class TWindowBase (TWidget):
   #
   @property
   def disable_anim(self):
-    return window_base_t_get_prop_disable_anim(self.nativeObj);
+    return window_base_t_get_prop_disable_anim(self.nativeObj)
 
 
   #
@@ -12714,7 +12751,7 @@ class TWindowBase (TWidget):
   #
   @property
   def closable(self):
-    return window_base_t_get_prop_closable(self.nativeObj);
+    return window_base_t_get_prop_closable(self.nativeObj)
 
 
   #
@@ -12724,7 +12761,7 @@ class TWindowBase (TWidget):
   #
   @property
   def open_anim_hint(self):
-    return window_base_t_get_prop_open_anim_hint(self.nativeObj);
+    return window_base_t_get_prop_open_anim_hint(self.nativeObj)
 
 
   #
@@ -12734,7 +12771,7 @@ class TWindowBase (TWidget):
   #
   @property
   def close_anim_hint(self):
-    return window_base_t_get_prop_close_anim_hint(self.nativeObj);
+    return window_base_t_get_prop_close_anim_hint(self.nativeObj)
 
 
   #
@@ -12745,7 +12782,7 @@ class TWindowBase (TWidget):
   #
   @property
   def move_focus_prev_key(self):
-    return window_base_t_get_prop_move_focus_prev_key(self.nativeObj);
+    return window_base_t_get_prop_move_focus_prev_key(self.nativeObj)
 
 
   #
@@ -12756,7 +12793,7 @@ class TWindowBase (TWidget):
   #
   @property
   def move_focus_next_key(self):
-    return window_base_t_get_prop_move_focus_next_key(self.nativeObj);
+    return window_base_t_get_prop_move_focus_next_key(self.nativeObj)
 
 
   #
@@ -12767,7 +12804,7 @@ class TWindowBase (TWidget):
   #
   @property
   def move_focus_up_key(self):
-    return window_base_t_get_prop_move_focus_up_key(self.nativeObj);
+    return window_base_t_get_prop_move_focus_up_key(self.nativeObj)
 
 
   #
@@ -12778,7 +12815,7 @@ class TWindowBase (TWidget):
   #
   @property
   def move_focus_down_key(self):
-    return window_base_t_get_prop_move_focus_down_key(self.nativeObj);
+    return window_base_t_get_prop_move_focus_down_key(self.nativeObj)
 
 
   #
@@ -12789,7 +12826,7 @@ class TWindowBase (TWidget):
   #
   @property
   def move_focus_left_key(self):
-    return window_base_t_get_prop_move_focus_left_key(self.nativeObj);
+    return window_base_t_get_prop_move_focus_left_key(self.nativeObj)
 
 
   #
@@ -12800,7 +12837,7 @@ class TWindowBase (TWidget):
   #
   @property
   def move_focus_right_key(self):
-    return window_base_t_get_prop_move_focus_right_key(self.nativeObj);
+    return window_base_t_get_prop_move_focus_right_key(self.nativeObj)
 
 
   #
@@ -12809,7 +12846,7 @@ class TWindowBase (TWidget):
   #
   @property
   def single_instance(self):
-    return window_base_t_get_prop_single_instance(self.nativeObj);
+    return window_base_t_get_prop_single_instance(self.nativeObj)
 
 
   #
@@ -12818,7 +12855,7 @@ class TWindowBase (TWidget):
   #
   @property
   def strongly_focus(self):
-    return window_base_t_get_prop_strongly_focus(self.nativeObj);
+    return window_base_t_get_prop_strongly_focus(self.nativeObj)
 
 
 #
@@ -13281,7 +13318,7 @@ class TColorPicker (TWidget):
   #
   @property
   def value(self):
-    return color_picker_t_get_prop_value(self.nativeObj);
+    return color_picker_t_get_prop_value(self.nativeObj)
 
 
 #
@@ -13448,7 +13485,7 @@ class TDraggable (TWidget):
   #
   @property
   def top(self):
-    return draggable_t_get_prop_top(self.nativeObj);
+    return draggable_t_get_prop_top(self.nativeObj)
 
   @top.setter
   def top(self, v):
@@ -13461,7 +13498,7 @@ class TDraggable (TWidget):
   #
   @property
   def bottom(self):
-    return draggable_t_get_prop_bottom(self.nativeObj);
+    return draggable_t_get_prop_bottom(self.nativeObj)
 
   @bottom.setter
   def bottom(self, v):
@@ -13474,7 +13511,7 @@ class TDraggable (TWidget):
   #
   @property
   def left(self):
-    return draggable_t_get_prop_left(self.nativeObj);
+    return draggable_t_get_prop_left(self.nativeObj)
 
   @left.setter
   def left(self, v):
@@ -13487,7 +13524,7 @@ class TDraggable (TWidget):
   #
   @property
   def right(self):
-    return draggable_t_get_prop_right(self.nativeObj);
+    return draggable_t_get_prop_right(self.nativeObj)
 
   @right.setter
   def right(self, v):
@@ -13500,7 +13537,7 @@ class TDraggable (TWidget):
   #
   @property
   def vertical_only(self):
-    return draggable_t_get_prop_vertical_only(self.nativeObj);
+    return draggable_t_get_prop_vertical_only(self.nativeObj)
 
   @vertical_only.setter
   def vertical_only(self, v):
@@ -13513,7 +13550,7 @@ class TDraggable (TWidget):
   #
   @property
   def horizontal_only(self):
-    return draggable_t_get_prop_horizontal_only(self.nativeObj);
+    return draggable_t_get_prop_horizontal_only(self.nativeObj)
 
   @horizontal_only.setter
   def horizontal_only(self, v):
@@ -13526,7 +13563,7 @@ class TDraggable (TWidget):
   #
   @property
   def drag_window(self):
-    return draggable_t_get_prop_drag_window(self.nativeObj);
+    return draggable_t_get_prop_drag_window(self.nativeObj)
 
   @drag_window.setter
   def drag_window(self, v):
@@ -13749,7 +13786,7 @@ class TFileBrowserView (TWidget):
   #
   @property
   def init_dir(self):
-    return file_browser_view_t_get_prop_init_dir(self.nativeObj);
+    return file_browser_view_t_get_prop_init_dir(self.nativeObj)
 
   @init_dir.setter
   def init_dir(self, v):
@@ -13762,7 +13799,7 @@ class TFileBrowserView (TWidget):
   #
   @property
   def top_dir(self):
-    return file_browser_view_t_get_prop_top_dir(self.nativeObj);
+    return file_browser_view_t_get_prop_top_dir(self.nativeObj)
 
   @top_dir.setter
   def top_dir(self, v):
@@ -13775,7 +13812,7 @@ class TFileBrowserView (TWidget):
   #
   @property
   def filter(self):
-    return file_browser_view_t_get_prop_filter(self.nativeObj);
+    return file_browser_view_t_get_prop_filter(self.nativeObj)
 
   @filter.setter
   def filter(self, v):
@@ -13788,7 +13825,7 @@ class TFileBrowserView (TWidget):
   #
   @property
   def ignore_hidden_files(self):
-    return file_browser_view_t_get_prop_ignore_hidden_files(self.nativeObj);
+    return file_browser_view_t_get_prop_ignore_hidden_files(self.nativeObj)
 
   @ignore_hidden_files.setter
   def ignore_hidden_files(self, v):
@@ -13801,7 +13838,7 @@ class TFileBrowserView (TWidget):
   #
   @property
   def sort_ascending(self):
-    return file_browser_view_t_get_prop_sort_ascending(self.nativeObj);
+    return file_browser_view_t_get_prop_sort_ascending(self.nativeObj)
 
   @sort_ascending.setter
   def sort_ascending(self, v):
@@ -13814,7 +13851,7 @@ class TFileBrowserView (TWidget):
   #
   @property
   def show_check_button(self):
-    return file_browser_view_t_get_prop_show_check_button(self.nativeObj);
+    return file_browser_view_t_get_prop_show_check_button(self.nativeObj)
 
   @show_check_button.setter
   def show_check_button(self, v):
@@ -13827,7 +13864,7 @@ class TFileBrowserView (TWidget):
   #
   @property
   def sort_by(self):
-    return file_browser_view_t_get_prop_sort_by(self.nativeObj);
+    return file_browser_view_t_get_prop_sort_by(self.nativeObj)
 
   @sort_by.setter
   def sort_by(self, v):
@@ -14091,7 +14128,7 @@ class TGaugePointer (TWidget):
   #
   @property
   def angle(self):
-    return gauge_pointer_t_get_prop_angle(self.nativeObj);
+    return gauge_pointer_t_get_prop_angle(self.nativeObj)
 
   @angle.setter
   def angle(self, v):
@@ -14106,7 +14143,7 @@ class TGaugePointer (TWidget):
   #
   @property
   def image(self):
-    return gauge_pointer_t_get_prop_image(self.nativeObj);
+    return gauge_pointer_t_get_prop_image(self.nativeObj)
 
   @image.setter
   def image(self, v):
@@ -14119,7 +14156,7 @@ class TGaugePointer (TWidget):
   #
   @property
   def anchor_x(self):
-    return gauge_pointer_t_get_prop_anchor_x(self.nativeObj);
+    return gauge_pointer_t_get_prop_anchor_x(self.nativeObj)
 
 
   #
@@ -14128,7 +14165,7 @@ class TGaugePointer (TWidget):
   #
   @property
   def anchor_y(self):
-    return gauge_pointer_t_get_prop_anchor_y(self.nativeObj);
+    return gauge_pointer_t_get_prop_anchor_y(self.nativeObj)
 
 
 #
@@ -14246,7 +14283,7 @@ class TGauge (TWidget):
   #
   @property
   def image(self):
-    return gauge_t_get_prop_image(self.nativeObj);
+    return gauge_t_get_prop_image(self.nativeObj)
 
   @image.setter
   def image(self, v):
@@ -14259,7 +14296,7 @@ class TGauge (TWidget):
   #
   @property
   def draw_type(self):
-    return gauge_t_get_prop_draw_type(self.nativeObj);
+    return gauge_t_get_prop_draw_type(self.nativeObj)
 
   @draw_type.setter
   def draw_type(self, v):
@@ -14532,7 +14569,7 @@ class TImageAnimation (TWidget):
   #
   @property
   def image(self):
-    return image_animation_t_get_prop_image(self.nativeObj);
+    return image_animation_t_get_prop_image(self.nativeObj)
 
   @image.setter
   def image(self, v):
@@ -14545,7 +14582,7 @@ class TImageAnimation (TWidget):
   #
   @property
   def sequence(self):
-    return image_animation_t_get_prop_sequence(self.nativeObj);
+    return image_animation_t_get_prop_sequence(self.nativeObj)
 
   @sequence.setter
   def sequence(self, v):
@@ -14558,7 +14595,7 @@ class TImageAnimation (TWidget):
   #
   @property
   def start_index(self):
-    return image_animation_t_get_prop_start_index(self.nativeObj);
+    return image_animation_t_get_prop_start_index(self.nativeObj)
 
 
   #
@@ -14567,7 +14604,7 @@ class TImageAnimation (TWidget):
   #
   @property
   def end_index(self):
-    return image_animation_t_get_prop_end_index(self.nativeObj);
+    return image_animation_t_get_prop_end_index(self.nativeObj)
 
 
   #
@@ -14576,7 +14613,7 @@ class TImageAnimation (TWidget):
   #
   @property
   def reverse(self):
-    return image_animation_t_get_prop_reverse(self.nativeObj);
+    return image_animation_t_get_prop_reverse(self.nativeObj)
 
   @reverse.setter
   def reverse(self, v):
@@ -14589,7 +14626,7 @@ class TImageAnimation (TWidget):
   #
   @property
   def loop(self):
-    return image_animation_t_get_prop_loop(self.nativeObj);
+    return image_animation_t_get_prop_loop(self.nativeObj)
 
   @loop.setter
   def loop(self, v):
@@ -14602,7 +14639,7 @@ class TImageAnimation (TWidget):
   #
   @property
   def auto_play(self):
-    return image_animation_t_get_prop_auto_play(self.nativeObj);
+    return image_animation_t_get_prop_auto_play(self.nativeObj)
 
   @auto_play.setter
   def auto_play(self, v):
@@ -14615,7 +14652,7 @@ class TImageAnimation (TWidget):
   #
   @property
   def unload_after_paint(self):
-    return image_animation_t_get_prop_unload_after_paint(self.nativeObj);
+    return image_animation_t_get_prop_unload_after_paint(self.nativeObj)
 
   @unload_after_paint.setter
   def unload_after_paint(self, v):
@@ -14628,7 +14665,7 @@ class TImageAnimation (TWidget):
   #
   @property
   def format(self):
-    return image_animation_t_get_prop_format(self.nativeObj);
+    return image_animation_t_get_prop_format(self.nativeObj)
 
   @format.setter
   def format(self, v):
@@ -14641,7 +14678,7 @@ class TImageAnimation (TWidget):
   #
   @property
   def interval(self):
-    return image_animation_t_get_prop_interval(self.nativeObj);
+    return image_animation_t_get_prop_interval(self.nativeObj)
 
   @interval.setter
   def interval(self, v):
@@ -14654,7 +14691,7 @@ class TImageAnimation (TWidget):
   #
   @property
   def delay(self):
-    return image_animation_t_get_prop_delay(self.nativeObj);
+    return image_animation_t_get_prop_delay(self.nativeObj)
 
   @delay.setter
   def delay(self, v):
@@ -14667,7 +14704,7 @@ class TImageAnimation (TWidget):
   #
   @property
   def show_when_done(self):
-    return image_animation_t_get_prop_show_when_done(self.nativeObj);
+    return image_animation_t_get_prop_show_when_done(self.nativeObj)
 
   @show_when_done.setter
   def show_when_done(self, v):
@@ -14830,7 +14867,7 @@ class TImageValue (TWidget):
   #
   @property
   def image(self):
-    return image_value_t_get_prop_image(self.nativeObj);
+    return image_value_t_get_prop_image(self.nativeObj)
 
   @image.setter
   def image(self, v):
@@ -14843,7 +14880,7 @@ class TImageValue (TWidget):
   #
   @property
   def format(self):
-    return image_value_t_get_prop_format(self.nativeObj);
+    return image_value_t_get_prop_format(self.nativeObj)
 
   @format.setter
   def format(self, v):
@@ -14856,7 +14893,7 @@ class TImageValue (TWidget):
   #
   @property
   def click_add_delta(self):
-    return image_value_t_get_prop_click_add_delta(self.nativeObj);
+    return image_value_t_get_prop_click_add_delta(self.nativeObj)
 
   @click_add_delta.setter
   def click_add_delta(self, v):
@@ -14869,7 +14906,7 @@ class TImageValue (TWidget):
   #
   @property
   def value(self):
-    return image_value_t_get_prop_value(self.nativeObj);
+    return image_value_t_get_prop_value(self.nativeObj)
 
   @value.setter
   def value(self, v):
@@ -14882,7 +14919,7 @@ class TImageValue (TWidget):
   #
   @property
   def min(self):
-    return image_value_t_get_prop_min(self.nativeObj);
+    return image_value_t_get_prop_min(self.nativeObj)
 
   @min.setter
   def min(self, v):
@@ -14895,7 +14932,7 @@ class TImageValue (TWidget):
   #
   @property
   def max(self):
-    return image_value_t_get_prop_max(self.nativeObj);
+    return image_value_t_get_prop_max(self.nativeObj)
 
   @max.setter
   def max(self, v):
@@ -15016,7 +15053,7 @@ class TCandidates (TWidget):
   #
   @property
   def pre(self):
-    return candidates_t_get_prop_pre(self.nativeObj);
+    return candidates_t_get_prop_pre(self.nativeObj)
 
   @pre.setter
   def pre(self, v):
@@ -15029,7 +15066,7 @@ class TCandidates (TWidget):
   #
   @property
   def select_by_num(self):
-    return candidates_t_get_prop_select_by_num(self.nativeObj);
+    return candidates_t_get_prop_select_by_num(self.nativeObj)
 
   @select_by_num.setter
   def select_by_num(self, v):
@@ -15042,7 +15079,7 @@ class TCandidates (TWidget):
   #
   @property
   def auto_hide(self):
-    return candidates_t_get_prop_auto_hide(self.nativeObj);
+    return candidates_t_get_prop_auto_hide(self.nativeObj)
 
   @auto_hide.setter
   def auto_hide(self, v):
@@ -15055,7 +15092,7 @@ class TCandidates (TWidget):
   #
   @property
   def button_style(self):
-    return candidates_t_get_prop_button_style(self.nativeObj);
+    return candidates_t_get_prop_button_style(self.nativeObj)
 
   @button_style.setter
   def button_style(self, v):
@@ -15152,7 +15189,7 @@ class TLangIndicator (TWidget):
   #
   @property
   def image(self):
-    return lang_indicator_t_get_prop_image(self.nativeObj);
+    return lang_indicator_t_get_prop_image(self.nativeObj)
 
   @image.setter
   def image(self, v):
@@ -15555,7 +15592,7 @@ class TMledit (TWidget):
   #
   @property
   def tips(self):
-    return mledit_t_get_prop_tips(self.nativeObj);
+    return mledit_t_get_prop_tips(self.nativeObj)
 
   @tips.setter
   def tips(self, v):
@@ -15568,7 +15605,7 @@ class TMledit (TWidget):
   #
   @property
   def tr_tips(self):
-    return mledit_t_get_prop_tr_tips(self.nativeObj);
+    return mledit_t_get_prop_tr_tips(self.nativeObj)
 
   @tr_tips.setter
   def tr_tips(self, v):
@@ -15581,7 +15618,7 @@ class TMledit (TWidget):
   #
   @property
   def keyboard(self):
-    return mledit_t_get_prop_keyboard(self.nativeObj);
+    return mledit_t_get_prop_keyboard(self.nativeObj)
 
   @keyboard.setter
   def keyboard(self, v):
@@ -15594,7 +15631,7 @@ class TMledit (TWidget):
   #
   @property
   def max_lines(self):
-    return mledit_t_get_prop_max_lines(self.nativeObj);
+    return mledit_t_get_prop_max_lines(self.nativeObj)
 
   @max_lines.setter
   def max_lines(self, v):
@@ -15607,7 +15644,7 @@ class TMledit (TWidget):
   #
   @property
   def max_chars(self):
-    return mledit_t_get_prop_max_chars(self.nativeObj);
+    return mledit_t_get_prop_max_chars(self.nativeObj)
 
   @max_chars.setter
   def max_chars(self, v):
@@ -15620,7 +15657,7 @@ class TMledit (TWidget):
   #
   @property
   def wrap_word(self):
-    return mledit_t_get_prop_wrap_word(self.nativeObj);
+    return mledit_t_get_prop_wrap_word(self.nativeObj)
 
   @wrap_word.setter
   def wrap_word(self, v):
@@ -15633,7 +15670,7 @@ class TMledit (TWidget):
   #
   @property
   def scroll_line(self):
-    return mledit_t_get_prop_scroll_line(self.nativeObj);
+    return mledit_t_get_prop_scroll_line(self.nativeObj)
 
   @scroll_line.setter
   def scroll_line(self, v):
@@ -15646,7 +15683,7 @@ class TMledit (TWidget):
   #
   @property
   def readonly(self):
-    return mledit_t_get_prop_readonly(self.nativeObj);
+    return mledit_t_get_prop_readonly(self.nativeObj)
 
   @readonly.setter
   def readonly(self, v):
@@ -15662,7 +15699,7 @@ class TMledit (TWidget):
   #
   @property
   def cancelable(self):
-    return mledit_t_get_prop_cancelable(self.nativeObj);
+    return mledit_t_get_prop_cancelable(self.nativeObj)
 
   @cancelable.setter
   def cancelable(self, v):
@@ -15677,7 +15714,7 @@ class TMledit (TWidget):
   #
   @property
   def open_im_when_focused(self):
-    return mledit_t_get_prop_open_im_when_focused(self.nativeObj);
+    return mledit_t_get_prop_open_im_when_focused(self.nativeObj)
 
   @open_im_when_focused.setter
   def open_im_when_focused(self, v):
@@ -15690,7 +15727,7 @@ class TMledit (TWidget):
   #
   @property
   def close_im_when_blured(self):
-    return mledit_t_get_prop_close_im_when_blured(self.nativeObj);
+    return mledit_t_get_prop_close_im_when_blured(self.nativeObj)
 
   @close_im_when_blured.setter
   def close_im_when_blured(self, v):
@@ -15875,7 +15912,7 @@ class TProgressCircle (TWidget):
   #
   @property
   def value(self):
-    return progress_circle_t_get_prop_value(self.nativeObj);
+    return progress_circle_t_get_prop_value(self.nativeObj)
 
   @value.setter
   def value(self, v):
@@ -15888,7 +15925,7 @@ class TProgressCircle (TWidget):
   #
   @property
   def max(self):
-    return progress_circle_t_get_prop_max(self.nativeObj);
+    return progress_circle_t_get_prop_max(self.nativeObj)
 
   @max.setter
   def max(self, v):
@@ -15901,7 +15938,7 @@ class TProgressCircle (TWidget):
   #
   @property
   def format(self):
-    return progress_circle_t_get_prop_format(self.nativeObj);
+    return progress_circle_t_get_prop_format(self.nativeObj)
 
   @format.setter
   def format(self, v):
@@ -15914,7 +15951,7 @@ class TProgressCircle (TWidget):
   #
   @property
   def start_angle(self):
-    return progress_circle_t_get_prop_start_angle(self.nativeObj);
+    return progress_circle_t_get_prop_start_angle(self.nativeObj)
 
   @start_angle.setter
   def start_angle(self, v):
@@ -15927,7 +15964,7 @@ class TProgressCircle (TWidget):
   #
   @property
   def line_width(self):
-    return progress_circle_t_get_prop_line_width(self.nativeObj);
+    return progress_circle_t_get_prop_line_width(self.nativeObj)
 
   @line_width.setter
   def line_width(self, v):
@@ -15940,7 +15977,7 @@ class TProgressCircle (TWidget):
   #
   @property
   def line_cap(self):
-    return progress_circle_t_get_prop_line_cap(self.nativeObj);
+    return progress_circle_t_get_prop_line_cap(self.nativeObj)
 
   @line_cap.setter
   def line_cap(self, v):
@@ -15953,7 +15990,7 @@ class TProgressCircle (TWidget):
   #
   @property
   def counter_clock_wise(self):
-    return progress_circle_t_get_prop_counter_clock_wise(self.nativeObj);
+    return progress_circle_t_get_prop_counter_clock_wise(self.nativeObj)
 
   @counter_clock_wise.setter
   def counter_clock_wise(self, v):
@@ -15966,7 +16003,7 @@ class TProgressCircle (TWidget):
   #
   @property
   def show_text(self):
-    return progress_circle_t_get_prop_show_text(self.nativeObj);
+    return progress_circle_t_get_prop_show_text(self.nativeObj)
 
   @show_text.setter
   def show_text(self, v):
@@ -16166,7 +16203,7 @@ class TRichText (TWidget):
   #
   @property
   def line_gap(self):
-    return rich_text_t_get_prop_line_gap(self.nativeObj);
+    return rich_text_t_get_prop_line_gap(self.nativeObj)
 
 
   #
@@ -16175,7 +16212,7 @@ class TRichText (TWidget):
   #
   @property
   def yslidable(self):
-    return rich_text_t_get_prop_yslidable(self.nativeObj);
+    return rich_text_t_get_prop_yslidable(self.nativeObj)
 
   @yslidable.setter
   def yslidable(self, v):
@@ -16374,7 +16411,7 @@ class THscrollLabel (TWidget):
   #
   @property
   def only_focus(self):
-    return hscroll_label_t_get_prop_only_focus(self.nativeObj);
+    return hscroll_label_t_get_prop_only_focus(self.nativeObj)
 
   @only_focus.setter
   def only_focus(self, v):
@@ -16387,7 +16424,7 @@ class THscrollLabel (TWidget):
   #
   @property
   def only_parent_focus(self):
-    return hscroll_label_t_get_prop_only_parent_focus(self.nativeObj);
+    return hscroll_label_t_get_prop_only_parent_focus(self.nativeObj)
 
   @only_parent_focus.setter
   def only_parent_focus(self, v):
@@ -16400,7 +16437,7 @@ class THscrollLabel (TWidget):
   #
   @property
   def loop(self):
-    return hscroll_label_t_get_prop_loop(self.nativeObj);
+    return hscroll_label_t_get_prop_loop(self.nativeObj)
 
   @loop.setter
   def loop(self, v):
@@ -16413,7 +16450,7 @@ class THscrollLabel (TWidget):
   #
   @property
   def yoyo(self):
-    return hscroll_label_t_get_prop_yoyo(self.nativeObj);
+    return hscroll_label_t_get_prop_yoyo(self.nativeObj)
 
   @yoyo.setter
   def yoyo(self, v):
@@ -16426,7 +16463,7 @@ class THscrollLabel (TWidget):
   #
   @property
   def ellipses(self):
-    return hscroll_label_t_get_prop_ellipses(self.nativeObj);
+    return hscroll_label_t_get_prop_ellipses(self.nativeObj)
 
   @ellipses.setter
   def ellipses(self, v):
@@ -16439,7 +16476,7 @@ class THscrollLabel (TWidget):
   #
   @property
   def lull(self):
-    return hscroll_label_t_get_prop_lull(self.nativeObj);
+    return hscroll_label_t_get_prop_lull(self.nativeObj)
 
   @lull.setter
   def lull(self, v):
@@ -16452,7 +16489,7 @@ class THscrollLabel (TWidget):
   #
   @property
   def duration(self):
-    return hscroll_label_t_get_prop_duration(self.nativeObj);
+    return hscroll_label_t_get_prop_duration(self.nativeObj)
 
   @duration.setter
   def duration(self, v):
@@ -16465,7 +16502,7 @@ class THscrollLabel (TWidget):
   #
   @property
   def xoffset(self):
-    return hscroll_label_t_get_prop_xoffset(self.nativeObj);
+    return hscroll_label_t_get_prop_xoffset(self.nativeObj)
 
   @xoffset.setter
   def xoffset(self, v):
@@ -16478,7 +16515,7 @@ class THscrollLabel (TWidget):
   #
   @property
   def text_w(self):
-    return hscroll_label_t_get_prop_text_w(self.nativeObj);
+    return hscroll_label_t_get_prop_text_w(self.nativeObj)
 
 
 #
@@ -16685,7 +16722,7 @@ class TListViewH (TWidget):
   #
   @property
   def item_width(self):
-    return list_view_h_t_get_prop_item_width(self.nativeObj);
+    return list_view_h_t_get_prop_item_width(self.nativeObj)
 
   @item_width.setter
   def item_width(self, v):
@@ -16698,7 +16735,7 @@ class TListViewH (TWidget):
   #
   @property
   def spacing(self):
-    return list_view_h_t_get_prop_spacing(self.nativeObj);
+    return list_view_h_t_get_prop_spacing(self.nativeObj)
 
   @spacing.setter
   def spacing(self, v):
@@ -16869,7 +16906,7 @@ class TListView (TWidget):
   #
   @property
   def item_height(self):
-    return list_view_t_get_prop_item_height(self.nativeObj);
+    return list_view_t_get_prop_item_height(self.nativeObj)
 
   @item_height.setter
   def item_height(self, v):
@@ -16882,7 +16919,7 @@ class TListView (TWidget):
   #
   @property
   def default_item_height(self):
-    return list_view_t_get_prop_default_item_height(self.nativeObj);
+    return list_view_t_get_prop_default_item_height(self.nativeObj)
 
   @default_item_height.setter
   def default_item_height(self, v):
@@ -16895,7 +16932,7 @@ class TListView (TWidget):
   #
   @property
   def auto_hide_scroll_bar(self):
-    return list_view_t_get_prop_auto_hide_scroll_bar(self.nativeObj);
+    return list_view_t_get_prop_auto_hide_scroll_bar(self.nativeObj)
 
   @auto_hide_scroll_bar.setter
   def auto_hide_scroll_bar(self, v):
@@ -16908,7 +16945,7 @@ class TListView (TWidget):
   #
   @property
   def floating_scroll_bar(self):
-    return list_view_t_get_prop_floating_scroll_bar(self.nativeObj);
+    return list_view_t_get_prop_floating_scroll_bar(self.nativeObj)
 
   @floating_scroll_bar.setter
   def floating_scroll_bar(self, v):
@@ -17132,7 +17169,7 @@ class TScrollBar (TWidget):
   #
   @property
   def virtual_size(self):
-    return scroll_bar_t_get_prop_virtual_size(self.nativeObj);
+    return scroll_bar_t_get_prop_virtual_size(self.nativeObj)
 
 
   #
@@ -17141,7 +17178,7 @@ class TScrollBar (TWidget):
   #
   @property
   def value(self):
-    return scroll_bar_t_get_prop_value(self.nativeObj);
+    return scroll_bar_t_get_prop_value(self.nativeObj)
 
   @value.setter
   def value(self, v):
@@ -17154,7 +17191,7 @@ class TScrollBar (TWidget):
   #
   @property
   def row(self):
-    return scroll_bar_t_get_prop_row(self.nativeObj);
+    return scroll_bar_t_get_prop_row(self.nativeObj)
 
 
   #
@@ -17163,7 +17200,7 @@ class TScrollBar (TWidget):
   #
   @property
   def animatable(self):
-    return scroll_bar_t_get_prop_animatable(self.nativeObj);
+    return scroll_bar_t_get_prop_animatable(self.nativeObj)
 
 
   #
@@ -17172,7 +17209,7 @@ class TScrollBar (TWidget):
   #
   @property
   def auto_hide(self):
-    return scroll_bar_t_get_prop_auto_hide(self.nativeObj);
+    return scroll_bar_t_get_prop_auto_hide(self.nativeObj)
 
   @auto_hide.setter
   def auto_hide(self, v):
@@ -17406,7 +17443,7 @@ class TScrollView (TWidget):
   #
   @property
   def virtual_w(self):
-    return scroll_view_t_get_prop_virtual_w(self.nativeObj);
+    return scroll_view_t_get_prop_virtual_w(self.nativeObj)
 
   @virtual_w.setter
   def virtual_w(self, v):
@@ -17419,7 +17456,7 @@ class TScrollView (TWidget):
   #
   @property
   def virtual_h(self):
-    return scroll_view_t_get_prop_virtual_h(self.nativeObj);
+    return scroll_view_t_get_prop_virtual_h(self.nativeObj)
 
   @virtual_h.setter
   def virtual_h(self, v):
@@ -17432,7 +17469,7 @@ class TScrollView (TWidget):
   #
   @property
   def xoffset(self):
-    return scroll_view_t_get_prop_xoffset(self.nativeObj);
+    return scroll_view_t_get_prop_xoffset(self.nativeObj)
 
 
   #
@@ -17441,7 +17478,7 @@ class TScrollView (TWidget):
   #
   @property
   def yoffset(self):
-    return scroll_view_t_get_prop_yoffset(self.nativeObj);
+    return scroll_view_t_get_prop_yoffset(self.nativeObj)
 
 
   #
@@ -17450,7 +17487,7 @@ class TScrollView (TWidget):
   #
   @property
   def xspeed_scale(self):
-    return scroll_view_t_get_prop_xspeed_scale(self.nativeObj);
+    return scroll_view_t_get_prop_xspeed_scale(self.nativeObj)
 
 
   #
@@ -17459,7 +17496,7 @@ class TScrollView (TWidget):
   #
   @property
   def yspeed_scale(self):
-    return scroll_view_t_get_prop_yspeed_scale(self.nativeObj);
+    return scroll_view_t_get_prop_yspeed_scale(self.nativeObj)
 
 
   #
@@ -17468,7 +17505,7 @@ class TScrollView (TWidget):
   #
   @property
   def xslidable(self):
-    return scroll_view_t_get_prop_xslidable(self.nativeObj);
+    return scroll_view_t_get_prop_xslidable(self.nativeObj)
 
   @xslidable.setter
   def xslidable(self, v):
@@ -17481,7 +17518,7 @@ class TScrollView (TWidget):
   #
   @property
   def yslidable(self):
-    return scroll_view_t_get_prop_yslidable(self.nativeObj);
+    return scroll_view_t_get_prop_yslidable(self.nativeObj)
 
   @yslidable.setter
   def yslidable(self, v):
@@ -17494,7 +17531,7 @@ class TScrollView (TWidget):
   #
   @property
   def snap_to_page(self):
-    return scroll_view_t_get_prop_snap_to_page(self.nativeObj);
+    return scroll_view_t_get_prop_snap_to_page(self.nativeObj)
 
   @snap_to_page.setter
   def snap_to_page(self, v):
@@ -17507,7 +17544,7 @@ class TScrollView (TWidget):
   #
   @property
   def move_to_page(self):
-    return scroll_view_t_get_prop_move_to_page(self.nativeObj);
+    return scroll_view_t_get_prop_move_to_page(self.nativeObj)
 
   @move_to_page.setter
   def move_to_page(self, v):
@@ -17520,7 +17557,7 @@ class TScrollView (TWidget):
   #
   @property
   def recursive(self):
-    return scroll_view_t_get_prop_recursive(self.nativeObj);
+    return scroll_view_t_get_prop_recursive(self.nativeObj)
 
   @recursive.setter
   def recursive(self, v):
@@ -17662,7 +17699,7 @@ class TSlideMenu (TWidget):
   #
   @property
   def value(self):
-    return slide_menu_t_get_prop_value(self.nativeObj);
+    return slide_menu_t_get_prop_value(self.nativeObj)
 
   @value.setter
   def value(self, v):
@@ -17675,7 +17712,7 @@ class TSlideMenu (TWidget):
   #
   @property
   def align_v(self):
-    return slide_menu_t_get_prop_align_v(self.nativeObj);
+    return slide_menu_t_get_prop_align_v(self.nativeObj)
 
   @align_v.setter
   def align_v(self, v):
@@ -17688,7 +17725,7 @@ class TSlideMenu (TWidget):
   #
   @property
   def min_scale(self):
-    return slide_menu_t_get_prop_min_scale(self.nativeObj);
+    return slide_menu_t_get_prop_min_scale(self.nativeObj)
 
   @min_scale.setter
   def min_scale(self, v):
@@ -17915,7 +17952,7 @@ class TSlideIndicator (TWidget):
   #
   @property
   def value(self):
-    return slide_indicator_t_get_prop_value(self.nativeObj);
+    return slide_indicator_t_get_prop_value(self.nativeObj)
 
   @value.setter
   def value(self, v):
@@ -17928,7 +17965,7 @@ class TSlideIndicator (TWidget):
   #
   @property
   def max(self):
-    return slide_indicator_t_get_prop_max(self.nativeObj);
+    return slide_indicator_t_get_prop_max(self.nativeObj)
 
   @max.setter
   def max(self, v):
@@ -17941,7 +17978,7 @@ class TSlideIndicator (TWidget):
   #
   @property
   def default_paint(self):
-    return slide_indicator_t_get_prop_default_paint(self.nativeObj);
+    return slide_indicator_t_get_prop_default_paint(self.nativeObj)
 
   @default_paint.setter
   def default_paint(self, v):
@@ -17954,7 +17991,7 @@ class TSlideIndicator (TWidget):
   #
   @property
   def auto_hide(self):
-    return slide_indicator_t_get_prop_auto_hide(self.nativeObj);
+    return slide_indicator_t_get_prop_auto_hide(self.nativeObj)
 
   @auto_hide.setter
   def auto_hide(self, v):
@@ -17967,7 +18004,7 @@ class TSlideIndicator (TWidget):
   #
   @property
   def margin(self):
-    return slide_indicator_t_get_prop_margin(self.nativeObj);
+    return slide_indicator_t_get_prop_margin(self.nativeObj)
 
   @margin.setter
   def margin(self, v):
@@ -17980,7 +18017,7 @@ class TSlideIndicator (TWidget):
   #
   @property
   def spacing(self):
-    return slide_indicator_t_get_prop_spacing(self.nativeObj);
+    return slide_indicator_t_get_prop_spacing(self.nativeObj)
 
   @spacing.setter
   def spacing(self, v):
@@ -17993,7 +18030,7 @@ class TSlideIndicator (TWidget):
   #
   @property
   def size(self):
-    return slide_indicator_t_get_prop_size(self.nativeObj);
+    return slide_indicator_t_get_prop_size(self.nativeObj)
 
   @size.setter
   def size(self, v):
@@ -18006,7 +18043,7 @@ class TSlideIndicator (TWidget):
   #
   @property
   def anchor_x(self):
-    return slide_indicator_t_get_prop_anchor_x(self.nativeObj);
+    return slide_indicator_t_get_prop_anchor_x(self.nativeObj)
 
 
   #
@@ -18015,7 +18052,7 @@ class TSlideIndicator (TWidget):
   #
   @property
   def anchor_y(self):
-    return slide_indicator_t_get_prop_anchor_y(self.nativeObj);
+    return slide_indicator_t_get_prop_anchor_y(self.nativeObj)
 
 
   #
@@ -18024,7 +18061,7 @@ class TSlideIndicator (TWidget):
   #
   @property
   def indicated_target(self):
-    return slide_indicator_t_get_prop_indicated_target(self.nativeObj);
+    return slide_indicator_t_get_prop_indicated_target(self.nativeObj)
 
   @indicated_target.setter
   def indicated_target(self, v):
@@ -18220,7 +18257,7 @@ class TSlideView (TWidget):
   #
   @property
   def vertical(self):
-    return slide_view_t_get_prop_vertical(self.nativeObj);
+    return slide_view_t_get_prop_vertical(self.nativeObj)
 
   @vertical.setter
   def vertical(self, v):
@@ -18233,7 +18270,7 @@ class TSlideView (TWidget):
   #
   @property
   def auto_play(self):
-    return slide_view_t_get_prop_auto_play(self.nativeObj);
+    return slide_view_t_get_prop_auto_play(self.nativeObj)
 
   @auto_play.setter
   def auto_play(self, v):
@@ -18249,7 +18286,7 @@ class TSlideView (TWidget):
   #
   @property
   def loop(self):
-    return slide_view_t_get_prop_loop(self.nativeObj);
+    return slide_view_t_get_prop_loop(self.nativeObj)
 
   @loop.setter
   def loop(self, v):
@@ -18262,7 +18299,7 @@ class TSlideView (TWidget):
   #
   @property
   def anim_hint(self):
-    return slide_view_t_get_prop_anim_hint(self.nativeObj);
+    return slide_view_t_get_prop_anim_hint(self.nativeObj)
 
   @anim_hint.setter
   def anim_hint(self, v):
@@ -18368,7 +18405,7 @@ class TSwitch (TWidget):
   #
   @property
   def value(self):
-    return switch_t_get_prop_value(self.nativeObj);
+    return switch_t_get_prop_value(self.nativeObj)
 
   @value.setter
   def value(self, v):
@@ -18381,7 +18418,7 @@ class TSwitch (TWidget):
   #
   @property
   def max_xoffset_ratio(self):
-    return switch_t_get_prop_max_xoffset_ratio(self.nativeObj);
+    return switch_t_get_prop_max_xoffset_ratio(self.nativeObj)
 
 
 #
@@ -18652,7 +18689,7 @@ class TTextSelector (TWidget):
   #
   @property
   def visible_nr(self):
-    return text_selector_t_get_prop_visible_nr(self.nativeObj);
+    return text_selector_t_get_prop_visible_nr(self.nativeObj)
 
   @visible_nr.setter
   def visible_nr(self, v):
@@ -18665,7 +18702,7 @@ class TTextSelector (TWidget):
   #
   @property
   def selected_index(self):
-    return text_selector_t_get_prop_selected_index(self.nativeObj);
+    return text_selector_t_get_prop_selected_index(self.nativeObj)
 
   @selected_index.setter
   def selected_index(self, v):
@@ -18680,7 +18717,7 @@ class TTextSelector (TWidget):
   #
   @property
   def options(self):
-    return text_selector_t_get_prop_options(self.nativeObj);
+    return text_selector_t_get_prop_options(self.nativeObj)
 
   @options.setter
   def options(self, v):
@@ -18693,7 +18730,7 @@ class TTextSelector (TWidget):
   #
   @property
   def yspeed_scale(self):
-    return text_selector_t_get_prop_yspeed_scale(self.nativeObj);
+    return text_selector_t_get_prop_yspeed_scale(self.nativeObj)
 
   @yspeed_scale.setter
   def yspeed_scale(self, v):
@@ -18706,7 +18743,7 @@ class TTextSelector (TWidget):
   #
   @property
   def animating_time(self):
-    return text_selector_t_get_prop_animating_time(self.nativeObj);
+    return text_selector_t_get_prop_animating_time(self.nativeObj)
 
   @animating_time.setter
   def animating_time(self, v):
@@ -18719,7 +18756,7 @@ class TTextSelector (TWidget):
   #
   @property
   def localize_options(self):
-    return text_selector_t_get_prop_localize_options(self.nativeObj);
+    return text_selector_t_get_prop_localize_options(self.nativeObj)
 
   @localize_options.setter
   def localize_options(self, v):
@@ -18732,7 +18769,7 @@ class TTextSelector (TWidget):
   #
   @property
   def loop_options(self):
-    return text_selector_t_get_prop_loop_options(self.nativeObj);
+    return text_selector_t_get_prop_loop_options(self.nativeObj)
 
   @loop_options.setter
   def loop_options(self, v):
@@ -18946,7 +18983,7 @@ class TTimeClock (TWidget):
   #
   @property
   def hour(self):
-    return time_clock_t_get_prop_hour(self.nativeObj);
+    return time_clock_t_get_prop_hour(self.nativeObj)
 
   @hour.setter
   def hour(self, v):
@@ -18959,7 +18996,7 @@ class TTimeClock (TWidget):
   #
   @property
   def minute(self):
-    return time_clock_t_get_prop_minute(self.nativeObj);
+    return time_clock_t_get_prop_minute(self.nativeObj)
 
   @minute.setter
   def minute(self, v):
@@ -18972,7 +19009,7 @@ class TTimeClock (TWidget):
   #
   @property
   def second(self):
-    return time_clock_t_get_prop_second(self.nativeObj);
+    return time_clock_t_get_prop_second(self.nativeObj)
 
   @second.setter
   def second(self, v):
@@ -18985,7 +19022,7 @@ class TTimeClock (TWidget):
   #
   @property
   def image(self):
-    return time_clock_t_get_prop_image(self.nativeObj);
+    return time_clock_t_get_prop_image(self.nativeObj)
 
   @image.setter
   def image(self, v):
@@ -18998,7 +19035,7 @@ class TTimeClock (TWidget):
   #
   @property
   def bg_image(self):
-    return time_clock_t_get_prop_bg_image(self.nativeObj);
+    return time_clock_t_get_prop_bg_image(self.nativeObj)
 
   @bg_image.setter
   def bg_image(self, v):
@@ -19011,7 +19048,7 @@ class TTimeClock (TWidget):
   #
   @property
   def hour_image(self):
-    return time_clock_t_get_prop_hour_image(self.nativeObj);
+    return time_clock_t_get_prop_hour_image(self.nativeObj)
 
   @hour_image.setter
   def hour_image(self, v):
@@ -19024,7 +19061,7 @@ class TTimeClock (TWidget):
   #
   @property
   def minute_image(self):
-    return time_clock_t_get_prop_minute_image(self.nativeObj);
+    return time_clock_t_get_prop_minute_image(self.nativeObj)
 
   @minute_image.setter
   def minute_image(self, v):
@@ -19037,7 +19074,7 @@ class TTimeClock (TWidget):
   #
   @property
   def second_image(self):
-    return time_clock_t_get_prop_second_image(self.nativeObj);
+    return time_clock_t_get_prop_second_image(self.nativeObj)
 
   @second_image.setter
   def second_image(self, v):
@@ -19050,7 +19087,7 @@ class TTimeClock (TWidget):
   #
   @property
   def hour_anchor_x(self):
-    return time_clock_t_get_prop_hour_anchor_x(self.nativeObj);
+    return time_clock_t_get_prop_hour_anchor_x(self.nativeObj)
 
 
   #
@@ -19059,7 +19096,7 @@ class TTimeClock (TWidget):
   #
   @property
   def hour_anchor_y(self):
-    return time_clock_t_get_prop_hour_anchor_y(self.nativeObj);
+    return time_clock_t_get_prop_hour_anchor_y(self.nativeObj)
 
 
   #
@@ -19068,7 +19105,7 @@ class TTimeClock (TWidget):
   #
   @property
   def minute_anchor_x(self):
-    return time_clock_t_get_prop_minute_anchor_x(self.nativeObj);
+    return time_clock_t_get_prop_minute_anchor_x(self.nativeObj)
 
 
   #
@@ -19077,7 +19114,7 @@ class TTimeClock (TWidget):
   #
   @property
   def minute_anchor_y(self):
-    return time_clock_t_get_prop_minute_anchor_y(self.nativeObj);
+    return time_clock_t_get_prop_minute_anchor_y(self.nativeObj)
 
 
   #
@@ -19086,7 +19123,7 @@ class TTimeClock (TWidget):
   #
   @property
   def second_anchor_x(self):
-    return time_clock_t_get_prop_second_anchor_x(self.nativeObj);
+    return time_clock_t_get_prop_second_anchor_x(self.nativeObj)
 
 
   #
@@ -19095,7 +19132,7 @@ class TTimeClock (TWidget):
   #
   @property
   def second_anchor_y(self):
-    return time_clock_t_get_prop_second_anchor_y(self.nativeObj);
+    return time_clock_t_get_prop_second_anchor_y(self.nativeObj)
 
 
 #
@@ -19207,7 +19244,7 @@ class TVpage (TWidget):
   #
   @property
   def ui_asset(self):
-    return vpage_t_get_prop_ui_asset(self.nativeObj);
+    return vpage_t_get_prop_ui_asset(self.nativeObj)
 
   @ui_asset.setter
   def ui_asset(self, v):
@@ -19220,7 +19257,7 @@ class TVpage (TWidget):
   #
   @property
   def anim_hint(self):
-    return vpage_t_get_prop_anim_hint(self.nativeObj);
+    return vpage_t_get_prop_anim_hint(self.nativeObj)
 
   @anim_hint.setter
   def anim_hint(self, v):
@@ -19271,7 +19308,7 @@ class TPropChangeEvent (TEvent):
   #
   @property
   def name(self):
-    return prop_change_event_t_get_prop_name(self.nativeObj);
+    return prop_change_event_t_get_prop_name(self.nativeObj)
 
 
   #
@@ -19280,7 +19317,7 @@ class TPropChangeEvent (TEvent):
   #
   @property
   def value(self):
-    return TValue(prop_change_event_t_get_prop_value(self.nativeObj));
+    return TValue(prop_change_event_t_get_prop_value(self.nativeObj))
 
 
 #
@@ -19327,7 +19364,7 @@ class TProgressEvent (TEvent):
   #
   @property
   def percent(self):
-    return progress_event_t_get_prop_percent(self.nativeObj);
+    return progress_event_t_get_prop_percent(self.nativeObj)
 
 
 #
@@ -19374,7 +19411,7 @@ class TDoneEvent (TEvent):
   #
   @property
   def result(self):
-    return done_event_t_get_prop_result(self.nativeObj);
+    return done_event_t_get_prop_result(self.nativeObj)
 
 
 #
@@ -19421,7 +19458,7 @@ class TErrorEvent (TEvent):
   #
   @property
   def code(self):
-    return error_event_t_get_prop_code(self.nativeObj);
+    return error_event_t_get_prop_code(self.nativeObj)
 
 
   #
@@ -19430,7 +19467,7 @@ class TErrorEvent (TEvent):
   #
   @property
   def message(self):
-    return error_event_t_get_prop_message(self.nativeObj);
+    return error_event_t_get_prop_message(self.nativeObj)
 
 
 #
@@ -19477,7 +19514,7 @@ class TCmdExecEvent (TEvent):
   #
   @property
   def name(self):
-    return cmd_exec_event_t_get_prop_name(self.nativeObj);
+    return cmd_exec_event_t_get_prop_name(self.nativeObj)
 
 
   #
@@ -19486,7 +19523,7 @@ class TCmdExecEvent (TEvent):
   #
   @property
   def args(self):
-    return cmd_exec_event_t_get_prop_args(self.nativeObj);
+    return cmd_exec_event_t_get_prop_args(self.nativeObj)
 
 
   #
@@ -19495,7 +19532,7 @@ class TCmdExecEvent (TEvent):
   #
   @property
   def result(self):
-    return cmd_exec_event_t_get_prop_result(self.nativeObj);
+    return cmd_exec_event_t_get_prop_result(self.nativeObj)
 
 
   #
@@ -19504,7 +19541,7 @@ class TCmdExecEvent (TEvent):
   #
   @property
   def can_exec(self):
-    return cmd_exec_event_t_get_prop_can_exec(self.nativeObj);
+    return cmd_exec_event_t_get_prop_can_exec(self.nativeObj)
 
 
 #
@@ -19800,7 +19837,7 @@ class TButton (TWidget):
   #
   @property
   def repeat(self):
-    return button_t_get_prop_repeat(self.nativeObj);
+    return button_t_get_prop_repeat(self.nativeObj)
 
   @repeat.setter
   def repeat(self, v):
@@ -19816,7 +19853,7 @@ class TButton (TWidget):
   #
   @property
   def enable_long_press(self):
-    return button_t_get_prop_enable_long_press(self.nativeObj);
+    return button_t_get_prop_enable_long_press(self.nativeObj)
 
   @enable_long_press.setter
   def enable_long_press(self, v):
@@ -19829,7 +19866,7 @@ class TButton (TWidget):
   #
   @property
   def long_press_time(self):
-    return button_t_get_prop_long_press_time(self.nativeObj);
+    return button_t_get_prop_long_press_time(self.nativeObj)
 
   @long_press_time.setter
   def long_press_time(self, v):
@@ -19966,7 +20003,7 @@ class TCheckButton (TWidget):
   #
   @property
   def value(self):
-    return check_button_t_get_prop_value(self.nativeObj);
+    return check_button_t_get_prop_value(self.nativeObj)
 
   @value.setter
   def value(self, v):
@@ -20161,7 +20198,7 @@ class TColorTile (TWidget):
   #
   @property
   def bg_color(self):
-    return color_tile_t_get_prop_bg_color(self.nativeObj);
+    return color_tile_t_get_prop_bg_color(self.nativeObj)
 
   @bg_color.setter
   def bg_color(self, v):
@@ -20174,7 +20211,7 @@ class TColorTile (TWidget):
   #
   @property
   def border_color(self):
-    return color_tile_t_get_prop_border_color(self.nativeObj);
+    return color_tile_t_get_prop_border_color(self.nativeObj)
 
 
 #
@@ -20340,7 +20377,7 @@ class TComboBoxItem (TWidget):
   #
   @property
   def value(self):
-    return combo_box_item_t_get_prop_value(self.nativeObj);
+    return combo_box_item_t_get_prop_value(self.nativeObj)
 
   @value.setter
   def value(self, v):
@@ -20353,7 +20390,7 @@ class TComboBoxItem (TWidget):
   #
   @property
   def checked(self):
-    return combo_box_item_t_get_prop_checked(self.nativeObj);
+    return combo_box_item_t_get_prop_checked(self.nativeObj)
 
   @checked.setter
   def checked(self, v):
@@ -20631,7 +20668,7 @@ class TDigitClock (TWidget):
   #
   @property
   def format(self):
-    return digit_clock_t_get_prop_format(self.nativeObj);
+    return digit_clock_t_get_prop_format(self.nativeObj)
 
   @format.setter
   def format(self, v):
@@ -20714,7 +20751,7 @@ class TDragger (TWidget):
   #
   @property
   def x_min(self):
-    return dragger_t_get_prop_x_min(self.nativeObj);
+    return dragger_t_get_prop_x_min(self.nativeObj)
 
 
   #
@@ -20723,7 +20760,7 @@ class TDragger (TWidget):
   #
   @property
   def y_min(self):
-    return dragger_t_get_prop_y_min(self.nativeObj);
+    return dragger_t_get_prop_y_min(self.nativeObj)
 
 
   #
@@ -20732,7 +20769,7 @@ class TDragger (TWidget):
   #
   @property
   def x_max(self):
-    return dragger_t_get_prop_x_max(self.nativeObj);
+    return dragger_t_get_prop_x_max(self.nativeObj)
 
 
   #
@@ -20741,7 +20778,7 @@ class TDragger (TWidget):
   #
   @property
   def y_max(self):
-    return dragger_t_get_prop_y_max(self.nativeObj);
+    return dragger_t_get_prop_y_max(self.nativeObj)
 
 
 #
@@ -21123,7 +21160,7 @@ class TEdit (TWidget):
   #
   @property
   def tips(self):
-    return edit_t_get_prop_tips(self.nativeObj);
+    return edit_t_get_prop_tips(self.nativeObj)
 
   @tips.setter
   def tips(self, v):
@@ -21136,7 +21173,7 @@ class TEdit (TWidget):
   #
   @property
   def tr_tips(self):
-    return edit_t_get_prop_tr_tips(self.nativeObj);
+    return edit_t_get_prop_tr_tips(self.nativeObj)
 
   @tr_tips.setter
   def tr_tips(self, v):
@@ -21154,7 +21191,7 @@ class TEdit (TWidget):
   #
   @property
   def action_text(self):
-    return edit_t_get_prop_action_text(self.nativeObj);
+    return edit_t_get_prop_action_text(self.nativeObj)
 
   @action_text.setter
   def action_text(self, v):
@@ -21167,7 +21204,7 @@ class TEdit (TWidget):
   #
   @property
   def keyboard(self):
-    return edit_t_get_prop_keyboard(self.nativeObj);
+    return edit_t_get_prop_keyboard(self.nativeObj)
 
   @keyboard.setter
   def keyboard(self, v):
@@ -21180,7 +21217,7 @@ class TEdit (TWidget):
   #
   @property
   def min(self):
-    return edit_t_get_prop_min(self.nativeObj);
+    return edit_t_get_prop_min(self.nativeObj)
 
 
   #
@@ -21189,7 +21226,7 @@ class TEdit (TWidget):
   #
   @property
   def max(self):
-    return edit_t_get_prop_max(self.nativeObj);
+    return edit_t_get_prop_max(self.nativeObj)
 
 
   #
@@ -21199,7 +21236,7 @@ class TEdit (TWidget):
   #
   @property
   def step(self):
-    return edit_t_get_prop_step(self.nativeObj);
+    return edit_t_get_prop_step(self.nativeObj)
 
 
   #
@@ -21208,7 +21245,7 @@ class TEdit (TWidget):
   #
   @property
   def input_type(self):
-    return edit_t_get_prop_input_type(self.nativeObj);
+    return edit_t_get_prop_input_type(self.nativeObj)
 
   @input_type.setter
   def input_type(self, v):
@@ -21221,7 +21258,7 @@ class TEdit (TWidget):
   #
   @property
   def readonly(self):
-    return edit_t_get_prop_readonly(self.nativeObj);
+    return edit_t_get_prop_readonly(self.nativeObj)
 
   @readonly.setter
   def readonly(self, v):
@@ -21234,7 +21271,7 @@ class TEdit (TWidget):
   #
   @property
   def password_visible(self):
-    return edit_t_get_prop_password_visible(self.nativeObj);
+    return edit_t_get_prop_password_visible(self.nativeObj)
 
   @password_visible.setter
   def password_visible(self, v):
@@ -21247,7 +21284,7 @@ class TEdit (TWidget):
   #
   @property
   def auto_fix(self):
-    return edit_t_get_prop_auto_fix(self.nativeObj);
+    return edit_t_get_prop_auto_fix(self.nativeObj)
 
   @auto_fix.setter
   def auto_fix(self, v):
@@ -21262,7 +21299,7 @@ class TEdit (TWidget):
   #
   @property
   def select_none_when_focused(self):
-    return edit_t_get_prop_select_none_when_focused(self.nativeObj);
+    return edit_t_get_prop_select_none_when_focused(self.nativeObj)
 
   @select_none_when_focused.setter
   def select_none_when_focused(self, v):
@@ -21277,7 +21314,7 @@ class TEdit (TWidget):
   #
   @property
   def open_im_when_focused(self):
-    return edit_t_get_prop_open_im_when_focused(self.nativeObj);
+    return edit_t_get_prop_open_im_when_focused(self.nativeObj)
 
   @open_im_when_focused.setter
   def open_im_when_focused(self, v):
@@ -21290,7 +21327,7 @@ class TEdit (TWidget):
   #
   @property
   def close_im_when_blured(self):
-    return edit_t_get_prop_close_im_when_blured(self.nativeObj);
+    return edit_t_get_prop_close_im_when_blured(self.nativeObj)
 
   @close_im_when_blured.setter
   def close_im_when_blured(self, v):
@@ -21306,7 +21343,7 @@ class TEdit (TWidget):
   #
   @property
   def cancelable(self):
-    return edit_t_get_prop_cancelable(self.nativeObj);
+    return edit_t_get_prop_cancelable(self.nativeObj)
 
   @cancelable.setter
   def cancelable(self, v):
@@ -21714,7 +21751,7 @@ class TLabel (TWidget):
   #
   @property
   def length(self):
-    return label_t_get_prop_length(self.nativeObj);
+    return label_t_get_prop_length(self.nativeObj)
 
   @length.setter
   def length(self, v):
@@ -21727,7 +21764,7 @@ class TLabel (TWidget):
   #
   @property
   def line_wrap(self):
-    return label_t_get_prop_line_wrap(self.nativeObj);
+    return label_t_get_prop_line_wrap(self.nativeObj)
 
   @line_wrap.setter
   def line_wrap(self, v):
@@ -21741,7 +21778,7 @@ class TLabel (TWidget):
   #
   @property
   def word_wrap(self):
-    return label_t_get_prop_word_wrap(self.nativeObj);
+    return label_t_get_prop_word_wrap(self.nativeObj)
 
   @word_wrap.setter
   def word_wrap(self, v):
@@ -21755,7 +21792,7 @@ class TLabel (TWidget):
   #
   @property
   def max_w(self):
-    return label_t_get_prop_max_w(self.nativeObj);
+    return label_t_get_prop_max_w(self.nativeObj)
 
   @max_w.setter
   def max_w(self, v):
@@ -21866,7 +21903,7 @@ class TPages (TWidget):
   #
   @property
   def active(self):
-    return pages_t_get_prop_active(self.nativeObj);
+    return pages_t_get_prop_active(self.nativeObj)
 
   @active.setter
   def active(self, v):
@@ -22043,7 +22080,7 @@ class TProgressBar (TWidget):
   #
   @property
   def value(self):
-    return progress_bar_t_get_prop_value(self.nativeObj);
+    return progress_bar_t_get_prop_value(self.nativeObj)
 
   @value.setter
   def value(self, v):
@@ -22056,7 +22093,7 @@ class TProgressBar (TWidget):
   #
   @property
   def max(self):
-    return progress_bar_t_get_prop_max(self.nativeObj);
+    return progress_bar_t_get_prop_max(self.nativeObj)
 
   @max.setter
   def max(self, v):
@@ -22069,7 +22106,7 @@ class TProgressBar (TWidget):
   #
   @property
   def format(self):
-    return progress_bar_t_get_prop_format(self.nativeObj);
+    return progress_bar_t_get_prop_format(self.nativeObj)
 
   @format.setter
   def format(self, v):
@@ -22082,7 +22119,7 @@ class TProgressBar (TWidget):
   #
   @property
   def vertical(self):
-    return progress_bar_t_get_prop_vertical(self.nativeObj);
+    return progress_bar_t_get_prop_vertical(self.nativeObj)
 
   @vertical.setter
   def vertical(self, v):
@@ -22095,7 +22132,7 @@ class TProgressBar (TWidget):
   #
   @property
   def show_text(self):
-    return progress_bar_t_get_prop_show_text(self.nativeObj);
+    return progress_bar_t_get_prop_show_text(self.nativeObj)
 
   @show_text.setter
   def show_text(self, v):
@@ -22108,7 +22145,7 @@ class TProgressBar (TWidget):
   #
   @property
   def reverse(self):
-    return progress_bar_t_get_prop_reverse(self.nativeObj);
+    return progress_bar_t_get_prop_reverse(self.nativeObj)
 
   @reverse.setter
   def reverse(self, v):
@@ -22353,7 +22390,7 @@ class TSlider (TWidget):
   #
   @property
   def value(self):
-    return slider_t_get_prop_value(self.nativeObj);
+    return slider_t_get_prop_value(self.nativeObj)
 
   @value.setter
   def value(self, v):
@@ -22366,7 +22403,7 @@ class TSlider (TWidget):
   #
   @property
   def min(self):
-    return slider_t_get_prop_min(self.nativeObj);
+    return slider_t_get_prop_min(self.nativeObj)
 
   @min.setter
   def min(self, v):
@@ -22379,7 +22416,7 @@ class TSlider (TWidget):
   #
   @property
   def max(self):
-    return slider_t_get_prop_max(self.nativeObj);
+    return slider_t_get_prop_max(self.nativeObj)
 
   @max.setter
   def max(self, v):
@@ -22392,7 +22429,7 @@ class TSlider (TWidget):
   #
   @property
   def step(self):
-    return slider_t_get_prop_step(self.nativeObj);
+    return slider_t_get_prop_step(self.nativeObj)
 
   @step.setter
   def step(self, v):
@@ -22405,7 +22442,7 @@ class TSlider (TWidget):
   #
   @property
   def vertical(self):
-    return slider_t_get_prop_vertical(self.nativeObj);
+    return slider_t_get_prop_vertical(self.nativeObj)
 
   @vertical.setter
   def vertical(self, v):
@@ -22418,7 +22455,7 @@ class TSlider (TWidget):
   #
   @property
   def bar_size(self):
-    return slider_t_get_prop_bar_size(self.nativeObj);
+    return slider_t_get_prop_bar_size(self.nativeObj)
 
   @bar_size.setter
   def bar_size(self, v):
@@ -22431,7 +22468,7 @@ class TSlider (TWidget):
   #
   @property
   def dragger_size(self):
-    return slider_t_get_prop_dragger_size(self.nativeObj);
+    return slider_t_get_prop_dragger_size(self.nativeObj)
 
 
   #
@@ -22440,7 +22477,7 @@ class TSlider (TWidget):
   #
   @property
   def dragger_adapt_to_icon(self):
-    return slider_t_get_prop_dragger_adapt_to_icon(self.nativeObj);
+    return slider_t_get_prop_dragger_adapt_to_icon(self.nativeObj)
 
 
   #
@@ -22449,7 +22486,7 @@ class TSlider (TWidget):
   #
   @property
   def slide_with_bar(self):
-    return slider_t_get_prop_slide_with_bar(self.nativeObj);
+    return slider_t_get_prop_slide_with_bar(self.nativeObj)
 
 
 #
@@ -22562,7 +22599,7 @@ class TTabButtonGroup (TWidget):
   #
   @property
   def compact(self):
-    return tab_button_group_t_get_prop_compact(self.nativeObj);
+    return tab_button_group_t_get_prop_compact(self.nativeObj)
 
   @compact.setter
   def compact(self, v):
@@ -22577,7 +22614,7 @@ class TTabButtonGroup (TWidget):
   #
   @property
   def scrollable(self):
-    return tab_button_group_t_get_prop_scrollable(self.nativeObj);
+    return tab_button_group_t_get_prop_scrollable(self.nativeObj)
 
   @scrollable.setter
   def scrollable(self, v):
@@ -22745,7 +22782,7 @@ class TTabButton (TWidget):
   #
   @property
   def value(self):
-    return tab_button_t_get_prop_value(self.nativeObj);
+    return tab_button_t_get_prop_value(self.nativeObj)
 
   @value.setter
   def value(self, v):
@@ -22758,7 +22795,7 @@ class TTabButton (TWidget):
   #
   @property
   def load_ui(self):
-    return tab_button_t_get_prop_load_ui(self.nativeObj);
+    return tab_button_t_get_prop_load_ui(self.nativeObj)
 
   @load_ui.setter
   def load_ui(self, v):
@@ -22771,7 +22808,7 @@ class TTabButton (TWidget):
   #
   @property
   def active_icon(self):
-    return tab_button_t_get_prop_active_icon(self.nativeObj);
+    return tab_button_t_get_prop_active_icon(self.nativeObj)
 
   @active_icon.setter
   def active_icon(self, v):
@@ -22784,7 +22821,7 @@ class TTabButton (TWidget):
   #
   @property
   def icon(self):
-    return tab_button_t_get_prop_icon(self.nativeObj);
+    return tab_button_t_get_prop_icon(self.nativeObj)
 
   @icon.setter
   def icon(self, v):
@@ -22966,7 +23003,7 @@ class TView (TWidget):
   #
   @property
   def default_focused_child(self):
-    return view_t_get_prop_default_focused_child(self.nativeObj);
+    return view_t_get_prop_default_focused_child(self.nativeObj)
 
   @default_focused_child.setter
   def default_focused_child(self, v):
@@ -23268,7 +23305,7 @@ class TDialog (TWindowBase):
   #
   @property
   def highlight(self):
-    return dialog_t_get_prop_highlight(self.nativeObj);
+    return dialog_t_get_prop_highlight(self.nativeObj)
 
 
 #
@@ -23576,7 +23613,7 @@ class TWindow (TWindowBase):
   #
   @property
   def fullscreen(self):
-    return window_t_get_prop_fullscreen(self.nativeObj);
+    return window_t_get_prop_fullscreen(self.nativeObj)
 
   @fullscreen.setter
   def fullscreen(self, v):
@@ -24055,7 +24092,7 @@ class TIdleInfo (TObject):
   #
   @property
   def ctx(self):
-    return idle_info_t_get_prop_ctx(self.nativeObj);
+    return idle_info_t_get_prop_ctx(self.nativeObj)
 
 
   #
@@ -24064,7 +24101,7 @@ class TIdleInfo (TObject):
   #
   @property
   def extra_ctx(self):
-    return idle_info_t_get_prop_extra_ctx(self.nativeObj);
+    return idle_info_t_get_prop_extra_ctx(self.nativeObj)
 
 
   #
@@ -24075,7 +24112,7 @@ class TIdleInfo (TObject):
   #
   @property
   def id(self):
-    return idle_info_t_get_prop_id(self.nativeObj);
+    return idle_info_t_get_prop_id(self.nativeObj)
 
 
 #
@@ -24214,7 +24251,7 @@ class TObjectArray (TObject):
   #
   @property
   def size(self):
-    return object_array_t_get_prop_size(self.nativeObj);
+    return object_array_t_get_prop_size(self.nativeObj)
 
 
 #
@@ -24282,7 +24319,7 @@ class TObjectDefault (TObject):
   #
   @property
   def props_size(self):
-    return object_default_t_get_prop_props_size(self.nativeObj);
+    return object_default_t_get_prop_props_size(self.nativeObj)
 
 
 #
@@ -24329,7 +24366,7 @@ class TTimerInfo (TObject):
   #
   @property
   def ctx(self):
-    return timer_info_t_get_prop_ctx(self.nativeObj);
+    return timer_info_t_get_prop_ctx(self.nativeObj)
 
 
   #
@@ -24338,7 +24375,7 @@ class TTimerInfo (TObject):
   #
   @property
   def extra_ctx(self):
-    return timer_info_t_get_prop_extra_ctx(self.nativeObj);
+    return timer_info_t_get_prop_extra_ctx(self.nativeObj)
 
 
   #
@@ -24349,7 +24386,7 @@ class TTimerInfo (TObject):
   #
   @property
   def id(self):
-    return timer_info_t_get_prop_id(self.nativeObj);
+    return timer_info_t_get_prop_id(self.nativeObj)
 
 
   #
@@ -24358,7 +24395,7 @@ class TTimerInfo (TObject):
   #
   @property
   def now(self):
-    return timer_info_t_get_prop_now(self.nativeObj);
+    return timer_info_t_get_prop_now(self.nativeObj)
 
 
 #
@@ -24697,7 +24734,7 @@ class TComboBox (TEdit):
   #
   @property
   def open_window(self):
-    return combo_box_t_get_prop_open_window(self.nativeObj);
+    return combo_box_t_get_prop_open_window(self.nativeObj)
 
   @open_window.setter
   def open_window(self, v):
@@ -24710,7 +24747,7 @@ class TComboBox (TEdit):
   #
   @property
   def selected_index(self):
-    return combo_box_t_get_prop_selected_index(self.nativeObj);
+    return combo_box_t_get_prop_selected_index(self.nativeObj)
 
   @selected_index.setter
   def selected_index(self, v):
@@ -24723,7 +24760,7 @@ class TComboBox (TEdit):
   #
   @property
   def value(self):
-    return combo_box_t_get_prop_value(self.nativeObj);
+    return combo_box_t_get_prop_value(self.nativeObj)
 
   @value.setter
   def value(self, v):
@@ -24736,7 +24773,7 @@ class TComboBox (TEdit):
   #
   @property
   def localize_options(self):
-    return combo_box_t_get_prop_localize_options(self.nativeObj);
+    return combo_box_t_get_prop_localize_options(self.nativeObj)
 
   @localize_options.setter
   def localize_options(self, v):
@@ -24749,7 +24786,7 @@ class TComboBox (TEdit):
   #
   @property
   def options(self):
-    return combo_box_t_get_prop_options(self.nativeObj);
+    return combo_box_t_get_prop_options(self.nativeObj)
 
   @options.setter
   def options(self, v):
@@ -24762,7 +24799,7 @@ class TComboBox (TEdit):
   #
   @property
   def item_height(self):
-    return combo_box_t_get_prop_item_height(self.nativeObj);
+    return combo_box_t_get_prop_item_height(self.nativeObj)
 
   @item_height.setter
   def item_height(self, v):
@@ -24892,7 +24929,7 @@ class TImage (TImageBase):
   #
   @property
   def draw_type(self):
-    return image_t_get_prop_draw_type(self.nativeObj);
+    return image_t_get_prop_draw_type(self.nativeObj)
 
   @draw_type.setter
   def draw_type(self, v):
@@ -25017,7 +25054,7 @@ class TOverlay (TWindowBase):
   #
   @property
   def click_through(self):
-    return overlay_t_get_prop_click_through(self.nativeObj);
+    return overlay_t_get_prop_click_through(self.nativeObj)
 
   @click_through.setter
   def click_through(self, v):
@@ -25032,7 +25069,7 @@ class TOverlay (TWindowBase):
   #
   @property
   def always_on_top(self):
-    return overlay_t_get_prop_always_on_top(self.nativeObj);
+    return overlay_t_get_prop_always_on_top(self.nativeObj)
 
   @always_on_top.setter
   def always_on_top(self, v):
@@ -25173,7 +25210,7 @@ class TPopup (TWindowBase):
   #
   @property
   def close_when_click(self):
-    return popup_t_get_prop_close_when_click(self.nativeObj);
+    return popup_t_get_prop_close_when_click(self.nativeObj)
 
   @close_when_click.setter
   def close_when_click(self, v):
@@ -25186,7 +25223,7 @@ class TPopup (TWindowBase):
   #
   @property
   def close_when_click_outside(self):
-    return popup_t_get_prop_close_when_click_outside(self.nativeObj);
+    return popup_t_get_prop_close_when_click_outside(self.nativeObj)
 
   @close_when_click_outside.setter
   def close_when_click_outside(self, v):
@@ -25199,7 +25236,7 @@ class TPopup (TWindowBase):
   #
   @property
   def close_when_timeout(self):
-    return popup_t_get_prop_close_when_timeout(self.nativeObj);
+    return popup_t_get_prop_close_when_timeout(self.nativeObj)
 
   @close_when_timeout.setter
   def close_when_timeout(self, v):

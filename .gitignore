@@ -15,3 +15,4 @@ filter.json
 .vscode
 __pycache__
 res
+demos/awtk.py
