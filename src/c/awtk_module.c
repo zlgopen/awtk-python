@@ -19444,6 +19444,20 @@ pyobject_t wrap_combo_box_append_option(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("i", ret);
 }
 
+pyobject_t wrap_combo_box_remove_option(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+  int32_t value = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&i" , &__parse_voidp, &widget, &value)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)combo_box_remove_option(widget, value);
+  return Py_BuildValue("i", ret);
+}
+
 pyobject_t wrap_combo_box_set_options(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   widget_t* widget = NULL;
@@ -21905,6 +21919,7 @@ static PyMethodDef awtk_methods[] = {
 {"combo_box_set_value", wrap_combo_box_set_value, METH_VARARGS, "combo_box_set_value"},
 {"combo_box_set_item_height", wrap_combo_box_set_item_height, METH_VARARGS, "combo_box_set_item_height"},
 {"combo_box_append_option", wrap_combo_box_append_option, METH_VARARGS, "combo_box_append_option"},
+{"combo_box_remove_option", wrap_combo_box_remove_option, METH_VARARGS, "combo_box_remove_option"},
 {"combo_box_set_options", wrap_combo_box_set_options, METH_VARARGS, "combo_box_set_options"},
 {"combo_box_get_value", wrap_combo_box_get_value, METH_VARARGS, "combo_box_get_value"},
 {"combo_box_get_text", wrap_combo_box_get_text, METH_VARARGS, "combo_box_get_text"},

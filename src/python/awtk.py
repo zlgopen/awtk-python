@@ -9477,26 +9477,6 @@ class TAppConf(object):
 #
 class TExtWidgets(object):
 
-  def __new__(cls, native_obj=0):
-      if native_obj == 0:
-          return None
-      else:
-          if super().__new__ == object.__new__:
-              instance = super().__new__(cls)
-          else:
-              instance = super().__new__(cls, native_obj)
-          instance.nativeObj = native_obj
-          return instance
-    
-  def __init__(self, nativeObj):
-    self.nativeObj = nativeObj
-
-
-  def __eq__(self, other: 'TWidget'):
-      if other is None:
-          return self.nativeObj == 0
-      return self.nativeObj == other.nativeObj
-    
   #
   # 初始化AWTK扩展控件。
   # 
@@ -24699,6 +24679,17 @@ class TComboBox (TEdit):
   #
   def append_option(self, value, text): 
       return combo_box_append_option(awtk_get_native_obj(self), value, text)
+
+
+  #
+  # 删除选项。
+  # 
+  # @param value 值。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def remove_option(self, value): 
+      return combo_box_remove_option(awtk_get_native_obj(self), value)
 
 
   #
