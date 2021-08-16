@@ -7777,6 +7777,16 @@ class TWidget(object):
 
 
   #
+  # 关闭控件所在的窗口。
+  # 
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def close_window_force(self): 
+      return widget_close_window_force(awtk_get_native_obj(self))
+
+
+  #
   # 请求返回到前一个窗口。
   # 
   #
@@ -13192,6 +13202,22 @@ class TColorComponent (TWidget):
       return self.nativeObj == other.nativeObj
     
   #
+  # 创建color_component对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+      return  TColorComponent(color_component_create(awtk_get_native_obj(parent), x, y, w, h))
+
+
+  #
   # 转换为color_component对象(供脚本语言使用)。
   # 
   # @param widget color_component对象。
@@ -14970,6 +14996,22 @@ class TCandidates (TWidget):
           return self.nativeObj == 0
       return self.nativeObj == other.nativeObj
     
+  #
+  # 创建candidates对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+      return  TCandidates(candidates_create(awtk_get_native_obj(parent), x, y, w, h))
+
+
   #
   # 转换为candidates对象(供脚本语言使用)。
   # 
@@ -18668,6 +18710,17 @@ class TTextSelector (TWidget):
 
 
   #
+  # 设置是否修改值时启用动画。
+  # 
+  # @param enable_value_animator 是否修改值时启用动画
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_enable_value_animator(self, enable_value_animator): 
+      return text_selector_set_enable_value_animator(awtk_get_native_obj(self), enable_value_animator)
+
+
+  #
   # 可见的选项数量(只能是1或者3或者5，缺省为5)。
   #
   #
@@ -18758,6 +18811,19 @@ class TTextSelector (TWidget):
   @loop_options.setter
   def loop_options(self, v):
     text_selector_set_loop_options(self.nativeObj, v)
+
+
+  #
+  # 是否修改值时启用动画。
+  #
+  #
+  @property
+  def enable_value_animator(self):
+    return text_selector_t_get_prop_enable_value_animator(self.nativeObj)
+
+  @enable_value_animator.setter
+  def enable_value_animator(self, v):
+    text_selector_set_enable_value_animator(self.nativeObj, v)
 
 
 #
@@ -23933,6 +23999,22 @@ class TMutableImage (TImageBase):
           return self.nativeObj == 0
       return self.nativeObj == other.nativeObj
     
+  #
+  # 创建mutable_image对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+      return  TMutableImage(mutable_image_create(awtk_get_native_obj(parent), x, y, w, h))
+
+
 #
 # SVG图片控件。
 #
@@ -24426,6 +24508,22 @@ class TCalibrationWin (TWindowBase):
           return self.nativeObj == 0
       return self.nativeObj == other.nativeObj
     
+  #
+  # 创建calibration_win对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+      return  TCalibrationWin(calibration_win_create(awtk_get_native_obj(parent), x, y, w, h))
+
+
   #
   # 转换为calibration_win对象(供脚本语言使用)。
   # 

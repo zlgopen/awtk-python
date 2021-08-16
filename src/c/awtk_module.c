@@ -6378,6 +6378,19 @@ pyobject_t wrap_widget_close_window(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("i", ret);
 }
 
+pyobject_t wrap_widget_close_window_force(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &widget)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)widget_close_window_force(widget);
+  return Py_BuildValue("i", ret);
+}
+
 pyobject_t wrap_widget_back(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   widget_t* widget = NULL;
@@ -11088,6 +11101,23 @@ pyobject_t wrap_canvas_widget_cast(pyobject_t self, pyobject_t pyargs) {
   return PyLong_FromVoidPtr((void*)ret);
 }
 
+pyobject_t wrap_color_component_create(pyobject_t self, pyobject_t pyargs) {
+  widget_t* ret = NULL;
+  widget_t* parent = NULL;
+  xy_t x = 0;
+  xy_t y = 0;
+  wh_t w = 0;
+  wh_t h = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&iiii" , &__parse_voidp, &parent, &x, &y, &w, &h)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (widget_t*)color_component_create(parent, x, y, w, h);
+  return PyLong_FromVoidPtr((void*)ret);
+}
+
 pyobject_t wrap_color_component_cast(pyobject_t self, pyobject_t pyargs) {
   widget_t* ret = NULL;
   widget_t* widget = NULL;
@@ -12524,6 +12554,23 @@ pyobject_t wrap_image_value_t_get_prop_max(pyobject_t self, pyobject_t pyargs) {
   }
 
   return Py_BuildValue("d", obj->max);
+}
+
+pyobject_t wrap_candidates_create(pyobject_t self, pyobject_t pyargs) {
+  widget_t* ret = NULL;
+  widget_t* parent = NULL;
+  xy_t x = 0;
+  xy_t y = 0;
+  wh_t w = 0;
+  wh_t h = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&iiii" , &__parse_voidp, &parent, &x, &y, &w, &h)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (widget_t*)candidates_create(parent, x, y, w, h);
+  return PyLong_FromVoidPtr((void*)ret);
 }
 
 pyobject_t wrap_candidates_cast(pyobject_t self, pyobject_t pyargs) {
@@ -15486,6 +15533,20 @@ pyobject_t wrap_text_selector_set_animating_time(pyobject_t self, pyobject_t pya
   return Py_BuildValue("i", ret);
 }
 
+pyobject_t wrap_text_selector_set_enable_value_animator(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+  bool_t enable_value_animator = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&b" , &__parse_voidp, &widget, &enable_value_animator)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)text_selector_set_enable_value_animator(widget, enable_value_animator);
+  return Py_BuildValue("i", ret);
+}
+
 pyobject_t wrap_text_selector_t_get_prop_visible_nr(pyobject_t self, pyobject_t pyargs) {
   text_selector_t* obj = NULL;
 
@@ -15561,6 +15622,17 @@ pyobject_t wrap_text_selector_t_get_prop_loop_options(pyobject_t self, pyobject_
   }
 
   return Py_BuildValue("b", obj->loop_options);
+}
+
+pyobject_t wrap_text_selector_t_get_prop_enable_value_animator(pyobject_t self, pyobject_t pyargs) {
+  text_selector_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &__parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("b", obj->enable_value_animator);
 }
 
 pyobject_t wrap_time_clock_create(pyobject_t self, pyobject_t pyargs) {
@@ -18985,6 +19057,23 @@ pyobject_t wrap_keyboard_cast(pyobject_t self, pyobject_t pyargs) {
   return PyLong_FromVoidPtr((void*)ret);
 }
 
+pyobject_t wrap_mutable_image_create(pyobject_t self, pyobject_t pyargs) {
+  widget_t* ret = NULL;
+  widget_t* parent = NULL;
+  xy_t x = 0;
+  xy_t y = 0;
+  wh_t w = 0;
+  wh_t h = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&iiii" , &__parse_voidp, &parent, &x, &y, &w, &h)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (widget_t*)mutable_image_create(parent, x, y, w, h);
+  return PyLong_FromVoidPtr((void*)ret);
+}
+
 pyobject_t wrap_svg_image_create(pyobject_t self, pyobject_t pyargs) {
   widget_t* ret = NULL;
   widget_t* parent = NULL;
@@ -19288,6 +19377,23 @@ pyobject_t wrap_timer_info_t_get_prop_now(pyobject_t self, pyobject_t pyargs) {
   }
 
   return Py_BuildValue("i", obj->now);
+}
+
+pyobject_t wrap_calibration_win_create(pyobject_t self, pyobject_t pyargs) {
+  widget_t* ret = NULL;
+  widget_t* parent = NULL;
+  xy_t x = 0;
+  xy_t y = 0;
+  wh_t w = 0;
+  wh_t h = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&iiii" , &__parse_voidp, &parent, &x, &y, &w, &h)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (widget_t*)calibration_win_create(parent, x, y, w, h);
+  return PyLong_FromVoidPtr((void*)ret);
 }
 
 pyobject_t wrap_calibration_win_cast(pyobject_t self, pyobject_t pyargs) {
@@ -20779,6 +20885,7 @@ static PyMethodDef awtk_methods[] = {
 {"widget_get_native_window", wrap_widget_get_native_window, METH_VARARGS, "widget_get_native_window"},
 {"widget_index_of", wrap_widget_index_of, METH_VARARGS, "widget_index_of"},
 {"widget_close_window", wrap_widget_close_window, METH_VARARGS, "widget_close_window"},
+{"widget_close_window_force", wrap_widget_close_window_force, METH_VARARGS, "widget_close_window_force"},
 {"widget_back", wrap_widget_back, METH_VARARGS, "widget_back"},
 {"widget_back_to_home", wrap_widget_back_to_home, METH_VARARGS, "widget_back_to_home"},
 {"widget_move", wrap_widget_move, METH_VARARGS, "widget_move"},
@@ -21284,6 +21391,7 @@ static PyMethodDef awtk_methods[] = {
 {"window_manager_close_all", wrap_window_manager_close_all, METH_VARARGS, "window_manager_close_all"},
 {"canvas_widget_create", wrap_canvas_widget_create, METH_VARARGS, "canvas_widget_create"},
 {"canvas_widget_cast", wrap_canvas_widget_cast, METH_VARARGS, "canvas_widget_cast"},
+{"color_component_create", wrap_color_component_create, METH_VARARGS, "color_component_create"},
 {"color_component_cast", wrap_color_component_cast, METH_VARARGS, "color_component_cast"},
 {"color_picker_create", wrap_color_picker_create, METH_VARARGS, "color_picker_create"},
 {"color_picker_set_color", wrap_color_picker_set_color, METH_VARARGS, "color_picker_set_color"},
@@ -21395,6 +21503,7 @@ static PyMethodDef awtk_methods[] = {
 {"image_value_t_get_prop_value", wrap_image_value_t_get_prop_value, METH_VARARGS, "image_value_t_get_prop_value"},
 {"image_value_t_get_prop_min", wrap_image_value_t_get_prop_min, METH_VARARGS, "image_value_t_get_prop_min"},
 {"image_value_t_get_prop_max", wrap_image_value_t_get_prop_max, METH_VARARGS, "image_value_t_get_prop_max"},
+{"candidates_create", wrap_candidates_create, METH_VARARGS, "candidates_create"},
 {"candidates_cast", wrap_candidates_cast, METH_VARARGS, "candidates_cast"},
 {"candidates_set_pre", wrap_candidates_set_pre, METH_VARARGS, "candidates_set_pre"},
 {"candidates_set_select_by_num", wrap_candidates_set_select_by_num, METH_VARARGS, "candidates_set_select_by_num"},
@@ -21619,6 +21728,7 @@ static PyMethodDef awtk_methods[] = {
 {"text_selector_set_loop_options", wrap_text_selector_set_loop_options, METH_VARARGS, "text_selector_set_loop_options"},
 {"text_selector_set_yspeed_scale", wrap_text_selector_set_yspeed_scale, METH_VARARGS, "text_selector_set_yspeed_scale"},
 {"text_selector_set_animating_time", wrap_text_selector_set_animating_time, METH_VARARGS, "text_selector_set_animating_time"},
+{"text_selector_set_enable_value_animator", wrap_text_selector_set_enable_value_animator, METH_VARARGS, "text_selector_set_enable_value_animator"},
 {"text_selector_t_get_prop_visible_nr", wrap_text_selector_t_get_prop_visible_nr, METH_VARARGS, "text_selector_t_get_prop_visible_nr"},
 {"text_selector_t_get_prop_selected_index", wrap_text_selector_t_get_prop_selected_index, METH_VARARGS, "text_selector_t_get_prop_selected_index"},
 {"text_selector_t_get_prop_options", wrap_text_selector_t_get_prop_options, METH_VARARGS, "text_selector_t_get_prop_options"},
@@ -21626,6 +21736,7 @@ static PyMethodDef awtk_methods[] = {
 {"text_selector_t_get_prop_animating_time", wrap_text_selector_t_get_prop_animating_time, METH_VARARGS, "text_selector_t_get_prop_animating_time"},
 {"text_selector_t_get_prop_localize_options", wrap_text_selector_t_get_prop_localize_options, METH_VARARGS, "text_selector_t_get_prop_localize_options"},
 {"text_selector_t_get_prop_loop_options", wrap_text_selector_t_get_prop_loop_options, METH_VARARGS, "text_selector_t_get_prop_loop_options"},
+{"text_selector_t_get_prop_enable_value_animator", wrap_text_selector_t_get_prop_enable_value_animator, METH_VARARGS, "text_selector_t_get_prop_enable_value_animator"},
 {"time_clock_create", wrap_time_clock_create, METH_VARARGS, "time_clock_create"},
 {"time_clock_cast", wrap_time_clock_cast, METH_VARARGS, "time_clock_cast"},
 {"time_clock_set_hour", wrap_time_clock_set_hour, METH_VARARGS, "time_clock_set_hour"},
@@ -21884,6 +21995,7 @@ static PyMethodDef awtk_methods[] = {
 {"gif_image_cast", wrap_gif_image_cast, METH_VARARGS, "gif_image_cast"},
 {"keyboard_create", wrap_keyboard_create, METH_VARARGS, "keyboard_create"},
 {"keyboard_cast", wrap_keyboard_cast, METH_VARARGS, "keyboard_cast"},
+{"mutable_image_create", wrap_mutable_image_create, METH_VARARGS, "mutable_image_create"},
 {"svg_image_create", wrap_svg_image_create, METH_VARARGS, "svg_image_create"},
 {"svg_image_set_image", wrap_svg_image_set_image, METH_VARARGS, "svg_image_set_image"},
 {"svg_image_cast", wrap_svg_image_cast, METH_VARARGS, "svg_image_cast"},
@@ -21908,6 +22020,7 @@ static PyMethodDef awtk_methods[] = {
 {"timer_info_t_get_prop_extra_ctx", wrap_timer_info_t_get_prop_extra_ctx, METH_VARARGS, "timer_info_t_get_prop_extra_ctx"},
 {"timer_info_t_get_prop_id", wrap_timer_info_t_get_prop_id, METH_VARARGS, "timer_info_t_get_prop_id"},
 {"timer_info_t_get_prop_now", wrap_timer_info_t_get_prop_now, METH_VARARGS, "timer_info_t_get_prop_now"},
+{"calibration_win_create", wrap_calibration_win_create, METH_VARARGS, "calibration_win_create"},
 {"calibration_win_cast", wrap_calibration_win_cast, METH_VARARGS, "calibration_win_cast"},
 {"combo_box_create", wrap_combo_box_create, METH_VARARGS, "combo_box_create"},
 {"combo_box_cast", wrap_combo_box_cast, METH_VARARGS, "combo_box_cast"},
