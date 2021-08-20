@@ -6371,6 +6371,12 @@ class TWidgetProp:
   VALUE = WIDGET_PROP_VALUE()
 
   #
+  # CheckButton是否单选。
+  #
+  #
+  RADIO = WIDGET_PROP_RADIO()
+
+  #
   # 进度条反向显示。
   #
   #
