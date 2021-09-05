@@ -11811,6 +11811,15 @@ class TOrientationEvent (TEvent):
     return orientation_event_t_get_prop_orientation(self.nativeObj)
 
 
+  #
+  # 旧的屏幕方向。
+  #
+  #
+  @property
+  def old_orientation(self):
+    return orientation_event_t_get_prop_old_orientation(self.nativeObj)
+
+
 #
 # 值变化事件。
 #
@@ -21255,7 +21264,7 @@ class TEdit (TWidget):
 
 
   #
-  # 自定义软键盘名称。AWTK优先查找keyboard属性设置的键盘文件名（该键盘的XML文件需要在default\raw\ui目录下存在），如果keyboard为空就找input_type设置的键盘类型
+  # 自定义软键盘名称。AWTK优先查找keyboard属性设置的键盘文件名（该键盘的XML文件需要在default\raw\ui目录下存在），如果没有指定keyboard，就找input_type设置的键盘类型。如果指定为空字符串，则表示不需要软键盘。
   #
   #
   @property
@@ -23417,6 +23426,18 @@ class TNativeWindow (TObject):
 
 
   #
+  # 调整窗口旋转。
+  # 
+  # @param old_orientation 旧的旋转角度。
+  # @param new_orientation 新的旋转角度。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_orientation(self, old_orientation, new_orientation): 
+      return native_window_set_orientation(awtk_get_native_obj(self), old_orientation, new_orientation)
+
+
+  #
   # 最小化窗口。
   # 
   #
@@ -24383,15 +24404,6 @@ class TObjectDefault (TObject):
   #
   def clear_props(self): 
       return object_default_clear_props(awtk_get_native_obj(self))
-
-
-  #
-  # 属性个数。
-  #
-  #
-  @property
-  def props_size(self):
-    return object_default_t_get_prop_props_size(self.nativeObj)
 
 
 #

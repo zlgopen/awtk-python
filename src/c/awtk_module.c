@@ -9934,6 +9934,17 @@ pyobject_t wrap_orientation_event_t_get_prop_orientation(pyobject_t self, pyobje
   return Py_BuildValue("i", obj->orientation);
 }
 
+pyobject_t wrap_orientation_event_t_get_prop_old_orientation(pyobject_t self, pyobject_t pyargs) {
+  orientation_event_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &__parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("i", obj->old_orientation);
+}
+
 pyobject_t wrap_value_change_event_cast(pyobject_t self, pyobject_t pyargs) {
   value_change_event_t* ret = NULL;
   event_t* event = NULL;
@@ -18732,6 +18743,21 @@ pyobject_t wrap_native_window_resize(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("i", ret);
 }
 
+pyobject_t wrap_native_window_set_orientation(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  native_window_t* win = NULL;
+  lcd_orientation_t old_orientation = 0;
+  lcd_orientation_t new_orientation = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&ii" , &__parse_voidp, &win, &old_orientation, &new_orientation)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)native_window_set_orientation(win, old_orientation, new_orientation);
+  return Py_BuildValue("i", ret);
+}
+
 pyobject_t wrap_native_window_minimize(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   native_window_t* win = NULL;
@@ -19313,17 +19339,6 @@ pyobject_t wrap_object_default_clear_props(pyobject_t self, pyobject_t pyargs) {
 
   ret = (ret_t)object_default_clear_props(obj);
   return Py_BuildValue("i", ret);
-}
-
-pyobject_t wrap_object_default_t_get_prop_props_size(pyobject_t self, pyobject_t pyargs) {
-  object_default_t* obj = NULL;
-
-  if (!PyArg_ParseTuple(pyargs, "O&", &__parse_voidp, &obj)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  return Py_BuildValue("i", obj->props_size);
 }
 
 pyobject_t wrap_timer_info_cast(pyobject_t self, pyobject_t pyargs) {
@@ -21299,6 +21314,7 @@ static PyMethodDef awtk_methods[] = {
 {"wheel_event_t_get_prop_shift", wrap_wheel_event_t_get_prop_shift, METH_VARARGS, "wheel_event_t_get_prop_shift"},
 {"orientation_event_cast", wrap_orientation_event_cast, METH_VARARGS, "orientation_event_cast"},
 {"orientation_event_t_get_prop_orientation", wrap_orientation_event_t_get_prop_orientation, METH_VARARGS, "orientation_event_t_get_prop_orientation"},
+{"orientation_event_t_get_prop_old_orientation", wrap_orientation_event_t_get_prop_old_orientation, METH_VARARGS, "orientation_event_t_get_prop_old_orientation"},
 {"value_change_event_cast", wrap_value_change_event_cast, METH_VARARGS, "value_change_event_cast"},
 {"pointer_event_cast", wrap_pointer_event_cast, METH_VARARGS, "pointer_event_cast"},
 {"pointer_event_t_get_prop_x", wrap_pointer_event_t_get_prop_x, METH_VARARGS, "pointer_event_t_get_prop_x"},
@@ -21976,6 +21992,7 @@ static PyMethodDef awtk_methods[] = {
 {"dialog_t_get_prop_highlight", wrap_dialog_t_get_prop_highlight, METH_VARARGS, "dialog_t_get_prop_highlight"},
 {"native_window_move", wrap_native_window_move, METH_VARARGS, "native_window_move"},
 {"native_window_resize", wrap_native_window_resize, METH_VARARGS, "native_window_resize"},
+{"native_window_set_orientation", wrap_native_window_set_orientation, METH_VARARGS, "native_window_set_orientation"},
 {"native_window_minimize", wrap_native_window_minimize, METH_VARARGS, "native_window_minimize"},
 {"native_window_maximize", wrap_native_window_maximize, METH_VARARGS, "native_window_maximize"},
 {"native_window_restore", wrap_native_window_restore, METH_VARARGS, "native_window_restore"},
@@ -22019,7 +22036,6 @@ static PyMethodDef awtk_methods[] = {
 {"object_array_t_get_prop_size", wrap_object_array_t_get_prop_size, METH_VARARGS, "object_array_t_get_prop_size"},
 {"object_default_create", wrap_object_default_create, METH_VARARGS, "object_default_create"},
 {"object_default_clear_props", wrap_object_default_clear_props, METH_VARARGS, "object_default_clear_props"},
-{"object_default_t_get_prop_props_size", wrap_object_default_t_get_prop_props_size, METH_VARARGS, "object_default_t_get_prop_props_size"},
 {"timer_info_cast", wrap_timer_info_cast, METH_VARARGS, "timer_info_cast"},
 {"timer_info_t_get_prop_ctx", wrap_timer_info_t_get_prop_ctx, METH_VARARGS, "timer_info_t_get_prop_ctx"},
 {"timer_info_t_get_prop_extra_ctx", wrap_timer_info_t_get_prop_extra_ctx, METH_VARARGS, "timer_info_t_get_prop_extra_ctx"},
