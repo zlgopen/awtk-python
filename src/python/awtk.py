@@ -11578,6 +11578,12 @@ class TValueType:
   #
   TOKEN = VALUE_TYPE_TOKEN()
 
+  #
+  # 渐变颜色。
+  #
+  #
+  GRADIENT = VALUE_TYPE_GRADIENT()
+
 #
 # 资源管理器。
 #这里的资源管理器并非Windows下的文件浏览器，而是负责对各种资源，比如字体、窗体样式、图片、界面数据、字符串和其它数据的进行集中管理的组件。引入资源管理器的目的有以下几个：
@@ -15470,6 +15476,17 @@ class TMledit (TWidget):
 
 
   #
+  # 设置编辑器是否启用覆盖行（在行数达到最大行数时，可继续新增行，但最早的行将会消失）。
+  # 
+  # @param overwrite 是否启用覆盖行。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_overwrite(self, overwrite): 
+      return mledit_set_overwrite(awtk_get_native_obj(self), overwrite)
+
+
+  #
   # 设置编辑器的最大行数。
   # 
   # @param max_lines 最大行数。
@@ -15616,6 +15633,18 @@ class TMledit (TWidget):
 
 
   #
+  # 插入一段文本。
+  # 
+  # @param offset 插入的偏移位置。
+  # @param text 待插入的文本。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def insert_text(self, offset, text): 
+      return mledit_insert_text(awtk_get_native_obj(self), offset, text)
+
+
+  #
   # 转换为mledit对象(供脚本语言使用)。
   # 
   # @param widget mledit对象。
@@ -15693,19 +15722,6 @@ class TMledit (TWidget):
 
 
   #
-  # 是否自动折行。
-  #
-  #
-  @property
-  def wrap_word(self):
-    return mledit_t_get_prop_wrap_word(self.nativeObj)
-
-  @wrap_word.setter
-  def wrap_word(self, v):
-    mledit_set_wrap_word(self.nativeObj, v)
-
-
-  #
   # 鼠标一次滚动行数。
   #
   #
@@ -15716,6 +15732,32 @@ class TMledit (TWidget):
   @scroll_line.setter
   def scroll_line(self, v):
     mledit_set_scroll_line(self.nativeObj, v)
+
+
+  #
+  # 是否启用覆盖行。
+  #
+  #
+  @property
+  def overwrite(self):
+    return mledit_t_get_prop_overwrite(self.nativeObj)
+
+  @overwrite.setter
+  def overwrite(self, v):
+    mledit_set_overwrite(self.nativeObj, v)
+
+
+  #
+  # 是否自动折行。
+  #
+  #
+  @property
+  def wrap_word(self):
+    return mledit_t_get_prop_wrap_word(self.nativeObj)
+
+  @wrap_word.setter
+  def wrap_word(self, v):
+    mledit_set_wrap_word(self.nativeObj, v)
 
 
   #
@@ -16266,13 +16308,8 @@ class TRichText (TWidget):
 #
 #hscroll\_label\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于hscroll\_label\_t控件。
 #
-#在xml中使用"hscroll\_label"标签创建行号控件，一般配合mledit使用。如：
-#
-#```xml
-#```
-#
-#> 更多用法请参考：[mledit.xml](
-#https://github.com/zlgopen/awtk/blob/master/design/default/ui/mledit.xml)
+#> 更多用法请参考：[hscroll_label.xml](
+#https://github.com/zlgopen/awtk/blob/master/design/default/ui/hscroll_label.xml)
 #
 #可用通过style来设置控件的显示风格，如字体的大小和颜色等等。如：
 #
@@ -24384,6 +24421,18 @@ class TObjectDefault (TObject):
   @classmethod
   def create(cls): 
       return  TObjectDefault(object_default_create())
+
+
+  #
+  # 创建对象。
+  # 
+  # @param enable_path 是否支持按路径访问属性。
+  #
+  # @return 返回object对象。
+  #
+  @classmethod
+  def create_ex(cls, enable_path): 
+      return  TObjectDefault(object_default_create_ex(enable_path))
 
 
   #

@@ -9782,6 +9782,10 @@ pyobject_t get_VALUE_TYPE_TOKEN(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("i", VALUE_TYPE_TOKEN);
 }
 
+pyobject_t get_VALUE_TYPE_GRADIENT(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", VALUE_TYPE_GRADIENT);
+}
+
 pyobject_t wrap_assets_manager(pyobject_t self, pyobject_t pyargs) {
   assets_manager_t* ret = NULL;
 
@@ -12915,6 +12919,20 @@ pyobject_t wrap_mledit_set_wrap_word(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("i", ret);
 }
 
+pyobject_t wrap_mledit_set_overwrite(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+  bool_t overwrite = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&b" , &__parse_voidp, &widget, &overwrite)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)mledit_set_overwrite(widget, overwrite);
+  return Py_BuildValue("i", ret);
+}
+
 pyobject_t wrap_mledit_set_max_lines(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   widget_t* widget = NULL;
@@ -13096,6 +13114,21 @@ pyobject_t wrap_mledit_get_selected_text(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("s", ret);
 }
 
+pyobject_t wrap_mledit_insert_text(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+  uint32_t offset = 0;
+  const char* text = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&is" , &__parse_voidp, &widget, &offset, &text)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)mledit_insert_text(widget, offset, text);
+  return Py_BuildValue("i", ret);
+}
+
 pyobject_t wrap_mledit_cast(pyobject_t self, pyobject_t pyargs) {
   widget_t* ret = NULL;
   widget_t* widget = NULL;
@@ -13164,17 +13197,6 @@ pyobject_t wrap_mledit_t_get_prop_max_chars(pyobject_t self, pyobject_t pyargs) 
   return Py_BuildValue("i", obj->max_chars);
 }
 
-pyobject_t wrap_mledit_t_get_prop_wrap_word(pyobject_t self, pyobject_t pyargs) {
-  mledit_t* obj = NULL;
-
-  if (!PyArg_ParseTuple(pyargs, "O&", &__parse_voidp, &obj)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  return Py_BuildValue("b", obj->wrap_word);
-}
-
 pyobject_t wrap_mledit_t_get_prop_scroll_line(pyobject_t self, pyobject_t pyargs) {
   mledit_t* obj = NULL;
 
@@ -13184,6 +13206,28 @@ pyobject_t wrap_mledit_t_get_prop_scroll_line(pyobject_t self, pyobject_t pyargs
   }
 
   return Py_BuildValue("i", obj->scroll_line);
+}
+
+pyobject_t wrap_mledit_t_get_prop_overwrite(pyobject_t self, pyobject_t pyargs) {
+  mledit_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &__parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("b", obj->overwrite);
+}
+
+pyobject_t wrap_mledit_t_get_prop_wrap_word(pyobject_t self, pyobject_t pyargs) {
+  mledit_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &__parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("b", obj->wrap_word);
 }
 
 pyobject_t wrap_mledit_t_get_prop_readonly(pyobject_t self, pyobject_t pyargs) {
@@ -19328,6 +19372,19 @@ pyobject_t wrap_object_default_create(pyobject_t self, pyobject_t pyargs) {
   return PyLong_FromVoidPtr((void*)ret);
 }
 
+pyobject_t wrap_object_default_create_ex(pyobject_t self, pyobject_t pyargs) {
+  object_t* ret = NULL;
+  bool_t enable_path = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "b" , &enable_path)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (object_t*)object_default_create_ex(enable_path);
+  return PyLong_FromVoidPtr((void*)ret);
+}
+
 pyobject_t wrap_object_default_clear_props(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   object_t* obj = NULL;
@@ -21302,6 +21359,7 @@ static PyMethodDef awtk_methods[] = {
 {"VALUE_TYPE_BINARY", get_VALUE_TYPE_BINARY, METH_VARARGS, "VALUE_TYPE_BINARY"},
 {"VALUE_TYPE_UBJSON", get_VALUE_TYPE_UBJSON, METH_VARARGS, "VALUE_TYPE_UBJSON"},
 {"VALUE_TYPE_TOKEN", get_VALUE_TYPE_TOKEN, METH_VARARGS, "VALUE_TYPE_TOKEN"},
+{"VALUE_TYPE_GRADIENT", get_VALUE_TYPE_GRADIENT, METH_VARARGS, "VALUE_TYPE_GRADIENT"},
 {"assets_manager", wrap_assets_manager, METH_VARARGS, "assets_manager"},
 {"assets_manager_set_theme", wrap_assets_manager_set_theme, METH_VARARGS, "assets_manager_set_theme"},
 {"assets_manager_ref", wrap_assets_manager_ref, METH_VARARGS, "assets_manager_ref"},
@@ -21549,6 +21607,7 @@ static PyMethodDef awtk_methods[] = {
 {"mledit_set_cancelable", wrap_mledit_set_cancelable, METH_VARARGS, "mledit_set_cancelable"},
 {"mledit_set_focus", wrap_mledit_set_focus, METH_VARARGS, "mledit_set_focus"},
 {"mledit_set_wrap_word", wrap_mledit_set_wrap_word, METH_VARARGS, "mledit_set_wrap_word"},
+{"mledit_set_overwrite", wrap_mledit_set_overwrite, METH_VARARGS, "mledit_set_overwrite"},
 {"mledit_set_max_lines", wrap_mledit_set_max_lines, METH_VARARGS, "mledit_set_max_lines"},
 {"mledit_set_max_chars", wrap_mledit_set_max_chars, METH_VARARGS, "mledit_set_max_chars"},
 {"mledit_set_tips", wrap_mledit_set_tips, METH_VARARGS, "mledit_set_tips"},
@@ -21562,14 +21621,16 @@ static PyMethodDef awtk_methods[] = {
 {"mledit_set_close_im_when_blured", wrap_mledit_set_close_im_when_blured, METH_VARARGS, "mledit_set_close_im_when_blured"},
 {"mledit_set_select", wrap_mledit_set_select, METH_VARARGS, "mledit_set_select"},
 {"mledit_get_selected_text", wrap_mledit_get_selected_text, METH_VARARGS, "mledit_get_selected_text"},
+{"mledit_insert_text", wrap_mledit_insert_text, METH_VARARGS, "mledit_insert_text"},
 {"mledit_cast", wrap_mledit_cast, METH_VARARGS, "mledit_cast"},
 {"mledit_t_get_prop_tips", wrap_mledit_t_get_prop_tips, METH_VARARGS, "mledit_t_get_prop_tips"},
 {"mledit_t_get_prop_tr_tips", wrap_mledit_t_get_prop_tr_tips, METH_VARARGS, "mledit_t_get_prop_tr_tips"},
 {"mledit_t_get_prop_keyboard", wrap_mledit_t_get_prop_keyboard, METH_VARARGS, "mledit_t_get_prop_keyboard"},
 {"mledit_t_get_prop_max_lines", wrap_mledit_t_get_prop_max_lines, METH_VARARGS, "mledit_t_get_prop_max_lines"},
 {"mledit_t_get_prop_max_chars", wrap_mledit_t_get_prop_max_chars, METH_VARARGS, "mledit_t_get_prop_max_chars"},
-{"mledit_t_get_prop_wrap_word", wrap_mledit_t_get_prop_wrap_word, METH_VARARGS, "mledit_t_get_prop_wrap_word"},
 {"mledit_t_get_prop_scroll_line", wrap_mledit_t_get_prop_scroll_line, METH_VARARGS, "mledit_t_get_prop_scroll_line"},
+{"mledit_t_get_prop_overwrite", wrap_mledit_t_get_prop_overwrite, METH_VARARGS, "mledit_t_get_prop_overwrite"},
+{"mledit_t_get_prop_wrap_word", wrap_mledit_t_get_prop_wrap_word, METH_VARARGS, "mledit_t_get_prop_wrap_word"},
 {"mledit_t_get_prop_readonly", wrap_mledit_t_get_prop_readonly, METH_VARARGS, "mledit_t_get_prop_readonly"},
 {"mledit_t_get_prop_cancelable", wrap_mledit_t_get_prop_cancelable, METH_VARARGS, "mledit_t_get_prop_cancelable"},
 {"mledit_t_get_prop_open_im_when_focused", wrap_mledit_t_get_prop_open_im_when_focused, METH_VARARGS, "mledit_t_get_prop_open_im_when_focused"},
@@ -22035,6 +22096,7 @@ static PyMethodDef awtk_methods[] = {
 {"object_array_get_and_remove", wrap_object_array_get_and_remove, METH_VARARGS, "object_array_get_and_remove"},
 {"object_array_t_get_prop_size", wrap_object_array_t_get_prop_size, METH_VARARGS, "object_array_t_get_prop_size"},
 {"object_default_create", wrap_object_default_create, METH_VARARGS, "object_default_create"},
+{"object_default_create_ex", wrap_object_default_create_ex, METH_VARARGS, "object_default_create_ex"},
 {"object_default_clear_props", wrap_object_default_clear_props, METH_VARARGS, "object_default_clear_props"},
 {"timer_info_cast", wrap_timer_info_cast, METH_VARARGS, "timer_info_cast"},
 {"timer_info_t_get_prop_ctx", wrap_timer_info_t_get_prop_ctx, METH_VARARGS, "timer_info_t_get_prop_ctx"},
