@@ -2951,6 +2951,12 @@ class TEventType:
   REQUEST_QUIT_APP = EVT_REQUEST_QUIT_APP()
 
   #
+  # 即将改变主题(event_t)。
+  #
+  #
+  THEME_WILL_CHANGE = EVT_THEME_WILL_CHANGE()
+
+  #
   # 主题变化(event_t)。
   #
   #
@@ -2997,6 +3003,12 @@ class TEventType:
   #
   #
   PAGE_CHANGED = EVT_PAGE_CHANGED()
+
+  #
+  # 页面正在改变(offset_change_event_t)。
+  #
+  #
+  PAGE_CHANGING = EVT_PAGE_CHANGING()
 
   #
   # 资源管理加载某个资源(assets_event_t)。
@@ -4760,7 +4772,7 @@ class TStyleId:
   # 左上角圆角半径(仅在WITH_VGCANVAS定义时生效)。
   #
   #
-  ROUND_RADIUS_TOP_LETF = STYLE_ID_ROUND_RADIUS_TOP_LETF()
+  ROUND_RADIUS_TOP_LEFT = STYLE_ID_ROUND_RADIUS_TOP_LEFT()
 
   #
   # 右上角圆角半径(仅在WITH_VGCANVAS定义时生效)。
@@ -4772,7 +4784,7 @@ class TStyleId:
   # 左下角圆角半径(仅在WITH_VGCANVAS定义时生效)。
   #
   #
-  ROUND_RADIUS_BOTTOM_LETF = STYLE_ID_ROUND_RADIUS_BOTTOM_LETF()
+  ROUND_RADIUS_BOTTOM_LEFT = STYLE_ID_ROUND_RADIUS_BOTTOM_LEFT()
 
   #
   # 右下角圆角半径(仅在WITH_VGCANVAS定义时生效)。
@@ -5621,6 +5633,20 @@ class TVgcanvas(object):
 
 
   #
+  # 矩形区域是否在矩形裁剪中。
+  # 
+  # @param left 矩形区域左边。
+  # @param top 矩形区域上边。
+  # @param right 矩形区域右边。
+  # @param bottom 矩形区域下边。
+  #
+  # @return 返回 TURE 则在区域中，返回 FALSE 则不在区域中。
+  #
+  def is_rectf_in_clip_rect(self, left, top, right, bottom): 
+      return vgcanvas_is_rectf_in_clip_rect(awtk_get_native_obj(self), left, top, right, bottom)
+
+
+  #
   # 设置一个与前一个裁剪区做交集的矩形裁剪区。
   #如果下面这种情况，则不能直接调用 rect_intersect 函数来做矩形交集和 vgcanvas_clip_rect 函数设置裁剪区，而采用本函数做交集。
   #由于缩放和旋转以及平移会导致 vg 的坐标系和上一个裁剪区的坐标系不同，
@@ -5766,6 +5792,31 @@ class TVgcanvas(object):
   #
   def draw_image(self, img, sx, sy, sw, sh, dx, dy, dw, dh): 
       return vgcanvas_draw_image(awtk_get_native_obj(self), awtk_get_native_obj(img), sx, sy, sw, sh, dx, dy, dw, dh)
+
+
+  #
+  # 绘制图片。
+  #
+  #备注：
+  #当绘制区域大于原图区域时，多余的绘制区域会重复绘制原图区域的东西。（绘制图区按照绘制图片的宽高来绘制的）
+  #当绘制图片的宽高和原图的不同，在重复绘制的同时加入缩放。
+  # 
+  # @param img 图片。
+  # @param sx 原图区域的 x
+  # @param sy 原图区域的 y
+  # @param sw 原图区域的 w
+  # @param sh 原图区域的 h
+  # @param dx 绘制区域的 x
+  # @param dy 绘制区域的 y
+  # @param dw 绘制区域的 w
+  # @param dh 绘制区域的 h
+  # @param dst_w 绘制图片的宽
+  # @param dst_h 绘制图片的高
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def draw_image_repeat(self, img, sx, sy, sw, sh, dx, dy, dw, dh, dst_w, dst_h): 
+      return vgcanvas_draw_image_repeat(awtk_get_native_obj(self), awtk_get_native_obj(img), sx, sy, sw, sh, dx, dy, dw, dh, dst_w, dst_h)
 
 
   #
@@ -7495,6 +7546,12 @@ class TWidgetState:
   NORMAL = WIDGET_STATE_NORMAL()
 
   #
+  # 3/5keys模式时，进入激活状态(此时方向键用于修改值)。
+  #
+  #
+  ACTIVATED = WIDGET_STATE_ACTIVATED()
+
+  #
   # 内容被修改的状态。
   #
   #
@@ -7851,6 +7908,16 @@ class TWidget(object):
 
 
   #
+  # 获取控件的值。只是对widget\_get\_prop的包装，值的意义由子类控件决定。
+  # 
+  #
+  # @return 返回值。
+  #
+  def get_value(self): 
+      return widget_get_value(awtk_get_native_obj(self))
+
+
+  #
   # 设置控件的值。
   #只是对widget\_set\_prop的包装，值的意义由子类控件决定。
   # 
@@ -7860,6 +7927,52 @@ class TWidget(object):
   #
   def set_value(self, value): 
       return widget_set_value(awtk_get_native_obj(self), value)
+
+
+  #
+  # 增加控件的值。
+  #只是对widget\_set\_prop的包装，值的意义由子类控件决定。
+  # 
+  # @param delta 增量。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def add_value(self, delta): 
+      return widget_add_value(awtk_get_native_obj(self), delta)
+
+
+  #
+  # 获取控件的值。只是对widget\_get\_prop的包装，值的意义由子类控件决定。
+  # 
+  #
+  # @return 返回值。
+  #
+  def get_value_int(self): 
+      return widget_get_value_int(awtk_get_native_obj(self))
+
+
+  #
+  # 设置控件的值。
+  #只是对widget\_set\_prop的包装，值的意义由子类控件决定。
+  # 
+  # @param value 值。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_value_int(self, value): 
+      return widget_set_value_int(awtk_get_native_obj(self), value)
+
+
+  #
+  # 增加控件的值。
+  #只是对widget\_set\_prop的包装，值的意义由子类控件决定。
+  # 
+  # @param delta 增量。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def add_value_int(self, delta): 
+      return widget_add_value_int(awtk_get_native_obj(self), delta)
 
 
   #
@@ -7873,18 +7986,6 @@ class TWidget(object):
   #
   def animate_value_to(self, value, duration): 
       return widget_animate_value_to(awtk_get_native_obj(self), value, duration)
-
-
-  #
-  # 增加控件的值。
-  #只是对widget\_set\_prop的包装，值的意义由子类控件决定。
-  # 
-  # @param delta 增量。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def add_value(self, delta): 
-      return widget_add_value(awtk_get_native_obj(self), delta)
 
 
   #
@@ -7972,16 +8073,6 @@ class TWidget(object):
   #
   def set_tr_text(self, text): 
       return widget_set_tr_text(awtk_get_native_obj(self), text)
-
-
-  #
-  # 获取控件的值。只是对widget\_get\_prop的包装，值的意义由子类控件决定。
-  # 
-  #
-  # @return 返回值。
-  #
-  def get_value(self): 
-      return widget_get_value(awtk_get_native_obj(self))
 
 
   #
@@ -8092,8 +8183,6 @@ class TWidget(object):
 
   #
   # 设置theme的名称，用于动态切换主题。名称与当前主题名称相同，则重新加载全部资源。
-  #
-  #> 目前只支持带有文件系统的平台。
   # 
   # @param name 主题的名称。
   #
@@ -8530,6 +8619,30 @@ class TWidget(object):
   #
   def get_prop_pointer(self, name): 
       return widget_get_prop_pointer(awtk_get_native_obj(self), name)
+
+
+  #
+  # 设置浮点数格式的属性。
+  # 
+  # @param name 属性的名称。
+  # @param v 属性的值。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_prop_float(self, name, v): 
+      return widget_set_prop_float(awtk_get_native_obj(self), name, v)
+
+
+  #
+  # 获取浮点数格式的属性。
+  # 
+  # @param name 属性的名称。
+  # @param defval 缺省值。
+  #
+  # @return 返回属性的值。
+  #
+  def get_prop_float(self, name, defval): 
+      return widget_get_prop_float(awtk_get_native_obj(self), name, defval)
 
 
   #
@@ -11549,7 +11662,7 @@ class TValueType:
   WSTRING = VALUE_TYPE_WSTRING()
 
   #
-  # object_t*类型。
+  # tk_object_t*类型。
   #
   #
   OBJECT = VALUE_TYPE_OBJECT()
@@ -11862,6 +11975,44 @@ class TValueChangeEvent (TEvent):
   @classmethod
   def cast(cls, event): 
       return  TValueChangeEvent(value_change_event_cast(awtk_get_native_obj(event)))
+
+
+#
+# 值变化事件。
+#
+#
+class TOffsetChangeEvent (TEvent):
+
+  def __new__(cls, native_obj=0):
+      if native_obj == 0:
+          return None
+      else:
+          if super().__new__ == object.__new__:
+              instance = super().__new__(cls)
+          else:
+              instance = super().__new__(cls, native_obj)
+          instance.nativeObj = native_obj
+          return instance
+    
+  def __init__(self, nativeObj):
+    super(TOffsetChangeEvent, self).__init__(nativeObj)
+
+
+  def __eq__(self, other: 'TWidget'):
+      if other is None:
+          return self.nativeObj == 0
+      return self.nativeObj == other.nativeObj
+    
+  #
+  # 把event对象转offset_change_event_t对象，主要给脚本语言使用。
+  # 
+  # @param event event对象。
+  #
+  # @return event对象。
+  #
+  @classmethod
+  def cast(cls, event): 
+      return  TOffsetChangeEvent(offset_change_event_cast(awtk_get_native_obj(event)))
 
 
 #
@@ -12306,6 +12457,53 @@ class TMultiGestureEvent (TEvent):
   @property
   def distance(self):
     return multi_gesture_event_t_get_prop_distance(self.nativeObj)
+
+
+#
+# 主题变化事件。
+#
+#
+class TThemeChangeEvent (TEvent):
+
+  def __new__(cls, native_obj=0):
+      if native_obj == 0:
+          return None
+      else:
+          if super().__new__ == object.__new__:
+              instance = super().__new__(cls)
+          else:
+              instance = super().__new__(cls, native_obj)
+          instance.nativeObj = native_obj
+          return instance
+    
+  def __init__(self, nativeObj):
+    super(TThemeChangeEvent, self).__init__(nativeObj)
+
+
+  def __eq__(self, other: 'TWidget'):
+      if other is None:
+          return self.nativeObj == 0
+      return self.nativeObj == other.nativeObj
+    
+  #
+  # 把event对象转theme_change_event_t对象，主要给脚本语言使用。
+  # 
+  # @param event event对象。
+  #
+  # @return 返回event对象。
+  #
+  @classmethod
+  def cast(cls, event): 
+      return  TThemeChangeEvent(theme_change_event_cast(awtk_get_native_obj(event)))
+
+
+  #
+  # 主题名称。
+  #
+  #
+  @property
+  def name(self):
+    return theme_change_event_t_get_prop_name(self.nativeObj)
 
 
 #
@@ -13511,6 +13709,18 @@ class TDraggable (TWidget):
 
 
   #
+  # 设置drag_parent。
+  #拖动窗口而不是父控件。比如放在对话框的titlebar上，拖动titlebar其实是希望拖动对话框。
+  # 
+  # @param drag_parent 0表示直系父控件，1表示父控件的父控件，依次类推。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_drag_parent(self, drag_parent): 
+      return draggable_set_drag_parent(awtk_get_native_obj(self), drag_parent)
+
+
+  #
   # 拖动范围的顶部限制。缺省为父控件的顶部。
   #
   #
@@ -13599,6 +13809,19 @@ class TDraggable (TWidget):
   @drag_window.setter
   def drag_window(self, v):
     draggable_set_drag_window(self.nativeObj, v)
+
+
+  #
+  # 拖动父控件。0表示直系父控件，1表示父控件的父控件，依次类推。
+  #
+  #
+  @property
+  def drag_parent(self):
+    return draggable_t_get_prop_drag_parent(self.nativeObj)
+
+  @drag_parent.setter
+  def drag_parent(self, v):
+    draggable_set_drag_parent(self.nativeObj, v)
 
 
 #
@@ -16386,6 +16609,17 @@ class THscrollLabel (TWidget):
 
 
   #
+  # 设置speed（设置后 duration 不生效）。
+  # 
+  # @param speed 滚动速度(px/ms)。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_speed(self, speed): 
+      return hscroll_label_set_speed(awtk_get_native_obj(self), speed)
+
+
+  #
   # 设置only_focus。
   # 
   # @param only_focus 是否只有处于focus时才滚动。
@@ -16572,6 +16806,19 @@ class THscrollLabel (TWidget):
   @duration.setter
   def duration(self, v):
     hscroll_label_set_duration(self.nativeObj, v)
+
+
+  #
+  # 滚动速度(px/ms)（设置后 duration 不生效）。
+  #
+  #
+  @property
+  def speed(self):
+    return hscroll_label_t_get_prop_speed(self.nativeObj)
+
+  @speed.setter
+  def speed(self, v):
+    hscroll_label_set_speed(self.nativeObj, v)
 
 
   #
@@ -17242,6 +17489,17 @@ class TScrollBar (TWidget):
 
 
   #
+  # 设置翻页滚动动画时间。
+  # 
+  # @param animator_time 时间。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_animator_time(self, animator_time): 
+      return scroll_bar_set_animator_time(awtk_get_native_obj(self), animator_time)
+
+
+  #
   # 虚拟宽度或高度。
   #
   #
@@ -17270,6 +17528,19 @@ class TScrollBar (TWidget):
   @property
   def row(self):
     return scroll_bar_t_get_prop_row(self.nativeObj)
+
+
+  #
+  # 翻页滚动动画时间。
+  #
+  #
+  @property
+  def animator_time(self):
+    return scroll_bar_t_get_prop_animator_time(self.nativeObj)
+
+  @animator_time.setter
+  def animator_time(self, v):
+    scroll_bar_set_animator_time(self.nativeObj, v)
 
 
   #
@@ -18025,6 +18296,17 @@ class TSlideIndicator (TWidget):
 
 
   #
+  # 设置是否启用过渡效果。
+  # 
+  # @param transition 是否启用过渡效果
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_transition(self, transition): 
+      return slide_indicator_set_transition(awtk_get_native_obj(self), transition)
+
+
+  #
   # 值(缺省为0)。
   #
   #
@@ -18144,6 +18426,19 @@ class TSlideIndicator (TWidget):
   @indicated_target.setter
   def indicated_target(self, v):
     slide_indicator_set_indicated_target(self.nativeObj, v)
+
+
+  #
+  # 是否启用过渡效果。
+  #
+  #
+  @property
+  def transition(self):
+    return slide_indicator_t_get_prop_transition(self.nativeObj)
+
+  @transition.setter
+  def transition(self, v):
+    slide_indicator_set_transition(self.nativeObj, v)
 
 
 #
@@ -18659,7 +18954,7 @@ class TTextSelector (TWidget):
   #
   # @return 返回值。
   #
-  def get_value(self): 
+  def get_value_int(self): 
       return text_selector_get_value(awtk_get_native_obj(self))
 
 
@@ -22000,7 +22295,7 @@ class TPages (TWidget):
 
 
   #
-  # 当前活跃的page。
+  # 当前活跃的page。(需要用到 MVVM 数据绑定请设置 value 属性)
   #
   #
   @property
@@ -23548,6 +23843,17 @@ class TNativeWindow (TObject):
       return native_window_set_cursor(awtk_get_native_obj(self), name, awtk_get_native_obj(img))
 
 
+  #
+  # 设置程序窗口的名称。
+  # 
+  # @param app_name 程序窗口的名称。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_title(self, app_name): 
+      return native_window_set_title(awtk_get_native_obj(self), app_name)
+
+
 #
 # 窗口。
 #
@@ -23845,6 +24151,17 @@ class TGifImage (TImageBase):
 
 
   #
+  # 设置循环播放次数。
+  # 
+  # @param loop 循环播放次数。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_loop(self, loop): 
+      return gif_image_set_loop(awtk_get_native_obj(self), loop)
+
+
+  #
   # 转换为gif_image对象(供脚本语言使用)。
   # 
   # @param widget gif_image对象。
@@ -23854,6 +24171,19 @@ class TGifImage (TImageBase):
   @classmethod
   def cast(cls, widget): 
       return  TGifImage(gif_image_cast(awtk_get_native_obj(widget)))
+
+
+  #
+  # 循环播放的次数。
+  #
+  #
+  @property
+  def loop(self):
+    return gif_image_t_get_prop_loop(self.nativeObj)
+
+  @loop.setter
+  def loop(self, v):
+    gif_image_set_loop(self.nativeObj, v)
 
 
 #
@@ -24874,7 +25204,7 @@ class TComboBox (TEdit):
   #
   # @return 返回值。
   #
-  def get_value(self): 
+  def get_value_int(self): 
       return combo_box_get_value(awtk_get_native_obj(self))
 
 
