@@ -1681,6 +1681,36 @@ class TValue(object):
       return  TValue(value_cast(awtk_get_native_obj(value)))
 
 
+  #
+  # 获取类型为ID的值。
+  # 
+  #
+  # @return 值。
+  #
+  def id(self): 
+      return value_id(awtk_get_native_obj(self))
+
+
+  #
+  # 获取类型为func的值。
+  # 
+  #
+  # @return 值。
+  #
+  def func(self): 
+      return value_func(awtk_get_native_obj(self))
+
+
+  #
+  # 获取类型为func_def的值。
+  # 
+  #
+  # @return 值。
+  #
+  def func_def(self): 
+      return value_func_def(awtk_get_native_obj(self))
+
+
 #
 # TK全局对象。
 #
@@ -2206,6 +2236,16 @@ class TCanvas(object):
   #
   def set_font(self, name, size): 
       return canvas_set_font(awtk_get_native_obj(self), name, size)
+
+
+  #
+  # 释放canvas中字体相关的资源。
+  # 
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def reset_font(self): 
+      return canvas_reset_font(awtk_get_native_obj(self))
 
 
   #
@@ -2908,7 +2948,7 @@ class TEventType:
   RESET = EVT_RESET()
 
   #
-  # 在指定的时间内(WITH_SCREEN_SAVER_TIME)，没有用户输入事件，由窗口管理器触发。
+  # 在指定的时间内，没有用户输入事件，由窗口管理器触发。
   #
   #
   SCREEN_SAVER = EVT_SCREEN_SAVER()
@@ -3331,6 +3371,18 @@ class TGlyphFormat:
   #
   #
   RGBA = GLYPH_FMT_RGBA()
+
+  #
+  # 每个像素占用2bit。
+  #
+  #
+  ALPHA2 = GLYPH_FMT_ALPHA2()
+
+  #
+  # 每个像素占用4bit。
+  #
+  #
+  ALPHA4 = GLYPH_FMT_ALPHA4()
 
 #
 # idle可以看作是duration为0的定时器。
@@ -5298,6 +5350,18 @@ class TBitmapFlag:
   #
   PREMULTI_ALPHA = BITMAP_FLAG_PREMULTI_ALPHA()
 
+  #
+  # 位图数据已经处理了 lcd 旋转，同时说明 bitmap 的宽高和真实数据的宽高可能不一致
+  #
+  #
+  LCD_ORIENTATION = BITMAP_FLAG_LCD_ORIENTATION()
+
+  #
+  # 该位图为 GPU 的 fbo 数据。
+  #
+  #
+  GPU_FBO_TEXTURE = BITMAP_FLAG_GPU_FBO_TEXTURE()
+
 #
 # 矢量图画布抽象基类。
 #
@@ -6390,6 +6454,12 @@ class TWidgetProp:
   #
   #
   VIRTUAL_H = WIDGET_PROP_VIRTUAL_H()
+
+  #
+  # 控件正在加载。
+  #
+  #
+  LOADING = WIDGET_PROP_LOADING()
 
   #
   # 名称。
@@ -7606,6 +7676,12 @@ class TWidgetState:
   EMPTY_FOCUS = WIDGET_STATE_EMPTY_FOCUS()
 
   #
+  # 编辑器无内容同时指针悬浮的状态。
+  #
+  #
+  EMPTY_OVER = WIDGET_STATE_EMPTY_OVER()
+
+  #
   # 输入错误状态。
   #
   #
@@ -7800,6 +7876,28 @@ class TWidget(object):
 
 
   #
+  # 通过名称查找父控件。
+  # 
+  # @param name 名称。
+  #
+  # @return 父控件。
+  #
+  def find_parent_by_name(self, name): 
+      return  TWidget(widget_find_parent_by_name(awtk_get_native_obj(self), name))
+
+
+  #
+  # 通过类型查找父控件。
+  # 
+  # @param type 类型。
+  #
+  # @return 父控件。
+  #
+  def find_parent_by_type(self, type): 
+      return  TWidget(widget_find_parent_by_type(awtk_get_native_obj(self), type))
+
+
+  #
   # 获取当前窗口中的焦点控件。
   # 
   #
@@ -7879,6 +7977,16 @@ class TWidget(object):
   #
   def move(self, x, y): 
       return widget_move(awtk_get_native_obj(self), x, y)
+
+
+  #
+  # 移动控件到父控件中间。
+  # 
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def move_to_center(self): 
+      return widget_move_to_center(awtk_get_native_obj(self))
 
 
   #
@@ -11697,6 +11805,24 @@ class TValueType:
   #
   GRADIENT = VALUE_TYPE_GRADIENT()
 
+  #
+  # id。
+  #
+  #
+  ID = VALUE_TYPE_ID()
+
+  #
+  # func。
+  #
+  #
+  FUNC = VALUE_TYPE_FUNC()
+
+  #
+  # func definition。
+  #
+  #
+  FUNC_DEF = VALUE_TYPE_FUNC_DEF()
+
 #
 # 资源管理器。
 #这里的资源管理器并非Windows下的文件浏览器，而是负责对各种资源，比如字体、窗体样式、图片、界面数据、字符串和其它数据的进行集中管理的组件。引入资源管理器的目的有以下几个：
@@ -13700,12 +13826,23 @@ class TDraggable (TWidget):
   # 设置drag_window。
   #拖动窗口而不是父控件。比如放在对话框的titlebar上，拖动titlebar其实是希望拖动对话框。
   # 
-  # @param drag_window drag_window
+  # @param drag_window 是否拖动窗口。
   #
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_drag_window(self, drag_window): 
       return draggable_set_drag_window(awtk_get_native_obj(self), drag_window)
+
+
+  #
+  # 设置drag_native_window。
+  # 
+  # @param drag_native_window 是否拖动原生窗口。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_drag_native_window(self, drag_native_window): 
+      return draggable_set_drag_native_window(awtk_get_native_obj(self), drag_native_window)
 
 
   #
@@ -13809,6 +13946,19 @@ class TDraggable (TWidget):
   @drag_window.setter
   def drag_window(self, v):
     draggable_set_drag_window(self.nativeObj, v)
+
+
+  #
+  # 拖动原生窗口。
+  #
+  #
+  @property
+  def drag_native_window(self):
+    return draggable_t_get_prop_drag_native_window(self.nativeObj)
+
+  @drag_native_window.setter
+  def drag_native_window(self, v):
+    draggable_set_drag_native_window(self.nativeObj, v)
 
 
   #
@@ -15591,6 +15741,49 @@ class TLineNumber (TWidget):
   @classmethod
   def cast(cls, widget): 
       return  TLineNumber(line_number_cast(awtk_get_native_obj(widget)))
+
+
+  #
+  # 增加高亮行。
+  # 
+  # @param line 行号。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def add_highlight_line(self, line): 
+      return line_number_add_highlight_line(awtk_get_native_obj(self), line)
+
+
+  #
+  # 设置active行。
+  # 
+  # @param line 行号。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_active_line(self, line): 
+      return line_number_set_active_line(awtk_get_native_obj(self), line)
+
+
+  #
+  # 清除高亮行。
+  # 
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def clear_highlight(self): 
+      return line_number_clear_highlight(awtk_get_native_obj(self))
+
+
+  #
+  # 判断指定行是否是高亮行。
+  # 
+  # @param line 行号。
+  #
+  # @return 返回TRUE表示是，否则不是。
+  #
+  def is_highlight_line(self, line): 
+      return line_number_is_highlight_line(awtk_get_native_obj(self), line)
 
 
 #
@@ -18398,7 +18591,7 @@ class TSlideIndicator (TWidget):
 
 
   #
-  # 锚点x坐标。
+  # 锚点x坐标。(后面加上px为像素点，不加px为相对百分比坐标0.0f到1.0f)
   #
   #
   @property
@@ -18407,7 +18600,7 @@ class TSlideIndicator (TWidget):
 
 
   #
-  # 锚点y坐标。
+  # 锚点y坐标。(后面加上px为像素点，不加px为相对百分比坐标0.0f到1.0f)
   #
   #
   @property
@@ -21324,6 +21517,18 @@ class TEdit (TWidget):
 
 
   #
+  # 设置double类型的值。
+  # 
+  # @param format 格式(缺省为"%2.2lf")。
+  # @param value 值。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_double_ex(self, format, value): 
+      return edit_set_double_ex(awtk_get_native_obj(self), format, value)
+
+
+  #
   # 设置为文本输入及其长度限制，不允许输入超过max个字符，少于min个字符时进入error状态。
   # 
   # @param min 最小长度。
@@ -22749,6 +22954,17 @@ class TSlider (TWidget):
 
 
   #
+  # 设置前景色的线帽形状。（默认为跟随风格的圆角设置，但是在没有设置圆角的时候无法使用 "round" 来设置圆角）
+  # 
+  # @param line_cap 前景色的线帽形状，取值为：butt|round
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_line_cap(self, line_cap): 
+      return slider_set_line_cap(awtk_get_native_obj(self), line_cap)
+
+
+  #
   # 设置滑块的拖动的最小单位。
   # 
   # @param step 拖动的最小单位。
@@ -22884,6 +23100,19 @@ class TSlider (TWidget):
   @property
   def slide_with_bar(self):
     return slider_t_get_prop_slide_with_bar(self.nativeObj)
+
+
+  #
+  # 前景色的线帽形状。（取值：butt|round，默认为跟随风格的圆角设置, 但是在没有设置圆角的时候无法使用 "round" 来设置圆角）
+  #
+  #
+  @property
+  def line_cap(self):
+    return slider_t_get_prop_line_cap(self.nativeObj)
+
+  @line_cap.setter
+  def line_cap(self, v):
+    slider_set_line_cap(self.nativeObj, v)
 
 
 #
@@ -25206,6 +25435,17 @@ class TComboBox (TEdit):
   #
   def get_value_int(self): 
       return combo_box_get_value(awtk_get_native_obj(self))
+
+
+  #
+  # 检查选项中是否存在指定的文本。
+  # 
+  # @param text option text
+  #
+  # @return 返回TRUE表示存在，否则表示不存在。
+  #
+  def has_option_text(self, text): 
+      return combo_box_has_option_text(awtk_get_native_obj(self), text)
 
 
   #
