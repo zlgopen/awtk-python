@@ -820,6 +820,21 @@ pyobject_t wrap_object_copy_prop(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("i", ret);
 }
 
+pyobject_t wrap_object_copy_props(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  object_t* obj = NULL;
+  object_t* src = NULL;
+  bool_t overwrite = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&O&b" , &__parse_voidp, &obj, &__parse_voidp, &src, &overwrite)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)object_copy_props(obj, src, overwrite);
+  return Py_BuildValue("i", ret);
+}
+
 pyobject_t wrap_object_has_prop(pyobject_t self, pyobject_t pyargs) {
   bool_t ret = 0;
   object_t* obj = NULL;
@@ -18684,17 +18699,6 @@ pyobject_t wrap_slider_t_get_prop_step(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("d", obj->step);
 }
 
-pyobject_t wrap_slider_t_get_prop_vertical(pyobject_t self, pyobject_t pyargs) {
-  slider_t* obj = NULL;
-
-  if (!PyArg_ParseTuple(pyargs, "O&", &__parse_voidp, &obj)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  return Py_BuildValue("b", obj->vertical);
-}
-
 pyobject_t wrap_slider_t_get_prop_bar_size(pyobject_t self, pyobject_t pyargs) {
   slider_t* obj = NULL;
 
@@ -18717,6 +18721,28 @@ pyobject_t wrap_slider_t_get_prop_dragger_size(pyobject_t self, pyobject_t pyarg
   return Py_BuildValue("i", obj->dragger_size);
 }
 
+pyobject_t wrap_slider_t_get_prop_line_cap(pyobject_t self, pyobject_t pyargs) {
+  slider_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &__parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("s", obj->line_cap);
+}
+
+pyobject_t wrap_slider_t_get_prop_vertical(pyobject_t self, pyobject_t pyargs) {
+  slider_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &__parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("b", obj->vertical);
+}
+
 pyobject_t wrap_slider_t_get_prop_dragger_adapt_to_icon(pyobject_t self, pyobject_t pyargs) {
   slider_t* obj = NULL;
 
@@ -18737,17 +18763,6 @@ pyobject_t wrap_slider_t_get_prop_slide_with_bar(pyobject_t self, pyobject_t pya
   }
 
   return Py_BuildValue("b", obj->slide_with_bar);
-}
-
-pyobject_t wrap_slider_t_get_prop_line_cap(pyobject_t self, pyobject_t pyargs) {
-  slider_t* obj = NULL;
-
-  if (!PyArg_ParseTuple(pyargs, "O&", &__parse_voidp, &obj)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  return Py_BuildValue("s", obj->line_cap);
 }
 
 pyobject_t wrap_tab_button_group_create(pyobject_t self, pyobject_t pyargs) {
@@ -20682,6 +20697,7 @@ static PyMethodDef awtk_methods[] = {
 {"object_set_prop_float", wrap_object_set_prop_float, METH_VARARGS, "object_set_prop_float"},
 {"object_set_prop_double", wrap_object_set_prop_double, METH_VARARGS, "object_set_prop_double"},
 {"object_copy_prop", wrap_object_copy_prop, METH_VARARGS, "object_copy_prop"},
+{"object_copy_props", wrap_object_copy_props, METH_VARARGS, "object_copy_props"},
 {"object_has_prop", wrap_object_has_prop, METH_VARARGS, "object_has_prop"},
 {"object_eval", wrap_object_eval, METH_VARARGS, "object_eval"},
 {"object_can_exec", wrap_object_can_exec, METH_VARARGS, "object_can_exec"},
@@ -22616,12 +22632,12 @@ static PyMethodDef awtk_methods[] = {
 {"slider_t_get_prop_min", wrap_slider_t_get_prop_min, METH_VARARGS, "slider_t_get_prop_min"},
 {"slider_t_get_prop_max", wrap_slider_t_get_prop_max, METH_VARARGS, "slider_t_get_prop_max"},
 {"slider_t_get_prop_step", wrap_slider_t_get_prop_step, METH_VARARGS, "slider_t_get_prop_step"},
-{"slider_t_get_prop_vertical", wrap_slider_t_get_prop_vertical, METH_VARARGS, "slider_t_get_prop_vertical"},
 {"slider_t_get_prop_bar_size", wrap_slider_t_get_prop_bar_size, METH_VARARGS, "slider_t_get_prop_bar_size"},
 {"slider_t_get_prop_dragger_size", wrap_slider_t_get_prop_dragger_size, METH_VARARGS, "slider_t_get_prop_dragger_size"},
+{"slider_t_get_prop_line_cap", wrap_slider_t_get_prop_line_cap, METH_VARARGS, "slider_t_get_prop_line_cap"},
+{"slider_t_get_prop_vertical", wrap_slider_t_get_prop_vertical, METH_VARARGS, "slider_t_get_prop_vertical"},
 {"slider_t_get_prop_dragger_adapt_to_icon", wrap_slider_t_get_prop_dragger_adapt_to_icon, METH_VARARGS, "slider_t_get_prop_dragger_adapt_to_icon"},
 {"slider_t_get_prop_slide_with_bar", wrap_slider_t_get_prop_slide_with_bar, METH_VARARGS, "slider_t_get_prop_slide_with_bar"},
-{"slider_t_get_prop_line_cap", wrap_slider_t_get_prop_line_cap, METH_VARARGS, "slider_t_get_prop_line_cap"},
 {"tab_button_group_create", wrap_tab_button_group_create, METH_VARARGS, "tab_button_group_create"},
 {"tab_button_group_set_compact", wrap_tab_button_group_set_compact, METH_VARARGS, "tab_button_group_set_compact"},
 {"tab_button_group_set_scrollable", wrap_tab_button_group_set_scrollable, METH_VARARGS, "tab_button_group_set_scrollable"},

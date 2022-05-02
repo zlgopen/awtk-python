@@ -840,6 +840,18 @@ class TObject (TEmitter):
 
 
   #
+  # 拷贝全部的属性。
+  # 
+  # @param src 源对象。
+  # @param overwrite 如果属性存在是否覆盖。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def copy_props(self, src, overwrite): 
+      return object_copy_props(awtk_get_native_obj(self), awtk_get_native_obj(src), overwrite)
+
+
+  #
   # 检查是否存在指定的属性。
   # 
   # @param name 属性的名称。
@@ -5017,8 +5029,6 @@ class TStyle(object):
 #
 # 窗体样式。
 #
-#负责管理缺省的窗体样式数据，方便实现style\_const。
-#
 #
 class TTheme(object):
 
@@ -5483,7 +5493,7 @@ class TVgcanvas(object):
   # @param cp1x 控制点1x坐标。
   # @param cp1y 控制点1y坐标。
   # @param cp2x 控制点2x坐标。
-  # @param cp2y 控制点3y坐标。
+  # @param cp2y 控制点2y坐标。
   # @param x x坐标。
   # @param y y坐标。
   #
@@ -23050,19 +23060,6 @@ class TSlider (TWidget):
 
 
   #
-  # 滑块的是否为垂直方向。
-  #
-  #
-  @property
-  def vertical(self):
-    return slider_t_get_prop_vertical(self.nativeObj)
-
-  @vertical.setter
-  def vertical(self, v):
-    slider_set_vertical(self.nativeObj, v)
-
-
-  #
   # 轴的宽度或高度（单位：像素），为0表示为控件的宽度或高度的一半，缺省为0。
   #
   #
@@ -23076,12 +23073,38 @@ class TSlider (TWidget):
 
 
   #
-  # 滑块的宽度或高度（单位：像素），缺省为10。
+  # 滑块的宽度或高度（单位：像素），缺省为 bar_size * 1.5。
   #
   #
   @property
   def dragger_size(self):
     return slider_t_get_prop_dragger_size(self.nativeObj)
+
+
+  #
+  # 前景色的线帽形状。（取值：butt|round，默认为跟随风格的圆角设置, 但是在没有设置圆角的时候无法使用 "round" 来设置圆角）
+  #
+  #
+  @property
+  def line_cap(self):
+    return slider_t_get_prop_line_cap(self.nativeObj)
+
+  @line_cap.setter
+  def line_cap(self, v):
+    slider_set_line_cap(self.nativeObj, v)
+
+
+  #
+  # 滑块的是否为垂直方向。
+  #
+  #
+  @property
+  def vertical(self):
+    return slider_t_get_prop_vertical(self.nativeObj)
+
+  @vertical.setter
+  def vertical(self, v):
+    slider_set_vertical(self.nativeObj, v)
 
 
   #
@@ -23100,19 +23123,6 @@ class TSlider (TWidget):
   @property
   def slide_with_bar(self):
     return slider_t_get_prop_slide_with_bar(self.nativeObj)
-
-
-  #
-  # 前景色的线帽形状。（取值：butt|round，默认为跟随风格的圆角设置, 但是在没有设置圆角的时候无法使用 "round" 来设置圆角）
-  #
-  #
-  @property
-  def line_cap(self):
-    return slider_t_get_prop_line_cap(self.nativeObj)
-
-  @line_cap.setter
-  def line_cap(self, v):
-    slider_set_line_cap(self.nativeObj, v)
 
 
 #
