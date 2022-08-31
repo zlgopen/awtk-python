@@ -1576,7 +1576,7 @@ class TValue(object):
   #
   # 获取类型为字符串的值。
   # 
-  # @param buff 用于格式转换的缓冲区。
+  # @param buff 用于格式转换的缓冲区（如果 v 对象为 string 类型的话，不会把字符串数据拷贝到 buff 中）。
   # @param size 缓冲区大小。
   #
   # @return 值。
@@ -1723,11 +1723,34 @@ class TValue(object):
       return value_func_def(awtk_get_native_obj(self))
 
 
+  #
+  # 获取类型为位图对象。
+  # 
+  #
+  # @return 位图对象。
+  #
+  def bitmap(self): 
+      return  TBitmap(value_bitmap(awtk_get_native_obj(self)))
+
+
 #
 # TK全局对象。
 #
 #
 class TGlobal(object):
+
+  #
+  # 初始化基本功能。
+  #> 在tk_init之前，应用程序可能需要加载配置文件，
+  #> 为了保证这些功能正常工作，可以先调用tk_pre_init来初始化平台、内存和data reader等等。
+  # 
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  @classmethod
+  def pre_init(cls): 
+      return tk_pre_init()
+
 
   #
   # 初始化TK。
@@ -2388,6 +2411,17 @@ class TCanvas(object):
 
 
   #
+  # 清除canvas中缓存。
+  #> 备注：主要用于窗口动画的离线画布绘制完成后重置在线画布，使下一帧中lcd对象的数据保持一致。
+  # 
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def reset_cache(self): 
+      return canvas_reset_cache(awtk_get_native_obj(self))
+
+
+  #
   # x坐标偏移。
   #
   #
@@ -2636,6 +2670,12 @@ class TEventType:
   #
   #
   CLICK = EVT_CLICK()
+
+  #
+  # 双击事件名(pointer_event_t)。
+  #
+  #
+  DOUBLE_CLICK = EVT_DOUBLE_CLICK()
 
   #
   # 得到焦点事件名(event_t)。
@@ -3087,6 +3127,24 @@ class TEventType:
   TIMER = EVT_TIMER()
 
   #
+  # 数据到来(event_t)。
+  #
+  #
+  DATA = EVT_DATA()
+
+  #
+  # 客户连接到来(event_t)。
+  #
+  #
+  CONNECT = EVT_CONNECT()
+
+  #
+  # 模型变化。用于fscript实现窗口间通讯(model_event_t)。
+  #
+  #
+  MODEL_CHANGE = EVT_MODEL_CHANGE()
+
+  #
   # event queue其它请求编号起始值。
   #
   #
@@ -3283,7 +3341,7 @@ class TEvent(object):
 
 
   #
-  # 事件发生的时间。
+  # 事件发生的时间点（该时间点并非真实时间）。
   #
   #
   @property
@@ -4880,6 +4938,30 @@ class TStyleId:
   #
   FEEDBACK = STYLE_ID_FEEDBACK()
 
+  #
+  # 是否用clear_rect代替fill_rect绘制背景。
+  #
+  #
+  CLEAR_BG = STYLE_ID_CLEAR_BG()
+
+  #
+  # 网格线颜色(grid控件)
+  #
+  #
+  GRID_COLOR = STYLE_ID_GRID_COLOR()
+
+  #
+  # 偶数行背景颜色(grid控件)
+  #
+  #
+  EVEN_BG_COLOR = STYLE_ID_EVEN_BG_COLOR()
+
+  #
+  # 奇数行背景颜色(grid控件)
+  #
+  #
+  ODD_BG_COLOR = STYLE_ID_ODD_BG_COLOR()
+
 #
 # 控件风格。
 #
@@ -5025,6 +5107,24 @@ class TStyle(object):
   def get_style_type(self): 
       return style_get_style_type(awtk_get_native_obj(self))
 
+
+#
+# SystemInfo常量定义。
+#
+#
+class TSystemInfoFlag: 
+
+  #
+  # 无特殊标志。
+  #
+  #
+  NONE = SYSTEM_INFO_FLAG_NONE()
+
+  #
+  # 使用快速旋转功能。
+  #
+  #
+  FAST_LCD_PORTRAIT = SYSTEM_INFO_FLAG_FAST_LCD_PORTRAIT()
 
 #
 # 窗体样式。
@@ -6346,6 +6446,12 @@ class TWidgetProp:
   CARET_Y = WIDGET_PROP_CARET_Y()
 
   #
+  # 行高。
+  #
+  #
+  LINE_HEIGHT = WIDGET_PROP_LINE_HEIGHT()
+
+  #
   # 脏矩形超出控件本身大小的最大范围。
   #
   #
@@ -6502,6 +6608,12 @@ class TWidgetProp:
   VALUE = WIDGET_PROP_VALUE()
 
   #
+  # 容易点击模式(目前用于spinbox)。
+  #
+  #
+  EASY_TOUCH_MODE = WIDGET_PROP_EASY_TOUCH_MODE()
+
+  #
   # CheckButton是否单选。
   #
   #
@@ -6620,6 +6732,12 @@ class TWidgetProp:
   #
   #
   SENSITIVE = WIDGET_PROP_SENSITIVE()
+
+  #
+  # 窗口所属的小应用程序(applet)名称。
+  #
+  #
+  APPLET_NAME = WIDGET_PROP_APPLET_NAME()
 
   #
   # 控件动画。
@@ -6748,13 +6866,13 @@ class TWidgetProp:
   SHOW_TEXT = WIDGET_PROP_SHOW_TEXT()
 
   #
-  # X方向的偏移。
+  # X方向的偏移。（如果控件有继承 get_offset 函数指针的话，一定要和 get_offset 返回值保持一致，否则容易出现问题）
   #
   #
   XOFFSET = WIDGET_PROP_XOFFSET()
 
   #
-  # Y方向的偏移。
+  # Y方向的偏移。（如果控件有继承 get_offset 函数指针的话，一定要和 get_offset 返回值保持一致，否则容易出现问题）
   #
   #
   YOFFSET = WIDGET_PROP_YOFFSET()
@@ -7090,6 +7208,12 @@ class TWidgetProp:
   OPEN_WINDOW = WIDGET_PROP_OPEN_WINDOW()
 
   #
+  # ComboBox打开弹出窗口的主题。
+  #
+  #
+  THEME_OF_POPUP = WIDGET_PROP_THEME_OF_POPUP()
+
+  #
   # 被选中项的索引。
   #
   #
@@ -7203,6 +7327,48 @@ class TWidgetProp:
   #
   MOVE_FOCUS_RIGHT_KEY = WIDGET_PROP_MOVE_FOCUS_RIGHT_KEY()
 
+  #
+  # 行数。
+  #
+  #
+  ROWS = WIDGET_PROP_ROWS()
+
+  #
+  # 是否显示网格线。
+  #
+  #
+  SHOW_GRID = WIDGET_PROP_SHOW_GRID()
+
+  #
+  # 各列的定义。
+  #
+  #
+  COLUMNS_DEFINITION = WIDGET_PROP_COLUMNS_DEFINITION()
+
+  #
+  # 拖拽临界值。
+  #
+  #
+  DRAG_THRESHOLD = WIDGET_PROP_DRAG_THRESHOLD()
+
+  #
+  # 动画时间。
+  #
+  #
+  ANIMATING_TIME = WIDGET_PROP_ANIMATING_TIME()
+
+  #
+  # 改变控件属性时附带动画的前缀。
+  #
+  #
+  ANIMATE_PREFIX = WIDGET_PROP_ANIMATE_PREFIX()
+
+  #
+  # 改变控件属性时附带动画的播放时间。
+  #
+  #
+  ANIMATE_ANIMATING_TIME = WIDGET_PROP_ANIMATE_ANIMATING_TIME()
+
 #
 # 控件的类型。
 #
@@ -7300,6 +7466,12 @@ class TWidgetType:
   IMAGE = WIDGET_TYPE_IMAGE()
 
   #
+  # 图标控件。
+  #
+  #
+  ICON = WIDGET_TYPE_ICON()
+
+  #
   # 文本编辑控件。
   #
   #
@@ -7352,6 +7524,12 @@ class TWidgetType:
   #
   #
   VIEW = WIDGET_TYPE_VIEW()
+
+  #
+  # page控件。
+  #
+  #
+  PAGE = WIDGET_TYPE_PAGE()
 
   #
   # 下拉选择框控件。
@@ -8130,8 +8308,7 @@ class TWidget(object):
 
 
   #
-  # 设置控件的文本。
-  #只是对widget\_set\_prop的包装，文本的意义由子类控件决定。
+  # 设置控件的文本。（如果字符串相同，则不会重复设置以及触发事件）
   # 
   # @param text 文本。
   #
@@ -8139,6 +8316,18 @@ class TWidget(object):
   #
   def set_text(self, text): 
       return widget_set_text_utf8(awtk_get_native_obj(self), text)
+
+
+  #
+  # 设置控件的文本。
+  # 
+  # @param text 文本。
+  # @param check_diff 是否检查设置的文本是否和控件中的文本一样。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_text_ex(self, text, check_diff): 
+      return widget_set_text_utf8_ex(awtk_get_native_obj(self), text, check_diff)
 
 
   #
@@ -8308,6 +8497,16 @@ class TWidget(object):
   #
   def set_theme(self, name): 
       return widget_set_theme(awtk_get_native_obj(self), name)
+
+
+  #
+  # 获取 theme 的名称
+  # 
+  #
+  # @return 成功返回主题名称，失败否则 NULL。
+  #
+  def get_theme_name(self): 
+      return widget_get_theme_name(awtk_get_native_obj(self))
 
 
   #
@@ -8690,6 +8889,18 @@ class TWidget(object):
   #
   def invalidate_force(self, r): 
       return widget_invalidate_force(awtk_get_native_obj(self), awtk_get_native_obj(r))
+
+
+  #
+  # 设置多个参数。
+  #>参数之间用&分隔，名称和值之间用=分隔。如: name=awtk&min=10&max=100
+  # 
+  # @param params 参数列表。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_props(self, params): 
+      return widget_set_props(awtk_get_native_obj(self), params)
 
 
   #
@@ -9300,6 +9511,17 @@ class TWidget(object):
 
 
   #
+  # 加入一个子控件默认实现(供子类调用)。
+  # 
+  # @param child 子控件对象。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def add_child_default(self, child): 
+      return widget_add_child_default(awtk_get_native_obj(self), awtk_get_native_obj(child))
+
+
+  #
   # x坐标(相对于父控件的x坐标)。
   #
   #
@@ -9474,7 +9696,7 @@ class TWidget(object):
   #
   # 是否根据子控件和文本自动调整控件自身大小。
   #
-  #> 为true时，最好不要使用child_layout，否则可能有冲突。
+  #> 为true时，最好不要使用 layout 的相关东西，否则可能有冲突。
   #> 注意：只是调整控件的本身的宽高，不会修改控件本身的位置。
   #
   #
@@ -9498,6 +9720,19 @@ class TWidget(object):
   @floating.setter
   def floating(self, v):
     widget_set_floating(self.nativeObj, v)
+
+
+  #
+  # 不透明度(0-255)，0完全透明，255完全不透明。
+  #
+  #
+  @property
+  def opacity(self):
+    return widget_t_get_prop_opacity(self.nativeObj)
+
+  @opacity.setter
+  def opacity(self, v):
+    widget_set_opacity(self.nativeObj, v)
 
 
   #
@@ -11482,6 +11717,8 @@ class TTimeNow(object):
 
   #
   # 获取当前时间(秒)。
+  #
+  #备注: 时间本身并不代表任何时间系，一般用来计算时间间隔。
   # 
   #
   # @return 返回当前时间(秒)。
@@ -11493,6 +11730,8 @@ class TTimeNow(object):
 
   #
   # 获取当前时间(毫秒)。
+  #
+  #备注: 时间本身并不代表任何时间系，一般用来计算时间间隔。
   # 
   #
   # @return 返回当前时间(毫秒)。
@@ -11504,6 +11743,8 @@ class TTimeNow(object):
 
   #
   # 获取当前时间(微秒)。
+  #
+  #备注: 时间本身并不代表任何时间系，一般用来计算时间间隔。
   # 
   #
   # @return 返回当前时间(微秒)。
@@ -11833,6 +12074,18 @@ class TValueType:
   #
   FUNC_DEF = VALUE_TYPE_FUNC_DEF()
 
+  #
+  # void*类型。
+  #
+  #
+  POINTER_REF = VALUE_TYPE_POINTER_REF()
+
+  #
+  # 位图类型。
+  #
+  #
+  BITMAP = VALUE_TYPE_BITMAP()
+
 #
 # 资源管理器。
 #这里的资源管理器并非Windows下的文件浏览器，而是负责对各种资源，比如字体、窗体样式、图片、界面数据、字符串和其它数据的进行集中管理的组件。引入资源管理器的目的有以下几个：
@@ -11943,6 +12196,71 @@ class TAssetsManager (TEmitter):
   #
   def unref(self, info): 
       return assets_manager_unref(awtk_get_native_obj(self), awtk_get_native_obj(info))
+
+
+#
+# model变化事件。
+#
+#
+class TModelEvent (TEvent):
+
+  def __new__(cls, native_obj=0):
+      if native_obj == 0:
+          return None
+      else:
+          if super().__new__ == object.__new__:
+              instance = super().__new__(cls)
+          else:
+              instance = super().__new__(cls, native_obj)
+          instance.nativeObj = native_obj
+          return instance
+    
+  def __init__(self, nativeObj):
+    super(TModelEvent, self).__init__(nativeObj)
+
+
+  def __eq__(self, other: 'TWidget'):
+      if other is None:
+          return self.nativeObj == 0
+      return self.nativeObj == other.nativeObj
+    
+  #
+  # 把event对象转model_event_t对象，主要给脚本语言使用。
+  # 
+  # @param event event对象。
+  #
+  # @return event对象。
+  #
+  @classmethod
+  def cast(cls, event): 
+      return  TModelEvent(model_event_cast(awtk_get_native_obj(event)))
+
+
+  #
+  # 模型名称。
+  #
+  #
+  @property
+  def name(self):
+    return model_event_t_get_prop_name(self.nativeObj)
+
+
+  #
+  # 变化类型(update/add/remove)。
+  #
+  #
+  @property
+  def change_type(self):
+    return model_event_t_get_prop_change_type(self.nativeObj)
+
+
+  #
+  # 模型。
+  #
+  #
+  @property
+  def model(self):
+    return TObject(model_event_t_get_prop_model(self.nativeObj))
 
 
 #
@@ -12209,6 +12527,9 @@ class TPointerEvent (TEvent):
 
   #
   # button。
+  #在不同的平台，该属性会发生变化，
+  #PC ：左键为 1，中键为 2，右键为 3
+  #嵌入式：默认为 1
   #
   #
   @property
@@ -13187,6 +13508,17 @@ class TWindowBase (TWidget):
   @property
   def move_focus_right_key(self):
     return window_base_t_get_prop_move_focus_right_key(self.nativeObj)
+
+
+  #
+  # 小应用程序(applet)的名称。
+  #
+  #> 如果该窗口属于某个独立的小程序应用(applet)，需要指定它的名称，以便到对应的资源目录查找资源。
+  #
+  #
+  @property
+  def applet_name(self):
+    return window_base_t_get_prop_applet_name(self.nativeObj)
 
 
   #
@@ -18117,6 +18449,247 @@ class TScrollView (TWidget):
 
 
 #
+# 用于串口通信的控件
+#在xml中使用"serial"标签创建控件。如：
+#
+#```xml
+#<!-- ui -->
+#<serial device="COM1" baudrate="115200"/>
+#```
+#
+#可用通过style来设置控件的显示风格，如字体的大小和颜色等等。如：
+#> 本控件默认不可见，无需指定style。
+#
+#```xml
+#<!-- style -->
+#<serial>
+#<style name="default" font_size="32">
+#<normal text_color="black" />
+#</style>
+#</serial>
+#```
+#
+#
+class TSerialWidget (TWidget):
+
+  def __new__(cls, native_obj=0):
+      if native_obj == 0:
+          return None
+      else:
+          if super().__new__ == object.__new__:
+              instance = super().__new__(cls)
+          else:
+              instance = super().__new__(cls, native_obj)
+          instance.nativeObj = native_obj
+          return instance
+    
+  def __init__(self, nativeObj):
+    super(TSerialWidget, self).__init__(nativeObj)
+
+
+  def __eq__(self, other: 'TWidget'):
+      if other is None:
+          return self.nativeObj == 0
+      return self.nativeObj == other.nativeObj
+    
+  #
+  # 创建serial_widget对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return serial_widget对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+      return  TSerialWidget(serial_widget_create(awtk_get_native_obj(parent), x, y, w, h))
+
+
+  #
+  # 转换为serial_widget对象(供脚本语言使用)。
+  # 
+  # @param widget serial_widget对象。
+  #
+  # @return serial_widget对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+      return  TSerialWidget(serial_widget_cast(awtk_get_native_obj(widget)))
+
+
+  #
+  # 设置 波特率。
+  # 
+  # @param baudrate 波特率。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_baudrate(self, baudrate): 
+      return serial_widget_set_baudrate(awtk_get_native_obj(self), baudrate)
+
+
+  #
+  # 设置 设备。
+  # 
+  # @param device 设备。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_device(self, device): 
+      return serial_widget_set_device(awtk_get_native_obj(self), device)
+
+
+  #
+  # 设置 字节位数。
+  # 
+  # @param bytesize 字节位数。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_bytesize(self, bytesize): 
+      return serial_widget_set_bytesize(awtk_get_native_obj(self), bytesize)
+
+
+  #
+  # 设置 奇偶校验。
+  # 
+  # @param parity 奇偶校验。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_parity(self, parity): 
+      return serial_widget_set_parity(awtk_get_native_obj(self), parity)
+
+
+  #
+  # 设置 停止位。
+  # 
+  # @param stopbits 停止位。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_stopbits(self, stopbits): 
+      return serial_widget_set_stopbits(awtk_get_native_obj(self), stopbits)
+
+
+  #
+  # 设置 流控。
+  # 
+  # @param flowcontrol 流控。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_flowcontrol(self, flowcontrol): 
+      return serial_widget_set_flowcontrol(awtk_get_native_obj(self), flowcontrol)
+
+
+  #
+  # 设置 轮询时间。
+  # 
+  # @param check_interval 轮询时间（单位：ms）。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_check_interval(self, check_interval): 
+      return serial_widget_set_check_interval(awtk_get_native_obj(self), check_interval)
+
+
+  #
+  # 设备(文件)名。
+  #
+  #
+  @property
+  def device(self):
+    return serial_widget_t_get_prop_device(self.nativeObj)
+
+  @device.setter
+  def device(self, v):
+    serial_widget_set_device(self.nativeObj, v)
+
+
+  #
+  # 波特率。
+  #
+  #
+  @property
+  def baudrate(self):
+    return serial_widget_t_get_prop_baudrate(self.nativeObj)
+
+  @baudrate.setter
+  def baudrate(self, v):
+    serial_widget_set_baudrate(self.nativeObj, v)
+
+
+  #
+  # 字节位数。
+  #
+  #
+  @property
+  def bytesize(self):
+    return serial_widget_t_get_prop_bytesize(self.nativeObj)
+
+  @bytesize.setter
+  def bytesize(self, v):
+    serial_widget_set_bytesize(self.nativeObj, v)
+
+
+  #
+  # 奇偶校验。
+  #
+  #
+  @property
+  def parity(self):
+    return serial_widget_t_get_prop_parity(self.nativeObj)
+
+  @parity.setter
+  def parity(self, v):
+    serial_widget_set_parity(self.nativeObj, v)
+
+
+  #
+  # 停止位。
+  #
+  #
+  @property
+  def stopbits(self):
+    return serial_widget_t_get_prop_stopbits(self.nativeObj)
+
+  @stopbits.setter
+  def stopbits(self, v):
+    serial_widget_set_stopbits(self.nativeObj, v)
+
+
+  #
+  # 流控。
+  #
+  #
+  @property
+  def flowcontrol(self):
+    return serial_widget_t_get_prop_flowcontrol(self.nativeObj)
+
+  @flowcontrol.setter
+  def flowcontrol(self, v):
+    serial_widget_set_flowcontrol(self.nativeObj, v)
+
+
+  #
+  # 轮询时间（单位：ms）。
+  #> 仅在不支持用select等待串口数据的嵌入式设备上有效。
+  #
+  #
+  @property
+  def check_interval(self):
+    return serial_widget_t_get_prop_check_interval(self.nativeObj)
+
+  @check_interval.setter
+  def check_interval(self, v):
+    serial_widget_set_check_interval(self.nativeObj, v)
+
+
+#
 # 左右滑动菜单控件。
 #
 #一般用一组按钮作为子控件，通过左右滑动改变当前的项。除了当菜单使用外，也可以用来切换页面。
@@ -18817,6 +19390,28 @@ class TSlideView (TWidget):
 
 
   #
+  # 设置拖拽临界值。
+  # 
+  # @param drag_threshold 拖动临界值。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_drag_threshold(self, drag_threshold): 
+      return slide_view_set_drag_threshold(awtk_get_native_obj(self), drag_threshold)
+
+
+  #
+  # 设置动画时间。
+  # 
+  # @param animating_time 动画时间。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_animating_time(self, animating_time): 
+      return slide_view_set_animating_time(awtk_get_native_obj(self), animating_time)
+
+
+  #
   # 删除指定序号页面。
   # 
   # @param index 删除页面的序号。
@@ -18880,6 +19475,32 @@ class TSlideView (TWidget):
   @anim_hint.setter
   def anim_hint(self, v):
     slide_view_set_anim_hint(self.nativeObj, v)
+
+
+  #
+  # 拖动临界值。
+  #
+  #
+  @property
+  def drag_threshold(self):
+    return slide_view_t_get_prop_drag_threshold(self.nativeObj)
+
+  @drag_threshold.setter
+  def drag_threshold(self, v):
+    slide_view_set_drag_threshold(self.nativeObj, v)
+
+
+  #
+  # 动画时间（单位：毫秒）。
+  #
+  #
+  @property
+  def animating_time(self):
+    return slide_view_t_get_prop_animating_time(self.nativeObj)
+
+  @animating_time.setter
+  def animating_time(self, v):
+    slide_view_set_animating_time(self.nativeObj, v)
 
 
 #
@@ -19297,9 +19918,13 @@ class TTextSelector (TWidget):
 
 
   #
-  # 设置可选项(冒号分隔值和文本，分号分隔选项，如:1:red;2:green;3:blue)。
-  #对于数值选项，也可以指定一个范围，用『-』分隔起始值、结束值和格式。
+  # 设置可选项(英文冒号(:)分隔值和文本，英文分号(;)分隔选项，如:1:red;2:green;3:blue)。
+  #对于数值选项，也可以指定一个范围，用英文负号(-)分隔起始值、结束值和格式。
   #如："1-7-%02d"表示1到7，格式为『02d』，格式为可选，缺省为『%d』。
+  #> 如果数据本身中有英文冒号(:)、英文分号(;)和英文负号(-)。请用16进制转义。
+  #> * 英文冒号(:)写为\\x3a
+  #> * 英文冒号(;)写为\\x3b
+  #> * 英文冒号(-)写为\\x2d
   #
   #
   @property
@@ -19733,6 +20358,103 @@ class TTimeClock (TWidget):
   @property
   def second_anchor_y(self):
     return time_clock_t_get_prop_second_anchor_y(self.nativeObj)
+
+
+#
+# 定时器。
+#> 主要目的是方便以拖拽的方式创建定时器，并用AWBlock编写简单的事件处理程序。
+#在xml中使用"timer"标签创建控件。如：
+#
+#```xml
+#<!-- ui -->
+#<timer x="c" y="50" w="100" h="100" duration="1000"/>
+#```
+#
+#可用通过style来设置控件的显示风格，如字体的大小和颜色等等。如：
+#> 本控件默认不可见，无需指定style。
+#
+#```xml
+#<!-- style -->
+#<timer>
+#<style name="default" font_size="32">
+#<normal text_color="black" />
+#</style>
+#</timer>
+#```
+#
+#
+class TTimerWidget (TWidget):
+
+  def __new__(cls, native_obj=0):
+      if native_obj == 0:
+          return None
+      else:
+          if super().__new__ == object.__new__:
+              instance = super().__new__(cls)
+          else:
+              instance = super().__new__(cls, native_obj)
+          instance.nativeObj = native_obj
+          return instance
+    
+  def __init__(self, nativeObj):
+    super(TTimerWidget, self).__init__(nativeObj)
+
+
+  def __eq__(self, other: 'TWidget'):
+      if other is None:
+          return self.nativeObj == 0
+      return self.nativeObj == other.nativeObj
+    
+  #
+  # 创建timer_widget对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return timer_widget对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+      return  TTimerWidget(timer_widget_create(awtk_get_native_obj(parent), x, y, w, h))
+
+
+  #
+  # 转换为timer_widget对象(供脚本语言使用)。
+  # 
+  # @param widget timer_widget对象。
+  #
+  # @return timer_widget对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+      return  TTimerWidget(timer_widget_cast(awtk_get_native_obj(widget)))
+
+
+  #
+  # 设置 时长(ms)。
+  # 
+  # @param duration 时长(ms)。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_duration(self, duration): 
+      return timer_widget_set_duration(awtk_get_native_obj(self), duration)
+
+
+  #
+  # 时长(ms)。
+  #
+  #
+  @property
+  def duration(self):
+    return timer_widget_t_get_prop_duration(self.nativeObj)
+
+  @duration.setter
+  def duration(self, v):
+    timer_widget_set_duration(self.nativeObj, v)
 
 
 #
@@ -20473,6 +21195,15 @@ class TButton (TWidget):
     button_set_long_press_time(self.nativeObj, v)
 
 
+  #
+  # 当前是否按下。
+  #
+  #
+  @property
+  def pressed(self):
+    return button_t_get_prop_pressed(self.nativeObj)
+
+
 #
 # 勾选按钮控件(单选/多选)。
 #
@@ -20595,6 +21326,24 @@ class TCheckButton (TWidget):
   @classmethod
   def cast(cls, widget): 
       return  TCheckButton(check_button_cast(awtk_get_native_obj(widget)))
+
+
+  #
+  # 创建check button对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  # @param type 类型。
+  # @param radio 是否单选。
+  #
+  # @return widget对象。
+  #
+  @classmethod
+  def create_ex(cls, parent, x, y, w, h, type, radio): 
+      return  TCheckButton(check_button_create_ex(awtk_get_native_obj(parent), x, y, w, h, type, radio))
 
 
   #
@@ -21247,14 +21996,17 @@ class TDigitClock (TWidget):
   #* M 代表月(1-12)
   #* D 代表日(1-31)
   #* h 代表时(0-23)
+  #* H 代表时(0-11)
   #* m 代表分(0-59)
   #* s 代表秒(0-59)
   #* w 代表星期(0-6)
   #* W 代表星期的英文缩写(支持翻译)
+  #* T 代表时段AM/PM(支持翻译)
   #* YY 代表年(只显示末两位)
   #* MM 代表月(01-12)
   #* DD 代表日(01-31)
   #* hh 代表时(00-23)
+  #* HH 代表时(00-11)
   #* mm 代表分(00-59)
   #* ss 代表秒(00-59)
   #* MMM 代表月的英文缩写(支持翻译)
@@ -22051,31 +22803,23 @@ class TGridItem (TWidget):
 
 
 #
-# grid控件。一个简单的容器控件，用于网格排列一组控件。
-#
-#它本身不提供布局功能，仅提供具有语义的标签，让xml更具有可读性。
-#子控件的布局可用layout\_children属性指定。
-#请参考[布局参数](https://github.com/zlgopen/awtk/blob/master/docs/layout.md)。
-#
-#grid\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于grid\_t控件。
-#
-#在xml中使用"grid"标签创建grid。如：
+# 网格。
+#在xml中使用"grid"标签创建控件。如：
 #
 #```xml
-#<grid x="0" y="0" w="100%" h="100%" children_layout="default(c=2,r=2,m=5,s=5)">
-#<button name="open:basic" text="Basic"/>
-#<button name="open:button" text="Buttons"/>
-#<button name="open:edit" text="Edits"/>
-#<button name="open:keyboard" text="KeyBoard"/>
-#</grid>
+#<!-- ui -->
+#<grid x="c" y="50" w="100" h="100"/>
 #```
 #
-#可用通过style来设置控件的显示风格，如背景颜色等。如：
+#可用通过style来设置控件的显示风格，如字体的大小和颜色等等。如：
 #
 #```xml
-#<style name="default" border_color="#a0a0a0">
-#<normal     bg_color="#f0f0f0" />
+#<!-- style -->
+#<grid>
+#<style name="default" grid_color="gray" border_color="black" odd_bg_color="#f5f5f5" even_bg_color="#eeeeee">
+#<normal />
 #</style>
+#</grid>
 #```
 #
 #
@@ -22110,7 +22854,7 @@ class TGrid (TWidget):
   # @param w 宽度
   # @param h 高度
   #
-  # @return 对象。
+  # @return grid对象。
   #
   @classmethod
   def create(cls, parent, x, y, w, h): 
@@ -22127,6 +22871,90 @@ class TGrid (TWidget):
   @classmethod
   def cast(cls, widget): 
       return  TGrid(grid_cast(awtk_get_native_obj(widget)))
+
+
+  #
+  # 设置 行数。
+  # 
+  # @param rows 行数。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_rows(self, rows): 
+      return grid_set_rows(awtk_get_native_obj(self), rows)
+
+
+  #
+  # 设置 各列的参数。
+  # 
+  # @param columns_definition 各列的参数。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_columns_definition(self, columns_definition): 
+      return grid_set_columns_definition(awtk_get_native_obj(self), columns_definition)
+
+
+  #
+  # 设置 是否显示网格。
+  # 
+  # @param show_grid 是否显示网格。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_show_grid(self, show_grid): 
+      return grid_set_show_grid(awtk_get_native_obj(self), show_grid)
+
+
+  #
+  # 行数。
+  #
+  #
+  @property
+  def rows(self):
+    return grid_t_get_prop_rows(self.nativeObj)
+
+  @rows.setter
+  def rows(self, v):
+    grid_set_rows(self.nativeObj, v)
+
+
+  #
+  # 各列的参数。
+  #各列的参数之间用英文的分号(;)分隔，每列参数的格式为：
+  #
+  #col(w=?,left_margin=?,right_margin=?,top_maorgin=?,bottom_margin=?)
+  #
+  #* w 为列的宽度(必须存在)。取值在(0-1]区间时，视为grid控件宽度的比例，否则为像素宽度。
+  #(如果为负数，将计算结果加上控件的宽度)
+  #* left_margin(可选，可缩写为l) 该列左边的边距。
+  #* right_margin(可选，可缩写为r) 该列右边的边距。
+  #* top_margin(可选，可缩写为t) 该列顶部的边距。
+  #* bottom_margin(可选，可缩写为b) 该列底部的边距。
+  #* margin(可选，可缩写为m) 同时指定上面4个边距。
+  #* fill_available(可选，可缩写为f) 填充剩余宽度(只有一列可以指定)。
+  #
+  #
+  @property
+  def columns_definition(self):
+    return grid_t_get_prop_columns_definition(self.nativeObj)
+
+  @columns_definition.setter
+  def columns_definition(self, v):
+    grid_set_columns_definition(self.nativeObj, v)
+
+
+  #
+  # 是否显示网格。
+  #
+  #
+  @property
+  def show_grid(self):
+    return grid_t_get_prop_show_grid(self.nativeObj)
+
+  @show_grid.setter
+  def show_grid(self, v):
+    grid_set_show_grid(self.nativeObj, v)
 
 
 #
@@ -24649,6 +25477,104 @@ class TMutableImage (TImageBase):
 
 
 #
+# list_item_seperator。
+#用来模拟实现风琴控件(accordion)和属性页分组控件。
+#> 当前控件被点击时，显示/隐藏当前控件到下一个分隔符控件之间的控件。
+#list_item_seperator\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于list_item_seperator\_t控件。
+#
+#在xml中使用"list_item_seperator"标签创建list_item_seperator。如：
+#
+#```xml
+#<list_item_seperator radio="true" text="Group2" h="32"/>
+#<list_item style="empty" children_layout="default(r=1,c=0,ym=1)">
+#<label w="30%" text="ASCII"/>
+#<edit w="70%" text="" tips="ascii" input_type="ascii" focused="true" action_text="next"/>
+#</list_item>
+#<list_item style="empty" children_layout="default(r=1,c=0,ym=1)">
+#<label w="30%" text="Int"/>
+#<edit w="70%" text="" tips="int" input_type="int"/>
+#</list_item>
+#
+#<list_item_seperator radio="true" text="Group3" h="32"/>
+#<list_item style="empty" children_layout="default(r=1,c=0,ym=1)">
+#<label w="30%" text="Float"/>
+#<edit w="70%" text="" tips="float" input_type="float"/>
+#</list_item>
+#<list_item style="empty" children_layout="default(r=1,c=0,ym=1)">
+#<label w="30%" text="UFloat"/>
+#<edit w="70%" text="" tips="unsigned float" input_type="ufloat"/>
+#</list_item>
+#```
+#
+#可用通过style来设置控件的显示风格，如背景颜色等。如：
+#
+#```xml
+#<list_item_seperator text_color="black" bg_color="#e0e0e0">
+#<style name="default" icon_at="left">
+#<normal  icon="collapse" />
+#<pressed icon="collapse" />
+#<over    icon="collapse" text_color="green"/>
+#<focused icon="collapse" text_color="green"/>
+#<normal_of_checked icon="expand" text_color="blue"/>
+#<pressed_of_checked icon="expand" text_color="blue"/>
+#<over_of_checked icon="expand" text_color="green"/>
+#<focused_of_checked icon="expand" text_color="green"/>
+#</style>
+#</list_item_seperator>
+#```
+#
+#
+class TListItemSeperator (TCheckButton):
+
+  def __new__(cls, native_obj=0):
+      if native_obj == 0:
+          return None
+      else:
+          if super().__new__ == object.__new__:
+              instance = super().__new__(cls)
+          else:
+              instance = super().__new__(cls, native_obj)
+          instance.nativeObj = native_obj
+          return instance
+    
+  def __init__(self, nativeObj):
+    super(TListItemSeperator, self).__init__(nativeObj)
+
+
+  def __eq__(self, other: 'TWidget'):
+      if other is None:
+          return self.nativeObj == 0
+      return self.nativeObj == other.nativeObj
+    
+  #
+  # 创建list_item_seperator对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+      return  TListItemSeperator(list_item_seperator_create(awtk_get_native_obj(parent), x, y, w, h))
+
+
+  #
+  # 转换为list_item_seperator对象(供脚本语言使用)。
+  # 
+  # @param widget list_item_seperator对象。
+  #
+  # @return list_item_seperator对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+      return  TListItemSeperator(list_item_seperator_cast(awtk_get_native_obj(widget)))
+
+
+#
 # SVG图片控件。
 #
 #svg\_image\_t是[image\_base\_t](image_base_t.md)的子类控件，image\_base\_t的函数均适用于svg\_image\_t控件。
@@ -24930,6 +25856,17 @@ class TObjectArray (TObject):
   #
   def remove(self, index): 
       return object_array_remove(awtk_get_native_obj(self), index)
+
+
+  #
+  # 删除指定的值。
+  # 
+  # @param v 值。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def remove_value(self, v): 
+      return object_array_remove_value(awtk_get_native_obj(self), awtk_get_native_obj(v))
 
 
   #
@@ -25273,6 +26210,22 @@ class TCalibrationWin (TWindowBase):
 #</style>
 #</popup>
 #```
+#* 3.combobox的下拉框中的列表项的样式，可以设置combo_box_item的style来改变。
+#
+#```xml
+#<combo_box_item>
+#<style name="default" icon_at="left" text_color="black" bg_color="#f0f0f0">
+#<normal  icon="empty"/>
+#<focused icon="empty" bg_color="#1296db" text_color="gold" />
+#<pressed icon="empty" bg_color="#1296db" text_color="white" />
+#<over    icon="empty" bg_color="#1296db" text_color="white" />
+#<normal_of_checked  icon="check"/>
+#<focused_of_checked  icon="check" bg_color="#1296db" text_color="gold"/>
+#<pressed_of_checked icon="check" bg_color="#1296db" text_color="white" />
+#<over_of_checked    icon="check" bg_color="#1296db" text_color="white" />
+#</style>
+#</combo_box_item>
+#```
 #
 #> 更多用法请参考：[theme
 #default](https://github.com/zlgopen/awtk/blob/master/design/default/styles/default.xml#L422)
@@ -25337,6 +26290,17 @@ class TComboBox (TEdit):
   #
   def set_open_window(self, open_window): 
       return combo_box_set_open_window(awtk_get_native_obj(self), open_window)
+
+
+  #
+  # 设置弹出窗口的主题。
+  # 
+  # @param theme_of_popup 弹出的窗口主题。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_theme_of_popup(self, theme_of_popup): 
+      return combo_box_set_theme_of_popup(awtk_get_native_obj(self), theme_of_popup)
 
 
   #
@@ -25482,6 +26446,19 @@ class TComboBox (TEdit):
 
 
   #
+  # 弹出窗口的主题(对应的style文件必须存在)，方便为不同combo box的弹出窗口指定不同的样式。
+  #
+  #
+  @property
+  def theme_of_popup(self):
+    return combo_box_t_get_prop_theme_of_popup(self.nativeObj)
+
+  @theme_of_popup.setter
+  def theme_of_popup(self, v):
+    combo_box_set_theme_of_popup(self.nativeObj, v)
+
+
+  #
   # 当前选中的选项。
   #
   #
@@ -25522,6 +26499,9 @@ class TComboBox (TEdit):
 
   #
   # 设置可选项(冒号分隔值和文本，分号分隔选项，如:1:red;2:green;3:blue)。
+  #> 如果数据本身中有英文冒号(:)和英文分号(;)，请用16进制转义。
+  #> * 英文冒号(:)写为\\x3a
+  #> * 英文冒号(;)写为\\x3b
   #
   #
   @property
@@ -25638,6 +26618,22 @@ class TImage (TImageBase):
   @classmethod
   def create(cls, parent, x, y, w, h): 
       return  TImage(image_create(awtk_get_native_obj(parent), x, y, w, h))
+
+
+  #
+  # 创建icon对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def icon_create(cls, parent, x, y, w, h): 
+      return  TImage(icon_create(awtk_get_native_obj(parent), x, y, w, h))
 
 
   #
@@ -26078,6 +27074,47 @@ class TSpinBox (TEdit):
   @classmethod
   def cast(cls, widget): 
       return  TSpinBox(spin_box_cast(awtk_get_native_obj(widget)))
+
+
+  #
+  # 设置是否启用易点击模式。
+  # 
+  # @param easy_touch_mode 易点击模式。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_easy_touch_mode(self, easy_touch_mode): 
+      return spin_box_set_easy_touch_mode(awtk_get_native_obj(self), easy_touch_mode)
+
+
+  #
+  # 设置连击的时间间隔。
+  #备注：时间间隔越低，速度越快。
+  # 
+  # @param repeat 连击的时间间隔。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def spin_set_repeat(self, repeat): 
+      return spin_set_repeat(awtk_get_native_obj(self), repeat)
+
+
+  #
+  # 是否启用易点击模式(在电容屏设备上建议启用)。
+  #> 在该模式下：
+  #> * 1.当高度大于font size的3倍时，inc按钮在顶部(style名为spinbox_top)，dec按钮在底部(style名为spinbox_bottom)。
+  #> * 2.当高度正常时，dec按钮在左边(style名为spinbox_left)，inc按钮在右边(style名为spinbox_right)。
+  #> 不在该模式下：
+  #> inc按钮在右上角(style名为spinbox_up)，dec按钮在右下角(style名为spinbox_down)。
+  #
+  #
+  @property
+  def easy_touch_mode(self):
+    return spin_box_t_get_prop_easy_touch_mode(self.nativeObj)
+
+  @easy_touch_mode.setter
+  def easy_touch_mode(self, v):
+    spin_box_set_easy_touch_mode(self.nativeObj, v)
 
 
 #
