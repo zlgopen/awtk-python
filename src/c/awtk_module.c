@@ -15,7 +15,6 @@
 #include "base/clip_board.h"
 #include "base/dialog.h"
 #include "base/events.h"
-#include "base/font_manager.h"
 #include "base/font.h"
 #include "base/idle.h"
 #include "base/image_manager.h"
@@ -46,6 +45,7 @@
 #include "tkc/timer_manager.h"
 #include "tkc/types_def.h"
 #include "base/assets_manager.h"
+#include "base/font_manager.h"
 #include "base/image_base.h"
 #include "base/style_mutable.h"
 #include "base/window_base.h"
@@ -708,7 +708,7 @@ pyobject_t wrap_object_set_prop(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   object_t* obj = NULL;
   const char* name = NULL;
-  value_t* value = NULL;
+  const value_t* value = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&sO&" , &__parse_voidp, &obj, &name, &__parse_voidp, &value)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -1016,7 +1016,7 @@ pyobject_t wrap_object_set_prop_by_path(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   object_t* obj = NULL;
   const char* path = NULL;
-  value_t* value = NULL;
+  const value_t* value = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&sO&" , &__parse_voidp, &obj, &path, &__parse_voidp, &value)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -1410,7 +1410,7 @@ pyobject_t wrap_value_set_bool(pyobject_t self, pyobject_t pyargs) {
 
 pyobject_t wrap_value_bool(pyobject_t self, pyobject_t pyargs) {
   bool_t ret = 0;
-  value_t* v = NULL;
+  const value_t* v = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &v)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -1437,7 +1437,7 @@ pyobject_t wrap_value_set_int8(pyobject_t self, pyobject_t pyargs) {
 
 pyobject_t wrap_value_int8(pyobject_t self, pyobject_t pyargs) {
   int8_t ret = 0;
-  value_t* v = NULL;
+  const value_t* v = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &v)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -1463,15 +1463,15 @@ pyobject_t wrap_value_set_uint8(pyobject_t self, pyobject_t pyargs) {
 }
 
 pyobject_t wrap_value_uint8(pyobject_t self, pyobject_t pyargs) {
-  int8_t ret = 0;
-  value_t* v = NULL;
+  uint8_t ret = 0;
+  const value_t* v = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &v)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
     return NULL;
   }
 
-  ret = (int8_t)value_uint8(v);
+  ret = (uint8_t)value_uint8(v);
   return Py_BuildValue("i", ret);
 }
 
@@ -1491,7 +1491,7 @@ pyobject_t wrap_value_set_int16(pyobject_t self, pyobject_t pyargs) {
 
 pyobject_t wrap_value_int16(pyobject_t self, pyobject_t pyargs) {
   int16_t ret = 0;
-  value_t* v = NULL;
+  const value_t* v = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &v)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -1518,7 +1518,7 @@ pyobject_t wrap_value_set_uint16(pyobject_t self, pyobject_t pyargs) {
 
 pyobject_t wrap_value_uint16(pyobject_t self, pyobject_t pyargs) {
   uint16_t ret = 0;
-  value_t* v = NULL;
+  const value_t* v = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &v)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -1545,7 +1545,7 @@ pyobject_t wrap_value_set_int32(pyobject_t self, pyobject_t pyargs) {
 
 pyobject_t wrap_value_int32(pyobject_t self, pyobject_t pyargs) {
   int32_t ret = 0;
-  value_t* v = NULL;
+  const value_t* v = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &v)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -1586,7 +1586,7 @@ pyobject_t wrap_value_set_int64(pyobject_t self, pyobject_t pyargs) {
 
 pyobject_t wrap_value_int64(pyobject_t self, pyobject_t pyargs) {
   int64_t ret = 0;
-  value_t* v = NULL;
+  const value_t* v = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &v)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -1613,7 +1613,7 @@ pyobject_t wrap_value_set_uint64(pyobject_t self, pyobject_t pyargs) {
 
 pyobject_t wrap_value_uint64(pyobject_t self, pyobject_t pyargs) {
   uint64_t ret = 0;
-  value_t* v = NULL;
+  const value_t* v = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &v)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -1640,7 +1640,7 @@ pyobject_t wrap_value_set_float(pyobject_t self, pyobject_t pyargs) {
 
 pyobject_t wrap_value_float32(pyobject_t self, pyobject_t pyargs) {
   float ret = 0;
-  value_t* v = NULL;
+  const value_t* v = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &v)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -1667,7 +1667,7 @@ pyobject_t wrap_value_set_double(pyobject_t self, pyobject_t pyargs) {
 
 pyobject_t wrap_value_double(pyobject_t self, pyobject_t pyargs) {
   double ret = 0;
-  value_t* v = NULL;
+  const value_t* v = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &v)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -1694,7 +1694,7 @@ pyobject_t wrap_value_dup_str(pyobject_t self, pyobject_t pyargs) {
 
 pyobject_t wrap_value_str(pyobject_t self, pyobject_t pyargs) {
   const char* ret = NULL;
-  value_t* v = NULL;
+  const value_t* v = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &v)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -1707,7 +1707,7 @@ pyobject_t wrap_value_str(pyobject_t self, pyobject_t pyargs) {
 
 pyobject_t wrap_value_str_ex(pyobject_t self, pyobject_t pyargs) {
   const char* ret = NULL;
-  value_t* v = NULL;
+  const value_t* v = NULL;
   char* buff = NULL;
   uint32_t size = 0;
 
@@ -1763,7 +1763,7 @@ pyobject_t wrap_value_set_object(pyobject_t self, pyobject_t pyargs) {
 
 pyobject_t wrap_value_object(pyobject_t self, pyobject_t pyargs) {
   object_t* ret = NULL;
-  value_t* v = NULL;
+  const value_t* v = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &v)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -1790,7 +1790,7 @@ pyobject_t wrap_value_set_token(pyobject_t self, pyobject_t pyargs) {
 
 pyobject_t wrap_value_token(pyobject_t self, pyobject_t pyargs) {
   uint32_t ret = 0;
-  value_t* v = NULL;
+  const value_t* v = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &v)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -1841,7 +1841,7 @@ pyobject_t wrap_value_cast(pyobject_t self, pyobject_t pyargs) {
 
 pyobject_t wrap_value_id(pyobject_t self, pyobject_t pyargs) {
   const char* ret = NULL;
-  value_t* v = NULL;
+  const value_t* v = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &v)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -1854,7 +1854,7 @@ pyobject_t wrap_value_id(pyobject_t self, pyobject_t pyargs) {
 
 pyobject_t wrap_value_func(pyobject_t self, pyobject_t pyargs) {
   void* ret = NULL;
-  value_t* v = NULL;
+  const value_t* v = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &v)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -1867,7 +1867,7 @@ pyobject_t wrap_value_func(pyobject_t self, pyobject_t pyargs) {
 
 pyobject_t wrap_value_func_def(pyobject_t self, pyobject_t pyargs) {
   void* ret = NULL;
-  value_t* v = NULL;
+  const value_t* v = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &v)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -1879,15 +1879,28 @@ pyobject_t wrap_value_func_def(pyobject_t self, pyobject_t pyargs) {
 }
 
 pyobject_t wrap_value_bitmap(pyobject_t self, pyobject_t pyargs) {
-  bitmap_t* ret = NULL;
-  value_t* v = NULL;
+  void* ret = NULL;
+  const value_t* v = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &v)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
     return NULL;
   }
 
-  ret = (bitmap_t*)value_bitmap(v);
+  ret = (void*)value_bitmap(v);
+  return PyLong_FromVoidPtr((void*)ret);
+}
+
+pyobject_t wrap_value_rect(pyobject_t self, pyobject_t pyargs) {
+  rect_t* ret = NULL;
+  const value_t* v = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &v)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (rect_t*)value_rect(v);
   return PyLong_FromVoidPtr((void*)ret);
 }
 
@@ -2038,6 +2051,10 @@ pyobject_t get_IMAGE_DRAW_SCALE_W(pyobject_t self, pyobject_t pyargs) {
 
 pyobject_t get_IMAGE_DRAW_SCALE_H(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("i", IMAGE_DRAW_SCALE_H);
+}
+
+pyobject_t get_IMAGE_DRAW_FILL(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", IMAGE_DRAW_FILL);
 }
 
 pyobject_t get_IMAGE_DRAW_REPEAT(pyobject_t self, pyobject_t pyargs) {
@@ -2996,6 +3013,22 @@ pyobject_t get_EVT_MODEL_CHANGE(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("i", EVT_MODEL_CHANGE);
 }
 
+pyobject_t get_EVT_SYSTEM(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", EVT_SYSTEM);
+}
+
+pyobject_t get_EVT_DROP_FILE(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", EVT_DROP_FILE);
+}
+
+pyobject_t get_EVT_LOCALE_INFOS_LOAD_INFO(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", EVT_LOCALE_INFOS_LOAD_INFO);
+}
+
+pyobject_t get_EVT_LOCALE_INFOS_UNLOAD_INFO(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", EVT_LOCALE_INFOS_UNLOAD_INFO);
+}
+
 pyobject_t get_EVT_REQ_START(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("i", EVT_REQ_START);
 }
@@ -3152,48 +3185,6 @@ pyobject_t wrap_event_t_get_prop_target(pyobject_t self, pyobject_t pyargs) {
   return PyLong_FromVoidPtr((void*)obj->target);
 }
 
-pyobject_t wrap_font_manager_unload_font(pyobject_t self, pyobject_t pyargs) {
-  ret_t ret = 0;
-  font_manager_t* fm = NULL;
-  char* name = NULL;
-  font_size_t size = 0;
-
-  if (!PyArg_ParseTuple(pyargs, "O&si" , &__parse_voidp, &fm, &name, &size)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  ret = (ret_t)font_manager_unload_font(fm, name, size);
-  return Py_BuildValue("i", ret);
-}
-
-pyobject_t wrap_font_manager_shrink_cache(pyobject_t self, pyobject_t pyargs) {
-  ret_t ret = 0;
-  font_manager_t* fm = NULL;
-  uint32_t cache_size = 0;
-
-  if (!PyArg_ParseTuple(pyargs, "O&i" , &__parse_voidp, &fm, &cache_size)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  ret = (ret_t)font_manager_shrink_cache(fm, cache_size);
-  return Py_BuildValue("i", ret);
-}
-
-pyobject_t wrap_font_manager_unload_all(pyobject_t self, pyobject_t pyargs) {
-  ret_t ret = 0;
-  font_manager_t* fm = NULL;
-
-  if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &fm)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  ret = (ret_t)font_manager_unload_all(fm);
-  return Py_BuildValue("i", ret);
-}
-
 pyobject_t get_GLYPH_FMT_ALPHA(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("i", GLYPH_FMT_ALPHA);
 }
@@ -3255,7 +3246,7 @@ pyobject_t wrap_image_manager(pyobject_t self, pyobject_t pyargs) {
 pyobject_t wrap_image_manager_get_bitmap(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   image_manager_t* imm = NULL;
-  char* name = NULL;
+  const char* name = NULL;
   bitmap_t* image = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&sO&" , &__parse_voidp, &imm, &name, &__parse_voidp, &image)) {
@@ -3270,7 +3261,7 @@ pyobject_t wrap_image_manager_get_bitmap(pyobject_t self, pyobject_t pyargs) {
 pyobject_t wrap_image_manager_preload(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   image_manager_t* imm = NULL;
-  char* name = NULL;
+  const char* name = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&s" , &__parse_voidp, &imm, &name)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -3403,14 +3394,14 @@ pyobject_t wrap_input_method_dispatch_key(pyobject_t self, pyobject_t pyargs) {
 pyobject_t wrap_input_method_dispatch_keys(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   input_method_t* im = NULL;
-  const char* key = NULL;
+  const char* keys = NULL;
 
-  if (!PyArg_ParseTuple(pyargs, "O&s" , &__parse_voidp, &im, &key)) {
+  if (!PyArg_ParseTuple(pyargs, "O&s" , &__parse_voidp, &im, &keys)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
     return NULL;
   }
 
-  ret = (ret_t)input_method_dispatch_keys(im, key);
+  ret = (ret_t)input_method_dispatch_keys(im, keys);
   return Py_BuildValue("i", ret);
 }
 
@@ -3989,6 +3980,74 @@ pyobject_t get_TK_KEY_CANCEL(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("i", TK_KEY_CANCEL);
 }
 
+pyobject_t get_TK_KEY_KP_DIVIDE(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", TK_KEY_KP_DIVIDE);
+}
+
+pyobject_t get_TK_KEY_KP_MULTIPLY(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", TK_KEY_KP_MULTIPLY);
+}
+
+pyobject_t get_TK_KEY_KP_MINUS(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", TK_KEY_KP_MINUS);
+}
+
+pyobject_t get_TK_KEY_KP_PLUS(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", TK_KEY_KP_PLUS);
+}
+
+pyobject_t get_TK_KEY_KP_ENTER(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", TK_KEY_KP_ENTER);
+}
+
+pyobject_t get_TK_KEY_KP_1(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", TK_KEY_KP_1);
+}
+
+pyobject_t get_TK_KEY_KP_2(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", TK_KEY_KP_2);
+}
+
+pyobject_t get_TK_KEY_KP_3(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", TK_KEY_KP_3);
+}
+
+pyobject_t get_TK_KEY_KP_4(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", TK_KEY_KP_4);
+}
+
+pyobject_t get_TK_KEY_KP_5(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", TK_KEY_KP_5);
+}
+
+pyobject_t get_TK_KEY_KP_6(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", TK_KEY_KP_6);
+}
+
+pyobject_t get_TK_KEY_KP_7(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", TK_KEY_KP_7);
+}
+
+pyobject_t get_TK_KEY_KP_8(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", TK_KEY_KP_8);
+}
+
+pyobject_t get_TK_KEY_KP_9(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", TK_KEY_KP_9);
+}
+
+pyobject_t get_TK_KEY_KP_0(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", TK_KEY_KP_0);
+}
+
+pyobject_t get_TK_KEY_KP_PERIOD(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", TK_KEY_KP_PERIOD);
+}
+
+pyobject_t get_TK_KEY_NUMLOCKCLEAR(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", TK_KEY_NUMLOCKCLEAR);
+}
+
 pyobject_t get_TK_KEY_WHEEL(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("i", TK_KEY_WHEEL);
 }
@@ -4022,8 +4081,8 @@ pyobject_t wrap_locale_info_tr(pyobject_t self, pyobject_t pyargs) {
 pyobject_t wrap_locale_info_change(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   locale_info_t* locale_info = NULL;
-  char* language = NULL;
-  char* country = NULL;
+  const char* language = NULL;
+  const char* country = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&ss" , &__parse_voidp, &locale_info, &language, &country)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -4045,6 +4104,71 @@ pyobject_t wrap_locale_info_off(pyobject_t self, pyobject_t pyargs) {
   }
 
   ret = (ret_t)locale_info_off(locale_info, id);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_locale_infos_ref(pyobject_t self, pyobject_t pyargs) {
+  locale_info_t* ret = NULL;
+  const char* name = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "s" , &name)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (locale_info_t*)locale_infos_ref(name);
+  return PyLong_FromVoidPtr((void*)ret);
+}
+
+pyobject_t wrap_locale_infos_unref(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  locale_info_t* locale_info = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &locale_info)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)locale_infos_unref(locale_info);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_locale_infos_change(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  const char* language = NULL;
+  const char* country = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "ss" , &language, &country)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)locale_infos_change(language, country);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_locale_infos_off(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  uint32_t id = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "i" , &id)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)locale_infos_off(id);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_locale_infos_reload_all(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "" )) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)locale_infos_reload_all();
   return Py_BuildValue("i", ret);
 }
 
@@ -4308,6 +4432,22 @@ pyobject_t wrap_style_get_str(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("s", ret);
 }
 
+pyobject_t wrap_style_get(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  style_t* s = NULL;
+  const char* state = NULL;
+  const char* name = NULL;
+  value_t* value = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&ssO&" , &__parse_voidp, &s, &state, &name, &__parse_voidp, &value)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)style_get(s, state, name, value);
+  return Py_BuildValue("i", ret);
+}
+
 pyobject_t wrap_style_set(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   style_t* s = NULL;
@@ -4521,6 +4661,10 @@ pyobject_t get_APP_SIMULATOR(pyobject_t self, pyobject_t pyargs) {
 
 pyobject_t get_APP_DESKTOP(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("i", APP_DESKTOP);
+}
+
+pyobject_t get_APP_CONSOLE(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", APP_CONSOLE);
 }
 
 pyobject_t get_BITMAP_FMT_NONE(pyobject_t self, pyobject_t pyargs) {
@@ -5025,7 +5169,7 @@ pyobject_t wrap_vgcanvas_paint(pyobject_t self, pyobject_t pyargs) {
 pyobject_t wrap_vgcanvas_set_font(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   vgcanvas_t* vg = NULL;
-  char* font = NULL;
+  const char* font = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&s" , &__parse_voidp, &vg, &font)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -5039,21 +5183,21 @@ pyobject_t wrap_vgcanvas_set_font(pyobject_t self, pyobject_t pyargs) {
 pyobject_t wrap_vgcanvas_set_font_size(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   vgcanvas_t* vg = NULL;
-  float_t font = 0;
+  float_t size = 0;
 
-  if (!PyArg_ParseTuple(pyargs, "O&f" , &__parse_voidp, &vg, &font)) {
+  if (!PyArg_ParseTuple(pyargs, "O&f" , &__parse_voidp, &vg, &size)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
     return NULL;
   }
 
-  ret = (ret_t)vgcanvas_set_font_size(vg, font);
+  ret = (ret_t)vgcanvas_set_font_size(vg, size);
   return Py_BuildValue("i", ret);
 }
 
 pyobject_t wrap_vgcanvas_set_text_align(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   vgcanvas_t* vg = NULL;
-  char* value = NULL;
+  const char* value = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&s" , &__parse_voidp, &vg, &value)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -5067,7 +5211,7 @@ pyobject_t wrap_vgcanvas_set_text_align(pyobject_t self, pyobject_t pyargs) {
 pyobject_t wrap_vgcanvas_set_text_baseline(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   vgcanvas_t* vg = NULL;
-  char* value = NULL;
+  const char* value = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&s" , &__parse_voidp, &vg, &value)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -5081,7 +5225,7 @@ pyobject_t wrap_vgcanvas_set_text_baseline(pyobject_t self, pyobject_t pyargs) {
 pyobject_t wrap_vgcanvas_fill_text(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   vgcanvas_t* vg = NULL;
-  char* text = NULL;
+  const char* text = NULL;
   float_t x = 0;
   float_t y = 0;
   float_t max_width = 0;
@@ -5098,7 +5242,7 @@ pyobject_t wrap_vgcanvas_fill_text(pyobject_t self, pyobject_t pyargs) {
 pyobject_t wrap_vgcanvas_measure_text(pyobject_t self, pyobject_t pyargs) {
   float_t ret = 0;
   vgcanvas_t* vg = NULL;
-  char* text = NULL;
+  const char* text = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&s" , &__parse_voidp, &vg, &text)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -5236,21 +5380,21 @@ pyobject_t wrap_vgcanvas_set_fill_color_str(pyobject_t self, pyobject_t pyargs) 
 pyobject_t wrap_vgcanvas_set_stroke_color_str(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   vgcanvas_t* vg = NULL;
-  const char* color = NULL;
+  const char* str = NULL;
 
-  if (!PyArg_ParseTuple(pyargs, "O&s" , &__parse_voidp, &vg, &color)) {
+  if (!PyArg_ParseTuple(pyargs, "O&s" , &__parse_voidp, &vg, &str)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
     return NULL;
   }
 
-  ret = (ret_t)vgcanvas_set_stroke_color_str(vg, color);
+  ret = (ret_t)vgcanvas_set_stroke_color_str(vg, str);
   return Py_BuildValue("i", ret);
 }
 
 pyobject_t wrap_vgcanvas_set_line_cap(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   vgcanvas_t* vg = NULL;
-  char* value = NULL;
+  const char* value = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&s" , &__parse_voidp, &vg, &value)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -5264,7 +5408,7 @@ pyobject_t wrap_vgcanvas_set_line_cap(pyobject_t self, pyobject_t pyargs) {
 pyobject_t wrap_vgcanvas_set_line_join(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   vgcanvas_t* vg = NULL;
-  char* value = NULL;
+  const char* value = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&s" , &__parse_voidp, &vg, &value)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -5861,6 +6005,10 @@ pyobject_t get_WIDGET_PROP_LOOP(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("s", WIDGET_PROP_LOOP);
 }
 
+pyobject_t get_WIDGET_PROP_RUNNING(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("s", WIDGET_PROP_RUNNING);
+}
+
 pyobject_t get_WIDGET_PROP_AUTO_FIX(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("s", WIDGET_PROP_AUTO_FIX);
 }
@@ -5971,6 +6119,10 @@ pyobject_t get_WIDGET_PROP_LONG_PRESS_TIME(pyobject_t self, pyobject_t pyargs) {
 
 pyobject_t get_WIDGET_PROP_ENABLE_LONG_PRESS(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("s", WIDGET_PROP_ENABLE_LONG_PRESS);
+}
+
+pyobject_t get_WIDGET_PROP_ENABLE_PREVIEW(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("s", WIDGET_PROP_ENABLE_PREVIEW);
 }
 
 pyobject_t get_WIDGET_PROP_CLICK_THROUGH(pyobject_t self, pyobject_t pyargs) {
@@ -6171,6 +6323,10 @@ pyobject_t get_WIDGET_PROP_ANIMATE_PREFIX(pyobject_t self, pyobject_t pyargs) {
 
 pyobject_t get_WIDGET_PROP_ANIMATE_ANIMATING_TIME(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("s", WIDGET_PROP_ANIMATE_ANIMATING_TIME);
+}
+
+pyobject_t get_WIDGET_PROP_DIRTY_RECT(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("s", WIDGET_PROP_DIRTY_RECT);
 }
 
 pyobject_t get_WIDGET_TYPE_NONE(pyobject_t self, pyobject_t pyargs) {
@@ -6787,6 +6943,24 @@ pyobject_t wrap_widget_move_resize(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("i", ret);
 }
 
+pyobject_t wrap_widget_move_resize_ex(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+  xy_t x = 0;
+  xy_t y = 0;
+  wh_t w = 0;
+  wh_t h = 0;
+  bool_t update_layout = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&iiiib" , &__parse_voidp, &widget, &x, &y, &w, &h, &update_layout)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)widget_move_resize_ex(widget, x, y, w, h, update_layout);
+  return Py_BuildValue("i", ret);
+}
+
 pyobject_t wrap_widget_get_value(pyobject_t self, pyobject_t pyargs) {
   float_t ret = 0;
   widget_t* widget = NULL;
@@ -6896,6 +7070,19 @@ pyobject_t wrap_widget_is_style_exist(pyobject_t self, pyobject_t pyargs) {
   }
 
   ret = (bool_t)widget_is_style_exist(widget, style_name, state_name);
+  return Py_BuildValue("b", ret);
+}
+
+pyobject_t wrap_widget_is_support_highlighter(pyobject_t self, pyobject_t pyargs) {
+  bool_t ret = 0;
+  widget_t* widget = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &widget)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (bool_t)widget_is_support_highlighter(widget);
   return Py_BuildValue("b", ret);
 }
 
@@ -7840,6 +8027,19 @@ pyobject_t wrap_widget_is_normal_window(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("b", ret);
 }
 
+pyobject_t wrap_widget_is_fullscreen_window(pyobject_t self, pyobject_t pyargs) {
+  bool_t ret = 0;
+  widget_t* widget = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &widget)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (bool_t)widget_is_fullscreen_window(widget);
+  return Py_BuildValue("b", ret);
+}
+
 pyobject_t wrap_widget_is_dialog(pyobject_t self, pyobject_t pyargs) {
   bool_t ret = 0;
   widget_t* widget = NULL;
@@ -7876,6 +8076,19 @@ pyobject_t wrap_widget_is_overlay(pyobject_t self, pyobject_t pyargs) {
   }
 
   ret = (bool_t)widget_is_overlay(widget);
+  return Py_BuildValue("b", ret);
+}
+
+pyobject_t wrap_widget_is_always_on_top(pyobject_t self, pyobject_t pyargs) {
+  bool_t ret = 0;
+  widget_t* widget = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &widget)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (bool_t)widget_is_always_on_top(widget);
   return Py_BuildValue("b", ret);
 }
 
@@ -8869,7 +9082,7 @@ pyobject_t wrap_asset_info_get_type(pyobject_t self, pyobject_t pyargs) {
 
 pyobject_t wrap_asset_info_get_name(pyobject_t self, pyobject_t pyargs) {
   const char* ret = NULL;
-  asset_info_t* info = NULL;
+  const asset_info_t* info = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &info)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -8878,6 +9091,33 @@ pyobject_t wrap_asset_info_get_name(pyobject_t self, pyobject_t pyargs) {
 
   ret = (const char*)asset_info_get_name(info);
   return Py_BuildValue("s", ret);
+}
+
+pyobject_t wrap_asset_info_is_in_rom(pyobject_t self, pyobject_t pyargs) {
+  bool_t ret = 0;
+  const asset_info_t* info = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &info)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (bool_t)asset_info_is_in_rom(info);
+  return Py_BuildValue("b", ret);
+}
+
+pyobject_t wrap_asset_info_set_is_in_rom(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  asset_info_t* info = NULL;
+  bool_t is_in_rom = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&b" , &__parse_voidp, &info, &is_in_rom)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)asset_info_set_is_in_rom(info, is_in_rom);
+  return Py_BuildValue("i", ret);
 }
 
 pyobject_t wrap_asset_info_t_get_prop_type(pyobject_t self, pyobject_t pyargs) {
@@ -8902,7 +9142,7 @@ pyobject_t wrap_asset_info_t_get_prop_subtype(pyobject_t self, pyobject_t pyargs
   return Py_BuildValue("i", obj->subtype);
 }
 
-pyobject_t wrap_asset_info_t_get_prop_is_in_rom(pyobject_t self, pyobject_t pyargs) {
+pyobject_t wrap_asset_info_t_get_prop_flags(pyobject_t self, pyobject_t pyargs) {
   asset_info_t* obj = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&", &__parse_voidp, &obj)) {
@@ -8910,7 +9150,7 @@ pyobject_t wrap_asset_info_t_get_prop_is_in_rom(pyobject_t self, pyobject_t pyar
     return NULL;
   }
 
-  return Py_BuildValue("i", obj->is_in_rom);
+  return Py_BuildValue("i", obj->flags);
 }
 
 pyobject_t wrap_asset_info_t_get_prop_size(pyobject_t self, pyobject_t pyargs) {
@@ -8935,30 +9175,19 @@ pyobject_t wrap_asset_info_t_get_prop_refcount(pyobject_t self, pyobject_t pyarg
   return Py_BuildValue("i", obj->refcount);
 }
 
-pyobject_t wrap_asset_info_t_get_prop_name(pyobject_t self, pyobject_t pyargs) {
-  asset_info_t* obj = NULL;
-
-  if (!PyArg_ParseTuple(pyargs, "O&", &__parse_voidp, &obj)) {
-    PyErr_SetString(PyExc_TypeError, "invalid arguments");
-    return NULL;
-  }
-
-  return Py_BuildValue("s", obj->name);
-}
-
 pyobject_t wrap_color_create(pyobject_t self, pyobject_t pyargs) {
   color_t* ret = NULL;
   uint8_t r = 0;
-  uint8_t b = 0;
   uint8_t g = 0;
+  uint8_t b = 0;
   uint8_t a = 0;
 
-  if (!PyArg_ParseTuple(pyargs, "iiii" , &r, &b, &g, &a)) {
+  if (!PyArg_ParseTuple(pyargs, "iiii" , &r, &g, &b, &a)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
     return NULL;
   }
 
-  ret = (color_t*)color_create(r, b, g, a);
+  ret = (color_t*)color_create(r, g, b, a);
   return PyLong_FromVoidPtr((void*)ret);
 }
 
@@ -9190,7 +9419,7 @@ pyobject_t wrap_date_time_set(pyobject_t self, pyobject_t pyargs) {
 pyobject_t wrap_date_time_from_time(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   date_time_t* dt = NULL;
-  uint64_t time = 0;
+  int64_t time = 0;
 
   if (!PyArg_ParseTuple(pyargs, "O&i" , &__parse_voidp, &dt, &time)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -9202,7 +9431,7 @@ pyobject_t wrap_date_time_from_time(pyobject_t self, pyobject_t pyargs) {
 }
 
 pyobject_t wrap_date_time_to_time(pyobject_t self, pyobject_t pyargs) {
-  uint64_t ret = 0;
+  int64_t ret = 0;
   date_time_t* dt = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &dt)) {
@@ -9210,7 +9439,7 @@ pyobject_t wrap_date_time_to_time(pyobject_t self, pyobject_t pyargs) {
     return NULL;
   }
 
-  ret = (uint64_t)date_time_to_time(dt);
+  ret = (int64_t)date_time_to_time(dt);
   return Py_BuildValue("i", ret);
 }
 
@@ -9244,42 +9473,42 @@ pyobject_t wrap_date_time_is_leap(pyobject_t self, pyobject_t pyargs) {
 pyobject_t wrap_date_time_get_days(pyobject_t self, pyobject_t pyargs) {
   int32_t ret = 0;
   uint32_t year = 0;
-  uint32_t montn = 0;
+  uint32_t month = 0;
 
-  if (!PyArg_ParseTuple(pyargs, "ii" , &year, &montn)) {
+  if (!PyArg_ParseTuple(pyargs, "ii" , &year, &month)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
     return NULL;
   }
 
-  ret = (int32_t)date_time_get_days(year, montn);
+  ret = (int32_t)date_time_get_days(year, month);
   return Py_BuildValue("i", ret);
 }
 
 pyobject_t wrap_date_time_get_wday(pyobject_t self, pyobject_t pyargs) {
   int32_t ret = 0;
   uint32_t year = 0;
-  uint32_t montn = 0;
+  uint32_t month = 0;
   uint32_t day = 0;
 
-  if (!PyArg_ParseTuple(pyargs, "iii" , &year, &montn, &day)) {
+  if (!PyArg_ParseTuple(pyargs, "iii" , &year, &month, &day)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
     return NULL;
   }
 
-  ret = (int32_t)date_time_get_wday(year, montn, day);
+  ret = (int32_t)date_time_get_wday(year, month, day);
   return Py_BuildValue("i", ret);
 }
 
 pyobject_t wrap_date_time_get_month_name(pyobject_t self, pyobject_t pyargs) {
   const char* ret = NULL;
-  uint32_t montn = 0;
+  uint32_t month = 0;
 
-  if (!PyArg_ParseTuple(pyargs, "i" , &montn)) {
+  if (!PyArg_ParseTuple(pyargs, "i" , &month)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
     return NULL;
   }
 
-  ret = (const char*)date_time_get_month_name(montn);
+  ret = (const char*)date_time_get_month_name(month);
   return Py_BuildValue("s", ret);
 }
 
@@ -10155,6 +10384,14 @@ pyobject_t get_RET_NOT_MODIFIED(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("i", RET_NOT_MODIFIED);
 }
 
+pyobject_t get_RET_NO_PERMISSION(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", RET_NO_PERMISSION);
+}
+
+pyobject_t get_RET_MAX_NR(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", RET_MAX_NR);
+}
+
 pyobject_t get_VALUE_TYPE_INVALID(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("i", VALUE_TYPE_INVALID);
 }
@@ -10263,6 +10500,10 @@ pyobject_t get_VALUE_TYPE_BITMAP(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("i", VALUE_TYPE_BITMAP);
 }
 
+pyobject_t get_VALUE_TYPE_RECT(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", VALUE_TYPE_RECT);
+}
+
 pyobject_t wrap_assets_manager(pyobject_t self, pyobject_t pyargs) {
   assets_manager_t* ret = NULL;
 
@@ -10290,40 +10531,40 @@ pyobject_t wrap_assets_manager_set_theme(pyobject_t self, pyobject_t pyargs) {
 }
 
 pyobject_t wrap_assets_manager_ref(pyobject_t self, pyobject_t pyargs) {
-  asset_info_t* ret = NULL;
+  const asset_info_t* ret = NULL;
   assets_manager_t* am = NULL;
   asset_type_t type = 0;
-  char* name = NULL;
+  const char* name = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&is" , &__parse_voidp, &am, &type, &name)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
     return NULL;
   }
 
-  ret = (asset_info_t*)assets_manager_ref(am, type, name);
+  ret = (const asset_info_t*)assets_manager_ref(am, type, name);
   return PyLong_FromVoidPtr((void*)ret);
 }
 
 pyobject_t wrap_assets_manager_ref_ex(pyobject_t self, pyobject_t pyargs) {
-  asset_info_t* ret = NULL;
+  const asset_info_t* ret = NULL;
   assets_manager_t* am = NULL;
   asset_type_t type = 0;
   uint16_t subtype = 0;
-  char* name = NULL;
+  const char* name = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&iis" , &__parse_voidp, &am, &type, &subtype, &name)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
     return NULL;
   }
 
-  ret = (asset_info_t*)assets_manager_ref_ex(am, type, subtype, name);
+  ret = (const asset_info_t*)assets_manager_ref_ex(am, type, subtype, name);
   return PyLong_FromVoidPtr((void*)ret);
 }
 
 pyobject_t wrap_assets_manager_unref(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   assets_manager_t* am = NULL;
-  asset_info_t* info = NULL;
+  const asset_info_t* info = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&O&" , &__parse_voidp, &am, &__parse_voidp, &info)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -10766,6 +11007,17 @@ pyobject_t wrap_key_event_t_get_prop_capslock(pyobject_t self, pyobject_t pyargs
   return Py_BuildValue("b", obj->capslock);
 }
 
+pyobject_t wrap_key_event_t_get_prop_numlock(pyobject_t self, pyobject_t pyargs) {
+  key_event_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &__parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("b", obj->numlock);
+}
+
 pyobject_t wrap_paint_event_cast(pyobject_t self, pyobject_t pyargs) {
   paint_event_t* ret = NULL;
   event_t* event = NULL;
@@ -10895,10 +11147,100 @@ pyobject_t wrap_theme_change_event_t_get_prop_name(pyobject_t self, pyobject_t p
   return Py_BuildValue("s", obj->name);
 }
 
+pyobject_t wrap_drop_file_event_cast(pyobject_t self, pyobject_t pyargs) {
+  drop_file_event_t* ret = NULL;
+  event_t* event = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &event)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (drop_file_event_t*)drop_file_event_cast(event);
+  return PyLong_FromVoidPtr((void*)ret);
+}
+
+pyobject_t wrap_drop_file_event_t_get_prop_filename(pyobject_t self, pyobject_t pyargs) {
+  drop_file_event_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &__parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("s", obj->filename);
+}
+
+pyobject_t wrap_system_event_cast(pyobject_t self, pyobject_t pyargs) {
+  system_event_t* ret = NULL;
+  event_t* event = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &event)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (system_event_t*)system_event_cast(event);
+  return PyLong_FromVoidPtr((void*)ret);
+}
+
+pyobject_t wrap_system_event_t_get_prop_sdl_event(pyobject_t self, pyobject_t pyargs) {
+  system_event_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &__parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return PyLong_FromVoidPtr((void*)obj->sdl_event);
+}
+
+pyobject_t wrap_font_manager_unload_font(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  font_manager_t* fm = NULL;
+  const char* name = NULL;
+  font_size_t size = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&si" , &__parse_voidp, &fm, &name, &size)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)font_manager_unload_font(fm, name, size);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_font_manager_shrink_cache(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  font_manager_t* fm = NULL;
+  uint32_t cache_size = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&i" , &__parse_voidp, &fm, &cache_size)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)font_manager_shrink_cache(fm, cache_size);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_font_manager_unload_all(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  font_manager_t* fm = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &fm)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)font_manager_unload_all(fm);
+  return Py_BuildValue("i", ret);
+}
+
 pyobject_t wrap_image_base_set_image(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   widget_t* widget = NULL;
-  char* name = NULL;
+  const char* name = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&s" , &__parse_voidp, &widget, &name)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -11890,6 +12232,20 @@ pyobject_t wrap_draggable_set_horizontal_only(pyobject_t self, pyobject_t pyargs
   return Py_BuildValue("i", ret);
 }
 
+pyobject_t wrap_draggable_set_allow_out_of_screen(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+  bool_t allow_out_of_screen = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&b" , &__parse_voidp, &widget, &allow_out_of_screen)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)draggable_set_allow_out_of_screen(widget, allow_out_of_screen);
+  return Py_BuildValue("i", ret);
+}
+
 pyobject_t wrap_draggable_set_drag_window(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   widget_t* widget = NULL;
@@ -11974,6 +12330,17 @@ pyobject_t wrap_draggable_t_get_prop_right(pyobject_t self, pyobject_t pyargs) {
   }
 
   return Py_BuildValue("i", obj->right);
+}
+
+pyobject_t wrap_draggable_t_get_prop_allow_out_of_screen(pyobject_t self, pyobject_t pyargs) {
+  draggable_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &__parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("b", obj->allow_out_of_screen);
 }
 
 pyobject_t wrap_draggable_t_get_prop_vertical_only(pyobject_t self, pyobject_t pyargs) {
@@ -12172,6 +12539,34 @@ pyobject_t wrap_file_browser_view_set_sort_by(pyobject_t self, pyobject_t pyargs
   return Py_BuildValue("i", ret);
 }
 
+pyobject_t wrap_file_browser_view_set_odd_item_style(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+  const char* odd_item_style = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&s" , &__parse_voidp, &widget, &odd_item_style)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)file_browser_view_set_odd_item_style(widget, odd_item_style);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_file_browser_view_set_even_item_style(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+  const char* even_item_style = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&s" , &__parse_voidp, &widget, &even_item_style)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)file_browser_view_set_even_item_style(widget, even_item_style);
+  return Py_BuildValue("i", ret);
+}
+
 pyobject_t wrap_file_browser_view_get_cwd(pyobject_t self, pyobject_t pyargs) {
   const char* ret = NULL;
   widget_t* widget = NULL;
@@ -12290,6 +12685,28 @@ pyobject_t wrap_file_browser_view_t_get_prop_sort_by(pyobject_t self, pyobject_t
   }
 
   return Py_BuildValue("s", obj->sort_by);
+}
+
+pyobject_t wrap_file_browser_view_t_get_prop_odd_item_style(pyobject_t self, pyobject_t pyargs) {
+  file_browser_view_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &__parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("s", obj->odd_item_style);
+}
+
+pyobject_t wrap_file_browser_view_t_get_prop_even_item_style(pyobject_t self, pyobject_t pyargs) {
+  file_browser_view_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &__parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("s", obj->even_item_style);
 }
 
 pyobject_t wrap_file_chooser_create(pyobject_t self, pyobject_t pyargs) {
@@ -12587,7 +13004,7 @@ pyobject_t wrap_gauge_cast(pyobject_t self, pyobject_t pyargs) {
 pyobject_t wrap_gauge_set_image(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   widget_t* widget = NULL;
-  char* name = NULL;
+  const char* name = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&s" , &__parse_voidp, &widget, &name)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -13064,14 +13481,14 @@ pyobject_t wrap_image_value_set_format(pyobject_t self, pyobject_t pyargs) {
 pyobject_t wrap_image_value_set_click_add_delta(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   widget_t* widget = NULL;
-  double delta = 0;
+  double click_add_delta = 0;
 
-  if (!PyArg_ParseTuple(pyargs, "O&d" , &__parse_voidp, &widget, &delta)) {
+  if (!PyArg_ParseTuple(pyargs, "O&d" , &__parse_voidp, &widget, &click_add_delta)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
     return NULL;
   }
 
-  ret = (ret_t)image_value_set_click_add_delta(widget, delta);
+  ret = (ret_t)image_value_set_click_add_delta(widget, click_add_delta);
   return Py_BuildValue("i", ret);
 }
 
@@ -13324,6 +13741,17 @@ pyobject_t wrap_candidates_t_get_prop_button_style(pyobject_t self, pyobject_t p
   }
 
   return Py_BuildValue("s", obj->button_style);
+}
+
+pyobject_t wrap_candidates_t_get_prop_enable_preview(pyobject_t self, pyobject_t pyargs) {
+  candidates_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &__parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("b", obj->enable_preview);
 }
 
 pyobject_t wrap_lang_indicator_create(pyobject_t self, pyobject_t pyargs) {
@@ -13640,7 +14068,7 @@ pyobject_t wrap_mledit_set_max_chars(pyobject_t self, pyobject_t pyargs) {
 pyobject_t wrap_mledit_set_tips(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   widget_t* widget = NULL;
-  char* tips = NULL;
+  const char* tips = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&s" , &__parse_voidp, &widget, &tips)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -13668,7 +14096,7 @@ pyobject_t wrap_mledit_set_tr_tips(pyobject_t self, pyobject_t pyargs) {
 pyobject_t wrap_mledit_set_keyboard(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   widget_t* widget = NULL;
-  char* keyboard = NULL;
+  const char* keyboard = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&s" , &__parse_voidp, &widget, &keyboard)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -14230,7 +14658,7 @@ pyobject_t wrap_rich_text_create(pyobject_t self, pyobject_t pyargs) {
 pyobject_t wrap_rich_text_set_text(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   widget_t* widget = NULL;
-  char* text = NULL;
+  const char* text = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&s" , &__parse_voidp, &widget, &text)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -14419,6 +14847,20 @@ pyobject_t wrap_hscroll_label_set_ellipses(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("i", ret);
 }
 
+pyobject_t wrap_hscroll_label_set_stop_at_begin(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+  bool_t stop_at_begin = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&b" , &__parse_voidp, &widget, &stop_at_begin)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)hscroll_label_set_stop_at_begin(widget, stop_at_begin);
+  return Py_BuildValue("i", ret);
+}
+
 pyobject_t wrap_hscroll_label_set_xoffset(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   widget_t* widget = NULL;
@@ -14580,6 +15022,17 @@ pyobject_t wrap_hscroll_label_t_get_prop_text_w(pyobject_t self, pyobject_t pyar
   }
 
   return Py_BuildValue("i", obj->text_w);
+}
+
+pyobject_t wrap_hscroll_label_t_get_prop_stop_at_begin(pyobject_t self, pyobject_t pyargs) {
+  hscroll_label_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &__parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("b", obj->stop_at_begin);
 }
 
 pyobject_t wrap_list_item_create(pyobject_t self, pyobject_t pyargs) {
@@ -15026,6 +15479,36 @@ pyobject_t wrap_scroll_bar_set_animator_time(pyobject_t self, pyobject_t pyargs)
   return Py_BuildValue("i", ret);
 }
 
+pyobject_t wrap_scroll_bar_hide_by_opacity_animation(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+  int32_t duration = 0;
+  int32_t delay = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&ii" , &__parse_voidp, &widget, &duration, &delay)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)scroll_bar_hide_by_opacity_animation(widget, duration, delay);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_scroll_bar_show_by_opacity_animation(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+  int32_t duration = 0;
+  int32_t delay = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&ii" , &__parse_voidp, &widget, &duration, &delay)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)scroll_bar_show_by_opacity_animation(widget, duration, delay);
+  return Py_BuildValue("i", ret);
+}
+
 pyobject_t wrap_scroll_bar_t_get_prop_virtual_size(pyobject_t self, pyobject_t pyargs) {
   scroll_bar_t* obj = NULL;
 
@@ -15264,6 +15747,20 @@ pyobject_t wrap_scroll_view_set_speed_scale(pyobject_t self, pyobject_t pyargs) 
   return Py_BuildValue("i", ret);
 }
 
+pyobject_t wrap_scroll_view_set_slide_limit_ratio(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+  float_t slide_limit_ratio = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&f" , &__parse_voidp, &widget, &slide_limit_ratio)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)scroll_view_set_slide_limit_ratio(widget, slide_limit_ratio);
+  return Py_BuildValue("i", ret);
+}
+
 pyobject_t wrap_scroll_view_scroll_to(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   widget_t* widget = NULL;
@@ -15415,6 +15912,17 @@ pyobject_t wrap_scroll_view_t_get_prop_recursive(pyobject_t self, pyobject_t pya
   }
 
   return Py_BuildValue("b", obj->recursive);
+}
+
+pyobject_t wrap_scroll_view_t_get_prop_slide_limit_ratio(pyobject_t self, pyobject_t pyargs) {
+  scroll_view_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &__parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("f", obj->slide_limit_ratio);
 }
 
 pyobject_t wrap_serial_widget_create(pyobject_t self, pyobject_t pyargs) {
@@ -15694,6 +16202,74 @@ pyobject_t wrap_slide_menu_set_min_scale(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("i", ret);
 }
 
+pyobject_t wrap_slide_menu_set_spacer(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+  int32_t spacer = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&i" , &__parse_voidp, &widget, &spacer)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)slide_menu_set_spacer(widget, spacer);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_slide_menu_set_menu_w(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+  const char* menu_w = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&s" , &__parse_voidp, &widget, &menu_w)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)slide_menu_set_menu_w(widget, menu_w);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_slide_menu_set_clip(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+  bool_t clip = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&b" , &__parse_voidp, &widget, &clip)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)slide_menu_set_clip(widget, clip);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_slide_menu_scroll_to_prev(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &widget)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)slide_menu_scroll_to_prev(widget);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_slide_menu_scroll_to_next(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &widget)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)slide_menu_scroll_to_next(widget);
+  return Py_BuildValue("i", ret);
+}
+
 pyobject_t wrap_slide_menu_t_get_prop_value(pyobject_t self, pyobject_t pyargs) {
   slide_menu_t* obj = NULL;
 
@@ -15725,6 +16301,39 @@ pyobject_t wrap_slide_menu_t_get_prop_min_scale(pyobject_t self, pyobject_t pyar
   }
 
   return Py_BuildValue("f", obj->min_scale);
+}
+
+pyobject_t wrap_slide_menu_t_get_prop_spacer(pyobject_t self, pyobject_t pyargs) {
+  slide_menu_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &__parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("i", obj->spacer);
+}
+
+pyobject_t wrap_slide_menu_t_get_prop_menu_w(pyobject_t self, pyobject_t pyargs) {
+  slide_menu_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &__parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("s", obj->menu_w);
+}
+
+pyobject_t wrap_slide_menu_t_get_prop_clip(pyobject_t self, pyobject_t pyargs) {
+  slide_menu_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &__parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("b", obj->clip);
 }
 
 pyobject_t wrap_slide_indicator_create(pyobject_t self, pyobject_t pyargs) {
@@ -16402,7 +17011,7 @@ pyobject_t wrap_text_selector_append_option(pyobject_t self, pyobject_t pyargs) 
   ret_t ret = 0;
   widget_t* widget = NULL;
   int32_t value = 0;
-  char* text = NULL;
+  const char* text = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&is" , &__parse_voidp, &widget, &value, &text)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -16416,7 +17025,7 @@ pyobject_t wrap_text_selector_append_option(pyobject_t self, pyobject_t pyargs) 
 pyobject_t wrap_text_selector_set_options(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   widget_t* widget = NULL;
-  char* options = NULL;
+  const char* options = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&s" , &__parse_voidp, &widget, &options)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -16612,6 +17221,34 @@ pyobject_t wrap_text_selector_set_enable_value_animator(pyobject_t self, pyobjec
   return Py_BuildValue("i", ret);
 }
 
+pyobject_t wrap_text_selector_set_mask_easing(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+  easing_type_t mask_easing = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&i" , &__parse_voidp, &widget, &mask_easing)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)text_selector_set_mask_easing(widget, mask_easing);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_text_selector_set_mask_area_scale(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+  float_t mask_area_scale = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&f" , &__parse_voidp, &widget, &mask_area_scale)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)text_selector_set_mask_area_scale(widget, mask_area_scale);
+  return Py_BuildValue("i", ret);
+}
+
 pyobject_t wrap_text_selector_t_get_prop_visible_nr(pyobject_t self, pyobject_t pyargs) {
   text_selector_t* obj = NULL;
 
@@ -16698,6 +17335,28 @@ pyobject_t wrap_text_selector_t_get_prop_enable_value_animator(pyobject_t self, 
   }
 
   return Py_BuildValue("b", obj->enable_value_animator);
+}
+
+pyobject_t wrap_text_selector_t_get_prop_mask_easing(pyobject_t self, pyobject_t pyargs) {
+  text_selector_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &__parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("i", obj->mask_easing);
+}
+
+pyobject_t wrap_text_selector_t_get_prop_mask_area_scale(pyobject_t self, pyobject_t pyargs) {
+  text_selector_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &__parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("f", obj->mask_area_scale);
 }
 
 pyobject_t wrap_time_clock_create(pyobject_t self, pyobject_t pyargs) {
@@ -17483,6 +18142,20 @@ pyobject_t wrap_button_set_enable_long_press(pyobject_t self, pyobject_t pyargs)
   return Py_BuildValue("i", ret);
 }
 
+pyobject_t wrap_button_set_enable_preview(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+  bool_t enable_preview = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&b" , &__parse_voidp, &widget, &enable_preview)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)button_set_enable_preview(widget, enable_preview);
+  return Py_BuildValue("i", ret);
+}
+
 pyobject_t wrap_button_t_get_prop_repeat(pyobject_t self, pyobject_t pyargs) {
   button_t* obj = NULL;
 
@@ -17503,6 +18176,17 @@ pyobject_t wrap_button_t_get_prop_enable_long_press(pyobject_t self, pyobject_t 
   }
 
   return Py_BuildValue("b", obj->enable_long_press);
+}
+
+pyobject_t wrap_button_t_get_prop_enable_preview(pyobject_t self, pyobject_t pyargs) {
+  button_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &__parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("b", obj->enable_preview);
 }
 
 pyobject_t wrap_button_t_get_prop_long_press_time(pyobject_t self, pyobject_t pyargs) {
@@ -18303,7 +18987,7 @@ pyobject_t wrap_edit_set_input_type(pyobject_t self, pyobject_t pyargs) {
 pyobject_t wrap_edit_set_action_text(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   widget_t* widget = NULL;
-  char* action_text = NULL;
+  const char* action_text = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&s" , &__parse_voidp, &widget, &action_text)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -18317,7 +19001,7 @@ pyobject_t wrap_edit_set_action_text(pyobject_t self, pyobject_t pyargs) {
 pyobject_t wrap_edit_set_tips(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   widget_t* widget = NULL;
-  char* tips = NULL;
+  const char* tips = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&s" , &__parse_voidp, &widget, &tips)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -18345,7 +19029,7 @@ pyobject_t wrap_edit_set_tr_tips(pyobject_t self, pyobject_t pyargs) {
 pyobject_t wrap_edit_set_keyboard(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   widget_t* widget = NULL;
-  char* keyboard = NULL;
+  const char* keyboard = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&s" , &__parse_voidp, &widget, &keyboard)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -18960,10 +19644,24 @@ pyobject_t wrap_pages_set_active(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("i", ret);
 }
 
+pyobject_t wrap_pages_set_auto_focused(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+  bool_t auto_focused = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&b" , &__parse_voidp, &widget, &auto_focused)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)pages_set_auto_focused(widget, auto_focused);
+  return Py_BuildValue("i", ret);
+}
+
 pyobject_t wrap_pages_set_active_by_name(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   widget_t* widget = NULL;
-  char* name = NULL;
+  const char* name = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&s" , &__parse_voidp, &widget, &name)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -18983,6 +19681,17 @@ pyobject_t wrap_pages_t_get_prop_active(pyobject_t self, pyobject_t pyargs) {
   }
 
   return Py_BuildValue("i", obj->active);
+}
+
+pyobject_t wrap_pages_t_get_prop_auto_focused(pyobject_t self, pyobject_t pyargs) {
+  pages_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &__parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("b", obj->auto_focused);
 }
 
 pyobject_t wrap_progress_bar_create(pyobject_t self, pyobject_t pyargs) {
@@ -19573,7 +20282,7 @@ pyobject_t wrap_tab_button_set_value(pyobject_t self, pyobject_t pyargs) {
 pyobject_t wrap_tab_button_set_icon(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   widget_t* widget = NULL;
-  char* name = NULL;
+  const char* name = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&s" , &__parse_voidp, &widget, &name)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -19587,7 +20296,7 @@ pyobject_t wrap_tab_button_set_icon(pyobject_t self, pyobject_t pyargs) {
 pyobject_t wrap_tab_button_set_active_icon(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   widget_t* widget = NULL;
-  char* name = NULL;
+  const char* name = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&s" , &__parse_voidp, &widget, &name)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -19601,7 +20310,7 @@ pyobject_t wrap_tab_button_set_active_icon(pyobject_t self, pyobject_t pyargs) {
 pyobject_t wrap_tab_button_set_load_ui(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   widget_t* widget = NULL;
-  char* name = NULL;
+  const char* name = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&s" , &__parse_voidp, &widget, &name)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -19830,7 +20539,7 @@ pyobject_t wrap_dialog_open(pyobject_t self, pyobject_t pyargs) {
 pyobject_t wrap_dialog_set_title(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   widget_t* widget = NULL;
-  char* title = NULL;
+  const char* title = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&s" , &__parse_voidp, &widget, &title)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -20443,7 +21152,7 @@ pyobject_t wrap_svg_image_create(pyobject_t self, pyobject_t pyargs) {
 pyobject_t wrap_svg_image_set_image(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   widget_t* widget = NULL;
-  char* name = NULL;
+  const char* name = NULL;
 
   if (!PyArg_ParseTuple(pyargs, "O&s" , &__parse_voidp, &widget, &name)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
@@ -20451,6 +21160,34 @@ pyobject_t wrap_svg_image_set_image(pyobject_t self, pyobject_t pyargs) {
   }
 
   ret = (ret_t)svg_image_set_image(widget, name);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_svg_image_set_cache_mode(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+  bool_t is_cache_mode = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&b" , &__parse_voidp, &widget, &is_cache_mode)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)svg_image_set_cache_mode(widget, is_cache_mode);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_svg_image_set_draw_type(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+  image_draw_type_t draw_type = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&i" , &__parse_voidp, &widget, &draw_type)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)svg_image_set_draw_type(widget, draw_type);
   return Py_BuildValue("i", ret);
 }
 
@@ -20465,6 +21202,28 @@ pyobject_t wrap_svg_image_cast(pyobject_t self, pyobject_t pyargs) {
 
   ret = (widget_t*)svg_image_cast(widget);
   return PyLong_FromVoidPtr((void*)ret);
+}
+
+pyobject_t wrap_svg_image_t_get_prop_is_cache_mode(pyobject_t self, pyobject_t pyargs) {
+  svg_image_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &__parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("b", obj->is_cache_mode);
+}
+
+pyobject_t wrap_svg_image_t_get_prop_draw_type(pyobject_t self, pyobject_t pyargs) {
+  svg_image_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &__parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("i", obj->draw_type);
 }
 
 pyobject_t wrap_idle_info_cast(pyobject_t self, pyobject_t pyargs) {
@@ -20872,6 +21631,20 @@ pyobject_t wrap_combo_box_set_selected_index(pyobject_t self, pyobject_t pyargs)
   return Py_BuildValue("i", ret);
 }
 
+pyobject_t wrap_combo_box_set_selected_index_by_text(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+  const char* text = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&s" , &__parse_voidp, &widget, &text)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)combo_box_set_selected_index_by_text(widget, text);
+  return Py_BuildValue("i", ret);
+}
+
 pyobject_t wrap_combo_box_set_localize_options(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   widget_t* widget = NULL;
@@ -20943,6 +21716,20 @@ pyobject_t wrap_combo_box_remove_option(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("i", ret);
 }
 
+pyobject_t wrap_combo_box_remove_option_by_index(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+  uint32_t index = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&i" , &__parse_voidp, &widget, &index)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)combo_box_remove_option_by_index(widget, index);
+  return Py_BuildValue("i", ret);
+}
+
 pyobject_t wrap_combo_box_set_options(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   widget_t* widget = NULL;
@@ -20994,6 +21781,19 @@ pyobject_t wrap_combo_box_get_text(pyobject_t self, pyobject_t pyargs) {
   }
 
   ret = (const char*)combo_box_get_text(widget);
+  return Py_BuildValue("s", ret);
+}
+
+pyobject_t wrap_combo_box_get_text_of_selected(pyobject_t self, pyobject_t pyargs) {
+  const char* ret = NULL;
+  widget_t* widget = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &widget)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (const char*)combo_box_get_text_of_selected(widget);
   return Py_BuildValue("s", ret);
 }
 
@@ -21191,6 +21991,20 @@ pyobject_t wrap_overlay_set_always_on_top(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("i", ret);
 }
 
+pyobject_t wrap_overlay_set_modeless(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+  bool_t modeless = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&b" , &__parse_voidp, &widget, &modeless)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)overlay_set_modeless(widget, modeless);
+  return Py_BuildValue("i", ret);
+}
+
 pyobject_t wrap_overlay_cast(pyobject_t self, pyobject_t pyargs) {
   widget_t* ret = NULL;
   widget_t* widget = NULL;
@@ -21224,6 +22038,17 @@ pyobject_t wrap_overlay_t_get_prop_always_on_top(pyobject_t self, pyobject_t pya
   }
 
   return Py_BuildValue("b", obj->always_on_top);
+}
+
+pyobject_t wrap_overlay_t_get_prop_modeless(pyobject_t self, pyobject_t pyargs) {
+  overlay_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &__parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("b", obj->modeless);
 }
 
 pyobject_t wrap_popup_create(pyobject_t self, pyobject_t pyargs) {
@@ -21375,6 +22200,20 @@ pyobject_t wrap_spin_box_set_easy_touch_mode(pyobject_t self, pyobject_t pyargs)
   return Py_BuildValue("i", ret);
 }
 
+pyobject_t wrap_spin_box_set_button_position(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+  const char* button_position = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&s" , &__parse_voidp, &widget, &button_position)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)spin_box_set_button_position(widget, button_position);
+  return Py_BuildValue("i", ret);
+}
+
 pyobject_t wrap_spin_set_repeat(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   widget_t* widget = NULL;
@@ -21398,6 +22237,17 @@ pyobject_t wrap_spin_box_t_get_prop_easy_touch_mode(pyobject_t self, pyobject_t 
   }
 
   return Py_BuildValue("b", obj->easy_touch_mode);
+}
+
+pyobject_t wrap_spin_box_t_get_prop_button_position(pyobject_t self, pyobject_t pyargs) {
+  spin_box_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &__parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("s", obj->button_position);
 }
 
 pyobject_t wrap_system_bar_create(pyobject_t self, pyobject_t pyargs) {
@@ -21579,6 +22429,7 @@ static PyMethodDef awtk_methods[] = {
 {"value_func", wrap_value_func, METH_VARARGS, "value_func"},
 {"value_func_def", wrap_value_func_def, METH_VARARGS, "value_func_def"},
 {"value_bitmap", wrap_value_bitmap, METH_VARARGS, "value_bitmap"},
+{"value_rect", wrap_value_rect, METH_VARARGS, "value_rect"},
 {"tk_pre_init", wrap_tk_pre_init, METH_VARARGS, "tk_pre_init"},
 {"tk_init", wrap_tk_init, METH_VARARGS, "tk_init"},
 {"tk_run", wrap_tk_run, METH_VARARGS, "tk_run"},
@@ -21601,6 +22452,7 @@ static PyMethodDef awtk_methods[] = {
 {"IMAGE_DRAW_SCALE_DOWN", get_IMAGE_DRAW_SCALE_DOWN, METH_VARARGS, "IMAGE_DRAW_SCALE_DOWN"},
 {"IMAGE_DRAW_SCALE_W", get_IMAGE_DRAW_SCALE_W, METH_VARARGS, "IMAGE_DRAW_SCALE_W"},
 {"IMAGE_DRAW_SCALE_H", get_IMAGE_DRAW_SCALE_H, METH_VARARGS, "IMAGE_DRAW_SCALE_H"},
+{"IMAGE_DRAW_FILL", get_IMAGE_DRAW_FILL, METH_VARARGS, "IMAGE_DRAW_FILL"},
 {"IMAGE_DRAW_REPEAT", get_IMAGE_DRAW_REPEAT, METH_VARARGS, "IMAGE_DRAW_REPEAT"},
 {"IMAGE_DRAW_REPEAT_X", get_IMAGE_DRAW_REPEAT_X, METH_VARARGS, "IMAGE_DRAW_REPEAT_X"},
 {"IMAGE_DRAW_REPEAT_Y", get_IMAGE_DRAW_REPEAT_Y, METH_VARARGS, "IMAGE_DRAW_REPEAT_Y"},
@@ -21749,6 +22601,10 @@ static PyMethodDef awtk_methods[] = {
 {"EVT_DATA", get_EVT_DATA, METH_VARARGS, "EVT_DATA"},
 {"EVT_CONNECT", get_EVT_CONNECT, METH_VARARGS, "EVT_CONNECT"},
 {"EVT_MODEL_CHANGE", get_EVT_MODEL_CHANGE, METH_VARARGS, "EVT_MODEL_CHANGE"},
+{"EVT_SYSTEM", get_EVT_SYSTEM, METH_VARARGS, "EVT_SYSTEM"},
+{"EVT_DROP_FILE", get_EVT_DROP_FILE, METH_VARARGS, "EVT_DROP_FILE"},
+{"EVT_LOCALE_INFOS_LOAD_INFO", get_EVT_LOCALE_INFOS_LOAD_INFO, METH_VARARGS, "EVT_LOCALE_INFOS_LOAD_INFO"},
+{"EVT_LOCALE_INFOS_UNLOAD_INFO", get_EVT_LOCALE_INFOS_UNLOAD_INFO, METH_VARARGS, "EVT_LOCALE_INFOS_UNLOAD_INFO"},
 {"EVT_REQ_START", get_EVT_REQ_START, METH_VARARGS, "EVT_REQ_START"},
 {"EVT_USER_START", get_EVT_USER_START, METH_VARARGS, "EVT_USER_START"},
 {"EVT_NONE", get_EVT_NONE, METH_VARARGS, "EVT_NONE"},
@@ -21772,9 +22628,6 @@ static PyMethodDef awtk_methods[] = {
 {"event_t_get_prop_size", wrap_event_t_get_prop_size, METH_VARARGS, "event_t_get_prop_size"},
 {"event_t_get_prop_time", wrap_event_t_get_prop_time, METH_VARARGS, "event_t_get_prop_time"},
 {"event_t_get_prop_target", wrap_event_t_get_prop_target, METH_VARARGS, "event_t_get_prop_target"},
-{"font_manager_unload_font", wrap_font_manager_unload_font, METH_VARARGS, "font_manager_unload_font"},
-{"font_manager_shrink_cache", wrap_font_manager_shrink_cache, METH_VARARGS, "font_manager_shrink_cache"},
-{"font_manager_unload_all", wrap_font_manager_unload_all, METH_VARARGS, "font_manager_unload_all"},
 {"GLYPH_FMT_ALPHA", get_GLYPH_FMT_ALPHA, METH_VARARGS, "GLYPH_FMT_ALPHA"},
 {"GLYPH_FMT_MONO", get_GLYPH_FMT_MONO, METH_VARARGS, "GLYPH_FMT_MONO"},
 {"GLYPH_FMT_RGBA", get_GLYPH_FMT_RGBA, METH_VARARGS, "GLYPH_FMT_RGBA"},
@@ -21942,11 +22795,34 @@ static PyMethodDef awtk_methods[] = {
 {"TK_KEY_COMMAND", get_TK_KEY_COMMAND, METH_VARARGS, "TK_KEY_COMMAND"},
 {"TK_KEY_BACK", get_TK_KEY_BACK, METH_VARARGS, "TK_KEY_BACK"},
 {"TK_KEY_CANCEL", get_TK_KEY_CANCEL, METH_VARARGS, "TK_KEY_CANCEL"},
+{"TK_KEY_KP_DIVIDE", get_TK_KEY_KP_DIVIDE, METH_VARARGS, "TK_KEY_KP_DIVIDE"},
+{"TK_KEY_KP_MULTIPLY", get_TK_KEY_KP_MULTIPLY, METH_VARARGS, "TK_KEY_KP_MULTIPLY"},
+{"TK_KEY_KP_MINUS", get_TK_KEY_KP_MINUS, METH_VARARGS, "TK_KEY_KP_MINUS"},
+{"TK_KEY_KP_PLUS", get_TK_KEY_KP_PLUS, METH_VARARGS, "TK_KEY_KP_PLUS"},
+{"TK_KEY_KP_ENTER", get_TK_KEY_KP_ENTER, METH_VARARGS, "TK_KEY_KP_ENTER"},
+{"TK_KEY_KP_1", get_TK_KEY_KP_1, METH_VARARGS, "TK_KEY_KP_1"},
+{"TK_KEY_KP_2", get_TK_KEY_KP_2, METH_VARARGS, "TK_KEY_KP_2"},
+{"TK_KEY_KP_3", get_TK_KEY_KP_3, METH_VARARGS, "TK_KEY_KP_3"},
+{"TK_KEY_KP_4", get_TK_KEY_KP_4, METH_VARARGS, "TK_KEY_KP_4"},
+{"TK_KEY_KP_5", get_TK_KEY_KP_5, METH_VARARGS, "TK_KEY_KP_5"},
+{"TK_KEY_KP_6", get_TK_KEY_KP_6, METH_VARARGS, "TK_KEY_KP_6"},
+{"TK_KEY_KP_7", get_TK_KEY_KP_7, METH_VARARGS, "TK_KEY_KP_7"},
+{"TK_KEY_KP_8", get_TK_KEY_KP_8, METH_VARARGS, "TK_KEY_KP_8"},
+{"TK_KEY_KP_9", get_TK_KEY_KP_9, METH_VARARGS, "TK_KEY_KP_9"},
+{"TK_KEY_KP_0", get_TK_KEY_KP_0, METH_VARARGS, "TK_KEY_KP_0"},
+{"TK_KEY_KP_PERIOD", get_TK_KEY_KP_PERIOD, METH_VARARGS, "TK_KEY_KP_PERIOD"},
+{"TK_KEY_NUMLOCKCLEAR", get_TK_KEY_NUMLOCKCLEAR, METH_VARARGS, "TK_KEY_NUMLOCKCLEAR"},
 {"TK_KEY_WHEEL", get_TK_KEY_WHEEL, METH_VARARGS, "TK_KEY_WHEEL"},
 {"locale_info", wrap_locale_info, METH_VARARGS, "locale_info"},
 {"locale_info_tr", wrap_locale_info_tr, METH_VARARGS, "locale_info_tr"},
 {"locale_info_change", wrap_locale_info_change, METH_VARARGS, "locale_info_change"},
 {"locale_info_off", wrap_locale_info_off, METH_VARARGS, "locale_info_off"},
+{"locale_infos_ref", wrap_locale_infos_ref, METH_VARARGS, "locale_infos_ref"},
+{"locale_infos_unref", wrap_locale_infos_unref, METH_VARARGS, "locale_infos_unref"},
+{"locale_infos_change", wrap_locale_infos_change, METH_VARARGS, "locale_infos_change"},
+{"locale_infos_on", wrap_locale_infos_on, METH_VARARGS, "locale_infos_on"},
+{"locale_infos_off", wrap_locale_infos_off, METH_VARARGS, "locale_infos_off"},
+{"locale_infos_reload_all", wrap_locale_infos_reload_all, METH_VARARGS, "locale_infos_reload_all"},
 {"STYLE_ID_BG_COLOR", get_STYLE_ID_BG_COLOR, METH_VARARGS, "STYLE_ID_BG_COLOR"},
 {"STYLE_ID_FG_COLOR", get_STYLE_ID_FG_COLOR, METH_VARARGS, "STYLE_ID_FG_COLOR"},
 {"STYLE_ID_MASK_COLOR", get_STYLE_ID_MASK_COLOR, METH_VARARGS, "STYLE_ID_MASK_COLOR"},
@@ -21999,6 +22875,7 @@ static PyMethodDef awtk_methods[] = {
 {"style_get_int", wrap_style_get_int, METH_VARARGS, "style_get_int"},
 {"style_get_uint", wrap_style_get_uint, METH_VARARGS, "style_get_uint"},
 {"style_get_str", wrap_style_get_str, METH_VARARGS, "style_get_str"},
+{"style_get", wrap_style_get, METH_VARARGS, "style_get"},
 {"style_set", wrap_style_set, METH_VARARGS, "style_set"},
 {"style_update_state", wrap_style_update_state, METH_VARARGS, "style_update_state"},
 {"style_get_style_state", wrap_style_get_style_state, METH_VARARGS, "style_get_style_state"},
@@ -22025,6 +22902,7 @@ static PyMethodDef awtk_methods[] = {
 {"APP_MOBILE", get_APP_MOBILE, METH_VARARGS, "APP_MOBILE"},
 {"APP_SIMULATOR", get_APP_SIMULATOR, METH_VARARGS, "APP_SIMULATOR"},
 {"APP_DESKTOP", get_APP_DESKTOP, METH_VARARGS, "APP_DESKTOP"},
+{"APP_CONSOLE", get_APP_CONSOLE, METH_VARARGS, "APP_CONSOLE"},
 {"BITMAP_FMT_NONE", get_BITMAP_FMT_NONE, METH_VARARGS, "BITMAP_FMT_NONE"},
 {"BITMAP_FMT_RGBA8888", get_BITMAP_FMT_RGBA8888, METH_VARARGS, "BITMAP_FMT_RGBA8888"},
 {"BITMAP_FMT_ABGR8888", get_BITMAP_FMT_ABGR8888, METH_VARARGS, "BITMAP_FMT_ABGR8888"},
@@ -22202,6 +23080,7 @@ static PyMethodDef awtk_methods[] = {
 {"WIDGET_PROP_ALIGN_H", get_WIDGET_PROP_ALIGN_H, METH_VARARGS, "WIDGET_PROP_ALIGN_H"},
 {"WIDGET_PROP_AUTO_PLAY", get_WIDGET_PROP_AUTO_PLAY, METH_VARARGS, "WIDGET_PROP_AUTO_PLAY"},
 {"WIDGET_PROP_LOOP", get_WIDGET_PROP_LOOP, METH_VARARGS, "WIDGET_PROP_LOOP"},
+{"WIDGET_PROP_RUNNING", get_WIDGET_PROP_RUNNING, METH_VARARGS, "WIDGET_PROP_RUNNING"},
 {"WIDGET_PROP_AUTO_FIX", get_WIDGET_PROP_AUTO_FIX, METH_VARARGS, "WIDGET_PROP_AUTO_FIX"},
 {"WIDGET_PROP_SELECT_NONE_WHEN_FOCUSED", get_WIDGET_PROP_SELECT_NONE_WHEN_FOCUSED, METH_VARARGS, "WIDGET_PROP_SELECT_NONE_WHEN_FOCUSED"},
 {"WIDGET_PROP_OPEN_IM_WHEN_FOCUSED", get_WIDGET_PROP_OPEN_IM_WHEN_FOCUSED, METH_VARARGS, "WIDGET_PROP_OPEN_IM_WHEN_FOCUSED"},
@@ -22230,6 +23109,7 @@ static PyMethodDef awtk_methods[] = {
 {"WIDGET_PROP_REPEAT", get_WIDGET_PROP_REPEAT, METH_VARARGS, "WIDGET_PROP_REPEAT"},
 {"WIDGET_PROP_LONG_PRESS_TIME", get_WIDGET_PROP_LONG_PRESS_TIME, METH_VARARGS, "WIDGET_PROP_LONG_PRESS_TIME"},
 {"WIDGET_PROP_ENABLE_LONG_PRESS", get_WIDGET_PROP_ENABLE_LONG_PRESS, METH_VARARGS, "WIDGET_PROP_ENABLE_LONG_PRESS"},
+{"WIDGET_PROP_ENABLE_PREVIEW", get_WIDGET_PROP_ENABLE_PREVIEW, METH_VARARGS, "WIDGET_PROP_ENABLE_PREVIEW"},
 {"WIDGET_PROP_CLICK_THROUGH", get_WIDGET_PROP_CLICK_THROUGH, METH_VARARGS, "WIDGET_PROP_CLICK_THROUGH"},
 {"WIDGET_PROP_ANIMATABLE", get_WIDGET_PROP_ANIMATABLE, METH_VARARGS, "WIDGET_PROP_ANIMATABLE"},
 {"WIDGET_PROP_AUTO_HIDE", get_WIDGET_PROP_AUTO_HIDE, METH_VARARGS, "WIDGET_PROP_AUTO_HIDE"},
@@ -22280,6 +23160,7 @@ static PyMethodDef awtk_methods[] = {
 {"WIDGET_PROP_ANIMATING_TIME", get_WIDGET_PROP_ANIMATING_TIME, METH_VARARGS, "WIDGET_PROP_ANIMATING_TIME"},
 {"WIDGET_PROP_ANIMATE_PREFIX", get_WIDGET_PROP_ANIMATE_PREFIX, METH_VARARGS, "WIDGET_PROP_ANIMATE_PREFIX"},
 {"WIDGET_PROP_ANIMATE_ANIMATING_TIME", get_WIDGET_PROP_ANIMATE_ANIMATING_TIME, METH_VARARGS, "WIDGET_PROP_ANIMATE_ANIMATING_TIME"},
+{"WIDGET_PROP_DIRTY_RECT", get_WIDGET_PROP_DIRTY_RECT, METH_VARARGS, "WIDGET_PROP_DIRTY_RECT"},
 {"WIDGET_TYPE_NONE", get_WIDGET_TYPE_NONE, METH_VARARGS, "WIDGET_TYPE_NONE"},
 {"WIDGET_TYPE_WINDOW_MANAGER", get_WIDGET_TYPE_WINDOW_MANAGER, METH_VARARGS, "WIDGET_TYPE_WINDOW_MANAGER"},
 {"WIDGET_TYPE_NORMAL_WINDOW", get_WIDGET_TYPE_NORMAL_WINDOW, METH_VARARGS, "WIDGET_TYPE_NORMAL_WINDOW"},
@@ -22397,6 +23278,7 @@ static PyMethodDef awtk_methods[] = {
 {"widget_move_to_center", wrap_widget_move_to_center, METH_VARARGS, "widget_move_to_center"},
 {"widget_resize", wrap_widget_resize, METH_VARARGS, "widget_resize"},
 {"widget_move_resize", wrap_widget_move_resize, METH_VARARGS, "widget_move_resize"},
+{"widget_move_resize_ex", wrap_widget_move_resize_ex, METH_VARARGS, "widget_move_resize_ex"},
 {"widget_get_value", wrap_widget_get_value, METH_VARARGS, "widget_get_value"},
 {"widget_set_value", wrap_widget_set_value, METH_VARARGS, "widget_set_value"},
 {"widget_add_value", wrap_widget_add_value, METH_VARARGS, "widget_add_value"},
@@ -22405,6 +23287,7 @@ static PyMethodDef awtk_methods[] = {
 {"widget_add_value_int", wrap_widget_add_value_int, METH_VARARGS, "widget_add_value_int"},
 {"widget_animate_value_to", wrap_widget_animate_value_to, METH_VARARGS, "widget_animate_value_to"},
 {"widget_is_style_exist", wrap_widget_is_style_exist, METH_VARARGS, "widget_is_style_exist"},
+{"widget_is_support_highlighter", wrap_widget_is_support_highlighter, METH_VARARGS, "widget_is_support_highlighter"},
 {"widget_use_style", wrap_widget_use_style, METH_VARARGS, "widget_use_style"},
 {"widget_set_text_utf8", wrap_widget_set_text_utf8, METH_VARARGS, "widget_set_text_utf8"},
 {"widget_set_text_utf8_ex", wrap_widget_set_text_utf8_ex, METH_VARARGS, "widget_set_text_utf8_ex"},
@@ -22473,9 +23356,11 @@ static PyMethodDef awtk_methods[] = {
 {"widget_is_window", wrap_widget_is_window, METH_VARARGS, "widget_is_window"},
 {"widget_is_system_bar", wrap_widget_is_system_bar, METH_VARARGS, "widget_is_system_bar"},
 {"widget_is_normal_window", wrap_widget_is_normal_window, METH_VARARGS, "widget_is_normal_window"},
+{"widget_is_fullscreen_window", wrap_widget_is_fullscreen_window, METH_VARARGS, "widget_is_fullscreen_window"},
 {"widget_is_dialog", wrap_widget_is_dialog, METH_VARARGS, "widget_is_dialog"},
 {"widget_is_popup", wrap_widget_is_popup, METH_VARARGS, "widget_is_popup"},
 {"widget_is_overlay", wrap_widget_is_overlay, METH_VARARGS, "widget_is_overlay"},
+{"widget_is_always_on_top", wrap_widget_is_always_on_top, METH_VARARGS, "widget_is_always_on_top"},
 {"widget_is_opened_dialog", wrap_widget_is_opened_dialog, METH_VARARGS, "widget_is_opened_dialog"},
 {"widget_is_opened_popup", wrap_widget_is_opened_popup, METH_VARARGS, "widget_is_opened_popup"},
 {"widget_is_keyboard", wrap_widget_is_keyboard, METH_VARARGS, "widget_is_keyboard"},
@@ -22567,12 +23452,13 @@ static PyMethodDef awtk_methods[] = {
 {"ASSET_TYPE_DATA", get_ASSET_TYPE_DATA, METH_VARARGS, "ASSET_TYPE_DATA"},
 {"asset_info_get_type", wrap_asset_info_get_type, METH_VARARGS, "asset_info_get_type"},
 {"asset_info_get_name", wrap_asset_info_get_name, METH_VARARGS, "asset_info_get_name"},
+{"asset_info_is_in_rom", wrap_asset_info_is_in_rom, METH_VARARGS, "asset_info_is_in_rom"},
+{"asset_info_set_is_in_rom", wrap_asset_info_set_is_in_rom, METH_VARARGS, "asset_info_set_is_in_rom"},
 {"asset_info_t_get_prop_type", wrap_asset_info_t_get_prop_type, METH_VARARGS, "asset_info_t_get_prop_type"},
 {"asset_info_t_get_prop_subtype", wrap_asset_info_t_get_prop_subtype, METH_VARARGS, "asset_info_t_get_prop_subtype"},
-{"asset_info_t_get_prop_is_in_rom", wrap_asset_info_t_get_prop_is_in_rom, METH_VARARGS, "asset_info_t_get_prop_is_in_rom"},
+{"asset_info_t_get_prop_flags", wrap_asset_info_t_get_prop_flags, METH_VARARGS, "asset_info_t_get_prop_flags"},
 {"asset_info_t_get_prop_size", wrap_asset_info_t_get_prop_size, METH_VARARGS, "asset_info_t_get_prop_size"},
 {"asset_info_t_get_prop_refcount", wrap_asset_info_t_get_prop_refcount, METH_VARARGS, "asset_info_t_get_prop_refcount"},
-{"asset_info_t_get_prop_name", wrap_asset_info_t_get_prop_name, METH_VARARGS, "asset_info_t_get_prop_name"},
 {"color_create", wrap_color_create, METH_VARARGS, "color_create"},
 {"color_from_str", wrap_color_from_str, METH_VARARGS, "color_from_str"},
 {"color_r", wrap_color_r, METH_VARARGS, "color_r"},
@@ -22777,6 +23663,8 @@ static PyMethodDef awtk_methods[] = {
 {"RET_IO", get_RET_IO, METH_VARARGS, "RET_IO"},
 {"RET_EOS", get_RET_EOS, METH_VARARGS, "RET_EOS"},
 {"RET_NOT_MODIFIED", get_RET_NOT_MODIFIED, METH_VARARGS, "RET_NOT_MODIFIED"},
+{"RET_NO_PERMISSION", get_RET_NO_PERMISSION, METH_VARARGS, "RET_NO_PERMISSION"},
+{"RET_MAX_NR", get_RET_MAX_NR, METH_VARARGS, "RET_MAX_NR"},
 {"VALUE_TYPE_INVALID", get_VALUE_TYPE_INVALID, METH_VARARGS, "VALUE_TYPE_INVALID"},
 {"VALUE_TYPE_BOOL", get_VALUE_TYPE_BOOL, METH_VARARGS, "VALUE_TYPE_BOOL"},
 {"VALUE_TYPE_INT8", get_VALUE_TYPE_INT8, METH_VARARGS, "VALUE_TYPE_INT8"},
@@ -22804,6 +23692,7 @@ static PyMethodDef awtk_methods[] = {
 {"VALUE_TYPE_FUNC_DEF", get_VALUE_TYPE_FUNC_DEF, METH_VARARGS, "VALUE_TYPE_FUNC_DEF"},
 {"VALUE_TYPE_POINTER_REF", get_VALUE_TYPE_POINTER_REF, METH_VARARGS, "VALUE_TYPE_POINTER_REF"},
 {"VALUE_TYPE_BITMAP", get_VALUE_TYPE_BITMAP, METH_VARARGS, "VALUE_TYPE_BITMAP"},
+{"VALUE_TYPE_RECT", get_VALUE_TYPE_RECT, METH_VARARGS, "VALUE_TYPE_RECT"},
 {"assets_manager", wrap_assets_manager, METH_VARARGS, "assets_manager"},
 {"assets_manager_set_theme", wrap_assets_manager_set_theme, METH_VARARGS, "assets_manager_set_theme"},
 {"assets_manager_ref", wrap_assets_manager_ref, METH_VARARGS, "assets_manager_ref"},
@@ -22847,6 +23736,7 @@ static PyMethodDef awtk_methods[] = {
 {"key_event_t_get_prop_cmd", wrap_key_event_t_get_prop_cmd, METH_VARARGS, "key_event_t_get_prop_cmd"},
 {"key_event_t_get_prop_menu", wrap_key_event_t_get_prop_menu, METH_VARARGS, "key_event_t_get_prop_menu"},
 {"key_event_t_get_prop_capslock", wrap_key_event_t_get_prop_capslock, METH_VARARGS, "key_event_t_get_prop_capslock"},
+{"key_event_t_get_prop_numlock", wrap_key_event_t_get_prop_numlock, METH_VARARGS, "key_event_t_get_prop_numlock"},
 {"paint_event_cast", wrap_paint_event_cast, METH_VARARGS, "paint_event_cast"},
 {"paint_event_t_get_prop_c", wrap_paint_event_t_get_prop_c, METH_VARARGS, "paint_event_t_get_prop_c"},
 {"window_event_cast", wrap_window_event_cast, METH_VARARGS, "window_event_cast"},
@@ -22858,6 +23748,13 @@ static PyMethodDef awtk_methods[] = {
 {"multi_gesture_event_t_get_prop_distance", wrap_multi_gesture_event_t_get_prop_distance, METH_VARARGS, "multi_gesture_event_t_get_prop_distance"},
 {"theme_change_event_cast", wrap_theme_change_event_cast, METH_VARARGS, "theme_change_event_cast"},
 {"theme_change_event_t_get_prop_name", wrap_theme_change_event_t_get_prop_name, METH_VARARGS, "theme_change_event_t_get_prop_name"},
+{"drop_file_event_cast", wrap_drop_file_event_cast, METH_VARARGS, "drop_file_event_cast"},
+{"drop_file_event_t_get_prop_filename", wrap_drop_file_event_t_get_prop_filename, METH_VARARGS, "drop_file_event_t_get_prop_filename"},
+{"system_event_cast", wrap_system_event_cast, METH_VARARGS, "system_event_cast"},
+{"system_event_t_get_prop_sdl_event", wrap_system_event_t_get_prop_sdl_event, METH_VARARGS, "system_event_t_get_prop_sdl_event"},
+{"font_manager_unload_font", wrap_font_manager_unload_font, METH_VARARGS, "font_manager_unload_font"},
+{"font_manager_shrink_cache", wrap_font_manager_shrink_cache, METH_VARARGS, "font_manager_shrink_cache"},
+{"font_manager_unload_all", wrap_font_manager_unload_all, METH_VARARGS, "font_manager_unload_all"},
 {"image_base_set_image", wrap_image_base_set_image, METH_VARARGS, "image_base_set_image"},
 {"image_base_set_rotation", wrap_image_base_set_rotation, METH_VARARGS, "image_base_set_rotation"},
 {"image_base_set_scale", wrap_image_base_set_scale, METH_VARARGS, "image_base_set_scale"},
@@ -22936,6 +23833,7 @@ static PyMethodDef awtk_methods[] = {
 {"draggable_set_right", wrap_draggable_set_right, METH_VARARGS, "draggable_set_right"},
 {"draggable_set_vertical_only", wrap_draggable_set_vertical_only, METH_VARARGS, "draggable_set_vertical_only"},
 {"draggable_set_horizontal_only", wrap_draggable_set_horizontal_only, METH_VARARGS, "draggable_set_horizontal_only"},
+{"draggable_set_allow_out_of_screen", wrap_draggable_set_allow_out_of_screen, METH_VARARGS, "draggable_set_allow_out_of_screen"},
 {"draggable_set_drag_window", wrap_draggable_set_drag_window, METH_VARARGS, "draggable_set_drag_window"},
 {"draggable_set_drag_native_window", wrap_draggable_set_drag_native_window, METH_VARARGS, "draggable_set_drag_native_window"},
 {"draggable_set_drag_parent", wrap_draggable_set_drag_parent, METH_VARARGS, "draggable_set_drag_parent"},
@@ -22943,6 +23841,7 @@ static PyMethodDef awtk_methods[] = {
 {"draggable_t_get_prop_bottom", wrap_draggable_t_get_prop_bottom, METH_VARARGS, "draggable_t_get_prop_bottom"},
 {"draggable_t_get_prop_left", wrap_draggable_t_get_prop_left, METH_VARARGS, "draggable_t_get_prop_left"},
 {"draggable_t_get_prop_right", wrap_draggable_t_get_prop_right, METH_VARARGS, "draggable_t_get_prop_right"},
+{"draggable_t_get_prop_allow_out_of_screen", wrap_draggable_t_get_prop_allow_out_of_screen, METH_VARARGS, "draggable_t_get_prop_allow_out_of_screen"},
 {"draggable_t_get_prop_vertical_only", wrap_draggable_t_get_prop_vertical_only, METH_VARARGS, "draggable_t_get_prop_vertical_only"},
 {"draggable_t_get_prop_horizontal_only", wrap_draggable_t_get_prop_horizontal_only, METH_VARARGS, "draggable_t_get_prop_horizontal_only"},
 {"draggable_t_get_prop_drag_window", wrap_draggable_t_get_prop_drag_window, METH_VARARGS, "draggable_t_get_prop_drag_window"},
@@ -22958,6 +23857,8 @@ static PyMethodDef awtk_methods[] = {
 {"file_browser_view_set_sort_ascending", wrap_file_browser_view_set_sort_ascending, METH_VARARGS, "file_browser_view_set_sort_ascending"},
 {"file_browser_view_set_show_check_button", wrap_file_browser_view_set_show_check_button, METH_VARARGS, "file_browser_view_set_show_check_button"},
 {"file_browser_view_set_sort_by", wrap_file_browser_view_set_sort_by, METH_VARARGS, "file_browser_view_set_sort_by"},
+{"file_browser_view_set_odd_item_style", wrap_file_browser_view_set_odd_item_style, METH_VARARGS, "file_browser_view_set_odd_item_style"},
+{"file_browser_view_set_even_item_style", wrap_file_browser_view_set_even_item_style, METH_VARARGS, "file_browser_view_set_even_item_style"},
 {"file_browser_view_get_cwd", wrap_file_browser_view_get_cwd, METH_VARARGS, "file_browser_view_get_cwd"},
 {"file_browser_view_create_dir", wrap_file_browser_view_create_dir, METH_VARARGS, "file_browser_view_create_dir"},
 {"file_browser_view_create_file", wrap_file_browser_view_create_file, METH_VARARGS, "file_browser_view_create_file"},
@@ -22968,6 +23869,8 @@ static PyMethodDef awtk_methods[] = {
 {"file_browser_view_t_get_prop_sort_ascending", wrap_file_browser_view_t_get_prop_sort_ascending, METH_VARARGS, "file_browser_view_t_get_prop_sort_ascending"},
 {"file_browser_view_t_get_prop_show_check_button", wrap_file_browser_view_t_get_prop_show_check_button, METH_VARARGS, "file_browser_view_t_get_prop_show_check_button"},
 {"file_browser_view_t_get_prop_sort_by", wrap_file_browser_view_t_get_prop_sort_by, METH_VARARGS, "file_browser_view_t_get_prop_sort_by"},
+{"file_browser_view_t_get_prop_odd_item_style", wrap_file_browser_view_t_get_prop_odd_item_style, METH_VARARGS, "file_browser_view_t_get_prop_odd_item_style"},
+{"file_browser_view_t_get_prop_even_item_style", wrap_file_browser_view_t_get_prop_even_item_style, METH_VARARGS, "file_browser_view_t_get_prop_even_item_style"},
 {"file_chooser_create", wrap_file_chooser_create, METH_VARARGS, "file_chooser_create"},
 {"file_chooser_set_init_dir", wrap_file_chooser_set_init_dir, METH_VARARGS, "file_chooser_set_init_dir"},
 {"file_chooser_set_top_dir", wrap_file_chooser_set_top_dir, METH_VARARGS, "file_chooser_set_top_dir"},
@@ -23048,6 +23951,7 @@ static PyMethodDef awtk_methods[] = {
 {"candidates_t_get_prop_select_by_num", wrap_candidates_t_get_prop_select_by_num, METH_VARARGS, "candidates_t_get_prop_select_by_num"},
 {"candidates_t_get_prop_auto_hide", wrap_candidates_t_get_prop_auto_hide, METH_VARARGS, "candidates_t_get_prop_auto_hide"},
 {"candidates_t_get_prop_button_style", wrap_candidates_t_get_prop_button_style, METH_VARARGS, "candidates_t_get_prop_button_style"},
+{"candidates_t_get_prop_enable_preview", wrap_candidates_t_get_prop_enable_preview, METH_VARARGS, "candidates_t_get_prop_enable_preview"},
 {"lang_indicator_create", wrap_lang_indicator_create, METH_VARARGS, "lang_indicator_create"},
 {"lang_indicator_set_image", wrap_lang_indicator_set_image, METH_VARARGS, "lang_indicator_set_image"},
 {"lang_indicator_cast", wrap_lang_indicator_cast, METH_VARARGS, "lang_indicator_cast"},
@@ -23130,6 +24034,7 @@ static PyMethodDef awtk_methods[] = {
 {"hscroll_label_set_loop", wrap_hscroll_label_set_loop, METH_VARARGS, "hscroll_label_set_loop"},
 {"hscroll_label_set_yoyo", wrap_hscroll_label_set_yoyo, METH_VARARGS, "hscroll_label_set_yoyo"},
 {"hscroll_label_set_ellipses", wrap_hscroll_label_set_ellipses, METH_VARARGS, "hscroll_label_set_ellipses"},
+{"hscroll_label_set_stop_at_begin", wrap_hscroll_label_set_stop_at_begin, METH_VARARGS, "hscroll_label_set_stop_at_begin"},
 {"hscroll_label_set_xoffset", wrap_hscroll_label_set_xoffset, METH_VARARGS, "hscroll_label_set_xoffset"},
 {"hscroll_label_start", wrap_hscroll_label_start, METH_VARARGS, "hscroll_label_start"},
 {"hscroll_label_stop", wrap_hscroll_label_stop, METH_VARARGS, "hscroll_label_stop"},
@@ -23144,6 +24049,7 @@ static PyMethodDef awtk_methods[] = {
 {"hscroll_label_t_get_prop_speed", wrap_hscroll_label_t_get_prop_speed, METH_VARARGS, "hscroll_label_t_get_prop_speed"},
 {"hscroll_label_t_get_prop_xoffset", wrap_hscroll_label_t_get_prop_xoffset, METH_VARARGS, "hscroll_label_t_get_prop_xoffset"},
 {"hscroll_label_t_get_prop_text_w", wrap_hscroll_label_t_get_prop_text_w, METH_VARARGS, "hscroll_label_t_get_prop_text_w"},
+{"hscroll_label_t_get_prop_stop_at_begin", wrap_hscroll_label_t_get_prop_stop_at_begin, METH_VARARGS, "hscroll_label_t_get_prop_stop_at_begin"},
 {"list_item_create", wrap_list_item_create, METH_VARARGS, "list_item_create"},
 {"list_item_cast", wrap_list_item_cast, METH_VARARGS, "list_item_cast"},
 {"list_view_h_create", wrap_list_view_h_create, METH_VARARGS, "list_view_h_create"},
@@ -23176,6 +24082,8 @@ static PyMethodDef awtk_methods[] = {
 {"scroll_bar_set_auto_hide", wrap_scroll_bar_set_auto_hide, METH_VARARGS, "scroll_bar_set_auto_hide"},
 {"scroll_bar_is_mobile", wrap_scroll_bar_is_mobile, METH_VARARGS, "scroll_bar_is_mobile"},
 {"scroll_bar_set_animator_time", wrap_scroll_bar_set_animator_time, METH_VARARGS, "scroll_bar_set_animator_time"},
+{"scroll_bar_hide_by_opacity_animation", wrap_scroll_bar_hide_by_opacity_animation, METH_VARARGS, "scroll_bar_hide_by_opacity_animation"},
+{"scroll_bar_show_by_opacity_animation", wrap_scroll_bar_show_by_opacity_animation, METH_VARARGS, "scroll_bar_show_by_opacity_animation"},
 {"scroll_bar_t_get_prop_virtual_size", wrap_scroll_bar_t_get_prop_virtual_size, METH_VARARGS, "scroll_bar_t_get_prop_virtual_size"},
 {"scroll_bar_t_get_prop_value", wrap_scroll_bar_t_get_prop_value, METH_VARARGS, "scroll_bar_t_get_prop_value"},
 {"scroll_bar_t_get_prop_row", wrap_scroll_bar_t_get_prop_row, METH_VARARGS, "scroll_bar_t_get_prop_row"},
@@ -23194,6 +24102,7 @@ static PyMethodDef awtk_methods[] = {
 {"scroll_view_set_recursive_only", wrap_scroll_view_set_recursive_only, METH_VARARGS, "scroll_view_set_recursive_only"},
 {"scroll_view_set_offset", wrap_scroll_view_set_offset, METH_VARARGS, "scroll_view_set_offset"},
 {"scroll_view_set_speed_scale", wrap_scroll_view_set_speed_scale, METH_VARARGS, "scroll_view_set_speed_scale"},
+{"scroll_view_set_slide_limit_ratio", wrap_scroll_view_set_slide_limit_ratio, METH_VARARGS, "scroll_view_set_slide_limit_ratio"},
 {"scroll_view_scroll_to", wrap_scroll_view_scroll_to, METH_VARARGS, "scroll_view_scroll_to"},
 {"scroll_view_scroll_delta_to", wrap_scroll_view_scroll_delta_to, METH_VARARGS, "scroll_view_scroll_delta_to"},
 {"scroll_view_t_get_prop_virtual_w", wrap_scroll_view_t_get_prop_virtual_w, METH_VARARGS, "scroll_view_t_get_prop_virtual_w"},
@@ -23207,6 +24116,7 @@ static PyMethodDef awtk_methods[] = {
 {"scroll_view_t_get_prop_snap_to_page", wrap_scroll_view_t_get_prop_snap_to_page, METH_VARARGS, "scroll_view_t_get_prop_snap_to_page"},
 {"scroll_view_t_get_prop_move_to_page", wrap_scroll_view_t_get_prop_move_to_page, METH_VARARGS, "scroll_view_t_get_prop_move_to_page"},
 {"scroll_view_t_get_prop_recursive", wrap_scroll_view_t_get_prop_recursive, METH_VARARGS, "scroll_view_t_get_prop_recursive"},
+{"scroll_view_t_get_prop_slide_limit_ratio", wrap_scroll_view_t_get_prop_slide_limit_ratio, METH_VARARGS, "scroll_view_t_get_prop_slide_limit_ratio"},
 {"serial_widget_create", wrap_serial_widget_create, METH_VARARGS, "serial_widget_create"},
 {"serial_widget_cast", wrap_serial_widget_cast, METH_VARARGS, "serial_widget_cast"},
 {"serial_widget_set_baudrate", wrap_serial_widget_set_baudrate, METH_VARARGS, "serial_widget_set_baudrate"},
@@ -23228,9 +24138,17 @@ static PyMethodDef awtk_methods[] = {
 {"slide_menu_set_value", wrap_slide_menu_set_value, METH_VARARGS, "slide_menu_set_value"},
 {"slide_menu_set_align_v", wrap_slide_menu_set_align_v, METH_VARARGS, "slide_menu_set_align_v"},
 {"slide_menu_set_min_scale", wrap_slide_menu_set_min_scale, METH_VARARGS, "slide_menu_set_min_scale"},
+{"slide_menu_set_spacer", wrap_slide_menu_set_spacer, METH_VARARGS, "slide_menu_set_spacer"},
+{"slide_menu_set_menu_w", wrap_slide_menu_set_menu_w, METH_VARARGS, "slide_menu_set_menu_w"},
+{"slide_menu_set_clip", wrap_slide_menu_set_clip, METH_VARARGS, "slide_menu_set_clip"},
+{"slide_menu_scroll_to_prev", wrap_slide_menu_scroll_to_prev, METH_VARARGS, "slide_menu_scroll_to_prev"},
+{"slide_menu_scroll_to_next", wrap_slide_menu_scroll_to_next, METH_VARARGS, "slide_menu_scroll_to_next"},
 {"slide_menu_t_get_prop_value", wrap_slide_menu_t_get_prop_value, METH_VARARGS, "slide_menu_t_get_prop_value"},
 {"slide_menu_t_get_prop_align_v", wrap_slide_menu_t_get_prop_align_v, METH_VARARGS, "slide_menu_t_get_prop_align_v"},
 {"slide_menu_t_get_prop_min_scale", wrap_slide_menu_t_get_prop_min_scale, METH_VARARGS, "slide_menu_t_get_prop_min_scale"},
+{"slide_menu_t_get_prop_spacer", wrap_slide_menu_t_get_prop_spacer, METH_VARARGS, "slide_menu_t_get_prop_spacer"},
+{"slide_menu_t_get_prop_menu_w", wrap_slide_menu_t_get_prop_menu_w, METH_VARARGS, "slide_menu_t_get_prop_menu_w"},
+{"slide_menu_t_get_prop_clip", wrap_slide_menu_t_get_prop_clip, METH_VARARGS, "slide_menu_t_get_prop_clip"},
 {"slide_indicator_create", wrap_slide_indicator_create, METH_VARARGS, "slide_indicator_create"},
 {"slide_indicator_create_linear", wrap_slide_indicator_create_linear, METH_VARARGS, "slide_indicator_create_linear"},
 {"slide_indicator_create_arc", wrap_slide_indicator_create_arc, METH_VARARGS, "slide_indicator_create_arc"},
@@ -23297,6 +24215,8 @@ static PyMethodDef awtk_methods[] = {
 {"text_selector_set_yspeed_scale", wrap_text_selector_set_yspeed_scale, METH_VARARGS, "text_selector_set_yspeed_scale"},
 {"text_selector_set_animating_time", wrap_text_selector_set_animating_time, METH_VARARGS, "text_selector_set_animating_time"},
 {"text_selector_set_enable_value_animator", wrap_text_selector_set_enable_value_animator, METH_VARARGS, "text_selector_set_enable_value_animator"},
+{"text_selector_set_mask_easing", wrap_text_selector_set_mask_easing, METH_VARARGS, "text_selector_set_mask_easing"},
+{"text_selector_set_mask_area_scale", wrap_text_selector_set_mask_area_scale, METH_VARARGS, "text_selector_set_mask_area_scale"},
 {"text_selector_t_get_prop_visible_nr", wrap_text_selector_t_get_prop_visible_nr, METH_VARARGS, "text_selector_t_get_prop_visible_nr"},
 {"text_selector_t_get_prop_selected_index", wrap_text_selector_t_get_prop_selected_index, METH_VARARGS, "text_selector_t_get_prop_selected_index"},
 {"text_selector_t_get_prop_options", wrap_text_selector_t_get_prop_options, METH_VARARGS, "text_selector_t_get_prop_options"},
@@ -23305,6 +24225,8 @@ static PyMethodDef awtk_methods[] = {
 {"text_selector_t_get_prop_localize_options", wrap_text_selector_t_get_prop_localize_options, METH_VARARGS, "text_selector_t_get_prop_localize_options"},
 {"text_selector_t_get_prop_loop_options", wrap_text_selector_t_get_prop_loop_options, METH_VARARGS, "text_selector_t_get_prop_loop_options"},
 {"text_selector_t_get_prop_enable_value_animator", wrap_text_selector_t_get_prop_enable_value_animator, METH_VARARGS, "text_selector_t_get_prop_enable_value_animator"},
+{"text_selector_t_get_prop_mask_easing", wrap_text_selector_t_get_prop_mask_easing, METH_VARARGS, "text_selector_t_get_prop_mask_easing"},
+{"text_selector_t_get_prop_mask_area_scale", wrap_text_selector_t_get_prop_mask_area_scale, METH_VARARGS, "text_selector_t_get_prop_mask_area_scale"},
 {"time_clock_create", wrap_time_clock_create, METH_VARARGS, "time_clock_create"},
 {"time_clock_cast", wrap_time_clock_cast, METH_VARARGS, "time_clock_cast"},
 {"time_clock_set_hour", wrap_time_clock_set_hour, METH_VARARGS, "time_clock_set_hour"},
@@ -23366,8 +24288,10 @@ static PyMethodDef awtk_methods[] = {
 {"button_set_repeat", wrap_button_set_repeat, METH_VARARGS, "button_set_repeat"},
 {"button_set_long_press_time", wrap_button_set_long_press_time, METH_VARARGS, "button_set_long_press_time"},
 {"button_set_enable_long_press", wrap_button_set_enable_long_press, METH_VARARGS, "button_set_enable_long_press"},
+{"button_set_enable_preview", wrap_button_set_enable_preview, METH_VARARGS, "button_set_enable_preview"},
 {"button_t_get_prop_repeat", wrap_button_t_get_prop_repeat, METH_VARARGS, "button_t_get_prop_repeat"},
 {"button_t_get_prop_enable_long_press", wrap_button_t_get_prop_enable_long_press, METH_VARARGS, "button_t_get_prop_enable_long_press"},
+{"button_t_get_prop_enable_preview", wrap_button_t_get_prop_enable_preview, METH_VARARGS, "button_t_get_prop_enable_preview"},
 {"button_t_get_prop_long_press_time", wrap_button_t_get_prop_long_press_time, METH_VARARGS, "button_t_get_prop_long_press_time"},
 {"button_t_get_prop_pressed", wrap_button_t_get_prop_pressed, METH_VARARGS, "button_t_get_prop_pressed"},
 {"check_button_create", wrap_check_button_create, METH_VARARGS, "check_button_create"},
@@ -23476,8 +24400,10 @@ static PyMethodDef awtk_methods[] = {
 {"pages_create", wrap_pages_create, METH_VARARGS, "pages_create"},
 {"pages_cast", wrap_pages_cast, METH_VARARGS, "pages_cast"},
 {"pages_set_active", wrap_pages_set_active, METH_VARARGS, "pages_set_active"},
+{"pages_set_auto_focused", wrap_pages_set_auto_focused, METH_VARARGS, "pages_set_auto_focused"},
 {"pages_set_active_by_name", wrap_pages_set_active_by_name, METH_VARARGS, "pages_set_active_by_name"},
 {"pages_t_get_prop_active", wrap_pages_t_get_prop_active, METH_VARARGS, "pages_t_get_prop_active"},
+{"pages_t_get_prop_auto_focused", wrap_pages_t_get_prop_auto_focused, METH_VARARGS, "pages_t_get_prop_auto_focused"},
 {"progress_bar_create", wrap_progress_bar_create, METH_VARARGS, "progress_bar_create"},
 {"progress_bar_cast", wrap_progress_bar_cast, METH_VARARGS, "progress_bar_cast"},
 {"progress_bar_set_value", wrap_progress_bar_set_value, METH_VARARGS, "progress_bar_set_value"},
@@ -23587,7 +24513,11 @@ static PyMethodDef awtk_methods[] = {
 {"list_item_seperator_cast", wrap_list_item_seperator_cast, METH_VARARGS, "list_item_seperator_cast"},
 {"svg_image_create", wrap_svg_image_create, METH_VARARGS, "svg_image_create"},
 {"svg_image_set_image", wrap_svg_image_set_image, METH_VARARGS, "svg_image_set_image"},
+{"svg_image_set_cache_mode", wrap_svg_image_set_cache_mode, METH_VARARGS, "svg_image_set_cache_mode"},
+{"svg_image_set_draw_type", wrap_svg_image_set_draw_type, METH_VARARGS, "svg_image_set_draw_type"},
 {"svg_image_cast", wrap_svg_image_cast, METH_VARARGS, "svg_image_cast"},
+{"svg_image_t_get_prop_is_cache_mode", wrap_svg_image_t_get_prop_is_cache_mode, METH_VARARGS, "svg_image_t_get_prop_is_cache_mode"},
+{"svg_image_t_get_prop_draw_type", wrap_svg_image_t_get_prop_draw_type, METH_VARARGS, "svg_image_t_get_prop_draw_type"},
 {"idle_info_cast", wrap_idle_info_cast, METH_VARARGS, "idle_info_cast"},
 {"idle_info_t_get_prop_ctx", wrap_idle_info_t_get_prop_ctx, METH_VARARGS, "idle_info_t_get_prop_ctx"},
 {"idle_info_t_get_prop_extra_ctx", wrap_idle_info_t_get_prop_extra_ctx, METH_VARARGS, "idle_info_t_get_prop_extra_ctx"},
@@ -23619,15 +24549,18 @@ static PyMethodDef awtk_methods[] = {
 {"combo_box_reset_options", wrap_combo_box_reset_options, METH_VARARGS, "combo_box_reset_options"},
 {"combo_box_count_options", wrap_combo_box_count_options, METH_VARARGS, "combo_box_count_options"},
 {"combo_box_set_selected_index", wrap_combo_box_set_selected_index, METH_VARARGS, "combo_box_set_selected_index"},
+{"combo_box_set_selected_index_by_text", wrap_combo_box_set_selected_index_by_text, METH_VARARGS, "combo_box_set_selected_index_by_text"},
 {"combo_box_set_localize_options", wrap_combo_box_set_localize_options, METH_VARARGS, "combo_box_set_localize_options"},
 {"combo_box_set_value", wrap_combo_box_set_value, METH_VARARGS, "combo_box_set_value"},
 {"combo_box_set_item_height", wrap_combo_box_set_item_height, METH_VARARGS, "combo_box_set_item_height"},
 {"combo_box_append_option", wrap_combo_box_append_option, METH_VARARGS, "combo_box_append_option"},
 {"combo_box_remove_option", wrap_combo_box_remove_option, METH_VARARGS, "combo_box_remove_option"},
+{"combo_box_remove_option_by_index", wrap_combo_box_remove_option_by_index, METH_VARARGS, "combo_box_remove_option_by_index"},
 {"combo_box_set_options", wrap_combo_box_set_options, METH_VARARGS, "combo_box_set_options"},
 {"combo_box_get_value", wrap_combo_box_get_value, METH_VARARGS, "combo_box_get_value"},
 {"combo_box_has_option_text", wrap_combo_box_has_option_text, METH_VARARGS, "combo_box_has_option_text"},
 {"combo_box_get_text", wrap_combo_box_get_text, METH_VARARGS, "combo_box_get_text"},
+{"combo_box_get_text_of_selected", wrap_combo_box_get_text_of_selected, METH_VARARGS, "combo_box_get_text_of_selected"},
 {"combo_box_t_get_prop_open_window", wrap_combo_box_t_get_prop_open_window, METH_VARARGS, "combo_box_t_get_prop_open_window"},
 {"combo_box_t_get_prop_theme_of_popup", wrap_combo_box_t_get_prop_theme_of_popup, METH_VARARGS, "combo_box_t_get_prop_theme_of_popup"},
 {"combo_box_t_get_prop_selected_index", wrap_combo_box_t_get_prop_selected_index, METH_VARARGS, "combo_box_t_get_prop_selected_index"},
@@ -23643,9 +24576,11 @@ static PyMethodDef awtk_methods[] = {
 {"overlay_create", wrap_overlay_create, METH_VARARGS, "overlay_create"},
 {"overlay_set_click_through", wrap_overlay_set_click_through, METH_VARARGS, "overlay_set_click_through"},
 {"overlay_set_always_on_top", wrap_overlay_set_always_on_top, METH_VARARGS, "overlay_set_always_on_top"},
+{"overlay_set_modeless", wrap_overlay_set_modeless, METH_VARARGS, "overlay_set_modeless"},
 {"overlay_cast", wrap_overlay_cast, METH_VARARGS, "overlay_cast"},
 {"overlay_t_get_prop_click_through", wrap_overlay_t_get_prop_click_through, METH_VARARGS, "overlay_t_get_prop_click_through"},
 {"overlay_t_get_prop_always_on_top", wrap_overlay_t_get_prop_always_on_top, METH_VARARGS, "overlay_t_get_prop_always_on_top"},
+{"overlay_t_get_prop_modeless", wrap_overlay_t_get_prop_modeless, METH_VARARGS, "overlay_t_get_prop_modeless"},
 {"popup_create", wrap_popup_create, METH_VARARGS, "popup_create"},
 {"popup_cast", wrap_popup_cast, METH_VARARGS, "popup_cast"},
 {"popup_set_close_when_click", wrap_popup_set_close_when_click, METH_VARARGS, "popup_set_close_when_click"},
@@ -23657,8 +24592,10 @@ static PyMethodDef awtk_methods[] = {
 {"spin_box_create", wrap_spin_box_create, METH_VARARGS, "spin_box_create"},
 {"spin_box_cast", wrap_spin_box_cast, METH_VARARGS, "spin_box_cast"},
 {"spin_box_set_easy_touch_mode", wrap_spin_box_set_easy_touch_mode, METH_VARARGS, "spin_box_set_easy_touch_mode"},
+{"spin_box_set_button_position", wrap_spin_box_set_button_position, METH_VARARGS, "spin_box_set_button_position"},
 {"spin_set_repeat", wrap_spin_set_repeat, METH_VARARGS, "spin_set_repeat"},
 {"spin_box_t_get_prop_easy_touch_mode", wrap_spin_box_t_get_prop_easy_touch_mode, METH_VARARGS, "spin_box_t_get_prop_easy_touch_mode"},
+{"spin_box_t_get_prop_button_position", wrap_spin_box_t_get_prop_button_position, METH_VARARGS, "spin_box_t_get_prop_button_position"},
 {"system_bar_create", wrap_system_bar_create, METH_VARARGS, "system_bar_create"},
 {"system_bar_cast", wrap_system_bar_cast, METH_VARARGS, "system_bar_cast"},
 {"combo_box_ex_create", wrap_combo_box_ex_create, METH_VARARGS, "combo_box_ex_create"},

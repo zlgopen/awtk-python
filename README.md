@@ -137,3 +137,11 @@ def application_init():
 setup(application_init, "demo", 320, 480, TAppType.DESKTOP)
 
 ```
+
+## Problems
+
+* Python.h: No such file or directory
+
+```
+sudo apt-get install python3-dev
+```

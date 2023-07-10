@@ -204,3 +204,9 @@ pyobject_t wrap_tk_assets_init(pyobject_t self, pyobject_t pyargs) {
 
   return Py_BuildValue("i", RET_OK);
 }
+
+pyobject_t wrap_locale_infos_on(pyobject_t self, pyobject_t args) {
+  assert(!"not supported");
+  return Py_BuildValue("i", RET_FAIL);
+}
+
