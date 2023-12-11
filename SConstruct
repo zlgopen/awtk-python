@@ -21,8 +21,11 @@ if OS_NAME == "Linux":
   PYTHON_LIB_PATH = "/usr/lib/x86_64-linux-gnu/"
 elif OS_NAME == "Darwin":
   PYTHON_ROOT="/usr/local/opt/python@"+PYTHON_VERSION+"/Frameworks/Python.framework/Versions/"+PYTHON_VERSION
+  PYTHON_ROOT="/opt/homebrew/Cellar/python@3.11/3.11.5/Frameworks/Python.framework/Versions/"+PYTHON_VERSION
+
   PYTHON_LIB_PATH = PYTHON_ROOT + "/lib"
   PYTHON_INC = PYTHON_ROOT + "/include/python"+PYTHON_VERSION
+
 else:
 	PYTHON_LIB_NAME = "python"+str(sys.version_info[0])
 

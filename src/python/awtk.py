@@ -1596,6 +1596,27 @@ class TValue(object):
 
 
   #
+  # 判断两个value是否相同。
+  # 
+  # @param other value对象。
+  #
+  # @return 为空值返回TRUE，否则返回FALSE。
+  #
+  def equal(self, other): 
+      return value_equal(awtk_get_native_obj(self), awtk_get_native_obj(other))
+
+
+  #
+  # 转换为int的值。
+  # 
+  #
+  # @return 值。
+  #
+  def int(self): 
+      return value_int(awtk_get_native_obj(self))
+
+
+  #
   # 设置类型为int的值。
   # 
   # @param value 待设置的值。
@@ -1798,6 +1819,18 @@ class TGlobal(object):
   @classmethod
   def quit(cls): 
       return tk_quit()
+
+
+  #
+  # 退出TK事件主循环。
+  # 
+  # @param delay_ms 延迟退出的时间。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  @classmethod
+  def quit_ex(cls, delay_ms): 
+      return tk_quit_ex(delay_ms)
 
 
   #
@@ -2778,24 +2811,6 @@ class TEventType:
   MOVE_RESIZE = EVT_MOVE_RESIZE()
 
   #
-  # 控件的值即将改变的事件名(value_change_event_t)。
-  #
-  #
-  VALUE_WILL_CHANGE = EVT_VALUE_WILL_CHANGE()
-
-  #
-  # 控件的值改变的事件名(value_change_event_t)。
-  #
-  #
-  VALUE_CHANGED = EVT_VALUE_CHANGED()
-
-  #
-  # 控件的值持续改变(如编辑器正在编辑)的事件名(value_change_event_t)。
-  #
-  #
-  VALUE_CHANGING = EVT_VALUE_CHANGING()
-
-  #
   # 绘制的事件名(paint_event_t)。
   #
   #
@@ -3107,13 +3122,13 @@ class TEventType:
   MULTI_GESTURE = EVT_MULTI_GESTURE()
 
   #
-  # 页面改变了(event_t)。
+  # 当前看到的页面改变了(event_t)。
   #
   #
   PAGE_CHANGED = EVT_PAGE_CHANGED()
 
   #
-  # 页面正在改变(offset_change_event_t)。
+  # 当前看到的页面正在改变(offset_change_event_t)。
   #
   #
   PAGE_CHANGING = EVT_PAGE_CHANGING()
@@ -3183,6 +3198,18 @@ class TEventType:
   #
   #
   LOCALE_INFOS_UNLOAD_INFO = EVT_LOCALE_INFOS_UNLOAD_INFO()
+
+  #
+  # 控件进入激活状态(event_t)。
+  #
+  #
+  ACTIVATED = EVT_ACTIVATED()
+
+  #
+  # 控件退出激活状态(event_t)。
+  #
+  #
+  UNACTIVATED = EVT_UNACTIVATED()
 
   #
   # event queue其它请求编号起始值。
@@ -3273,6 +3300,30 @@ class TEventType:
   #
   #
   DESTROY = EVT_DESTROY()
+
+  #
+  # 值即将改变的事件名(value_change_event_t)。
+  #
+  #
+  VALUE_WILL_CHANGE = EVT_VALUE_WILL_CHANGE()
+
+  #
+  # 值改变的事件名(value_change_event_t)。
+  #
+  #
+  VALUE_CHANGED = EVT_VALUE_CHANGED()
+
+  #
+  # 值持续改变(如编辑器正在编辑)的事件名(value_change_event_t)。
+  #
+  #
+  VALUE_CHANGING = EVT_VALUE_CHANGING()
+
+  #
+  # 日志信息。
+  #
+  #
+  LOG_MESSAGE = EVT_LOG_MESSAGE()
 
 #
 # 事件基类。
@@ -4772,7 +4823,7 @@ class TLocaleInfos(object):
   #
   @classmethod
   def ref(cls, name): 
-      return  TLocaleInfos(locale_infos_ref(name))
+      return  TLocaleInfo(locale_infos_ref(name))
 
 
   #
@@ -6826,6 +6877,12 @@ class TWidgetProp:
   WORD_WRAP = WIDGET_PROP_WORD_WRAP()
 
   #
+  # 是否省略。
+  #
+  #
+  ELLIPSES = WIDGET_PROP_ELLIPSES()
+
+  #
   # 文本。
   #
   #
@@ -7570,6 +7627,30 @@ class TWidgetProp:
   #
   #
   DIRTY_RECT = WIDGET_PROP_DIRTY_RECT()
+
+  #
+  # 屏幕保护时间。
+  #
+  #
+  SCREEN_SAVER_TIME = WIDGET_PROP_SCREEN_SAVER_TIME()
+
+  #
+  # 是否显示FPS。
+  #
+  #
+  SHOW_FPS = WIDGET_PROP_SHOW_FPS()
+
+  #
+  # 最大FPS。
+  #
+  #
+  MAX_FPS = WIDGET_PROP_MAX_FPS()
+
+  #
+  # 数据校验脚本。
+  #
+  #
+  VALIDATOR = WIDGET_PROP_VALIDATOR()
 
 #
 # 控件的类型。
@@ -8524,6 +8605,16 @@ class TWidget(object):
 
 
   #
+  # 判断widget拥有高亮属性。
+  # 
+  #
+  # @return 拥有返回 TRUE，没有返回 FALSE。
+  #
+  def has_highlighter(self): 
+      return widget_has_highlighter(awtk_get_native_obj(self))
+
+
+  #
   # 启用指定的style。
   # 
   # @param style style的名称。
@@ -9119,6 +9210,30 @@ class TWidget(object):
 
 
   #
+  # 获取控件指定属性的值。
+  # 
+  # @param name 属性的名称。
+  # @param v 返回属性的值。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def get_prop(self, name, v): 
+      return widget_get_prop(awtk_get_native_obj(self), name, awtk_get_native_obj(v))
+
+
+  #
+  # 设置控件指定属性的值。
+  # 
+  # @param name 属性的名称。
+  # @param v 属性的值。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_prop(self, name, v): 
+      return widget_set_prop(awtk_get_native_obj(self), name, awtk_get_native_obj(v))
+
+
+  #
   # 设置多个参数。
   #>参数之间用&分隔，名称和值之间用=分隔。如: name=awtk&min=10&max=100
   # 
@@ -9680,6 +9795,7 @@ class TWidget(object):
 
   #
   # 设置控件自己的布局参数。
+  #备注：下一帧才会生效数据
   # 
   # @param params 布局参数。
   #
@@ -9691,6 +9807,7 @@ class TWidget(object):
 
   #
   # 设置子控件的布局参数。
+  #备注：下一帧才会生效数据
   # 
   # @param params 布局参数。
   #
@@ -9702,6 +9819,7 @@ class TWidget(object):
 
   #
   # 设置控件自己的布局(缺省布局器)参数(过时，请用widget\_set\_self\_layout)。
+  #备注：下一帧才会生效数据
   # 
   # @param x x参数。
   # @param y y参数。
@@ -11907,6 +12025,12 @@ class TObjectProp:
   #
   CHECKED = OBJECT_PROP_CHECKED()
 
+  #
+  # 选中的索引。
+  #
+  #
+  SELECTED_INDEX = OBJECT_PROP_SELECTED_INDEX()
+
 #
 # 循环记录日志(支持多线程访问)。
 #如果我们把日志写入文件中，随着时间的推移，日志文件会越来越大，最终占满这个磁盘，出现不可预料的错误。
@@ -12184,6 +12308,18 @@ class TRet:
   NO_PERMISSION = RET_NO_PERMISSION()
 
   #
+  # 无效地址。
+  #
+  #
+  INVALID_ADDR = RET_INVALID_ADDR()
+
+  #
+  # 超出范围。
+  #
+  #
+  EXCEED_RANGE = RET_EXCEED_RANGE()
+
+  #
   # 最大值。
   #
   #
@@ -12448,7 +12584,7 @@ class TAssetsManager (TEmitter):
   # @return 返回资源。
   #
   def ref(self, type, name): 
-      return assets_manager_ref(awtk_get_native_obj(self), type, name)
+      return  TAssetInfo(assets_manager_ref(awtk_get_native_obj(self), type, name))
 
 
   #
@@ -12461,7 +12597,7 @@ class TAssetsManager (TEmitter):
   # @return 返回资源。
   #
   def ref_ex(self, type, subtype, name): 
-      return assets_manager_ref_ex(awtk_get_native_obj(self), type, subtype, name)
+      return  TAssetInfo(assets_manager_ref_ex(awtk_get_native_obj(self), type, subtype, name))
 
 
   #
@@ -12473,6 +12609,62 @@ class TAssetsManager (TEmitter):
   #
   def unref(self, info): 
       return assets_manager_unref(awtk_get_native_obj(self), awtk_get_native_obj(info))
+
+
+#
+# 控件动画事件。
+#
+#
+class TWidgetAnimatorEvent (TEvent):
+
+  def __new__(cls, native_obj=0):
+      if native_obj == 0:
+          return None
+      else:
+          if super().__new__ == object.__new__:
+              instance = super().__new__(cls)
+          else:
+              instance = super().__new__(cls, native_obj)
+          instance.nativeObj = native_obj
+          return instance
+    
+  def __init__(self, nativeObj):
+    super(TWidgetAnimatorEvent, self).__init__(nativeObj)
+
+
+  def __eq__(self, other: 'TWidget'):
+      if other is None:
+          return self.nativeObj == 0
+      return self.nativeObj == other.nativeObj
+    
+  #
+  # 把event对象转widget_animator_event_t对象。
+  # 
+  # @param event event对象。
+  #
+  # @return event对象。
+  #
+  @classmethod
+  def cast(cls, event): 
+      return  TWidgetAnimatorEvent(widget_animator_event_cast(awtk_get_native_obj(event)))
+
+
+  #
+  # 控件对象。
+  #
+  #
+  @property
+  def widget(self):
+    return TWidget(widget_animator_event_t_get_prop_widget(self.nativeObj))
+
+
+  #
+  # 控件动画句柄。
+  #
+  #
+  @property
+  def animator(self):
+    return widget_animator_event_t_get_prop_animator(self.nativeObj)
 
 
 #
@@ -12671,45 +12863,7 @@ class TOrientationEvent (TEvent):
 
 
 #
-# 值变化事件。
-#
-#
-class TValueChangeEvent (TEvent):
-
-  def __new__(cls, native_obj=0):
-      if native_obj == 0:
-          return None
-      else:
-          if super().__new__ == object.__new__:
-              instance = super().__new__(cls)
-          else:
-              instance = super().__new__(cls, native_obj)
-          instance.nativeObj = native_obj
-          return instance
-    
-  def __init__(self, nativeObj):
-    super(TValueChangeEvent, self).__init__(nativeObj)
-
-
-  def __eq__(self, other: 'TWidget'):
-      if other is None:
-          return self.nativeObj == 0
-      return self.nativeObj == other.nativeObj
-    
-  #
-  # 把event对象转value_change_event_t对象。
-  # 
-  # @param event event对象。
-  #
-  # @return event对象。
-  #
-  @classmethod
-  def cast(cls, event): 
-      return  TValueChangeEvent(value_change_event_cast(awtk_get_native_obj(event)))
-
-
-#
-# 值变化事件。
+# offset变化事件。
 #
 #
 class TOffsetChangeEvent (TEvent):
@@ -14202,6 +14356,17 @@ class TWindowManager (TWidget):
   #
   def resize(self, w, h): 
       return window_manager_resize(awtk_get_native_obj(self), w, h)
+
+
+  #
+  # 设置原生窗口是否全屏。
+  # 
+  # @param fullscreen 是否全屏
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_fullscreen(self, fullscreen): 
+      return window_manager_set_fullscreen(awtk_get_native_obj(self), fullscreen)
 
 
   #
@@ -20601,6 +20766,17 @@ class TTextSelector (TWidget):
 
 
   #
+  # 是否开启缩写，开启后，当文字长度操作控件长度后，自动变为...
+  # 
+  # @param ellipses 是否开启缩写。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_ellipses(self, ellipses): 
+      return text_selector_set_ellipses(awtk_get_native_obj(self), ellipses)
+
+
+  #
   # 可见的选项数量(只能是1或者3或者5，缺省为5)。
   #
   #
@@ -20708,6 +20884,19 @@ class TTextSelector (TWidget):
   @enable_value_animator.setter
   def enable_value_animator(self, v):
     text_selector_set_enable_value_animator(self.nativeObj, v)
+
+
+  #
+  # 是否开启缩写，开启后，当文字长度操作控件长度后，自动变为...
+  #
+  #
+  @property
+  def ellipses(self):
+    return text_selector_t_get_prop_ellipses(self.nativeObj)
+
+  @ellipses.setter
+  def ellipses(self, v):
+    text_selector_set_ellipses(self.nativeObj, v)
 
 
   #
@@ -21599,6 +21788,82 @@ class TCmdExecEvent (TEvent):
   @property
   def can_exec(self):
     return cmd_exec_event_t_get_prop_can_exec(self.nativeObj)
+
+
+#
+# 值变化事件。
+#
+#
+class TValueChangeEvent (TEvent):
+
+  def __new__(cls, native_obj=0):
+      if native_obj == 0:
+          return None
+      else:
+          if super().__new__ == object.__new__:
+              instance = super().__new__(cls)
+          else:
+              instance = super().__new__(cls, native_obj)
+          instance.nativeObj = native_obj
+          return instance
+    
+  def __init__(self, nativeObj):
+    super(TValueChangeEvent, self).__init__(nativeObj)
+
+
+  def __eq__(self, other: 'TWidget'):
+      if other is None:
+          return self.nativeObj == 0
+      return self.nativeObj == other.nativeObj
+    
+  #
+  # 把event对象转value_change_event_t对象。
+  # 
+  # @param event event对象。
+  #
+  # @return event对象。
+  #
+  @classmethod
+  def cast(cls, event): 
+      return  TValueChangeEvent(value_change_event_cast(awtk_get_native_obj(event)))
+
+
+#
+# 日志事件。
+#
+#
+class TLogMessageEvent (TEvent):
+
+  def __new__(cls, native_obj=0):
+      if native_obj == 0:
+          return None
+      else:
+          if super().__new__ == object.__new__:
+              instance = super().__new__(cls)
+          else:
+              instance = super().__new__(cls, native_obj)
+          instance.nativeObj = native_obj
+          return instance
+    
+  def __init__(self, nativeObj):
+    super(TLogMessageEvent, self).__init__(nativeObj)
+
+
+  def __eq__(self, other: 'TWidget'):
+      if other is None:
+          return self.nativeObj == 0
+      return self.nativeObj == other.nativeObj
+    
+  #
+  # 把event对象转log_message_event_t对象。
+  # 
+  # @param event event对象。
+  #
+  # @return event对象。
+  #
+  @classmethod
+  def cast(cls, event): 
+      return  TLogMessageEvent(log_message_event_cast(awtk_get_native_obj(event)))
 
 
 #
@@ -23322,6 +23587,17 @@ class TEdit (TWidget):
 
 
   #
+  # fscript脚本，用输入校验，如：(len(text) 3) && (len(text) < 10)。
+  #
+  #> 用于校验输入的文本是否合法。
+  #
+  #
+  @property
+  def validator(self):
+    return edit_t_get_prop_validator(self.nativeObj)
+
+
+  #
   # 自定义软键盘名称。AWTK优先查找keyboard属性设置的键盘文件名（该键盘的XML文件需要在default\raw\ui目录下存在），如果没有指定keyboard，就找input_type设置的键盘类型。如果指定为空字符串，则表示不需要软键盘。
   #
   #
@@ -23785,6 +24061,17 @@ class TGroupBox (TWidget):
 
 
   #
+  # 设置选中的单选按钮的索引。
+  # 
+  # @param value 选中的单选按钮的索引。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_value(self, value): 
+      return group_box_set_value(awtk_get_native_obj(self), value)
+
+
+  #
   # 转换为group_box对象(供脚本语言使用)。
   # 
   # @param widget group_box对象。
@@ -23794,6 +24081,19 @@ class TGroupBox (TWidget):
   @classmethod
   def cast(cls, widget): 
       return  TGroupBox(group_box_cast(awtk_get_native_obj(widget)))
+
+
+  #
+  # 选中的单选按钮的索引。
+  #
+  #
+  @property
+  def value(self):
+    return group_box_t_get_prop_value(self.nativeObj)
+
+  @value.setter
+  def value(self, v):
+    group_box_set_value(self.nativeObj, v)
 
 
 #
@@ -23918,6 +24218,17 @@ class TLabel (TWidget):
 
 
   #
+  # 是否开启缩写，开启后，当文字长度操作控件长度后，自动变为...
+  # 
+  # @param ellipses 是否开启缩写。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_ellipses(self, ellipses): 
+      return label_set_ellipses(awtk_get_native_obj(self), ellipses)
+
+
+  #
   # 根据文本内容调节控件大小。
   # 
   # @param min_w 最小宽度。
@@ -23982,6 +24293,20 @@ class TLabel (TWidget):
   @word_wrap.setter
   def word_wrap(self, v):
     label_set_word_wrap(self.nativeObj, v)
+
+
+  #
+  # 是否开启缩写，开启后，当文字长度操作控件长度后，自动变为...
+  #> 和换行是冲突的，换行后，该属性不生效
+  #
+  #
+  @property
+  def ellipses(self):
+    return label_t_get_prop_ellipses(self.nativeObj)
+
+  @ellipses.setter
+  def ellipses(self, v):
+    label_set_ellipses(self.nativeObj, v)
 
 
   #
@@ -26721,9 +27046,25 @@ class TObjectArray (TObject):
 
 
 #
-# 对象接口的缺省实现。
+# // 创建默认对象
+#tk_object_t *obj = object_default_create();
 #
-#内部使用有序数组保存所有属性，可以快速查找指定名称的属性。
+#// 设置属性
+#tk_object_set_prop_str(obj, "name", "awplc");
+#tk_object_set_prop_int(obj, "age", 18);
+#tk_object_set_prop_double(obj, "weight", 60.5);
+#
+#// 获取属性
+#ENSURE(tk_str_eq(tk_object_get_prop_str(obj, "name"), "awplc"));
+#ENSURE(tk_object_get_prop_int(obj, "age", 0) == 18);
+#ENSURE(tk_object_get_prop_double(obj, "weight", 0) == 60.5);
+#
+#// 遍历属性
+#tk_object_foreach_prop(obj, visit_obj, NULL);
+#
+#// 释放对象
+#TK_OBJECT_UNREF(obj);
+#```
 #
 #
 class TObjectDefault (TObject):
@@ -26789,6 +27130,17 @@ class TObjectDefault (TObject):
   #
   def clear_props(self): 
       return object_default_clear_props(awtk_get_native_obj(self))
+
+
+  #
+  # 设置属性值时不改变属性的类型。
+  # 
+  # @param keep_prop_type 不改变属性的类型。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_keep_prop_type(self, keep_prop_type): 
+      return object_default_set_keep_prop_type(awtk_get_native_obj(self), keep_prop_type)
 
 
 #
