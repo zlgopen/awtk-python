@@ -5,7 +5,13 @@ from distutils.core import setup, Extension
 ##adapted from https://github.com/CUITzhaoqi/awtk-python/blob/master/setup.py
 
 sys.path.insert(0, '../awtk/')
+sys.path.insert(0, '../awtk/scripts')
 sys.path.insert(0, 'build/awtk/')
+
+import compile_config
+complie_helper = compile_config.complie_helper()
+compile_config.set_curr_config(complie_helper)
+
 import awtk_config as awtk
 
 include_dirs = awtk.CPPPATH
