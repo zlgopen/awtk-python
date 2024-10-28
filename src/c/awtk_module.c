@@ -81,6 +81,7 @@
 #include "time_clock/time_clock.h"
 #include "timer_widget/timer_widget.h"
 #include "tkc/event.h"
+#include "tkc/named_value_hash.h"
 #include "widgets/app_bar.h"
 #include "widgets/button_group.h"
 #include "widgets/button.h"
@@ -116,6 +117,7 @@
 #include "tkc/idle_info.h"
 #include "tkc/object_array.h"
 #include "tkc/object_default.h"
+#include "tkc/object_hash.h"
 #include "tkc/timer_info.h"
 #include "widgets/calibration_win.h"
 #include "widgets/combo_box.h"
@@ -1369,6 +1371,19 @@ pyobject_t wrap_object_set_prop_uint64(pyobject_t self, pyobject_t pyargs) {
   }
 
   ret = (ret_t)object_set_prop_uint64(obj, name, value);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_object_clear_props(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  object_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)object_clear_props(obj);
   return Py_BuildValue("i", ret);
 }
 
@@ -3150,6 +3165,33 @@ pyobject_t wrap_event_from_name(pyobject_t self, pyobject_t pyargs) {
   }
 
   ret = (int32_t)event_from_name(name);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_event_register_custom_name(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  int32_t event_type = 0;
+  const char* name = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "is" , &event_type, &name)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)event_register_custom_name(event_type, name);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_event_unregister_custom_name(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  const char* name = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "s" , &name)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)event_unregister_custom_name(name);
   return Py_BuildValue("i", ret);
 }
 
@@ -11432,6 +11474,33 @@ pyobject_t wrap_ui_load_event_t_get_prop_name(pyobject_t self, pyobject_t pyargs
   return Py_BuildValue("s", obj->name);
 }
 
+pyobject_t wrap_font_manager_set_standard_font_size(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  font_manager_t* fm = NULL;
+  bool_t is_standard = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&b" , &__parse_voidp, &fm, &is_standard)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)font_manager_set_standard_font_size(fm, is_standard);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_font_manager_get_standard_font_size(pyobject_t self, pyobject_t pyargs) {
+  bool_t ret = 0;
+  font_manager_t* fm = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &fm)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (bool_t)font_manager_get_standard_font_size(fm);
+  return Py_BuildValue("b", ret);
+}
+
 pyobject_t wrap_font_manager_unload_font(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   font_manager_t* fm = NULL;
@@ -18452,6 +18521,58 @@ pyobject_t wrap_log_message_event_cast(pyobject_t self, pyobject_t pyargs) {
   return PyLong_FromVoidPtr((void*)ret);
 }
 
+pyobject_t wrap_named_value_hash_create(pyobject_t self, pyobject_t pyargs) {
+  named_value_hash_t* ret = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "" )) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (named_value_hash_t*)named_value_hash_create();
+  return PyLong_FromVoidPtr((void*)ret);
+}
+
+pyobject_t wrap_named_value_hash_set_name(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  named_value_hash_t* nvh = NULL;
+  const char* name = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&s" , &__parse_voidp, &nvh, &name)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)named_value_hash_set_name(nvh, name);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_named_value_hash_clone(pyobject_t self, pyobject_t pyargs) {
+  named_value_hash_t* ret = NULL;
+  named_value_hash_t* nvh = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &nvh)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (named_value_hash_t*)named_value_hash_clone(nvh);
+  return PyLong_FromVoidPtr((void*)ret);
+}
+
+pyobject_t wrap_named_value_hash_get_hash_from_str(pyobject_t self, pyobject_t pyargs) {
+  uint64_t ret = 0;
+  const char* str = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "s" , &str)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (uint64_t)named_value_hash_get_hash_from_str(str);
+  return Py_BuildValue("i", ret);
+}
+
 pyobject_t wrap_app_bar_create(pyobject_t self, pyobject_t pyargs) {
   widget_t* ret = NULL;
   widget_t* parent = NULL;
@@ -22118,6 +22239,45 @@ pyobject_t wrap_object_default_set_name_case_insensitive(pyobject_t self, pyobje
   return Py_BuildValue("i", ret);
 }
 
+pyobject_t wrap_object_hash_create(pyobject_t self, pyobject_t pyargs) {
+  object_t* ret = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "" )) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (object_t*)object_hash_create();
+  return PyLong_FromVoidPtr((void*)ret);
+}
+
+pyobject_t wrap_object_hash_create_ex(pyobject_t self, pyobject_t pyargs) {
+  object_t* ret = NULL;
+  bool_t enable_path = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "b" , &enable_path)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (object_t*)object_hash_create_ex(enable_path);
+  return PyLong_FromVoidPtr((void*)ret);
+}
+
+pyobject_t wrap_object_hash_set_keep_prop_type(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  object_t* obj = NULL;
+  bool_t keep_prop_type = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&b" , &__parse_voidp, &obj, &keep_prop_type)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)object_hash_set_keep_prop_type(obj, keep_prop_type);
+  return Py_BuildValue("i", ret);
+}
+
 pyobject_t wrap_timer_info_cast(pyobject_t self, pyobject_t pyargs) {
   timer_info_t* ret = NULL;
   timer_info_t* timer = NULL;
@@ -23062,6 +23222,7 @@ static PyMethodDef awtk_methods[] = {
 {"object_set_prop_int64", wrap_object_set_prop_int64, METH_VARARGS, "object_set_prop_int64"},
 {"object_get_prop_uint64", wrap_object_get_prop_uint64, METH_VARARGS, "object_get_prop_uint64"},
 {"object_set_prop_uint64", wrap_object_set_prop_uint64, METH_VARARGS, "object_set_prop_uint64"},
+{"object_clear_props", wrap_object_clear_props, METH_VARARGS, "object_clear_props"},
 {"object_t_get_prop_ref_count", wrap_object_t_get_prop_ref_count, METH_VARARGS, "object_t_get_prop_ref_count"},
 {"object_t_get_prop_name", wrap_object_t_get_prop_name, METH_VARARGS, "object_t_get_prop_name"},
 {"value_set_bool", wrap_value_set_bool, METH_VARARGS, "value_set_bool"},
@@ -23301,6 +23462,8 @@ static PyMethodDef awtk_methods[] = {
 {"EVT_VALUE_CHANGING", get_EVT_VALUE_CHANGING, METH_VARARGS, "EVT_VALUE_CHANGING"},
 {"EVT_LOG_MESSAGE", get_EVT_LOG_MESSAGE, METH_VARARGS, "EVT_LOG_MESSAGE"},
 {"event_from_name", wrap_event_from_name, METH_VARARGS, "event_from_name"},
+{"event_register_custom_name", wrap_event_register_custom_name, METH_VARARGS, "event_register_custom_name"},
+{"event_unregister_custom_name", wrap_event_unregister_custom_name, METH_VARARGS, "event_unregister_custom_name"},
 {"event_cast", wrap_event_cast, METH_VARARGS, "event_cast"},
 {"event_get_type", wrap_event_get_type, METH_VARARGS, "event_get_type"},
 {"event_create", wrap_event_create, METH_VARARGS, "event_create"},
@@ -24458,6 +24621,8 @@ static PyMethodDef awtk_methods[] = {
 {"ui_load_event_cast", wrap_ui_load_event_cast, METH_VARARGS, "ui_load_event_cast"},
 {"ui_load_event_t_get_prop_root", wrap_ui_load_event_t_get_prop_root, METH_VARARGS, "ui_load_event_t_get_prop_root"},
 {"ui_load_event_t_get_prop_name", wrap_ui_load_event_t_get_prop_name, METH_VARARGS, "ui_load_event_t_get_prop_name"},
+{"font_manager_set_standard_font_size", wrap_font_manager_set_standard_font_size, METH_VARARGS, "font_manager_set_standard_font_size"},
+{"font_manager_get_standard_font_size", wrap_font_manager_get_standard_font_size, METH_VARARGS, "font_manager_get_standard_font_size"},
 {"font_manager_unload_font", wrap_font_manager_unload_font, METH_VARARGS, "font_manager_unload_font"},
 {"font_manager_shrink_cache", wrap_font_manager_shrink_cache, METH_VARARGS, "font_manager_shrink_cache"},
 {"font_manager_unload_all", wrap_font_manager_unload_all, METH_VARARGS, "font_manager_unload_all"},
@@ -25001,6 +25166,10 @@ static PyMethodDef awtk_methods[] = {
 {"cmd_exec_event_t_get_prop_can_exec", wrap_cmd_exec_event_t_get_prop_can_exec, METH_VARARGS, "cmd_exec_event_t_get_prop_can_exec"},
 {"value_change_event_cast", wrap_value_change_event_cast, METH_VARARGS, "value_change_event_cast"},
 {"log_message_event_cast", wrap_log_message_event_cast, METH_VARARGS, "log_message_event_cast"},
+{"named_value_hash_create", wrap_named_value_hash_create, METH_VARARGS, "named_value_hash_create"},
+{"named_value_hash_set_name", wrap_named_value_hash_set_name, METH_VARARGS, "named_value_hash_set_name"},
+{"named_value_hash_clone", wrap_named_value_hash_clone, METH_VARARGS, "named_value_hash_clone"},
+{"named_value_hash_get_hash_from_str", wrap_named_value_hash_get_hash_from_str, METH_VARARGS, "named_value_hash_get_hash_from_str"},
 {"app_bar_create", wrap_app_bar_create, METH_VARARGS, "app_bar_create"},
 {"app_bar_cast", wrap_app_bar_cast, METH_VARARGS, "app_bar_cast"},
 {"button_group_create", wrap_button_group_create, METH_VARARGS, "button_group_create"},
@@ -25275,6 +25444,9 @@ static PyMethodDef awtk_methods[] = {
 {"object_default_clear_props", wrap_object_default_clear_props, METH_VARARGS, "object_default_clear_props"},
 {"object_default_set_keep_prop_type", wrap_object_default_set_keep_prop_type, METH_VARARGS, "object_default_set_keep_prop_type"},
 {"object_default_set_name_case_insensitive", wrap_object_default_set_name_case_insensitive, METH_VARARGS, "object_default_set_name_case_insensitive"},
+{"object_hash_create", wrap_object_hash_create, METH_VARARGS, "object_hash_create"},
+{"object_hash_create_ex", wrap_object_hash_create_ex, METH_VARARGS, "object_hash_create_ex"},
+{"object_hash_set_keep_prop_type", wrap_object_hash_set_keep_prop_type, METH_VARARGS, "object_hash_set_keep_prop_type"},
 {"timer_info_cast", wrap_timer_info_cast, METH_VARARGS, "timer_info_cast"},
 {"timer_info_t_get_prop_ctx", wrap_timer_info_t_get_prop_ctx, METH_VARARGS, "timer_info_t_get_prop_ctx"},
 {"timer_info_t_get_prop_extra_ctx", wrap_timer_info_t_get_prop_extra_ctx, METH_VARARGS, "timer_info_t_get_prop_extra_ctx"},

@@ -1,6 +1,6 @@
 import sys
 import platform
-from distutils.core import setup, Extension
+from setuptools import setup, Extension
 
 ##adapted from https://github.com/CUITzhaoqi/awtk-python/blob/master/setup.py
 

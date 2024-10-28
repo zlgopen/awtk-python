@@ -1279,6 +1279,16 @@ class TObject (TEmitter):
 
 
   #
+  # 清除全部属性。
+  # 
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def clear_props(self): 
+      return object_clear_props(awtk_get_native_obj(self))
+
+
+  #
   # 引用计数。
   #
   #
@@ -3361,15 +3371,40 @@ class TEvent(object):
       return self.nativeObj == other.nativeObj
     
   #
-  # 将事件名转换成事件的值。
+  # 将事件名转换成事件的类型。
   # 
   # @param name 事件名。
   #
-  # @return 返回事件的值。
+  # @return 返回事件的类型。
   #
   @classmethod
   def from_name(cls, name): 
       return event_from_name(name)
+
+
+  #
+  # 给事件注册名称。
+  # 
+  # @param event_type 事件类型。
+  # @param name 事件名。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  @classmethod
+  def register_custom_name(cls, event_type, name): 
+      return event_register_custom_name(event_type, name)
+
+
+  #
+  # 注销事件名称。
+  # 
+  # @param name 事件名。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  @classmethod
+  def unregister_custom_name(cls, name): 
+      return event_unregister_custom_name(name)
 
 
   #
@@ -5876,8 +5911,8 @@ class TVgcanvas(object):
   # @param x 原点x坐标。
   # @param y 原点y坐标。
   # @param r 半径。
-  # @param start_angle 起始角度。
-  # @param end_angle 结束角度。
+  # @param start_angle 起始角度（单位：弧度）。
+  # @param end_angle 结束角度（单位：弧度）。
   # @param ccw 是否逆时针。
   #
   # @return 返回RET_OK表示成功，否则表示失败。
@@ -5969,7 +6004,7 @@ class TVgcanvas(object):
   #
   # 旋转。
   # 
-  # @param rad 旋转角度(单位弧度)
+  # @param rad 旋转角度(单位：弧度)
   #
   # @return 返回RET_OK表示成功，否则表示失败。
   #
@@ -13707,6 +13742,27 @@ class TFontManager (TEmitter):
           return self.nativeObj == 0
       return self.nativeObj == other.nativeObj
     
+  #
+  # 设置是否使用标准字号
+  # 
+  # @param is_standard 是否使用标准字号
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_standard_font_size(self, is_standard): 
+      return font_manager_set_standard_font_size(awtk_get_native_obj(self), is_standard)
+
+
+  #
+  # 获取是否使用标准字号
+  # 
+  #
+  # @return 返回TRUE表示使用标准字号，否则表示不是。
+  #
+  def get_standard_font_size(self): 
+      return font_manager_get_standard_font_size(awtk_get_native_obj(self))
+
+
   #
   # 卸载指定的字体。
   # 
@@ -22201,6 +22257,86 @@ class TLogMessageEvent (TEvent):
 
 
 #
+# 带有散列值的命名的值。
+#
+#
+class TNamedValueHash (TNamedValue):
+
+  def __new__(cls, native_obj=0):
+      if native_obj == 0:
+          return None
+      else:
+          if super().__new__ == object.__new__:
+              instance = super().__new__(cls)
+          else:
+              instance = super().__new__(cls, native_obj)
+          instance.nativeObj = native_obj
+          return instance
+    
+  def __init__(self, nativeObj):
+    super(TNamedValueHash, self).__init__(nativeObj)
+
+
+  def __eq__(self, other: 'TWidget'):
+      if other is None:
+          return self.nativeObj == 0
+      return self.nativeObj == other.nativeObj
+    
+  #
+  # 创建named_value_hash对象。
+  # 
+  #
+  # @return 返回named_value_hash对象。
+  #
+  @classmethod
+  def create(cls): 
+      return  TNamedValueHash(named_value_hash_create())
+
+
+  #
+  # 设置散列值。
+  # 
+  # @param name 名称。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_name(self, name): 
+      return named_value_hash_set_name(awtk_get_native_obj(self), name)
+
+
+  #
+  # 销毁named_value_hash对象。
+  # 
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def destroy(self): 
+      return named_value_hash_destroy(awtk_get_native_obj(self))
+
+
+  #
+  # 克隆named_value_hash对象。
+  # 
+  #
+  # @return 返回named_value_hash对象。
+  #
+  def clone(self): 
+      return  TNamedValueHash(named_value_hash_clone(awtk_get_native_obj(self)))
+
+
+  #
+  # 获取字符串散列值。
+  # 
+  # @param str 字符串。
+  #
+  # @return 返回散列值。
+  #
+  @classmethod
+  def get_hash_from_str(cls, str): 
+      return named_value_hash_get_hash_from_str(str)
+
+
+#
 # app_bar控件。
 #
 #一个简单的容器控件，一般在窗口的顶部，用于显示本窗口的状态和信息。
@@ -27621,6 +27757,72 @@ class TObjectDefault (TObject):
   #
   def set_name_case_insensitive(self, name_case_insensitive): 
       return object_default_set_name_case_insensitive(awtk_get_native_obj(self), name_case_insensitive)
+
+
+#
+# 对象接口的散列值查询属性的object实现。
+#
+#通用当作 map 数据结构使用，内部用有序数组保存所有属性，因此可以快速查找指定名称的属性。
+#
+#示例
+#
+#
+#
+#
+class TObjectHash (TObject):
+
+  def __new__(cls, native_obj=0):
+      if native_obj == 0:
+          return None
+      else:
+          if super().__new__ == object.__new__:
+              instance = super().__new__(cls)
+          else:
+              instance = super().__new__(cls, native_obj)
+          instance.nativeObj = native_obj
+          return instance
+    
+  def __init__(self, nativeObj):
+    super(TObjectHash, self).__init__(nativeObj)
+
+
+  def __eq__(self, other: 'TWidget'):
+      if other is None:
+          return self.nativeObj == 0
+      return self.nativeObj == other.nativeObj
+    
+  #
+  # 创建对象。
+  # 
+  #
+  # @return 返回object对象。
+  #
+  @classmethod
+  def create(cls): 
+      return  TObjectHash(object_hash_create())
+
+
+  #
+  # 创建对象。
+  # 
+  # @param enable_path 是否支持按路径访问属性。
+  #
+  # @return 返回object对象。
+  #
+  @classmethod
+  def create_ex(cls, enable_path): 
+      return  TObjectHash(object_hash_create_ex(enable_path))
+
+
+  #
+  # 设置属性值时不改变属性的类型。
+  # 
+  # @param keep_prop_type 不改变属性的类型。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_keep_prop_type(self, keep_prop_type): 
+      return object_hash_set_keep_prop_type(awtk_get_native_obj(self), keep_prop_type)
 
 
 #
