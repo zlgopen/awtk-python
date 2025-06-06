@@ -3231,6 +3231,24 @@ class TEventType:
   UI_LOAD = EVT_UI_LOAD()
 
   #
+  # 触摸按下事件名(touch_event_t)。
+  #
+  #
+  TOUCH_DOWN = EVT_TOUCH_DOWN()
+
+  #
+  # 触摸移动事件名(touch_event_t)。
+  #
+  #
+  TOUCH_MOVE = EVT_TOUCH_MOVE()
+
+  #
+  # 触摸抬起事件名(touch_event_t)。
+  #
+  #
+  TOUCH_UP = EVT_TOUCH_UP()
+
+  #
   # event queue其它请求编号起始值。
   #
   #
@@ -3566,18 +3584,6 @@ class TIdle(object):
   @classmethod
   def remove(cls, idle_id): 
       return idle_remove(idle_id)
-
-
-  #
-  # 根据上下文删除所有对应的idle。
-  # 
-  # @param ctx idle回调函数的上下文
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  @classmethod
-  def remove_all_by_ctx(cls, ctx): 
-      return idle_remove_all_by_ctx(ctx)
 
 
 #
@@ -5482,18 +5488,6 @@ class TTimer(object):
 
 
   #
-  # 根据上下文删除所有对应的timer。
-  # 
-  # @param ctx timer回调函数的上下文。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  @classmethod
-  def remove_all_by_ctx(cls, ctx): 
-      return timer_remove_all_by_ctx(ctx)
-
-
-  #
   # 重置指定的timer，重置之后定时器重新开始计时。
   # 
   # @param timer_id timerID。
@@ -5991,7 +5985,7 @@ class TVgcanvas(object):
   #
   # 设置路径填充实心与否。
   #
-  #>CCW(1)为实心，CW(2)为镂空，设置其他则默认根据非零环绕规则判断(nonzero)。
+  #>设置为FALSE为实心，TRUE为镂空。
   # 
   # @param dir 填充方法。
   #
@@ -6081,6 +6075,18 @@ class TVgcanvas(object):
 
   #
   # 矩形裁剪。
+  #备注：
+  #1. 在绘图的时候脏矩形和裁剪区是一样的。
+  #2. 该函数是不合并裁剪区的，所有可能出现裁剪区被扩大导致绘图在脏矩形以外的情况，导致残影的情况。
+  #3. 该函数不支持旋转后调用，会导致裁剪区异常。
+  #........
+  #rect_t r;
+  #rect_t r_save;
+  #r = rectf_init(c->ox, c->oy, widget->w, widget->h);
+  #r_save = *vgcanvas_get_clip_rect(vg);
+  #r = rectf_intersect(&r, &r_save);
+  #vgcanvas_clip_rect(vg, (float_t)r.x, (float_t)r.y, (float_t)r.w, (float_t)r.h);
+  #........
   # 
   # @param x x坐标。
   # @param y y坐标。
@@ -6109,9 +6115,11 @@ class TVgcanvas(object):
 
   #
   # 设置一个与前一个裁剪区做交集的矩形裁剪区。
-  #如果下面这种情况，则不能直接调用 rect_intersect 函数来做矩形交集和 vgcanvas_clip_rect 函数设置裁剪区，而采用本函数做交集。
+  #备注：
+  #1. 如果下面这种情况，则不能直接调用 rect_intersect 函数来做矩形交集和 vgcanvas_clip_rect 函数设置裁剪区，而采用本函数做交集。
   #由于缩放和旋转以及平移会导致 vg 的坐标系和上一个裁剪区的坐标系不同，
   #导致直接使用做交集的话，裁剪区会出错。
+  #2. 该函数不支持旋转后调用，会导致裁剪区异常。
   #
   #```
   #vgcanvas_clip_rect(vg, old_r.x, old_r.y, old_r.w, old_r.h);
@@ -6240,14 +6248,14 @@ class TVgcanvas(object):
   # 绘制图片。
   # 
   # @param img 图片。
-  # @param sx sx
-  # @param sy sy
-  # @param sw sw
-  # @param sh sh
-  # @param dx dx
-  # @param dy dy
-  # @param dw dw
-  # @param dh dh
+  # @param sx 原图区域的 x
+  # @param sy 原图区域的 y
+  # @param sw 原图区域的 w
+  # @param sh 原图区域的 h
+  # @param dx 绘制区域的 x
+  # @param dy 绘制区域的 y
+  # @param dw 绘制区域的 w
+  # @param dh 绘制区域的 h
   #
   # @return 返回RET_OK表示成功，否则表示失败。
   #
@@ -6286,14 +6294,14 @@ class TVgcanvas(object):
   #绘制图标时会根据屏幕密度进行自动缩放，而绘制普通图片时不会。
   # 
   # @param img 图片。
-  # @param sx sx
-  # @param sy sy
-  # @param sw sw
-  # @param sh sh
-  # @param dx dx
-  # @param dy dy
-  # @param dw dw
-  # @param dh dh
+  # @param sx 原图区域的 x
+  # @param sy 原图区域的 y
+  # @param sw 原图区域的 w
+  # @param sh 原图区域的 h
+  # @param dx 绘制区域的 x
+  # @param dy 绘制区域的 y
+  # @param dw 绘制区域的 w
+  # @param dh 绘制区域的 h
   #
   # @return 返回RET_OK表示成功，否则表示失败。
   #
@@ -7389,6 +7397,12 @@ class TWidgetProp:
   ENABLE_PREVIEW = WIDGET_PROP_ENABLE_PREVIEW()
 
   #
+  # 是否为 accept 状态
+  #
+  #
+  IS_ACCEPT_STATUS = WIDGET_PROP_IS_ACCEPT_STATUS()
+
+  #
   # 是否启用点击穿透。
   #
   #
@@ -7647,6 +7661,31 @@ class TWidgetProp:
   MOVE_FOCUS_RIGHT_KEY = WIDGET_PROP_MOVE_FOCUS_RIGHT_KEY()
 
   #
+  # 窗口中按下 Enter 默认触发单击 button 控件名字。
+  #备注：如果控件接管了 Enter 的话，accept_button 控件是不会进入 focused 风格，例如：设置 accept_return 为 true 或者 widget->vt->return_key_to_activate 为 true
+  #
+  #
+  ACCEPT_BUTTON = WIDGET_PROP_ACCEPT_BUTTON()
+
+  #
+  # 窗口中按下 Esc 默认触发单击 button 控件名字。
+  #
+  #
+  CANCEL_BUTTON = WIDGET_PROP_CANCEL_BUTTON()
+
+  #
+  # 控件中是否支持 Enter 按钮输入。
+  #
+  #
+  ACCEPT_RETRUN = WIDGET_PROP_ACCEPT_RETRUN()
+
+  #
+  # 控件中是否支持 Tab 按钮输入。
+  #
+  #
+  ACCEPT_TAB = WIDGET_PROP_ACCEPT_TAB()
+
+  #
   # 行数。
   #
   #
@@ -7717,6 +7756,18 @@ class TWidgetProp:
   #
   #
   VALIDATOR = WIDGET_PROP_VALIDATOR()
+
+  #
+  # 标识是否将当前控件状态同步到子控件中。
+  #
+  #
+  SYNC_STATE_TO_CHILDREN = WIDGET_PROP_SYNC_STATE_TO_CHILDREN()
+
+  #
+  # 标识是否接收父控件的状态同步。
+  #
+  #
+  STATE_FROM_PARENT_SYNC = WIDGET_PROP_STATE_FROM_PARENT_SYNC()
 
 #
 # 控件的类型。
@@ -9153,6 +9204,28 @@ class TWidget(object):
 
 
   #
+  # 标识是否将当前控件状态同步到子控件中。
+  # 
+  # @param sync_state_to_children 是否将当前控件状态同步到子控件中。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_sync_state_to_children(self, sync_state_to_children): 
+      return widget_set_sync_state_to_children(awtk_get_native_obj(self), sync_state_to_children)
+
+
+  #
+  # 标识是否接收父控件的状态同步。
+  # 
+  # @param state_from_parent_sync 是否接收父控件的状态同步。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_state_from_parent_sync(self, state_from_parent_sync): 
+      return widget_set_state_from_parent_sync(awtk_get_native_obj(self), state_from_parent_sync)
+
+
+  #
   # 设置控件的不透明度。
   #
   #>在嵌入式平台，半透明效果会使性能大幅下降，请谨慎使用。
@@ -9395,18 +9468,6 @@ class TWidget(object):
   #
   def get_prop_str(self, name, defval): 
       return widget_get_prop_str(awtk_get_native_obj(self), name, defval)
-
-
-  #
-  # 设置指针格式的属性。
-  # 
-  # @param name 属性的名称。
-  # @param v 属性的值。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_prop_pointer(self, name, v): 
-      return widget_set_prop_pointer(awtk_get_native_obj(self), name, v)
 
 
   #
@@ -9951,7 +10012,7 @@ class TWidget(object):
 
 
   #
-  # 设置控件自己的布局(缺省布局器)参数(过时，请用widget\_set\_self\_layout)。
+  # 设置控件自己的布局(缺省布局器)参数(建议用widget\_set\_self\_layout)。
   #备注：下一帧才会生效数据
   # 
   # @param x x参数。
@@ -10202,7 +10263,7 @@ class TWidget(object):
   # 是否根据子控件和文本自动调整控件自身大小。
   #
   #> 为true时，最好不要使用 layout 的相关东西，否则可能有冲突。
-  #> 注意：只是调整控件的本身的宽高，不会修改控件本身的位置。
+  #> 注意：只是调整控件的本身的宽高，不会修改控件本身的位置，仅部分控件实现该效果。
   #
   #
   @property
@@ -10225,6 +10286,32 @@ class TWidget(object):
   @floating.setter
   def floating(self, v):
     widget_set_floating(self.nativeObj, v)
+
+
+  #
+  # 标识是否将当前控件状态同步到子控件中。
+  #
+  #
+  @property
+  def sync_state_to_children(self):
+    return widget_t_get_prop_sync_state_to_children(self.nativeObj)
+
+  @sync_state_to_children.setter
+  def sync_state_to_children(self, v):
+    widget_set_sync_state_to_children(self.nativeObj, v)
+
+
+  #
+  # 标识是否接收父控件的状态同步。
+  #
+  #
+  @property
+  def state_from_parent_sync(self):
+    return widget_t_get_prop_state_from_parent_sync(self.nativeObj)
+
+  @state_from_parent_sync.setter
+  def state_from_parent_sync(self, v):
+    widget_set_state_from_parent_sync(self.nativeObj, v)
 
 
   #
@@ -11977,110 +12064,6 @@ class TMIME_TYPE:
   VIDEO_X_MSVIDEO = MIME_TYPE_VIDEO_X_MSVIDEO()
 
 #
-# 命名的值。
-#
-#
-class TNamedValue(object):
-
-  def __new__(cls, native_obj=0):
-      if native_obj == 0:
-          return None
-      else:
-          if super().__new__ == object.__new__:
-              instance = super().__new__(cls)
-          else:
-              instance = super().__new__(cls, native_obj)
-          instance.nativeObj = native_obj
-          return instance
-    
-  def __init__(self, nativeObj):
-    self.nativeObj = nativeObj
-
-
-  def __eq__(self, other: 'TWidget'):
-      if other is None:
-          return self.nativeObj == 0
-      return self.nativeObj == other.nativeObj
-    
-  #
-  # 创建named_value对象。
-  # 
-  #
-  # @return 返回named_value对象。
-  #
-  @classmethod
-  def create(cls): 
-      return  TNamedValue(named_value_create())
-
-
-  #
-  # 转换为named_value对象(供脚本语言使用)。
-  # 
-  # @param nv named_value对象。
-  #
-  # @return 返回named_value对象。
-  #
-  @classmethod
-  def cast(cls, nv): 
-      return  TNamedValue(named_value_cast(awtk_get_native_obj(nv)))
-
-
-  #
-  # 设置名称。
-  # 
-  # @param name 名称。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_name(self, name): 
-      return named_value_set_name(awtk_get_native_obj(self), name)
-
-
-  #
-  # 设置值。
-  # 
-  # @param value 值。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_value(self, value): 
-      return named_value_set_value(awtk_get_native_obj(self), awtk_get_native_obj(value))
-
-
-  #
-  # 获取值对象(主要给脚本语言使用)。
-  # 
-  #
-  # @return 返回值对象。
-  #
-  def get_value(self): 
-      return  TValue(named_value_get_value(awtk_get_native_obj(self)))
-
-
-  #
-  # 销毁named_value对象。
-  # 
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def destroy(self): 
-      return named_value_destroy(awtk_get_native_obj(self))
-
-
-  #
-  # 名称。
-  #
-  #
-  @property
-  def name(self):
-    return named_value_t_get_prop_name(self.nativeObj)
-
-  @name.setter
-  def name(self, v):
-    named_value_set_name(self.nativeObj, v)
-
-
-#
 # 对象常见命令定义
 #
 #
@@ -13186,6 +13169,15 @@ class TPointerEvent (TEvent):
     return pointer_event_t_get_prop_shift(self.nativeObj)
 
 
+  #
+  # 触摸ID。
+  #
+  #
+  @property
+  def finger_id(self):
+    return pointer_event_t_get_prop_finger_id(self.nativeObj)
+
+
 #
 # 按键事件。
 #
@@ -13660,6 +13652,89 @@ class TSystemEvent (TEvent):
 
 
 #
+# 多点触摸事件(目前主要对接 SDL_TouchFingerEvent(SDL_FINGERMOTION/SDL_FINGERDOWN/SDL_FINGERUP))。
+#
+#
+class TTouchEvent (TEvent):
+
+  def __new__(cls, native_obj=0):
+      if native_obj == 0:
+          return None
+      else:
+          if super().__new__ == object.__new__:
+              instance = super().__new__(cls)
+          else:
+              instance = super().__new__(cls, native_obj)
+          instance.nativeObj = native_obj
+          return instance
+    
+  def __init__(self, nativeObj):
+    super(TTouchEvent, self).__init__(nativeObj)
+
+
+  def __eq__(self, other: 'TWidget'):
+      if other is None:
+          return self.nativeObj == 0
+      return self.nativeObj == other.nativeObj
+    
+  #
+  # 把event对象转touch_event_t对象。
+  # 
+  # @param event event对象。
+  #
+  # @return event 对象。
+  #
+  @classmethod
+  def cast(cls, event): 
+      return  TTouchEvent(touch_event_cast(awtk_get_native_obj(event)))
+
+
+  #
+  # 触摸ID。
+  #
+  #
+  @property
+  def touch_id(self):
+    return touch_event_t_get_prop_touch_id(self.nativeObj)
+
+
+  #
+  # 手指ID。
+  #
+  #
+  @property
+  def finger_id(self):
+    return touch_event_t_get_prop_finger_id(self.nativeObj)
+
+
+  #
+  # x坐标(在 0-1 之间，表示与屏幕宽度的比例）。
+  #
+  #
+  @property
+  def x(self):
+    return touch_event_t_get_prop_x(self.nativeObj)
+
+
+  #
+  # y坐标(在 0-1 之间，表示与屏幕高度的比例）。
+  #
+  #
+  @property
+  def y(self):
+    return touch_event_t_get_prop_y(self.nativeObj)
+
+
+  #
+  # 压力。
+  #
+  #
+  @property
+  def pressure(self):
+    return touch_event_t_get_prop_pressure(self.nativeObj)
+
+
+#
 # UI加载完成事件。
 #
 #
@@ -14031,6 +14106,36 @@ class TImageBase (TWidget):
 
 
 #
+# 本地化信息。
+#locale_info_t 的子类。
+#提供从 xml 文件中获取本地化信息的功能。
+#
+#注意：fallback_tr2 回调已被设置用于从xml文件中获取本地化信息，不可再重复设置，否则将导致功能失效！
+#
+#
+class TLocaleInfoXml (TLocaleInfo):
+
+  def __new__(cls, native_obj=0):
+      if native_obj == 0:
+          return None
+      else:
+          if super().__new__ == object.__new__:
+              instance = super().__new__(cls)
+          else:
+              instance = super().__new__(cls, native_obj)
+          instance.nativeObj = native_obj
+          return instance
+    
+  def __init__(self, nativeObj):
+    super(TLocaleInfoXml, self).__init__(nativeObj)
+
+
+  def __eq__(self, other: 'TWidget'):
+      if other is None:
+          return self.nativeObj == 0
+      return self.nativeObj == other.nativeObj
+    
+#
 # 可变的style(可实时修改并生效，主要用于在designer中被编辑的控件，或者一些特殊控件)。
 #
 #style\_mutable也对style\_const进行了包装，当用户没修改某个值时，便从style\_const中获取。
@@ -14341,6 +14446,24 @@ class TWindowBase (TWidget):
   @property
   def move_focus_right_key(self):
     return window_base_t_get_prop_move_focus_right_key(self.nativeObj)
+
+
+  #
+  # 窗口中按下 Enter 按钮默认触发单击 button 控件名字
+  #
+  #
+  @property
+  def accept_button(self):
+    return window_base_t_get_prop_accept_button(self.nativeObj)
+
+
+  #
+  # 窗口中按下 Esc 按钮默认触发单击 button 控件名字
+  #
+  #
+  @property
+  def cancel_button(self):
+    return window_base_t_get_prop_cancel_button(self.nativeObj)
 
 
   #
@@ -16743,6 +16866,17 @@ class TCandidates (TWidget):
 
 
   #
+  # 设置可见候选词个数。
+  # 
+  # @param visible_num 可见个数。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_visible_num(self, visible_num): 
+      return candidates_set_visible_num(awtk_get_native_obj(self), visible_num)
+
+
+  #
   # 设置按钮的style名称。
   # 
   # @param button_style 按钮的style名称。
@@ -16770,7 +16904,7 @@ class TCandidates (TWidget):
 
 
   #
-  # 是否启用用数字选择候选字。比如按下1选择第1个候选字，按下2选择第2个候选字。
+  # 是否启用用数字选择候选字。比如按下1选择第1个候选字，按下2选择第2个候选字。(需在keyboard中设置grab_keys="true"方可生效)
   #
   #
   @property
@@ -16815,6 +16949,19 @@ class TCandidates (TWidget):
   @property
   def enable_preview(self):
     return candidates_t_get_prop_enable_preview(self.nativeObj)
+
+
+  #
+  # 候选字可见个数。
+  #
+  #
+  @property
+  def visible_num(self):
+    return candidates_t_get_prop_visible_num(self.nativeObj)
+
+  @visible_num.setter
+  def visible_num(self, v):
+    candidates_set_visible_num(self.nativeObj, v)
 
 
 #
@@ -17278,17 +17425,6 @@ class TMledit (TWidget):
 
 
   #
-  # 设置编辑器滚动速度。
-  # 
-  # @param scroll_line 滚动行数。
-  #
-  # @return 返回RET_OK表示成功，否则表示失败。
-  #
-  def set_scroll_line(self, scroll_line): 
-      return mledit_set_scroll_line(awtk_get_native_obj(self), scroll_line)
-
-
-  #
   # 设置编辑器滚动到指定偏移位置。
   # 
   # @param offset 偏移位置。
@@ -17457,19 +17593,6 @@ class TMledit (TWidget):
 
 
   #
-  # 鼠标一次滚动行数。
-  #
-  #
-  @property
-  def scroll_line(self):
-    return mledit_t_get_prop_scroll_line(self.nativeObj)
-
-  @scroll_line.setter
-  def scroll_line(self, v):
-    mledit_set_scroll_line(self.nativeObj, v)
-
-
-  #
   # 是否启用覆盖行。
   #
   #
@@ -17550,6 +17673,24 @@ class TMledit (TWidget):
   @close_im_when_blured.setter
   def close_im_when_blured(self, v):
     mledit_set_close_im_when_blured(self.nativeObj, v)
+
+
+  #
+  # 是否支持 Enter 按钮输入。
+  #
+  #
+  @property
+  def accept_return(self):
+    return mledit_t_get_prop_accept_return(self.nativeObj)
+
+
+  #
+  # 是否支持 Tab 按钮输入。
+  #
+  #
+  @property
+  def accept_tab(self):
+    return mledit_t_get_prop_accept_tab(self.nativeObj)
 
 
 #
@@ -18027,7 +18168,7 @@ class TRichText (TWidget):
 
 
   #
-  # 标识控件是否允许上下拖动。
+  # 标识控件是否允许上下拖动。(需满足文字的高度大于控件的高度)
   #
   #
   @property
@@ -18867,10 +19008,17 @@ class TListView (TWidget):
     list_view_set_floating_scroll_bar(self.nativeObj, v)
 
 
+  #
+  # 列表项的宽度。如果 item_width 0，所有列表项使用该宽度，否则使用让列表项的宽度等于scroll_view的宽度。
+  #
+  #
+  @property
+  def item_width(self):
+    return list_view_t_get_prop_item_width(self.nativeObj)
+
+
 #
 # 滚动条控件。
-#
-#> 目前只支持垂直滚动。
 #
 #scroll\_bar\_t是[widget\_t](widget_t.md)的子类控件，widget\_t的函数均适用于scroll\_bar\_t控件。
 #
@@ -19565,7 +19713,7 @@ class TScrollView (TWidget):
 
 
   #
-  # 是否递归查找全部子控件。
+  # 是否递归查找全部子控件。(当scroll_view的父控件是list_view_h或list_view时无效)
   #
   #
   @property
@@ -20334,7 +20482,7 @@ class TSlideIndicator (TWidget):
 
 
   #
-  # 最大值(缺省为100)。
+  # 最大值(缺省为3)。
   #
   #
   @property
@@ -20412,7 +20560,7 @@ class TSlideIndicator (TWidget):
 
 
   #
-  # 锚点x坐标。(后面加上px为像素点，不加px为相对百分比坐标0.0f到1.0f)
+  # 锚点x坐标。(后面加上px为像素点，不加px为相对百分取值范围为0.0f到1.0f)
   #
   #
   @property
@@ -20421,7 +20569,7 @@ class TSlideIndicator (TWidget):
 
 
   #
-  # 锚点y坐标。(后面加上px为像素点，不加px为相对百分比坐标0.0f到1.0f)
+  # 锚点y坐标。(后面加上px为像素点，不加px为相对百分取值范围为0.0f到1.0f)
   #
   #
   @property
@@ -20850,7 +20998,7 @@ class TSwitch (TWidget):
 
 
   #
-  # 当开关处于关闭时，图片偏移相对于图片宽度的比例(缺省为1/3)。
+  # 主要用于当开关处于关闭时，图片偏移相对于图片宽度的比例(缺省为1/3)。
   #
   #
   @property
@@ -22257,10 +22405,10 @@ class TLogMessageEvent (TEvent):
 
 
 #
-# 带有散列值的命名的值。
+# 命名的值。
 #
 #
-class TNamedValueHash (TNamedValue):
+class TNamedValue (TValue):
 
   def __new__(cls, native_obj=0):
       if native_obj == 0:
@@ -22274,7 +22422,7 @@ class TNamedValueHash (TNamedValue):
           return instance
     
   def __init__(self, nativeObj):
-    super(TNamedValueHash, self).__init__(nativeObj)
+    super(TNamedValue, self).__init__(nativeObj)
 
 
   def __eq__(self, other: 'TWidget'):
@@ -22283,57 +22431,81 @@ class TNamedValueHash (TNamedValue):
       return self.nativeObj == other.nativeObj
     
   #
-  # 创建named_value_hash对象。
+  # 创建named_value对象。
   # 
   #
-  # @return 返回named_value_hash对象。
+  # @return 返回named_value对象。
   #
   @classmethod
   def create(cls): 
-      return  TNamedValueHash(named_value_hash_create())
+      return  TNamedValue(named_value_create())
 
 
   #
-  # 设置散列值。
+  # 转换为named_value对象(供脚本语言使用)。
+  # 
+  # @param nv named_value对象。
+  #
+  # @return 返回named_value对象。
+  #
+  @classmethod
+  def cast(cls, nv): 
+      return  TNamedValue(named_value_cast(awtk_get_native_obj(nv)))
+
+
+  #
+  # 设置名称。
   # 
   # @param name 名称。
   #
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def set_name(self, name): 
-      return named_value_hash_set_name(awtk_get_native_obj(self), name)
+      return named_value_set_name(awtk_get_native_obj(self), name)
 
 
   #
-  # 销毁named_value_hash对象。
+  # 设置值。
+  # 
+  # @param value 值。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_value(self, value): 
+      return named_value_set_value(awtk_get_native_obj(self), awtk_get_native_obj(value))
+
+
+  #
+  # 获取值对象(主要给脚本语言使用)。
+  # 
+  #
+  # @return 返回值对象。
+  #
+  def get_value(self): 
+      return  TValue(named_value_get_value(awtk_get_native_obj(self)))
+
+
+  #
+  # 销毁named_value对象。
   # 
   #
   # @return 返回RET_OK表示成功，否则表示失败。
   #
   def destroy(self): 
-      return named_value_hash_destroy(awtk_get_native_obj(self))
+      return named_value_destroy(awtk_get_native_obj(self))
 
 
   #
-  # 克隆named_value_hash对象。
-  # 
+  # 名称。
   #
-  # @return 返回named_value_hash对象。
   #
-  def clone(self): 
-      return  TNamedValueHash(named_value_hash_clone(awtk_get_native_obj(self)))
+  @property
+  def name(self):
+    return named_value_t_get_prop_name(self.nativeObj)
 
-
-  #
-  # 获取字符串散列值。
-  # 
-  # @param str 字符串。
-  #
-  # @return 返回散列值。
-  #
-  @classmethod
-  def get_hash_from_str(cls, str): 
-      return named_value_hash_get_hash_from_str(str)
+  @name.setter
+  def name(self, v):
+    named_value_set_name(self.nativeObj, v)
 
 
 #
@@ -22679,6 +22851,24 @@ class TButton (TWidget):
 
 
   #
+  # 是否为 accept 状态
+  #
+  #
+  @property
+  def is_accept_status(self):
+    return button_t_get_prop_is_accept_status(self.nativeObj)
+
+
+  #
+  # 当前是否按下。
+  #
+  #
+  @property
+  def pressed(self):
+    return button_t_get_prop_pressed(self.nativeObj)
+
+
+  #
   # 触发长按事件的时间(毫秒)
   #
   #
@@ -22689,15 +22879,6 @@ class TButton (TWidget):
   @long_press_time.setter
   def long_press_time(self, v):
     button_set_long_press_time(self.nativeObj, v)
-
-
-  #
-  # 当前是否按下。
-  #
-  #
-  @property
-  def pressed(self):
-    return button_t_get_prop_pressed(self.nativeObj)
 
 
 #
@@ -24480,16 +24661,16 @@ class TGrid (TWidget):
   # 各列的参数。
   #各列的参数之间用英文的分号(;)分隔，每列参数的格式为：
   #
-  #col(w=?,left_margin=?,right_margin=?,top_maorgin=?,bottom_margin=?)
+  #col(w=?,left_margin=?,right_margin=?,top_margin=?,bottom_margin=?)
   #
-  #* w 为列的宽度(必须存在)。取值在(0-1]区间时，视为grid控件宽度的比例，否则为像素宽度。
-  #(如果为负数，将计算结果加上控件的宽度)
-  #* left_margin(可选，可缩写为l) 该列左边的边距。
-  #* right_margin(可选，可缩写为r) 该列右边的边距。
-  #* top_margin(可选，可缩写为t) 该列顶部的边距。
-  #* bottom_margin(可选，可缩写为b) 该列底部的边距。
-  #* margin(可选，可缩写为m) 同时指定上面4个边距。
-  #* fill_available(可选，可缩写为f) 填充剩余宽度(只有一列可以指定)。
+  #* w 为列的宽度（必须存在）。取值在 (0-1] 区间时，视为 grid 控件宽度的比例，否则为像素宽度。
+  #（如果为负数，将计算结果加上控件的宽度）
+  #* left_margin（可选，可缩写为 l）该列左边的边距。
+  #* right_margin（可选，可缩写为 r）该列右边的边距。
+  #* top_margin（可选，可缩写为 t）该列顶部的边距。
+  #* bottom_margin（可选，可缩写为 b）该列底部的边距。
+  #* margin（可选，可缩写为 m）同时指定上面 4 个边距。
+  #* fill_available（可选，可缩写为f）填充剩余宽度（只有一列可以指定）。
   #
   #
   @property
@@ -24956,7 +25137,7 @@ class TPages (TWidget):
 
 
   #
-  # 当前活跃的page。(需要用到 MVVM 数据绑定请设置 value 属性)
+  # 当前活跃的page。(起始值从0开始。需要用到 MVVM 数据绑定请设置 value 属性)
   #
   #
   @property
@@ -25173,7 +25354,7 @@ class TProgressBar (TWidget):
 
 
   #
-  # 数值到字符串转换时的格式，缺省为"%d"。
+  # 数值到字符串转换时的格式，缺省为"%d%%"。
   #
   #
   @property
@@ -25714,6 +25895,17 @@ class TTabButtonGroup (TWidget):
 
 
   #
+  # 设置删除 tab_button_group 控件中的 tab_button 控件和对应页。
+  # 
+  # @param index tab_button 的序号。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def remove_index(self, index): 
+      return tab_button_group_remove_index(awtk_get_native_obj(self), index)
+
+
+  #
   # 转换tab_button_group对象(供脚本语言使用)。
   # 
   # @param widget tab_button_group对象。
@@ -26176,7 +26368,7 @@ class TView (TWidget):
 
 
   #
-  # 缺省获得焦点的子控件(可用控件名或类型)。
+  # 缺省获得焦点的子控件(可用控件名或类型)。(该属性废弃。)
   #
   #> view作为pages/slideview的直接子控件才需要设置。
   #> 正常情况下，一个窗口只能指定一个初始焦点。
@@ -26232,7 +26424,7 @@ class TView (TWidget):
 #</dialog>
 #```
 #
-#打开非模态对话框时，其用法与普通窗口一样。打开非模态对话框时，还需要调用dialog\_modal。
+#打开非模态对话框时，其用法与普通窗口一样。打开模态对话框时，还需要调用dialog\_modal。
 #
 #
 #
@@ -26610,6 +26802,20 @@ class TNativeWindow (TObject):
 
 
   #
+  # 设置hitTest。
+  # 
+  # @param x x坐标。
+  # @param y y坐标。
+  # @param w w宽度。
+  # @param h h高度。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_window_hit_test(self, x, y, w, h): 
+      return native_window_set_window_hit_test(awtk_get_native_obj(self), x, y, w, h)
+
+
+  #
   # 是否全屏。
   # 
   # @param fullscreen 是否全屏。
@@ -26828,6 +27034,136 @@ class TWindow (TWindowBase):
   @fullscreen.setter
   def fullscreen(self, v):
     window_set_fullscreen(self.nativeObj, v)
+
+
+#
+# 扩展edit控件。支持以下功能：
+#* 支持搜索建议功能。
+#
+#
+class TEditEx (TEdit):
+
+  def __new__(cls, native_obj=0):
+      if native_obj == 0:
+          return None
+      else:
+          if super().__new__ == object.__new__:
+              instance = super().__new__(cls)
+          else:
+              instance = super().__new__(cls, native_obj)
+          instance.nativeObj = native_obj
+          return instance
+    
+  def __init__(self, nativeObj):
+    super(TEditEx, self).__init__(nativeObj)
+
+
+  def __eq__(self, other: 'TWidget'):
+      if other is None:
+          return self.nativeObj == 0
+      return self.nativeObj == other.nativeObj
+    
+  #
+  # 创建edit_ex对象
+  # 
+  # @param parent 父控件
+  # @param x x坐标
+  # @param y y坐标
+  # @param w 宽度
+  # @param h 高度
+  #
+  # @return 对象。
+  #
+  @classmethod
+  def create(cls, parent, x, y, w, h): 
+      return  TEditEx(edit_ex_create(awtk_get_native_obj(parent), x, y, w, h))
+
+
+  #
+  # 设置输入建议词源。
+  #> EVT_VALUE_CHANGED 事件请求词源更新，new_value 为 edit 输入内容。
+  # 
+  # @param suggest_words 输入建议词源。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_suggest_words(self, suggest_words): 
+      return edit_ex_set_suggest_words(awtk_get_native_obj(self), awtk_get_native_obj(suggest_words))
+
+
+  #
+  # 设置输入建议词的项格式。
+  # 
+  # @param formats 输入建议词的项格式。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_suggest_words_item_formats(self, formats): 
+      return edit_ex_set_suggest_words_item_formats(awtk_get_native_obj(self), formats)
+
+
+  #
+  # 最终输入到edit控件的文本的属性名。
+  #> 设置了 suggest_words_item_formats 才会被用到。
+  # 
+  # @param name 最终输入到edit控件的文本的属性名。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_suggest_words_input_name(self, name): 
+      return edit_ex_set_suggest_words_input_name(awtk_get_native_obj(self), name)
+
+
+  #
+  # 转换为edit对象(供脚本语言使用)。
+  # 
+  # @param widget edit_ex对象。
+  #
+  # @return edit对象。
+  #
+  @classmethod
+  def cast(cls, widget): 
+      return  TEditEx(edit_ex_cast(awtk_get_native_obj(widget)))
+
+
+  #
+  # 输入建议词。
+  #
+  #
+  @property
+  def suggest_words(self):
+    return TObject(edit_ex_t_get_prop_suggest_words(self.nativeObj))
+
+  @suggest_words.setter
+  def suggest_words(self, v):
+    edit_ex_set_suggest_words(self.nativeObj, v)
+
+
+  #
+  # 输入建议词的项格式。
+  #
+  #
+  @property
+  def suggest_words_item_formats(self):
+    return edit_ex_t_get_prop_suggest_words_item_formats(self.nativeObj)
+
+  @suggest_words_item_formats.setter
+  def suggest_words_item_formats(self, v):
+    edit_ex_set_suggest_words_item_formats(self.nativeObj, v)
+
+
+  #
+  # 最终输入到edit控件的文本的属性名。
+  #> 设置了 suggest_words_item_formats 才会被用到。
+  #
+  #
+  @property
+  def suggest_words_input_name(self):
+    return edit_ex_t_get_prop_suggest_words_input_name(self.nativeObj)
+
+  @suggest_words_input_name.setter
+  def suggest_words_input_name(self, v):
+    edit_ex_set_suggest_words_input_name(self.nativeObj, v)
 
 
 #
@@ -27513,6 +27849,86 @@ class TIdleInfo (TObject):
 
 
 #
+# 带有散列值的命名的值。
+#
+#
+class TNamedValueHash (TNamedValue):
+
+  def __new__(cls, native_obj=0):
+      if native_obj == 0:
+          return None
+      else:
+          if super().__new__ == object.__new__:
+              instance = super().__new__(cls)
+          else:
+              instance = super().__new__(cls, native_obj)
+          instance.nativeObj = native_obj
+          return instance
+    
+  def __init__(self, nativeObj):
+    super(TNamedValueHash, self).__init__(nativeObj)
+
+
+  def __eq__(self, other: 'TWidget'):
+      if other is None:
+          return self.nativeObj == 0
+      return self.nativeObj == other.nativeObj
+    
+  #
+  # 创建named_value_hash对象。
+  # 
+  #
+  # @return 返回named_value_hash对象。
+  #
+  @classmethod
+  def create(cls): 
+      return  TNamedValueHash(named_value_hash_create())
+
+
+  #
+  # 设置散列值。
+  # 
+  # @param name 名称。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_name(self, name): 
+      return named_value_hash_set_name(awtk_get_native_obj(self), name)
+
+
+  #
+  # 销毁named_value_hash对象。
+  # 
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def destroy(self): 
+      return named_value_hash_destroy(awtk_get_native_obj(self))
+
+
+  #
+  # 克隆named_value_hash对象。
+  # 
+  #
+  # @return 返回named_value_hash对象。
+  #
+  def clone(self): 
+      return  TNamedValueHash(named_value_hash_clone(awtk_get_native_obj(self)))
+
+
+  #
+  # 获取字符串散列值。
+  # 
+  # @param str 字符串。
+  #
+  # @return 返回散列值。
+  #
+  @classmethod
+  def get_hash_from_str(cls, str): 
+      return named_value_hash_get_hash_from_str(str)
+
+
+#
 # 简单的动态数组，内部存放value对象。
 #
 #访问时属性名称为：
@@ -27823,6 +28239,17 @@ class TObjectHash (TObject):
   #
   def set_keep_prop_type(self, keep_prop_type): 
       return object_hash_set_keep_prop_type(awtk_get_native_obj(self), keep_prop_type)
+
+
+  #
+  # 设置是否保持属性间的顺序。
+  # 
+  # @param keep_props_order 保持属性间的顺序。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_keep_props_order(self, keep_props_order): 
+      return object_hash_set_keep_props_order(awtk_get_native_obj(self), keep_props_order)
 
 
 #
