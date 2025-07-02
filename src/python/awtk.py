@@ -5753,6 +5753,30 @@ class TBitmapFlag:
   GPU_FBO_TEXTURE = BITMAP_FLAG_GPU_FBO_TEXTURE()
 
 #
+# 填充规则。
+#
+#
+class TVgcanvasFillMode: 
+
+  #
+  # 全部填充。（部分vg渲染引擎可能不支持，会退化为非零规则填充）
+  #
+  #
+  ALL_FILL = VGCANVAS_FILL_MODE_ALL_FILL()
+
+  #
+  # 非零规则填充。
+  #
+  #
+  NON_ZERO = VGCANVAS_FILL_MODE_NON_ZERO()
+
+  #
+  # 奇偶规则填充。
+  #
+  #
+  EVEN_ODD = VGCANVAS_FILL_MODE_EVEN_ODD()
+
+#
 # 矢量图画布抽象基类。
 #
 #具体实现时可以使用agg，nanovg, cairo和skia等方式。
@@ -5983,16 +6007,14 @@ class TVgcanvas(object):
 
 
   #
-  # 设置路径填充实心与否。
-  #
-  #>设置为FALSE为实心，TRUE为镂空。
+  # 设置填充规则。
   # 
-  # @param dir 填充方法。
+  # @param fill_mode 填充规则。
   #
   # @return 返回RET_OK表示成功，否则表示失败。
   #
-  def path_winding(self, dir): 
-      return vgcanvas_path_winding(awtk_get_native_obj(self), dir)
+  def set_fill_mode(self, fill_mode): 
+      return vgcanvas_set_fill_mode(awtk_get_native_obj(self), fill_mode)
 
 
   #
@@ -9471,6 +9493,18 @@ class TWidget(object):
 
 
   #
+  # 设置指针格式的属性。
+  # 
+  # @param name 属性的名称。
+  # @param v 属性的值。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_prop_pointer(self, name, v): 
+      return widget_set_prop_pointer(awtk_get_native_obj(self), name, v)
+
+
+  #
   # 获取指针格式的属性。
   # 
   # @param name 属性的名称。
@@ -12160,6 +12194,30 @@ class TObjectProp:
   #
   #
   SELECTED_INDEX = OBJECT_PROP_SELECTED_INDEX()
+
+#
+# 对象生命周期的定义。如果需要保存对象的实例，如何决定对象的生命周期。
+#
+#
+class TObjectLife: 
+
+  #
+  # 不关心对象的生命周期(假设对象的生命周期长于当前的上下文)。
+  #
+  #
+  NONE = OBJECT_LIFE_NONE()
+
+  #
+  # 拥有对象的生命周期。当前上下文开始时，*不会* 增加对象的引用计数。当前上下文结束时，自动减少(unref)对象引用计数。
+  #
+  #
+  OWN = OBJECT_LIFE_OWN()
+
+  #
+  # 持有对象的生命周期。当前上下文开始时，增加对象的引用计数。当前上下文结束时，自动减少(unref)对象引用计数。
+  #
+  #
+  HOLD = OBJECT_LIFE_HOLD()
 
 #
 # 循环记录日志(支持多线程访问)。
@@ -19471,6 +19529,16 @@ class TScrollView (TWidget):
 
 
   #
+  # 修复偏移量。
+  # 
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def fix_offset(self): 
+      return scroll_view_fix_offset(awtk_get_native_obj(self))
+
+
+  #
   # 设置是否允许x方向滑动。
   # 
   # @param xslidable 是否允许滑动。
@@ -24961,6 +25029,7 @@ class TLabel (TWidget):
   #
   # 显示字符的个数(小于0时全部显示)。
   #主要用于动态改变显示字符的个数，来实现类似[拨号中...]的动画效果。
+  #> 和换行是冲突的，换行后，该属性不生效
   #
   #
   @property
@@ -25779,7 +25848,7 @@ class TSlider (TWidget):
 
 
   #
-  # 拖动临界值。
+  # 进入拖动状态的拖动临界值。
   #
   #
   @property

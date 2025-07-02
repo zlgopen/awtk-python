@@ -4828,6 +4828,18 @@ pyobject_t get_BITMAP_FLAG_GPU_FBO_TEXTURE(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("i", BITMAP_FLAG_GPU_FBO_TEXTURE);
 }
 
+pyobject_t get_VGCANVAS_FILL_MODE_ALL_FILL(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", VGCANVAS_FILL_MODE_ALL_FILL);
+}
+
+pyobject_t get_VGCANVAS_FILL_MODE_NON_ZERO(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", VGCANVAS_FILL_MODE_NON_ZERO);
+}
+
+pyobject_t get_VGCANVAS_FILL_MODE_EVEN_ODD(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", VGCANVAS_FILL_MODE_EVEN_ODD);
+}
+
 pyobject_t wrap_vgcanvas_cast(pyobject_t self, pyobject_t pyargs) {
   vgcanvas_t* ret = NULL;
   vgcanvas_t* vg = NULL;
@@ -5050,17 +5062,17 @@ pyobject_t wrap_vgcanvas_close_path(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("i", ret);
 }
 
-pyobject_t wrap_vgcanvas_path_winding(pyobject_t self, pyobject_t pyargs) {
+pyobject_t wrap_vgcanvas_set_fill_mode(pyobject_t self, pyobject_t pyargs) {
   ret_t ret = 0;
   vgcanvas_t* vg = NULL;
-  bool_t dir = 0;
+  vgcanvas_fill_mode_t fill_mode = 0;
 
-  if (!PyArg_ParseTuple(pyargs, "O&b" , &__parse_voidp, &vg, &dir)) {
+  if (!PyArg_ParseTuple(pyargs, "O&i" , &__parse_voidp, &vg, &fill_mode)) {
     PyErr_SetString(PyExc_TypeError, "invalid arguments");
     return NULL;
   }
 
-  ret = (ret_t)vgcanvas_path_winding(vg, dir);
+  ret = (ret_t)vgcanvas_set_fill_mode(vg, fill_mode);
   return Py_BuildValue("i", ret);
 }
 
@@ -8047,6 +8059,21 @@ pyobject_t wrap_widget_get_prop_str(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("s", ret);
 }
 
+pyobject_t wrap_widget_set_prop_pointer(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+  const char* name = NULL;
+  void* v = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&sO&" , &__parse_voidp, &widget, &name, &__parse_voidp, &v)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)widget_set_prop_pointer(widget, name, v);
+  return Py_BuildValue("i", ret);
+}
+
 pyobject_t wrap_widget_get_prop_pointer(pyobject_t self, pyobject_t pyargs) {
   void* ret = NULL;
   widget_t* widget = NULL;
@@ -10395,6 +10422,18 @@ pyobject_t get_OBJECT_PROP_CHECKED(pyobject_t self, pyobject_t pyargs) {
 
 pyobject_t get_OBJECT_PROP_SELECTED_INDEX(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("s", OBJECT_PROP_SELECTED_INDEX);
+}
+
+pyobject_t get_OBJECT_LIFE_NONE(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", OBJECT_LIFE_NONE);
+}
+
+pyobject_t get_OBJECT_LIFE_OWN(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", OBJECT_LIFE_OWN);
+}
+
+pyobject_t get_OBJECT_LIFE_HOLD(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", OBJECT_LIFE_HOLD);
 }
 
 pyobject_t wrap_rlog_create(pyobject_t self, pyobject_t pyargs) {
@@ -16198,6 +16237,19 @@ pyobject_t wrap_scroll_view_set_virtual_h(pyobject_t self, pyobject_t pyargs) {
   }
 
   ret = (ret_t)scroll_view_set_virtual_h(widget, h);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_scroll_view_fix_offset(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&" , &__parse_voidp, &widget)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)scroll_view_fix_offset(widget);
   return Py_BuildValue("i", ret);
 }
 
@@ -24113,6 +24165,9 @@ static PyMethodDef awtk_methods[] = {
 {"BITMAP_FLAG_PREMULTI_ALPHA", get_BITMAP_FLAG_PREMULTI_ALPHA, METH_VARARGS, "BITMAP_FLAG_PREMULTI_ALPHA"},
 {"BITMAP_FLAG_LCD_ORIENTATION", get_BITMAP_FLAG_LCD_ORIENTATION, METH_VARARGS, "BITMAP_FLAG_LCD_ORIENTATION"},
 {"BITMAP_FLAG_GPU_FBO_TEXTURE", get_BITMAP_FLAG_GPU_FBO_TEXTURE, METH_VARARGS, "BITMAP_FLAG_GPU_FBO_TEXTURE"},
+{"VGCANVAS_FILL_MODE_ALL_FILL", get_VGCANVAS_FILL_MODE_ALL_FILL, METH_VARARGS, "VGCANVAS_FILL_MODE_ALL_FILL"},
+{"VGCANVAS_FILL_MODE_NON_ZERO", get_VGCANVAS_FILL_MODE_NON_ZERO, METH_VARARGS, "VGCANVAS_FILL_MODE_NON_ZERO"},
+{"VGCANVAS_FILL_MODE_EVEN_ODD", get_VGCANVAS_FILL_MODE_EVEN_ODD, METH_VARARGS, "VGCANVAS_FILL_MODE_EVEN_ODD"},
 {"vgcanvas_cast", wrap_vgcanvas_cast, METH_VARARGS, "vgcanvas_cast"},
 {"vgcanvas_flush", wrap_vgcanvas_flush, METH_VARARGS, "vgcanvas_flush"},
 {"vgcanvas_begin_path", wrap_vgcanvas_begin_path, METH_VARARGS, "vgcanvas_begin_path"},
@@ -24127,7 +24182,7 @@ static PyMethodDef awtk_methods[] = {
 {"vgcanvas_rounded_rect", wrap_vgcanvas_rounded_rect, METH_VARARGS, "vgcanvas_rounded_rect"},
 {"vgcanvas_ellipse", wrap_vgcanvas_ellipse, METH_VARARGS, "vgcanvas_ellipse"},
 {"vgcanvas_close_path", wrap_vgcanvas_close_path, METH_VARARGS, "vgcanvas_close_path"},
-{"vgcanvas_path_winding", wrap_vgcanvas_path_winding, METH_VARARGS, "vgcanvas_path_winding"},
+{"vgcanvas_set_fill_mode", wrap_vgcanvas_set_fill_mode, METH_VARARGS, "vgcanvas_set_fill_mode"},
 {"vgcanvas_rotate", wrap_vgcanvas_rotate, METH_VARARGS, "vgcanvas_rotate"},
 {"vgcanvas_scale", wrap_vgcanvas_scale, METH_VARARGS, "vgcanvas_scale"},
 {"vgcanvas_translate", wrap_vgcanvas_translate, METH_VARARGS, "vgcanvas_translate"},
@@ -24556,6 +24611,7 @@ static PyMethodDef awtk_methods[] = {
 {"widget_set_props", wrap_widget_set_props, METH_VARARGS, "widget_set_props"},
 {"widget_set_prop_str", wrap_widget_set_prop_str, METH_VARARGS, "widget_set_prop_str"},
 {"widget_get_prop_str", wrap_widget_get_prop_str, METH_VARARGS, "widget_get_prop_str"},
+{"widget_set_prop_pointer", wrap_widget_set_prop_pointer, METH_VARARGS, "widget_set_prop_pointer"},
 {"widget_get_prop_pointer", wrap_widget_get_prop_pointer, METH_VARARGS, "widget_get_prop_pointer"},
 {"widget_set_prop_float", wrap_widget_set_prop_float, METH_VARARGS, "widget_set_prop_float"},
 {"widget_get_prop_float", wrap_widget_get_prop_float, METH_VARARGS, "widget_get_prop_float"},
@@ -24847,6 +24903,9 @@ static PyMethodDef awtk_methods[] = {
 {"OBJECT_PROP_SIZE", get_OBJECT_PROP_SIZE, METH_VARARGS, "OBJECT_PROP_SIZE"},
 {"OBJECT_PROP_CHECKED", get_OBJECT_PROP_CHECKED, METH_VARARGS, "OBJECT_PROP_CHECKED"},
 {"OBJECT_PROP_SELECTED_INDEX", get_OBJECT_PROP_SELECTED_INDEX, METH_VARARGS, "OBJECT_PROP_SELECTED_INDEX"},
+{"OBJECT_LIFE_NONE", get_OBJECT_LIFE_NONE, METH_VARARGS, "OBJECT_LIFE_NONE"},
+{"OBJECT_LIFE_OWN", get_OBJECT_LIFE_OWN, METH_VARARGS, "OBJECT_LIFE_OWN"},
+{"OBJECT_LIFE_HOLD", get_OBJECT_LIFE_HOLD, METH_VARARGS, "OBJECT_LIFE_HOLD"},
 {"rlog_create", wrap_rlog_create, METH_VARARGS, "rlog_create"},
 {"rlog_write", wrap_rlog_write, METH_VARARGS, "rlog_write"},
 {"time_now_s", wrap_time_now_s, METH_VARARGS, "time_now_s"},
@@ -25340,6 +25399,7 @@ static PyMethodDef awtk_methods[] = {
 {"scroll_view_cast", wrap_scroll_view_cast, METH_VARARGS, "scroll_view_cast"},
 {"scroll_view_set_virtual_w", wrap_scroll_view_set_virtual_w, METH_VARARGS, "scroll_view_set_virtual_w"},
 {"scroll_view_set_virtual_h", wrap_scroll_view_set_virtual_h, METH_VARARGS, "scroll_view_set_virtual_h"},
+{"scroll_view_fix_offset", wrap_scroll_view_fix_offset, METH_VARARGS, "scroll_view_fix_offset"},
 {"scroll_view_set_xslidable", wrap_scroll_view_set_xslidable, METH_VARARGS, "scroll_view_set_xslidable"},
 {"scroll_view_set_yslidable", wrap_scroll_view_set_yslidable, METH_VARARGS, "scroll_view_set_yslidable"},
 {"scroll_view_set_snap_to_page", wrap_scroll_view_set_snap_to_page, METH_VARARGS, "scroll_view_set_snap_to_page"},
