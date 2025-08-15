@@ -38,6 +38,7 @@
 #include "tkc/date_time.h"
 #include "tkc/easing.h"
 #include "tkc/idle_manager.h"
+#include "tkc/log.h"
 #include "tkc/mime_types.h"
 #include "tkc/rlog.h"
 #include "tkc/time_now.h"
@@ -1762,6 +1763,20 @@ pyobject_t wrap_value_equal(pyobject_t self, pyobject_t pyargs) {
 
   ret = (bool_t)value_equal(value, other);
   return Py_BuildValue("b", ret);
+}
+
+pyobject_t wrap_value_compare(pyobject_t self, pyobject_t pyargs) {
+  int ret = 0;
+  const value_t* v = NULL;
+  const value_t* other = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&O&" , &__parse_voidp, &v, &__parse_voidp, &other)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (int)value_compare(v, other);
+  return Py_BuildValue("i", ret);
 }
 
 pyobject_t wrap_value_set_int(pyobject_t self, pyobject_t pyargs) {
@@ -7231,6 +7246,54 @@ pyobject_t wrap_widget_animate_value_to(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("i", ret);
 }
 
+pyobject_t wrap_widget_animate_prop_float_to(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+  const char* name = NULL;
+  float_t value = 0;
+  uint32_t duration = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&sfi" , &__parse_voidp, &widget, &name, &value, &duration)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)widget_animate_prop_float_to(widget, name, value, duration);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_widget_animate_position_to(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+  xy_t x = 0;
+  xy_t y = 0;
+  uint32_t duration = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&iii" , &__parse_voidp, &widget, &x, &y, &duration)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)widget_animate_position_to(widget, x, y, duration);
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_widget_animate_size_to(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+  wh_t w = 0;
+  wh_t h = 0;
+  uint32_t duration = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&iii" , &__parse_voidp, &widget, &w, &h, &duration)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)widget_animate_size_to(widget, w, h, duration);
+  return Py_BuildValue("i", ret);
+}
+
 pyobject_t wrap_widget_is_style_exist(pyobject_t self, pyobject_t pyargs) {
   bool_t ret = 0;
   widget_t* widget = NULL;
@@ -9962,6 +10025,47 @@ pyobject_t get_EASING_BOUNCE_OUT(pyobject_t self, pyobject_t pyargs) {
 
 pyobject_t get_EASING_BOUNCE_INOUT(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("i", EASING_BOUNCE_INOUT);
+}
+
+pyobject_t get_LOG_LEVEL_DEBUG(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", LOG_LEVEL_DEBUG);
+}
+
+pyobject_t get_LOG_LEVEL_INFO(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", LOG_LEVEL_INFO);
+}
+
+pyobject_t get_LOG_LEVEL_WARN(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", LOG_LEVEL_WARN);
+}
+
+pyobject_t get_LOG_LEVEL_ERROR(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", LOG_LEVEL_ERROR);
+}
+
+pyobject_t wrap_log_get_log_level(pyobject_t self, pyobject_t pyargs) {
+  tk_log_level_t ret = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "" )) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (tk_log_level_t)log_get_log_level();
+  return Py_BuildValue("i", ret);
+}
+
+pyobject_t wrap_log_set_log_level(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  tk_log_level_t log_level = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "i" , &log_level)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)log_set_log_level(log_level);
+  return Py_BuildValue("i", ret);
 }
 
 pyobject_t get_MIME_TYPE_APPLICATION_ENVOY(pyobject_t self, pyobject_t pyargs) {
@@ -23649,6 +23753,7 @@ static PyMethodDef awtk_methods[] = {
 {"value_str_ex", wrap_value_str_ex, METH_VARARGS, "value_str_ex"},
 {"value_is_null", wrap_value_is_null, METH_VARARGS, "value_is_null"},
 {"value_equal", wrap_value_equal, METH_VARARGS, "value_equal"},
+{"value_compare", wrap_value_compare, METH_VARARGS, "value_compare"},
 {"value_set_int", wrap_value_set_int, METH_VARARGS, "value_set_int"},
 {"value_set_object", wrap_value_set_object, METH_VARARGS, "value_set_object"},
 {"value_object", wrap_value_object, METH_VARARGS, "value_object"},
@@ -24551,6 +24656,9 @@ static PyMethodDef awtk_methods[] = {
 {"widget_set_value_int", wrap_widget_set_value_int, METH_VARARGS, "widget_set_value_int"},
 {"widget_add_value_int", wrap_widget_add_value_int, METH_VARARGS, "widget_add_value_int"},
 {"widget_animate_value_to", wrap_widget_animate_value_to, METH_VARARGS, "widget_animate_value_to"},
+{"widget_animate_prop_float_to", wrap_widget_animate_prop_float_to, METH_VARARGS, "widget_animate_prop_float_to"},
+{"widget_animate_position_to", wrap_widget_animate_position_to, METH_VARARGS, "widget_animate_position_to"},
+{"widget_animate_size_to", wrap_widget_animate_size_to, METH_VARARGS, "widget_animate_size_to"},
 {"widget_is_style_exist", wrap_widget_is_style_exist, METH_VARARGS, "widget_is_style_exist"},
 {"widget_is_support_highlighter", wrap_widget_is_support_highlighter, METH_VARARGS, "widget_is_support_highlighter"},
 {"widget_has_highlighter", wrap_widget_has_highlighter, METH_VARARGS, "widget_has_highlighter"},
@@ -24788,6 +24896,12 @@ static PyMethodDef awtk_methods[] = {
 {"EASING_BOUNCE_IN", get_EASING_BOUNCE_IN, METH_VARARGS, "EASING_BOUNCE_IN"},
 {"EASING_BOUNCE_OUT", get_EASING_BOUNCE_OUT, METH_VARARGS, "EASING_BOUNCE_OUT"},
 {"EASING_BOUNCE_INOUT", get_EASING_BOUNCE_INOUT, METH_VARARGS, "EASING_BOUNCE_INOUT"},
+{"LOG_LEVEL_DEBUG", get_LOG_LEVEL_DEBUG, METH_VARARGS, "LOG_LEVEL_DEBUG"},
+{"LOG_LEVEL_INFO", get_LOG_LEVEL_INFO, METH_VARARGS, "LOG_LEVEL_INFO"},
+{"LOG_LEVEL_WARN", get_LOG_LEVEL_WARN, METH_VARARGS, "LOG_LEVEL_WARN"},
+{"LOG_LEVEL_ERROR", get_LOG_LEVEL_ERROR, METH_VARARGS, "LOG_LEVEL_ERROR"},
+{"log_get_log_level", wrap_log_get_log_level, METH_VARARGS, "log_get_log_level"},
+{"log_set_log_level", wrap_log_set_log_level, METH_VARARGS, "log_set_log_level"},
 {"MIME_TYPE_APPLICATION_ENVOY", get_MIME_TYPE_APPLICATION_ENVOY, METH_VARARGS, "MIME_TYPE_APPLICATION_ENVOY"},
 {"MIME_TYPE_APPLICATION_FRACTALS", get_MIME_TYPE_APPLICATION_FRACTALS, METH_VARARGS, "MIME_TYPE_APPLICATION_FRACTALS"},
 {"MIME_TYPE_APPLICATION_FUTURESPLASH", get_MIME_TYPE_APPLICATION_FUTURESPLASH, METH_VARARGS, "MIME_TYPE_APPLICATION_FUTURESPLASH"},

@@ -1618,6 +1618,17 @@ class TValue(object):
 
 
   #
+  # 比较两个value。
+  # 
+  # @param other value对象。
+  #
+  # @return 小于返回-1，等于返回0，大于返回1。
+  #
+  def compare(self, other): 
+      return value_compare(awtk_get_native_obj(self), awtk_get_native_obj(other))
+
+
+  #
   # 设置类型为int的值。
   # 
   # @param value 待设置的值。
@@ -8784,6 +8795,45 @@ class TWidget(object):
 
 
   #
+  # 设置控件的属性(以动画形式变化到指定的值)。
+  # 
+  # @param name 属性名称。
+  # @param value 值。
+  # @param duration 动画持续时间(毫秒)。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def animate_prop_float_to(self, name, value, duration): 
+      return widget_animate_prop_float_to(awtk_get_native_obj(self), name, value, duration)
+
+
+  #
+  # 设置控件的位置(以动画形式变化到指定的位置)。
+  # 
+  # @param x x坐标。
+  # @param y y坐标。
+  # @param duration 动画持续时间(毫秒)。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def animate_position_to(self, x, y, duration): 
+      return widget_animate_position_to(awtk_get_native_obj(self), x, y, duration)
+
+
+  #
+  # 设置控件的大小(以动画形式变化到指定的大小)。
+  # 
+  # @param w 宽度。
+  # @param h 高度。
+  # @param duration 动画持续时间(毫秒)。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def animate_size_to(self, w, h, duration): 
+      return widget_animate_size_to(awtk_get_native_obj(self), w, h, duration)
+
+
+  #
   # 查询指定的style是否存在。
   # 
   # @param style_name style的名称（如果为 NULL，则默认为 default）。
@@ -11479,6 +11529,65 @@ class TIdleManager(object):
           return self.nativeObj == 0
       return self.nativeObj == other.nativeObj
     
+#
+# LOG的级别。
+#
+#
+class TTkLogLevel: 
+
+  #
+  # DEBUG
+  #
+  #
+  DEBUG = LOG_LEVEL_DEBUG()
+
+  #
+  # INFO
+  #
+  #
+  INFO = LOG_LEVEL_INFO()
+
+  #
+  # WARN
+  #
+  #
+  WARN = LOG_LEVEL_WARN()
+
+  #
+  # ERROR
+  #
+  #
+  ERROR = LOG_LEVEL_ERROR()
+
+#
+# log。
+#
+#
+class TLog(object):
+
+  #
+  # 获取log的级别。
+  # 
+  #
+  # @return 返回log的级别。
+  #
+  @classmethod
+  def get_log_level(cls): 
+      return log_get_log_level()
+
+
+  #
+  # 设置log的级别。
+  # 
+  # @param log_level log的级别。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  @classmethod
+  def set_log_level(cls, log_level): 
+      return log_set_log_level(log_level)
+
+
 #
 # MIME_TYPE。
 #

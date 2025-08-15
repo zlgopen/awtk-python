@@ -28,6 +28,9 @@ def application_init():
 
     print(win.lookup("close", 100).name)
     win.layout();
+    
+    TLog.set_log_level(TTkLogLevel.ERROR);
+    print(TLog.get_log_level())
 
 setup(application_init, "demo", 320, 480, TAppType.DESKTOP)
 
