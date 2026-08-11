@@ -1289,15 +1289,6 @@ class TObject (TEmitter):
 
 
   #
-  # 引用计数。
-  #
-  #
-  @property
-  def ref_count(self):
-    return object_t_get_prop_ref_count(self.nativeObj)
-
-
-  #
   # 对象的名称。
   #
   #
@@ -1308,6 +1299,15 @@ class TObject (TEmitter):
   @name.setter
   def name(self, v):
     object_set_name(self.nativeObj, v)
+
+
+  #
+  # 引用计数。
+  #
+  #
+  @property
+  def ref_count(self):
+    return object_t_get_prop_ref_count(self.nativeObj)
 
 
 #
@@ -2685,18 +2685,6 @@ class TEventType:
   POINTER_UP_BEFORE_CHILDREN = EVT_POINTER_UP_BEFORE_CHILDREN()
 
   #
-  # 滚轮事件名(wheel_event_t)。
-  #
-  #
-  WHEEL = EVT_WHEEL()
-
-  #
-  # 鼠标滚轮事件名，在子控件处理之前触发(wheel_event_t)。
-  #
-  #
-  WHEEL_BEFORE_CHILDREN = EVT_WHEEL_BEFORE_CHILDREN()
-
-  #
   # 取消前一个指针按下事件名(pointer_event_t)。
   #
   #
@@ -2707,6 +2695,18 @@ class TEventType:
   #
   #
   CONTEXT_MENU = EVT_CONTEXT_MENU()
+
+  #
+  # 鼠标额外按键按下事件名(pointer_event_t)。
+  #
+  #
+  MOUSE_EXTRA_BUTTON_DOWN = EVT_MOUSE_EXTRA_BUTTON_DOWN()
+
+  #
+  # 鼠标额外按键抬起事件名(pointer_event_t)。
+  #
+  #
+  MOUSE_EXTRA_BUTTON_UP = EVT_MOUSE_EXTRA_BUTTON_UP()
 
   #
   # 指针进入事件名(pointer_event_t)。
@@ -2737,6 +2737,18 @@ class TEventType:
   #
   #
   DOUBLE_CLICK = EVT_DOUBLE_CLICK()
+
+  #
+  # 滚轮事件名(wheel_event_t)。
+  #
+  #
+  WHEEL = EVT_WHEEL()
+
+  #
+  # 鼠标滚轮事件名，在子控件处理之前触发(wheel_event_t)。
+  #
+  #
+  WHEEL_BEFORE_CHILDREN = EVT_WHEEL_BEFORE_CHILDREN()
 
   #
   # 得到焦点事件名(event_t)。
@@ -2911,6 +2923,7 @@ class TEventType:
   #
   # 窗口被切换到后台事件(event_t)。
   #打开新窗口时，当前窗口被切换到后台时，对当前窗口触发本事件。
+  #或者切换窗口时，对切换到后台的窗口触发本事件。
   #
   #
   WINDOW_TO_BACKGROUND = EVT_WINDOW_TO_BACKGROUND()
@@ -2918,6 +2931,8 @@ class TEventType:
   #
   # 窗口被切换到前台事件(event_t)。
   #关闭当前窗口时，前一个窗口被切换到前台时，对前一个窗口触发本事件。
+  #或者切换窗口时，对切换到前台的窗口触发本事件。
+  #打开窗口时不会触发本事件。
   #
   #
   WINDOW_TO_FOREGROUND = EVT_WINDOW_TO_FOREGROUND()
@@ -5547,6 +5562,20 @@ class TTimer(object):
       return timer_modify(timer_id, duration)
 
 
+  #
+  # 修改指定的timer的duration，修改之后定时器重新开始计时。
+  # 
+  # @param timer_id timerID。
+  # @param duration 新的时间(毫秒)。
+  # @param reset_timer 修改后是否重新计时。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  @classmethod
+  def modify_ex(cls, timer_id, duration, reset_timer): 
+      return timer_modify_ex(timer_id, duration, reset_timer)
+
+
 #
 # 垂直对齐的常量定义。
 #
@@ -5790,7 +5819,7 @@ class TVgcanvasFillMode:
 #
 # 矢量图画布抽象基类。
 #
-#具体实现时可以使用agg，nanovg, cairo和skia等方式。
+#具体实现时可以使用nanovg, cairo和skia等方式。
 #
 #cairo和skia体积太大，不适合嵌入式平台，但在PC平台也是一种选择。
 #
@@ -5798,9 +5827,7 @@ class TVgcanvasFillMode:
 #
 #我们对nanovg进行了一些改进:
 #
-#* 可以用agg/agge实现软件渲染(暂时不支持文本绘制)。
-#
-#* 可以用bgfx使用DirectX(Windows平台)和Metal(iOS)平台硬件加速。
+#* 可以用agge实现软件渲染(暂时不支持文本绘制)。
 #
 #
 #
@@ -9760,6 +9787,26 @@ class TWidget(object):
 
 
   #
+  # 检查控件弹出对话框控件是否是挂起状态。
+  # 
+  #
+  # @return 返回FALSE表示不是，否则表示是。
+  #
+  def is_suspend_dialog(self): 
+      return widget_is_suspend_dialog(awtk_get_native_obj(self))
+
+
+  #
+  # 检查控件弹出窗口控件是否是挂起状态。
+  # 
+  #
+  # @return 返回FALSE表示不是，否则表示是。
+  #
+  def is_suspend_popup(self): 
+      return widget_is_suspend_popup(awtk_get_native_obj(self))
+
+
+  #
   # 检查控件弹出对话框控件是否已经打开了（而非挂起状态）。
   # 
   #
@@ -9913,6 +9960,16 @@ class TWidget(object):
   #
   def destroy_async(self): 
       return widget_destroy_async(awtk_get_native_obj(self))
+
+
+  #
+  # 增加控件的引用计数。
+  # 
+  #
+  # @return 返回控件对象。
+  #
+  def ref(self): 
+      return  TWidget(widget_ref(awtk_get_native_obj(self)))
 
 
   #
@@ -10635,6 +10692,155 @@ class TAppConf(object):
   def remove(cls, key): 
       return app_conf_remove(key)
 
+
+#
+# 工具类。
+#
+#
+class TConfUtils(object):
+
+  #
+  # 加载配置文件到对象中。
+  # 
+  # @param obj object对象。
+  # @param url 配置文件路径。
+  # @param type 配置文件类型, 如果为NULL，则自动检测。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  @classmethod
+  def object_load_conf(cls, obj, url, type): 
+      return object_load_conf(awtk_get_native_obj(obj), url, type)
+
+
+#
+# 属性。
+#
+#
+class TEditExProp: 
+
+  #
+  # 多行编辑。
+  #
+  #
+  MULTILINE = EDIT_EX_PROP_MULTILINE()
+
+  #
+  # 输入建议词。
+  #
+  #
+  SUGGEST_WORDS = EDIT_EX_PROP_SUGGEST_WORDS()
+
+  #
+  # 输入建议词相关ui属性。
+  #eg:
+  #```xml
+  #<edit_ex suggest_words_ui_props.popup.theme="number"/>
+  #```
+  #
+  #
+  SUGGEST_WORDS_UI_PROPS = EDIT_EX_PROP_SUGGEST_WORDS_UI_PROPS()
+
+  #
+  # 奇数项的样式。
+  #eg:
+  #```xml
+  #<edit_ex suggest_words_ui_props.list_view.item_odd_style="odd"/>
+  #```
+  #
+  #style:
+  #```xml
+  #<combo_box_item>
+  #<style name="odd">
+  #</style>
+  #</combo_box_item>
+  #```
+  #
+  #
+  SUGGEST_WORDS_ITEM_ODD_STYLE = EDIT_EX_PROP_SUGGEST_WORDS_ITEM_ODD_STYLE()
+
+  #
+  # 偶数项的样式。
+  #eg:
+  #```xml
+  #<edit_ex suggest_words_ui_props.list_view.item_even_style="even"/>
+  #```
+  #
+  #style:
+  #```xml
+  #<combo_box_item>
+  #<style name="even">
+  #</style>
+  #</combo_box_item>
+  #```
+  #
+  #
+  SUGGEST_WORDS_ITEM_EVEN_STYLE = EDIT_EX_PROP_SUGGEST_WORDS_ITEM_EVEN_STYLE()
+
+  #
+  # 分隔线的样式。
+  #eg:
+  #```xml
+  #<edit_ex suggest_words_ui_props.list_view.item_separate_style="separate"/>
+  #```
+  #
+  #style:
+  #```xml
+  #<view>
+  #<style name="separate">
+  #</style>
+  #</view>
+  #```
+  #
+  #
+  SUGGEST_WORDS_ITEM_SEPARATE_STYLE = EDIT_EX_PROP_SUGGEST_WORDS_ITEM_SEPARATE_STYLE()
+
+  #
+  # 最终输入到edit控件的文本的属性名。
+  #> 设置了 suggest_words_item_formats 才会被用到。
+  #
+  #
+  SUGGEST_WORDS_INPUT_NAME = EDIT_EX_PROP_SUGGEST_WORDS_INPUT_NAME()
+
+  #
+  # 是否选中输入建议词。
+  #
+  #
+  IS_SELECT_SUGGEST_WORD = EDIT_EX_PROP_IS_SELECT_SUGGEST_WORD()
+
+  #
+  # 项格式。
+  #> 格式说明：
+  #* 1. {}里包含一个格式的内容，格式与格式间用;相隔，格式为：格式名可忽略{内容}
+  #* 2. 格式内容由控件组成，控件格式为：控件类型默认为label(控件属性)[子控件]
+  #* 3. 控件可用分隔为,或|，如果使用|则自动生成分隔线。
+  #* 4. 控件可变属性前有$符号，属性会替换为输入建议词里的属性，如{(text=$title)}，label控件的属性text会替换为输入关键词里的title属性。
+  #* 完整格式参考：
+  #*   格式名{控件1类型(控件属性)[子控件1类型(子控件1属性),(类型为label的子控件2属性)]|(类型为label的控件2属性)};格式名2{...}
+  #eg:
+  #```xml
+  #<edit_ex suggest_words_item_formats="{view(w=20%)[image(w=20,image=$img),(text=$INPUT,w=-20,m=5)]|(text=$desc,w=80%)}"/>
+  #```
+  #
+  #
+  SUGGEST_WORDS_ITEM_FORMATS = EDIT_EX_PROP_SUGGEST_WORDS_ITEM_FORMATS()
+
+#
+# 属性。
+#
+#
+class TEditExSuggestWordsProp: 
+
+  #
+  # 建议词源属性：使用的格式名。
+  #eg:
+  #```xml
+  #<edit_ex suggest_words_item_formats="{view(w=20%)[image(w=20,image=$img),(text=$INPUT,w=-20,m=5)]|(text=$desc,w=80%)};A{(text=$INPUT,w=20%,m=5)|(text=$desc,w=80%)}"/>
+  #```
+  #
+  #
+  #
+  FORMAT_NAME = EDIT_EX_SUGGEST_WORDS_PROP_FORMAT_NAME()
 
 #
 # 扩展控件。
@@ -11408,7 +11614,7 @@ class TEasingType:
   SIN_OUT = EASING_SIN_OUT()
 
   #
-  # EASING_SIN_OUT
+  # EASING_SIN_INOUT
   #
   #
   SIN_INOUT = EASING_SIN_INOUT()
@@ -12207,6 +12413,30 @@ class TMIME_TYPE:
   VIDEO_X_MSVIDEO = MIME_TYPE_VIDEO_X_MSVIDEO()
 
 #
+# 对象生命周期的定义。如果需要保存对象的实例，如何决定对象的生命周期。
+#
+#
+class TObjectLife: 
+
+  #
+  # 不关心对象的生命周期(假设对象的生命周期长于当前的上下文)。
+  #
+  #
+  NONE = OBJECT_LIFE_NONE()
+
+  #
+  # 拥有对象的生命周期。当前上下文开始时，*不会* 增加对象的引用计数。当前上下文结束时，自动减少(unref)对象引用计数。
+  #
+  #
+  OWN = OBJECT_LIFE_OWN()
+
+  #
+  # 持有对象的生命周期。当前上下文开始时，增加对象的引用计数。当前上下文结束时，自动减少(unref)对象引用计数。
+  #
+  #
+  HOLD = OBJECT_LIFE_HOLD()
+
+#
 # 对象常见命令定义
 #
 #
@@ -12280,6 +12510,18 @@ class TObjectCmd:
   #
   EDIT = OBJECT_CMD_EDIT()
 
+  #
+  # 执行
+  #
+  #
+  EXEC = OBJECT_CMD_EXEC()
+
+  #
+  # 撤销
+  #
+  #
+  UNDO = OBJECT_CMD_UNDO()
+
 #
 # 对象常见属性定义
 #
@@ -12293,6 +12535,18 @@ class TObjectProp:
   SIZE = OBJECT_PROP_SIZE()
 
   #
+  # 是否禁用按路径访问属性。
+  #
+  #
+  DISABLE_PATH = OBJECT_PROP_DISABLE_PATH()
+
+  #
+  # 是否保持属性间的顺序。
+  #
+  #
+  KEEP_PROPS_ORDER = OBJECT_PROP_KEEP_PROPS_ORDER()
+
+  #
   # 属性是否勾选。
   #
   #
@@ -12303,30 +12557,6 @@ class TObjectProp:
   #
   #
   SELECTED_INDEX = OBJECT_PROP_SELECTED_INDEX()
-
-#
-# 对象生命周期的定义。如果需要保存对象的实例，如何决定对象的生命周期。
-#
-#
-class TObjectLife: 
-
-  #
-  # 不关心对象的生命周期(假设对象的生命周期长于当前的上下文)。
-  #
-  #
-  NONE = OBJECT_LIFE_NONE()
-
-  #
-  # 拥有对象的生命周期。当前上下文开始时，*不会* 增加对象的引用计数。当前上下文结束时，自动减少(unref)对象引用计数。
-  #
-  #
-  OWN = OBJECT_LIFE_OWN()
-
-  #
-  # 持有对象的生命周期。当前上下文开始时，增加对象的引用计数。当前上下文结束时，自动减少(unref)对象引用计数。
-  #
-  #
-  HOLD = OBJECT_LIFE_HOLD()
 
 #
 # 循环记录日志(支持多线程访问)。
@@ -17671,6 +17901,59 @@ class TMledit (TWidget):
 
 
   #
+  # 获取当前显示部分的起始视觉行号(一行文本可能分多行显示)。
+  # 
+  #
+  # @return 返回行号。
+  #
+  def get_start_line_index(self): 
+      return mledit_get_start_line_index(awtk_get_native_obj(self))
+
+
+  #
+  # 获取当前显示部分的起始物理行号。
+  # 
+  #
+  # @return 返回行号。
+  #
+  def get_start_row_index(self): 
+      return mledit_get_start_row_index(awtk_get_native_obj(self))
+
+
+  #
+  # 获取指定偏移所在的视觉行号(一行文本可能分多行显示)。
+  # 
+  # @param offset 偏移。
+  #
+  # @return 返回行号，不在范围内则返回-1。
+  #
+  def get_line_at(self, offset): 
+      return mledit_get_line_at(awtk_get_native_obj(self), offset)
+
+
+  #
+  # 获取指定偏移所在的物理行号。
+  # 
+  # @param offset 偏移。
+  #
+  # @return 返回行号，不在范围内则返回-1。
+  #
+  def get_row_at(self, offset): 
+      return mledit_get_row_at(awtk_get_native_obj(self), offset)
+
+
+  #
+  # 获取指定视觉行号所在的物理行号。
+  # 
+  # @param line 视觉行号。
+  #
+  # @return 返回物理行号，不在范围内则返回-1。
+  #
+  def get_row_of_line(self, line): 
+      return mledit_get_row_of_line(awtk_get_native_obj(self), line)
+
+
+  #
   # 插入一段文本。
   # 
   # @param offset 插入的偏移位置。
@@ -17858,6 +18141,15 @@ class TMledit (TWidget):
   @property
   def accept_tab(self):
     return mledit_t_get_prop_accept_tab(self.nativeObj)
+
+
+  #
+  # 是否根据文本自动调整控件自身高度。
+  #
+  #
+  @property
+  def auto_adjust_height(self):
+    return mledit_t_get_prop_auto_adjust_height(self.nativeObj)
 
 
 #
@@ -18314,6 +18606,17 @@ class TRichText (TWidget):
 
 
   #
+  # 设置是否只允许在单词之间自动换行。
+  # 
+  # @param word_wrap 是否只允许在单词之间自动换行。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_word_wrap(self, word_wrap): 
+      return rich_text_set_word_wrap(awtk_get_native_obj(self), word_wrap)
+
+
+  #
   # 转换为rich_text对象(供脚本语言使用)。
   # 
   # @param widget rich_text对象。
@@ -18345,6 +18648,19 @@ class TRichText (TWidget):
   @yslidable.setter
   def yslidable(self, v):
     rich_text_set_yslidable(self.nativeObj, v)
+
+
+  #
+  # 是否只允许在单词之间自动换行(默认TRUE)。
+  #
+  #
+  @property
+  def word_wrap(self):
+    return rich_text_t_get_prop_word_wrap(self.nativeObj)
+
+  @word_wrap.setter
+  def word_wrap(self, v):
+    rich_text_set_word_wrap(self.nativeObj, v)
 
 
 #
@@ -19441,6 +19757,17 @@ class TScrollBar (TWidget):
 
 
   #
+  # 设置每次鼠标滚动行数(仅对desktop风格的滚动条有效)。
+  # 
+  # @param scroll_rows 每次鼠标滚动行数。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_scroll_rows(self, scroll_rows): 
+      return scroll_bar_set_scroll_rows(awtk_get_native_obj(self), scroll_rows)
+
+
+  #
   # 虚拟宽度或高度。
   #
   #
@@ -19498,6 +19825,19 @@ class TScrollBar (TWidget):
 
 
   #
+  # 每次鼠标滚动行数。（与 scroll_delta 互斥，缺省值为0，0 则使用 scroll_delta）
+  #
+  #
+  @property
+  def scroll_rows(self):
+    return scroll_bar_t_get_prop_scroll_rows(self.nativeObj)
+
+  @scroll_rows.setter
+  def scroll_rows(self, v):
+    scroll_bar_set_scroll_rows(self.nativeObj, v)
+
+
+  #
   # 滚动时是否启用动画。
   #
   #
@@ -19520,7 +19860,7 @@ class TScrollBar (TWidget):
 
 
   #
-  # 设置鼠标滚轮是否滚动(仅对desktop风格的滚动条有效)（垂直滚动条缺省值为TRUE，水平滚动条缺省值为FALSE）。
+  # 设置鼠标滚轮是否滚动。
   #
   #
   @property
@@ -19530,6 +19870,15 @@ class TScrollBar (TWidget):
   @wheel_scroll.setter
   def wheel_scroll(self, v):
     scroll_bar_set_wheel_scroll(self.nativeObj, v)
+
+
+  #
+  # 滚轮辅助键(仅对desktop风格的滚动条有效)（垂直滚动条缺省值为空，水平滚动条缺省值为shift）。
+  #
+  #
+  @property
+  def wheel_modifier_key(self):
+    return scroll_bar_t_get_prop_wheel_modifier_key(self.nativeObj)
 
 
 #
@@ -19763,7 +20112,7 @@ class TScrollView (TWidget):
 
 
   #
-  # 滚动到指定的偏移量。
+  # 在当前偏移量基础上滚动指定偏移量。
   # 
   # @param xoffset_delta x偏移量。
   # @param yoffset_delta y偏移量。
@@ -19773,6 +20122,42 @@ class TScrollView (TWidget):
   #
   def scroll_delta_to(self, xoffset_delta, yoffset_delta, duration): 
       return scroll_view_scroll_delta_to(awtk_get_native_obj(self), xoffset_delta, yoffset_delta, duration)
+
+
+  #
+  # 是否使用虚拟宽度，默认否。
+  #
+  #
+  @property
+  def use_virtual_w(self):
+    return scroll_view_t_get_prop_use_virtual_w(self.nativeObj)
+
+
+  #
+  # 是否使用滚动视图宽度，默认否。
+  #
+  #
+  @property
+  def use_widget_w(self):
+    return scroll_view_t_get_prop_use_widget_w(self.nativeObj)
+
+
+  #
+  # 是否使用虚拟高度，默认否。
+  #
+  #
+  @property
+  def use_virtual_h(self):
+    return scroll_view_t_get_prop_use_virtual_h(self.nativeObj)
+
+
+  #
+  # 是否使用滚动视图高度，默认否。
+  #
+  #
+  @property
+  def use_widget_h(self):
+    return scroll_view_t_get_prop_use_widget_h(self.nativeObj)
 
 
   #
@@ -22686,6 +23071,324 @@ class TNamedValue (TValue):
 
 
 #
+# 设置元素事件。
+#
+#
+class TObjectFifoSetEvent (TEvent):
+
+  def __new__(cls, native_obj=0):
+      if native_obj == 0:
+          return None
+      else:
+          if super().__new__ == object.__new__:
+              instance = super().__new__(cls)
+          else:
+              instance = super().__new__(cls, native_obj)
+          instance.nativeObj = native_obj
+          return instance
+    
+  def __init__(self, nativeObj):
+    super(TObjectFifoSetEvent, self).__init__(nativeObj)
+
+
+  def __eq__(self, other: 'TWidget'):
+      if other is None:
+          return self.nativeObj == 0
+      return self.nativeObj == other.nativeObj
+    
+  #
+  # 设置元素时的指定位置。
+  #
+  #
+  @property
+  def index(self):
+    return object_fifo_set_event_t_get_prop_index(self.nativeObj)
+
+
+  #
+  # 设置元素的个数。
+  #
+  #
+  @property
+  def nr(self):
+    return object_fifo_set_event_t_get_prop_nr(self.nativeObj)
+
+
+  #
+  # 设置数据。
+  #
+  #
+  @property
+  def data(self):
+    return object_fifo_set_event_t_get_prop_data(self.nativeObj)
+
+
+#
+# 追加元素事件。
+#
+#
+class TObjectFifoPushEvent (TEvent):
+
+  def __new__(cls, native_obj=0):
+      if native_obj == 0:
+          return None
+      else:
+          if super().__new__ == object.__new__:
+              instance = super().__new__(cls)
+          else:
+              instance = super().__new__(cls, native_obj)
+          instance.nativeObj = native_obj
+          return instance
+    
+  def __init__(self, nativeObj):
+    super(TObjectFifoPushEvent, self).__init__(nativeObj)
+
+
+  def __eq__(self, other: 'TWidget'):
+      if other is None:
+          return self.nativeObj == 0
+      return self.nativeObj == other.nativeObj
+    
+  #
+  # 追加元素的个数。
+  #
+  #
+  @property
+  def nr(self):
+    return object_fifo_push_event_t_get_prop_nr(self.nativeObj)
+
+
+  #
+  # 追加数据。
+  #
+  #
+  @property
+  def data(self):
+    return object_fifo_push_event_t_get_prop_data(self.nativeObj)
+
+
+#
+# 在头部插入元素事件。
+#
+#
+class TObjectFifoPushHeadEvent (TEvent):
+
+  def __new__(cls, native_obj=0):
+      if native_obj == 0:
+          return None
+      else:
+          if super().__new__ == object.__new__:
+              instance = super().__new__(cls)
+          else:
+              instance = super().__new__(cls, native_obj)
+          instance.nativeObj = native_obj
+          return instance
+    
+  def __init__(self, nativeObj):
+    super(TObjectFifoPushHeadEvent, self).__init__(nativeObj)
+
+
+  def __eq__(self, other: 'TWidget'):
+      if other is None:
+          return self.nativeObj == 0
+      return self.nativeObj == other.nativeObj
+    
+  #
+  # 插入元素的个数。
+  #
+  #
+  @property
+  def nr(self):
+    return object_fifo_push_head_event_t_get_prop_nr(self.nativeObj)
+
+
+  #
+  # 插入数据。
+  #
+  #
+  @property
+  def data(self):
+    return object_fifo_push_head_event_t_get_prop_data(self.nativeObj)
+
+
+#
+# 弹出元素事件。
+#
+#
+class TObjectFifoPopEvent (TEvent):
+
+  def __new__(cls, native_obj=0):
+      if native_obj == 0:
+          return None
+      else:
+          if super().__new__ == object.__new__:
+              instance = super().__new__(cls)
+          else:
+              instance = super().__new__(cls, native_obj)
+          instance.nativeObj = native_obj
+          return instance
+    
+  def __init__(self, nativeObj):
+    super(TObjectFifoPopEvent, self).__init__(nativeObj)
+
+
+  def __eq__(self, other: 'TWidget'):
+      if other is None:
+          return self.nativeObj == 0
+      return self.nativeObj == other.nativeObj
+    
+  #
+  # 弹出元素的个数。
+  #
+  #
+  @property
+  def nr(self):
+    return object_fifo_pop_event_t_get_prop_nr(self.nativeObj)
+
+
+#
+# 从末尾弹出元素事件。
+#
+#
+class TObjectFifoPopTailEvent (TEvent):
+
+  def __new__(cls, native_obj=0):
+      if native_obj == 0:
+          return None
+      else:
+          if super().__new__ == object.__new__:
+              instance = super().__new__(cls)
+          else:
+              instance = super().__new__(cls, native_obj)
+          instance.nativeObj = native_obj
+          return instance
+    
+  def __init__(self, nativeObj):
+    super(TObjectFifoPopTailEvent, self).__init__(nativeObj)
+
+
+  def __eq__(self, other: 'TWidget'):
+      if other is None:
+          return self.nativeObj == 0
+      return self.nativeObj == other.nativeObj
+    
+  #
+  # 弹出元素的个数。
+  #
+  #
+  @property
+  def nr(self):
+    return object_fifo_pop_tail_event_t_get_prop_nr(self.nativeObj)
+
+
+#
+# 值改变事件。
+#
+#
+class TObjectFifoValueChangeEvent (TEvent):
+
+  def __new__(cls, native_obj=0):
+      if native_obj == 0:
+          return None
+      else:
+          if super().__new__ == object.__new__:
+              instance = super().__new__(cls)
+          else:
+              instance = super().__new__(cls, native_obj)
+          instance.nativeObj = native_obj
+          return instance
+    
+  def __init__(self, nativeObj):
+    super(TObjectFifoValueChangeEvent, self).__init__(nativeObj)
+
+
+  def __eq__(self, other: 'TWidget'):
+      if other is None:
+          return self.nativeObj == 0
+      return self.nativeObj == other.nativeObj
+    
+  #
+  # 把event对象转object_fifo_event_set_t对象，主要给脚本语言使用。
+  # 
+  # @param event event对象。
+  #
+  # @return event对象。
+  #
+  @classmethod
+  def object_fifo_set_event_cast(cls, event): 
+      return  TObjectFifoValueChangeEvent(object_fifo_set_event_cast(awtk_get_native_obj(event)))
+
+
+  #
+  # 把event对象转object_fifo_push_event_t对象，主要给脚本语言使用。
+  # 
+  # @param event event对象。
+  #
+  # @return event对象。
+  #
+  @classmethod
+  def object_fifo_push_event_cast(cls, event): 
+      return  TObjectFifoValueChangeEvent(object_fifo_push_event_cast(awtk_get_native_obj(event)))
+
+
+  #
+  # 把event对象转object_fifo_push_head_event_t对象，主要给脚本语言使用。
+  # 
+  # @param event event对象。
+  #
+  # @return event对象。
+  #
+  @classmethod
+  def object_fifo_push_head_event_cast(cls, event): 
+      return  TObjectFifoValueChangeEvent(object_fifo_push_head_event_cast(awtk_get_native_obj(event)))
+
+
+  #
+  # 把event对象转object_fifo_pop_event_t对象，主要给脚本语言使用。
+  # 
+  # @param event event对象。
+  #
+  # @return event对象。
+  #
+  @classmethod
+  def object_fifo_pop_event_cast(cls, event): 
+      return  TObjectFifoValueChangeEvent(object_fifo_pop_event_cast(awtk_get_native_obj(event)))
+
+
+  #
+  # 把event对象转object_fifo_pop_tail_event_t对象，主要给脚本语言使用。
+  # 
+  # @param event event对象。
+  #
+  # @return event对象。
+  #
+  @classmethod
+  def object_fifo_pop_tail_event_cast(cls, event): 
+      return  TObjectFifoValueChangeEvent(object_fifo_pop_tail_event_cast(awtk_get_native_obj(event)))
+
+
+  #
+  # 把event对象转object_fifo_value_change_event_t对象，主要给脚本语言使用。
+  # 
+  # @param event event对象。
+  #
+  # @return event对象。
+  #
+  @classmethod
+  def cast(cls, event): 
+      return  TObjectFifoValueChangeEvent(object_fifo_value_change_event_cast(awtk_get_native_obj(event)))
+
+
+  #
+  # 具体的事件类型。
+  #
+  #
+  @property
+  def type(self):
+    return object_fifo_value_change_event_t_get_prop_type(self.nativeObj)
+
+
+#
 # app_bar控件。
 #
 #一个简单的容器控件，一般在窗口的顶部，用于显示本窗口的状态和信息。
@@ -24127,6 +24830,16 @@ class TEdit (TWidget):
 
 
   #
+  # 获取int64类型的值。
+  # 
+  #
+  # @return 返回int的值。
+  #
+  def get_int64(self): 
+      return edit_get_int64(awtk_get_native_obj(self))
+
+
+  #
   # 获取double类型的值。
   # 
   #
@@ -25088,9 +25801,9 @@ class TLabel (TWidget):
 
 
   #
-  # 设置是否允许整个单词换行。(需要开启自动换行才有效果)
+  # 设置是否只允许在单词之间自动换行(需要开启自动换行才有效果)。
   # 
-  # @param word_wrap 是否允许整个单词换行。
+  # @param word_wrap 是否只允许在单词之间自动换行。
   #
   # @return 返回RET_OK表示成功，否则表示失败。
   #
@@ -25138,7 +25851,6 @@ class TLabel (TWidget):
   #
   # 显示字符的个数(小于0时全部显示)。
   #主要用于动态改变显示字符的个数，来实现类似[拨号中...]的动画效果。
-  #> 和换行是冲突的，换行后，该属性不生效
   #
   #
   @property
@@ -25164,7 +25876,7 @@ class TLabel (TWidget):
 
 
   #
-  # 是否允许整个单词换行(默认FALSE)。
+  # 是否只允许在单词之间自动换行(默认FALSE)。
   #> 需要开启自动换行才有效果
   #
   #
@@ -26569,9 +27281,7 @@ class TView (TWidget):
 #
 #如果dialog有透明或半透效果则不支持窗口动画。
 #
-#> 由于浏览器中无法实现主循环嵌套，因此无法实现模态对话框。
-#如果希望自己写的AWTK应用程序可以在浏览器(包括各种小程序)中运行或演示，
-#请避免使用模态对话框。
+#> 由于浏览器中无法实现主循环嵌套，dialog_modal() 不会阻塞等待返回值，而是立即返回。如果业务逻辑依赖模态对话框的返回值，在浏览器中会失效。
 #
 #对话框通常由对话框标题和对话框客户区两部分组成：
 #
@@ -26752,6 +27462,8 @@ class TDialog (TWindowBase):
   #dialog_modal返回后，dialog对象将在下一个idle函数中回收。
   #也就是在dialog_modal调用完成后仍然可以访问dialog中控件，直到本次事件结束。
   #调用该函数会使线程进入阻塞状态，需要调用dialog_quit来解除阻塞。
+  #> 建议尽量少用模态对话框，特别不要多级嵌套模态对话框，部分平台(如WEB)不支持模态对话框。
+  #> AWTK本身是不能操作对话框后面的窗口的，相当于是模态的，只是事件是异步的，传统模态对话框都是可以用非模态对话框实现的。
   # 
   #
   # @return 返回退出码，值为dialog_quit函数中传入的参数。
@@ -27217,6 +27929,7 @@ class TWindow (TWindowBase):
 #
 # 扩展edit控件。支持以下功能：
 #* 支持搜索建议功能。
+#* 支持多行编辑功能。
 #
 #
 class TEditEx (TEdit):
@@ -27258,6 +27971,18 @@ class TEditEx (TEdit):
 
 
   #
+  # 设置多行编辑。
+  #> 与搜索建议功能互斥。
+  # 
+  # @param multiline 是否多行编辑。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_multiline(self, multiline): 
+      return edit_ex_set_multiline(awtk_get_native_obj(self), multiline)
+
+
+  #
   # 设置输入建议词源。
   #> EVT_VALUE_CHANGED 事件请求词源更新，new_value 为 edit 输入内容。
   # 
@@ -27290,6 +28015,17 @@ class TEditEx (TEdit):
   #
   def set_suggest_words_input_name(self, name): 
       return edit_ex_set_suggest_words_input_name(awtk_get_native_obj(self), name)
+
+
+  #
+  # 请求刷新显示建议词窗口。
+  #> suggest_words 为空时关闭窗口。
+  # 
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def update_suggest_words_popup(self): 
+      return edit_ex_update_suggest_words_popup(awtk_get_native_obj(self))
 
 
   #
@@ -27342,6 +28078,29 @@ class TEditEx (TEdit):
   @suggest_words_input_name.setter
   def suggest_words_input_name(self, v):
     edit_ex_set_suggest_words_input_name(self.nativeObj, v)
+
+
+  #
+  # 是否选中输入建议词。
+  #
+  #
+  @property
+  def is_select_suggest_word(self):
+    return edit_ex_t_get_prop_is_select_suggest_word(self.nativeObj)
+
+
+  #
+  # 多行编辑。
+  #> 与搜索建议功能互斥。
+  #
+  #
+  @property
+  def multiline(self):
+    return edit_ex_t_get_prop_multiline(self.nativeObj)
+
+  @multiline.setter
+  def multiline(self, v):
+    edit_ex_set_multiline(self.nativeObj, v)
 
 
 #
@@ -27467,6 +28226,17 @@ class TGifImage (TImageBase):
 
 
   #
+  # 设置是否使用部分加载模式。
+  # 
+  # @param part_buffer_load_mode 循环播放次数。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_part_buffer_load_mode(self, part_buffer_load_mode): 
+      return gif_image_set_part_buffer_load_mode(awtk_get_native_obj(self), part_buffer_load_mode)
+
+
+  #
   # 转换为gif_image对象(供脚本语言使用)。
   # 
   # @param widget gif_image对象。
@@ -27489,6 +28259,19 @@ class TGifImage (TImageBase):
   @loop.setter
   def loop(self, v):
     gif_image_set_loop(self.nativeObj, v)
+
+
+  #
+  # 边加载边播放模式。（比较耗费性能，但占用内存较小）
+  #
+  #
+  @property
+  def part_buffer_load_mode(self):
+    return gif_image_t_get_prop_part_buffer_load_mode(self.nativeObj)
+
+  @part_buffer_load_mode.setter
+  def part_buffer_load_mode(self, v):
+    gif_image_set_part_buffer_load_mode(self.nativeObj, v)
 
 
 #
@@ -28417,6 +29200,17 @@ class TObjectHash (TObject):
   #
   def set_keep_prop_type(self, keep_prop_type): 
       return object_hash_set_keep_prop_type(awtk_get_native_obj(self), keep_prop_type)
+
+
+  #
+  # 设置属性名是否大小写不敏感。
+  # 
+  # @param name_case_insensitive 属性名是否大小写不敏感。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_name_case_insensitive(self, name_case_insensitive): 
+      return object_hash_set_name_case_insensitive(awtk_get_native_obj(self), name_case_insensitive)
 
 
   #

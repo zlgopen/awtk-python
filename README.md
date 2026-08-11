@@ -38,17 +38,17 @@ python ./scripts/update_res.py all
 scons
 ```
 
-> 如果希望通过 python 运行，适合调试 python 程序，请按下面的方式编译，：
+> 如果希望通过 python 运行，适合调试 python 程序，请按下面的方式安装（推荐使用 venv）：
 
 ```
-sudo python3 setup.py install
+python3 -m venv .venv
+source .venv/bin/activate          # Windows: .venv\Scripts\activate
+python -m pip install -U pip setuptools wheel
+pip install . --no-build-isolation
 ```
 
-> Windows 下要在管理员权限下运行:
-
-```
-python3 setup.py install
-```
+> 说明：构建依赖旁路已编译的 `../awtk` 配置，因此需要 `--no-build-isolation`。
+> Windows 下同样在已激活的 venv 中执行 `pip install . --no-build-isolation` 即可，无需管理员权限。
 
 * 编译 LINUX FB 版本
 

@@ -16,5 +16,7 @@ filter.json
 __pycache__
 res
 demos/awtk.py
-awtk.egg-info
+*.egg-info
+.venv
 dist
+build

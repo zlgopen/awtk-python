@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "awtk"
+version = "0.1.0"
+description = "awtk python binding."
+readme = "README.md"
+license = "LGPL-2.0-only"
+authors = [
+  { name = "Li XianJing", email = "lixianjing@zlg.cn" },
+]
+requires-python = ">=3.8"
+urls = { Homepage = "https://github.com/zlgopen/awtk-python" }
+
+[tool.setuptools]
+py-modules = ["awtk"]
+
+[tool.setuptools.package-dir]
+"" = "src/python"
