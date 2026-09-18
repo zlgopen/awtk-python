@@ -1879,54 +1879,6 @@ class TGlobal(object):
 
 
 #
-# bidi 类型常量定义。
-#
-#
-class TBidiType: 
-
-  #
-  # 自动检查。
-  #
-  #
-  AUTO = BIDI_TYPE_AUTO()
-
-  #
-  # Left-To-Right letter。
-  #
-  #
-  LTR = BIDI_TYPE_LTR()
-
-  #
-  # Right-To-Left letter。
-  #
-  #
-  RTL = BIDI_TYPE_RTL()
-
-  #
-  # Left-To-Right letter Override。
-  #
-  #
-  LRO = BIDI_TYPE_LRO()
-
-  #
-  # Right-To-Left letter Override。
-  #
-  #
-  RLO = BIDI_TYPE_RLO()
-
-  #
-  # Weak Left To Right paragraph。
-  #
-  #
-  WLTR = BIDI_TYPE_WLTR()
-
-  #
-  # Weak Right To Left paragraph。
-  #
-  #
-  WRTL = BIDI_TYPE_WRTL()
-
-#
 # 图片绘制方法常量定义。
 #
 #
@@ -3536,6 +3488,54 @@ class TEvent(object):
   def target(self):
     return event_t_get_prop_target(self.nativeObj)
 
+
+#
+# 字库 bidi 类型常量定义。
+#
+#
+class TFontBidiType: 
+
+  #
+  # 自动检查。
+  #
+  #
+  AUTO = FONT_BIDI_TYPE_AUTO()
+
+  #
+  # Left-To-Right letter。
+  #
+  #
+  LTR = FONT_BIDI_TYPE_LTR()
+
+  #
+  # Right-To-Left letter。
+  #
+  #
+  RTL = FONT_BIDI_TYPE_RTL()
+
+  #
+  # Left-To-Right letter Override。
+  #
+  #
+  LRO = FONT_BIDI_TYPE_LRO()
+
+  #
+  # Right-To-Left letter Override。
+  #
+  #
+  RLO = FONT_BIDI_TYPE_RLO()
+
+  #
+  # Weak Left To Right paragraph。
+  #
+  #
+  WLTR = FONT_BIDI_TYPE_WLTR()
+
+  #
+  # Weak Right To Left paragraph。
+  #
+  #
+  WRTL = FONT_BIDI_TYPE_WRTL()
 
 #
 # 字模格式常量定义。
@@ -6294,6 +6294,22 @@ class TVgcanvas(object):
 
 
   #
+  # 绘制文本。
+  # 
+  # @param glyphs 字模列表对象。
+  # @param start 字模开始序号。
+  # @param len 字模长度。
+  # @param x x坐标。
+  # @param y y坐标。
+  # @param max_width 最大宽度。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def fill_text_by_glyphs(self, glyphs, start, len, x, y, max_width): 
+      return vgcanvas_fill_text_by_glyphs(awtk_get_native_obj(self), glyphs, start, len, x, y, max_width)
+
+
+  #
   # 测量文本的宽度。
   # 
   # @param text text
@@ -6817,6 +6833,12 @@ class TWidgetProp:
   #
   #
   BIDI = WIDGET_PROP_BIDI()
+
+  #
+  # 是否整形（harfbuzz模式下默认开启）。
+  #
+  #
+  SHAPING = WIDGET_PROP_SHAPING()
 
   #
   # Canvas。
@@ -21452,6 +21474,19 @@ class TSlideView (TWidget):
     slide_view_set_animating_time(self.nativeObj, v)
 
 
+  #
+  # 当前活跃的page。
+  #
+  #
+  @property
+  def active(self):
+    return slide_view_t_get_prop_active(self.nativeObj)
+
+  @active.setter
+  def active(self, v):
+    slide_view_set_active(self.nativeObj, v)
+
+
 #
 # 开关控件。
 #
@@ -25123,6 +25158,17 @@ class TEdit (TWidget):
 
 
   #
+  # 设置编辑器是否在失去焦点时滚动回开头。
+  # 
+  # @param scroll_to_begin_on_blur 是否在失去焦点时滚动回开头。
+  #
+  # @return 返回RET_OK表示成功，否则表示失败。
+  #
+  def set_scroll_to_begin_on_blur(self, scroll_to_begin_on_blur): 
+      return edit_set_scroll_to_begin_on_blur(awtk_get_native_obj(self), scroll_to_begin_on_blur)
+
+
+  #
   # 输入提示。
   #
   #
@@ -25340,6 +25386,19 @@ class TEdit (TWidget):
   @focus_next_when_enter.setter
   def focus_next_when_enter(self, v):
     edit_set_focus_next_when_enter(self.nativeObj, v)
+
+
+  #
+  # 失去焦点时是否滚动回开头(默认 FALSE)
+  #
+  #
+  @property
+  def scroll_to_begin_on_blur(self):
+    return edit_t_get_prop_scroll_to_begin_on_blur(self.nativeObj)
+
+  @scroll_to_begin_on_blur.setter
+  def scroll_to_begin_on_blur(self, v):
+    edit_set_scroll_to_begin_on_blur(self.nativeObj, v)
 
 
 #

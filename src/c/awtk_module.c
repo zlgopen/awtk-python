@@ -9,7 +9,6 @@
 #include "tkc/object.h"
 #include "tkc/value.h"
 #include "src/awtk_global.h"
-#include "base/bidi.h"
 #include "base/canvas_offline.h"
 #include "base/canvas.h"
 #include "base/clip_board.h"
@@ -2054,34 +2053,6 @@ pyobject_t wrap_tk_is_pointer_pressed(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("b", ret);
 }
 
-pyobject_t get_BIDI_TYPE_AUTO(pyobject_t self, pyobject_t pyargs) {
-  return Py_BuildValue("i", BIDI_TYPE_AUTO);
-}
-
-pyobject_t get_BIDI_TYPE_LTR(pyobject_t self, pyobject_t pyargs) {
-  return Py_BuildValue("i", BIDI_TYPE_LTR);
-}
-
-pyobject_t get_BIDI_TYPE_RTL(pyobject_t self, pyobject_t pyargs) {
-  return Py_BuildValue("i", BIDI_TYPE_RTL);
-}
-
-pyobject_t get_BIDI_TYPE_LRO(pyobject_t self, pyobject_t pyargs) {
-  return Py_BuildValue("i", BIDI_TYPE_LRO);
-}
-
-pyobject_t get_BIDI_TYPE_RLO(pyobject_t self, pyobject_t pyargs) {
-  return Py_BuildValue("i", BIDI_TYPE_RLO);
-}
-
-pyobject_t get_BIDI_TYPE_WLTR(pyobject_t self, pyobject_t pyargs) {
-  return Py_BuildValue("i", BIDI_TYPE_WLTR);
-}
-
-pyobject_t get_BIDI_TYPE_WRTL(pyobject_t self, pyobject_t pyargs) {
-  return Py_BuildValue("i", BIDI_TYPE_WRTL);
-}
-
 pyobject_t get_IMAGE_DRAW_DEFAULT(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("i", IMAGE_DRAW_DEFAULT);
 }
@@ -3315,6 +3286,34 @@ pyobject_t wrap_event_t_get_prop_target(pyobject_t self, pyobject_t pyargs) {
   }
 
   return PyLong_FromVoidPtr((void*)obj->target);
+}
+
+pyobject_t get_FONT_BIDI_TYPE_AUTO(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", FONT_BIDI_TYPE_AUTO);
+}
+
+pyobject_t get_FONT_BIDI_TYPE_LTR(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", FONT_BIDI_TYPE_LTR);
+}
+
+pyobject_t get_FONT_BIDI_TYPE_RTL(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", FONT_BIDI_TYPE_RTL);
+}
+
+pyobject_t get_FONT_BIDI_TYPE_LRO(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", FONT_BIDI_TYPE_LRO);
+}
+
+pyobject_t get_FONT_BIDI_TYPE_RLO(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", FONT_BIDI_TYPE_RLO);
+}
+
+pyobject_t get_FONT_BIDI_TYPE_WLTR(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", FONT_BIDI_TYPE_WLTR);
+}
+
+pyobject_t get_FONT_BIDI_TYPE_WRTL(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("i", FONT_BIDI_TYPE_WRTL);
 }
 
 pyobject_t get_GLYPH_FMT_ALPHA(pyobject_t self, pyobject_t pyargs) {
@@ -5376,6 +5375,25 @@ pyobject_t wrap_vgcanvas_fill_text(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("i", ret);
 }
 
+pyobject_t wrap_vgcanvas_fill_text_by_glyphs(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  vgcanvas_t* vg = NULL;
+  glyphs_t* glyphs = NULL;
+  uint32_t start = 0;
+  uint32_t len = 0;
+  xy_t x = 0;
+  xy_t y = 0;
+  float_t max_width = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&O&iiiif" , &__parse_voidp, &vg, &__parse_voidp, &glyphs, &start, &len, &x, &y, &max_width)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)vgcanvas_fill_text_by_glyphs(vg, glyphs, start, len, x, y, max_width);
+  return Py_BuildValue("i", ret);
+}
+
 pyobject_t wrap_vgcanvas_measure_text(pyobject_t self, pyobject_t pyargs) {
   float_t ret = 0;
   vgcanvas_t* vg = NULL;
@@ -5848,6 +5866,10 @@ pyobject_t get_WIDGET_PROP_DIRTY_RECT_TOLERANCE(pyobject_t self, pyobject_t pyar
 
 pyobject_t get_WIDGET_PROP_BIDI(pyobject_t self, pyobject_t pyargs) {
   return Py_BuildValue("s", WIDGET_PROP_BIDI);
+}
+
+pyobject_t get_WIDGET_PROP_SHAPING(pyobject_t self, pyobject_t pyargs) {
+  return Py_BuildValue("s", WIDGET_PROP_SHAPING);
 }
 
 pyobject_t get_WIDGET_PROP_CANVAS(pyobject_t self, pyobject_t pyargs) {
@@ -17928,6 +17950,17 @@ pyobject_t wrap_slide_view_t_get_prop_animating_time(pyobject_t self, pyobject_t
   return Py_BuildValue("i", obj->animating_time);
 }
 
+pyobject_t wrap_slide_view_t_get_prop_active(pyobject_t self, pyobject_t pyargs) {
+  slide_view_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &__parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("i", obj->active);
+}
+
 pyobject_t wrap_switch_create(pyobject_t self, pyobject_t pyargs) {
   widget_t* ret = NULL;
   widget_t* parent = NULL;
@@ -20547,6 +20580,20 @@ pyobject_t wrap_edit_set_focus_next_when_enter(pyobject_t self, pyobject_t pyarg
   return Py_BuildValue("i", ret);
 }
 
+pyobject_t wrap_edit_set_scroll_to_begin_on_blur(pyobject_t self, pyobject_t pyargs) {
+  ret_t ret = 0;
+  widget_t* widget = NULL;
+  bool_t scroll_to_begin_on_blur = 0;
+
+  if (!PyArg_ParseTuple(pyargs, "O&b" , &__parse_voidp, &widget, &scroll_to_begin_on_blur)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  ret = (ret_t)edit_set_scroll_to_begin_on_blur(widget, scroll_to_begin_on_blur);
+  return Py_BuildValue("i", ret);
+}
+
 pyobject_t wrap_edit_t_get_prop_tips(pyobject_t self, pyobject_t pyargs) {
   edit_t* obj = NULL;
 
@@ -20732,6 +20779,17 @@ pyobject_t wrap_edit_t_get_prop_focus_next_when_enter(pyobject_t self, pyobject_
   }
 
   return Py_BuildValue("b", obj->focus_next_when_enter);
+}
+
+pyobject_t wrap_edit_t_get_prop_scroll_to_begin_on_blur(pyobject_t self, pyobject_t pyargs) {
+  edit_t* obj = NULL;
+
+  if (!PyArg_ParseTuple(pyargs, "O&", &__parse_voidp, &obj)) {
+    PyErr_SetString(PyExc_TypeError, "invalid arguments");
+    return NULL;
+  }
+
+  return Py_BuildValue("b", obj->scroll_to_begin_on_blur);
 }
 
 pyobject_t wrap_grid_item_create(pyobject_t self, pyobject_t pyargs) {
@@ -24383,13 +24441,6 @@ static PyMethodDef awtk_methods[] = {
 {"tk_get_pointer_x", wrap_tk_get_pointer_x, METH_VARARGS, "tk_get_pointer_x"},
 {"tk_get_pointer_y", wrap_tk_get_pointer_y, METH_VARARGS, "tk_get_pointer_y"},
 {"tk_is_pointer_pressed", wrap_tk_is_pointer_pressed, METH_VARARGS, "tk_is_pointer_pressed"},
-{"BIDI_TYPE_AUTO", get_BIDI_TYPE_AUTO, METH_VARARGS, "BIDI_TYPE_AUTO"},
-{"BIDI_TYPE_LTR", get_BIDI_TYPE_LTR, METH_VARARGS, "BIDI_TYPE_LTR"},
-{"BIDI_TYPE_RTL", get_BIDI_TYPE_RTL, METH_VARARGS, "BIDI_TYPE_RTL"},
-{"BIDI_TYPE_LRO", get_BIDI_TYPE_LRO, METH_VARARGS, "BIDI_TYPE_LRO"},
-{"BIDI_TYPE_RLO", get_BIDI_TYPE_RLO, METH_VARARGS, "BIDI_TYPE_RLO"},
-{"BIDI_TYPE_WLTR", get_BIDI_TYPE_WLTR, METH_VARARGS, "BIDI_TYPE_WLTR"},
-{"BIDI_TYPE_WRTL", get_BIDI_TYPE_WRTL, METH_VARARGS, "BIDI_TYPE_WRTL"},
 {"IMAGE_DRAW_DEFAULT", get_IMAGE_DRAW_DEFAULT, METH_VARARGS, "IMAGE_DRAW_DEFAULT"},
 {"IMAGE_DRAW_CENTER", get_IMAGE_DRAW_CENTER, METH_VARARGS, "IMAGE_DRAW_CENTER"},
 {"IMAGE_DRAW_ICON", get_IMAGE_DRAW_ICON, METH_VARARGS, "IMAGE_DRAW_ICON"},
@@ -24587,6 +24638,13 @@ static PyMethodDef awtk_methods[] = {
 {"event_t_get_prop_size", wrap_event_t_get_prop_size, METH_VARARGS, "event_t_get_prop_size"},
 {"event_t_get_prop_time", wrap_event_t_get_prop_time, METH_VARARGS, "event_t_get_prop_time"},
 {"event_t_get_prop_target", wrap_event_t_get_prop_target, METH_VARARGS, "event_t_get_prop_target"},
+{"FONT_BIDI_TYPE_AUTO", get_FONT_BIDI_TYPE_AUTO, METH_VARARGS, "FONT_BIDI_TYPE_AUTO"},
+{"FONT_BIDI_TYPE_LTR", get_FONT_BIDI_TYPE_LTR, METH_VARARGS, "FONT_BIDI_TYPE_LTR"},
+{"FONT_BIDI_TYPE_RTL", get_FONT_BIDI_TYPE_RTL, METH_VARARGS, "FONT_BIDI_TYPE_RTL"},
+{"FONT_BIDI_TYPE_LRO", get_FONT_BIDI_TYPE_LRO, METH_VARARGS, "FONT_BIDI_TYPE_LRO"},
+{"FONT_BIDI_TYPE_RLO", get_FONT_BIDI_TYPE_RLO, METH_VARARGS, "FONT_BIDI_TYPE_RLO"},
+{"FONT_BIDI_TYPE_WLTR", get_FONT_BIDI_TYPE_WLTR, METH_VARARGS, "FONT_BIDI_TYPE_WLTR"},
+{"FONT_BIDI_TYPE_WRTL", get_FONT_BIDI_TYPE_WRTL, METH_VARARGS, "FONT_BIDI_TYPE_WRTL"},
 {"GLYPH_FMT_ALPHA", get_GLYPH_FMT_ALPHA, METH_VARARGS, "GLYPH_FMT_ALPHA"},
 {"GLYPH_FMT_MONO", get_GLYPH_FMT_MONO, METH_VARARGS, "GLYPH_FMT_MONO"},
 {"GLYPH_FMT_RGBA", get_GLYPH_FMT_RGBA, METH_VARARGS, "GLYPH_FMT_RGBA"},
@@ -24916,6 +24974,7 @@ static PyMethodDef awtk_methods[] = {
 {"vgcanvas_set_text_align", wrap_vgcanvas_set_text_align, METH_VARARGS, "vgcanvas_set_text_align"},
 {"vgcanvas_set_text_baseline", wrap_vgcanvas_set_text_baseline, METH_VARARGS, "vgcanvas_set_text_baseline"},
 {"vgcanvas_fill_text", wrap_vgcanvas_fill_text, METH_VARARGS, "vgcanvas_fill_text"},
+{"vgcanvas_fill_text_by_glyphs", wrap_vgcanvas_fill_text_by_glyphs, METH_VARARGS, "vgcanvas_fill_text_by_glyphs"},
 {"vgcanvas_measure_text", wrap_vgcanvas_measure_text, METH_VARARGS, "vgcanvas_measure_text"},
 {"vgcanvas_draw_image", wrap_vgcanvas_draw_image, METH_VARARGS, "vgcanvas_draw_image"},
 {"vgcanvas_draw_image_repeat", wrap_vgcanvas_draw_image_repeat, METH_VARARGS, "vgcanvas_draw_image_repeat"},
@@ -24969,6 +25028,7 @@ static PyMethodDef awtk_methods[] = {
 {"WIDGET_PROP_LINE_HEIGHT", get_WIDGET_PROP_LINE_HEIGHT, METH_VARARGS, "WIDGET_PROP_LINE_HEIGHT"},
 {"WIDGET_PROP_DIRTY_RECT_TOLERANCE", get_WIDGET_PROP_DIRTY_RECT_TOLERANCE, METH_VARARGS, "WIDGET_PROP_DIRTY_RECT_TOLERANCE"},
 {"WIDGET_PROP_BIDI", get_WIDGET_PROP_BIDI, METH_VARARGS, "WIDGET_PROP_BIDI"},
+{"WIDGET_PROP_SHAPING", get_WIDGET_PROP_SHAPING, METH_VARARGS, "WIDGET_PROP_SHAPING"},
 {"WIDGET_PROP_CANVAS", get_WIDGET_PROP_CANVAS, METH_VARARGS, "WIDGET_PROP_CANVAS"},
 {"WIDGET_PROP_LOCALIZE_OPTIONS", get_WIDGET_PROP_LOCALIZE_OPTIONS, METH_VARARGS, "WIDGET_PROP_LOCALIZE_OPTIONS"},
 {"WIDGET_PROP_NATIVE_WINDOW", get_WIDGET_PROP_NATIVE_WINDOW, METH_VARARGS, "WIDGET_PROP_NATIVE_WINDOW"},
@@ -26255,6 +26315,7 @@ static PyMethodDef awtk_methods[] = {
 {"slide_view_t_get_prop_anim_hint", wrap_slide_view_t_get_prop_anim_hint, METH_VARARGS, "slide_view_t_get_prop_anim_hint"},
 {"slide_view_t_get_prop_drag_threshold", wrap_slide_view_t_get_prop_drag_threshold, METH_VARARGS, "slide_view_t_get_prop_drag_threshold"},
 {"slide_view_t_get_prop_animating_time", wrap_slide_view_t_get_prop_animating_time, METH_VARARGS, "slide_view_t_get_prop_animating_time"},
+{"slide_view_t_get_prop_active", wrap_slide_view_t_get_prop_active, METH_VARARGS, "slide_view_t_get_prop_active"},
 {"switch_create", wrap_switch_create, METH_VARARGS, "switch_create"},
 {"switch_set_value", wrap_switch_set_value, METH_VARARGS, "switch_set_value"},
 {"switch_cast", wrap_switch_cast, METH_VARARGS, "switch_cast"},
@@ -26454,6 +26515,7 @@ static PyMethodDef awtk_methods[] = {
 {"edit_set_select", wrap_edit_set_select, METH_VARARGS, "edit_set_select"},
 {"edit_get_selected_text", wrap_edit_get_selected_text, METH_VARARGS, "edit_get_selected_text"},
 {"edit_set_focus_next_when_enter", wrap_edit_set_focus_next_when_enter, METH_VARARGS, "edit_set_focus_next_when_enter"},
+{"edit_set_scroll_to_begin_on_blur", wrap_edit_set_scroll_to_begin_on_blur, METH_VARARGS, "edit_set_scroll_to_begin_on_blur"},
 {"edit_t_get_prop_tips", wrap_edit_t_get_prop_tips, METH_VARARGS, "edit_t_get_prop_tips"},
 {"edit_t_get_prop_tr_tips", wrap_edit_t_get_prop_tr_tips, METH_VARARGS, "edit_t_get_prop_tr_tips"},
 {"edit_t_get_prop_action_text", wrap_edit_t_get_prop_action_text, METH_VARARGS, "edit_t_get_prop_action_text"},
@@ -26471,6 +26533,7 @@ static PyMethodDef awtk_methods[] = {
 {"edit_t_get_prop_close_im_when_blured", wrap_edit_t_get_prop_close_im_when_blured, METH_VARARGS, "edit_t_get_prop_close_im_when_blured"},
 {"edit_t_get_prop_cancelable", wrap_edit_t_get_prop_cancelable, METH_VARARGS, "edit_t_get_prop_cancelable"},
 {"edit_t_get_prop_focus_next_when_enter", wrap_edit_t_get_prop_focus_next_when_enter, METH_VARARGS, "edit_t_get_prop_focus_next_when_enter"},
+{"edit_t_get_prop_scroll_to_begin_on_blur", wrap_edit_t_get_prop_scroll_to_begin_on_blur, METH_VARARGS, "edit_t_get_prop_scroll_to_begin_on_blur"},
 {"grid_item_create", wrap_grid_item_create, METH_VARARGS, "grid_item_create"},
 {"grid_item_cast", wrap_grid_item_cast, METH_VARARGS, "grid_item_cast"},
 {"grid_create", wrap_grid_create, METH_VARARGS, "grid_create"},
